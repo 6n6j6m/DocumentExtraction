@@ -1,0 +1,16 @@
+{
+  "period_end_date": "2022-06-30",
+  "aset": 710708116.0,
+  "total_aset_lancar": 87241075.0,
+  "kas": 12449022.0,
+  "liabilitas": 463846064.0,
+  "utang_bank": 64589025.0,
+  "ekuitas": 247029168.0,
+  "pendapatan": 119629840.0,
+  "laba_bersih": 14151507.0,
+  "kas_dari_aktivitas_operasi": 16639487.0,
+  "total_share": 24835000000.0,
+  "currency": "USD",
+  "reporting_scale": "FULL",
+  "statement_scope": "CONSOLIDATED"
+}

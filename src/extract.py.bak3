@@ -24,7 +24,6 @@ from schema import FinancialStatementExtraction
 from prompts import SYSTEM_PROMPT, EXTRACTION_PROMPT
 from page_select import select_statement_pages
 from normalize import to_idr, extract_fx_rate
-from llm import get_provider_with_fallback, parse_json, LLMError
 
 
 class ExtractorConfig:
@@ -159,67 +158,6 @@ def extract_from_image(image_bytes: bytes, config: ExtractorConfig) -> Optional[
         return None
 
 
-MIN_TEXT_CHARS = 200   # below this a page is treated as having no usable text layer
-
-
-def read_page_texts(pdf_path: str, page_numbers: list) -> dict:
-    """Return {page_number: text} for the selected pages."""
-    import pdfplumber
-
-    texts = {}
-    with pdfplumber.open(pdf_path) as pdf:
-        for n in page_numbers:
-            if 0 <= n < len(pdf.pages):
-                texts[n] = pdf.pages[n].extract_text() or ""
-    return texts
-
-
-def build_document_text(page_texts: dict) -> str:
-    """Concatenate pages with markers so the model can tell them apart.
-
-    All the selected pages go in ONE request. With images that was too expensive,
-    so pages were sent one at a time and the results merged; with text it costs
-    little, and the model seeing the balance sheet, income statement and cash flow
-    together is what lets it fill every field in a single pass.
-    """
-    blocks = []
-    for n in sorted(page_texts):
-        text = page_texts[n]
-        if len(text.strip()) >= MIN_TEXT_CHARS:
-            blocks.append(f"--- PAGE {n + 1} ---\n{text}")
-    return "\n\n".join(blocks)
-
-
-def _coerce_numbers(data: dict) -> dict:
-    """Turn numeric strings into floats; leave anything unparseable as None."""
-    numeric = [f for f in FIELDS if f not in
-               ("period_end_date", "currency", "reporting_scale", "statement_scope")]
-    for key in numeric:
-        value = data.get(key)
-        if value in (None, ""):
-            data[key] = None
-            continue
-        if isinstance(value, str):
-            # Model was told to strip separators, but be forgiving.
-            value = value.replace(".", "").replace(",", ".") if value.count(".") > 1 else value
-            value = re.sub(r"[^\d.\-]", "", value)
-        try:
-            data[key] = float(value)
-        except (TypeError, ValueError):
-            data[key] = None
-    return data
-
-
-def extract_from_text(document_text: str, provider) -> Optional[FinancialStatementExtraction]:
-    """One call, whole statement section, structured JSON back."""
-    user = f"{EXTRACTION_PROMPT}\n\nDOCUMENT:\n{document_text}"
-    raw = provider.complete(SYSTEM_PROMPT, user)
-    data = parse_json(raw)
-    if "evidence" in data:
-        data.pop("evidence")
-    return FinancialStatementExtraction.from_dict(_coerce_numbers(data))
-
-
 FIELDS = [
     "period_end_date", "aset", "total_aset_lancar", "kas",
     "liabilitas", "utang_bank", "ekuitas", "pendapatan",
@@ -248,14 +186,18 @@ def merge_extractions(base, new):
 
 
 def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None) -> Optional[FinancialStatementExtraction]:
-    """Extract statement fields from a filing.
+    """Extract financial statement data from a PDF.
 
-    Text first: the selected pages' text layer goes to the model in one request.
-    Only when a filing has no usable text layer (a scan) does it fall back to
-    rendering pages as images and asking page by page, which is slower and dearer.
+    Uses page selection to find the statement pages, then extracts from EVERY
+    selected page and merges the results, because the fields are spread across
+    the balance sheet, income statement and cash flow pages.
 
-    Raises:
-        LLMError: primary provider failed and no LLM_FALLBACK_PROVIDER is set.
+    Args:
+        pdf_path: Path to PDF file
+        page_numbers: 0-indexed pages to try. If None, uses page selection.
+
+    Returns:
+        FinancialStatementExtraction with merged fields, or None if nothing extracted.
     """
     config = ExtractorConfig()
 
@@ -269,72 +211,43 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None) -> Opti
         print(f"  Method: {selection.method}")
         print(f"  Pages: {[p+1 for p in page_numbers]} (1-indexed)")
         print(f"  Reduction: {len(page_numbers)}/{selection.total_pages} pages "
-              f"({100*(1-len(page_numbers)/selection.total_pages):.1f}% reduction)")
-
-    primary, fallback = get_provider_with_fallback()
-    page_texts = read_page_texts(pdf_path, page_numbers)
-    document_text = build_document_text(page_texts)
-
-    if document_text:
-        pages_with_text = document_text.count("--- PAGE ")
-        print(f"  Text layer: {len(document_text):,} chars across {pages_with_text} page(s)")
-
-        for provider in [p for p in (primary, fallback) if p]:
-            print(f"\n\U0001F50D Extracting via {provider.name} (single text call)...")
-            try:
-                result = extract_from_text(document_text, provider)
-            except LLMError as e:
-                print(f"  \u2717 {e}")
-                continue
-            except Exception as e:
-                print(f"  \u2717 {type(e).__name__}: {e}")
-                continue
-
-            filled = _filled(result)
-            if filled:
-                print(f"  \u2713 {filled}/{len(FIELDS)} fields filled\n")
-                return result
-            print("  \u2717 no fields filled")
-
-        raise LLMError("All providers failed on the text path")
-
-    print("  No usable text layer - falling back to page images")
-    return _extract_from_images(pdf_path, page_numbers, config, primary)
-
-
-def _extract_from_images(pdf_path, page_numbers, config, provider):
-    """Scanned-filing path: render each page and merge what each one yields."""
-    import base64
+              f"({100*(1-len(page_numbers)/selection.total_pages):.1f}% reduction)\n")
 
     merged = FinancialStatementExtraction()
     pages_used = []
 
     for page_num in page_numbers:
-        print(f"\U0001F50D Page {page_num + 1} as image via {provider.name}...")
+        print(f"\U0001F50D Extracting from page {page_num + 1}...")
         try:
-            image_b64 = base64.standard_b64encode(
-                render_pdf_page_to_image(pdf_path, page_num)).decode()
-            raw = provider.complete(SYSTEM_PROMPT, EXTRACTION_PROMPT, image_b64=image_b64)
-            data = parse_json(raw)
-            data.pop("evidence", None)
-            extraction = FinancialStatementExtraction.from_dict(_coerce_numbers(data))
+            image_bytes = render_pdf_page_to_image(pdf_path, page_num)
+            extraction = extract_from_image(image_bytes, config)
         except Exception as e:
-            print(f"  \u2717 {type(e).__name__}: {e}")
+            print(f"  \u2717 Error: {e}")
+            continue
+
+        if extraction is None:
             continue
 
         before = _filled(merged)
         merge_extractions(merged, extraction)
         after = _filled(merged)
+
         if after > before:
             pages_used.append(page_num + 1)
-            print(f"  \u2713 +{after - before} field(s) -> {after}/{len(FIELDS)}")
+            print(f"  \u2713 +{after - before} new field(s) -> {after}/{len(FIELDS)} filled")
+        else:
+            print("  - no new fields")
+
         if after == len(FIELDS):
+            print("  All fields filled, stopping early.")
             break
 
-    if not _filled(merged):
+    total = _filled(merged)
+    if total == 0:
         print("\u2717 Failed to extract any field\n")
         return None
-    print(f"\n\u2713 {_filled(merged)}/{len(FIELDS)} fields from pages {pages_used}\n")
+
+    print(f"\n\u2713 Extracted {total}/{len(FIELDS)} fields from pages {pages_used}\n")
     return merged
 
 
