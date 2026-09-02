@@ -1,0 +1,39 @@
+{
+  "_doc_key": "TLDN_2026Q2",
+  "_source": "own-idx",
+  "_reviewed": false,
+  "_reviewer_notes": "",
+  "_unlabelled": [],
+
+  "doc_type": "FINANCIAL_STATEMENT",
+  "issuer_name": "PT TELADAN PRIMA AGRO TBK",
+  "issue_date": "30/06/2026",
+  "issue_time": null,
+  "document_id": null,
+  "currency": "IDR",
+  "total_amount": null,
+  "payment_method": null,
+
+  "typed": {
+    "doc_type": "FINANCIAL_STATEMENT",
+    "statement_scope": "CONSOLIDATED",
+    "reporting_scale": "FULL",
+    "reporting_period": "Q2 2026",
+    "period_end_date": "30/06/2026",
+
+    "total_assets": "6.342.799.138.000",
+    "total_current_assets": "1.914.357.059.000",
+    "cash_and_equivalents": "258.018.162.000",
+    "total_liabilities": "2.651.152.175.000",
+    "short_term_bank_debt": "124.347.189.000",
+    "total_equity": "3.691.598.827.000",
+    "net_income": "543.642.277.000",
+    "revenue": "2.968.533.550.000",
+    "operating_cash_flow": "851.671.746.000",
+    "shares_outstanding": "12.946.530.200",
+
+    "comparative_period": null,
+    "comparative_total_assets": null,
+    "comparative_net_income": null
+  }
+}

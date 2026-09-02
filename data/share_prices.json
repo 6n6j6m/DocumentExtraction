@@ -1,0 +1,4 @@
+{
+  "_comment": "document_id -> closing share price on/near the report date. External market data, never extracted from the filing. Keys must match ground-truth _doc_key / filename stem exactly.",
+  "TLDN_2026Q2": "555"
+}

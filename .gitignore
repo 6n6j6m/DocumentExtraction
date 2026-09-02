@@ -1,0 +1,10 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.DS_Store
+data/cord_cache/
+# Dataset images and ground truth ARE committed so the eval runs out of the box.
+# Output artifacts from real runs are committed too -- see output/.
