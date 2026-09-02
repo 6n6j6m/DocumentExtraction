@@ -16,8 +16,21 @@ CRITICAL RULES:
 4. Always include the evidence quote (exact text from document) for each field
 5. Currency is typically USD; if different, note it
 6. Dates in ISO format: YYYY-MM-DD
-7. Numbers without formatting (no commas, no dots except decimals)
+7. Indonesian number format: a DOT is a thousands separator, a COMMA is the decimal
+   separator. Strip the dots entirely. "694.671.337" -> 694671337 (NOT 694.671337).
+   "15.000,50" -> 15000.50. Numbers in parentheses are negative: "(1.234)" -> -1234.
 8. EXCLUDE non-controlling interest (kepentingan non pengendali) from totals
+9. COLUMN SELECTION - this is the most common source of error. These statements print
+   the CURRENT period beside one or more COMPARATIVE periods (e.g. "31 Maret 2022"
+   next to "31 Desember 2021"; or a 2022 column next to a 2021 column). Always read
+   the CURRENT period column - the most RECENT date, which is normally the first
+   numeric column after the labels. Never take a comparative/prior-period figure.
+   Check the column header date before reading any value.
+10. Use the CONSOLIDATED statement (Konsolidasian / "and its subsidiaries"), never the
+   parent-entity-only (Entitas Induk) statement. Set statement_scope accordingly.
+11. This page may contain only part of the statements. Extract only what is actually
+   visible on THIS page and return null for every field not shown here. Do not infer,
+   carry over, or compute a value that is not printed on this page.
 """
 
 EXTRACTION_PROMPT = """Extract the following fields from this ARCI financial statement:
@@ -28,57 +41,60 @@ FIELD EXTRACTION RULES (Indonesian keywords):
    - Extract the reporting period end date (e.g., "31 Maret 2022" → "2022-03-31")
    - Look for: "Periode berakhir", "Tanggal", "31 Desember", "30 Juni", etc.
 
-2. total_assets (Total Aset)
+2. aset (Total Aset)
    - Keyword: "Total Aset" (balance sheet line item)
    - This is the total of all assets
    - Example: "Total Aset: 694.671.337"
 
-3. total_current_assets (Total Aset Lancar)
+3. total_aset_lancar (Total Aset Lancar)
    - Keyword: "Total Aset Lancar"
    - This is current assets only (cash, receivables, inventory, etc.)
    - Example: "Total Aset Lancar: 73.325.265"
 
-4. cash_and_equivalents (Kas dan Setara Kas)
+4. kas (Kas dan Setara Kas)
    - Keyword: "Kas dan Setara Kas"
    - This is cash and cash equivalents line item
    - Example: "Kas dan Setara Kas: 23.125.502"
 
-5. total_liabilities (Total Liabilitas)
+5. liabilitas (Total Liabilitas)
    - Keyword: "Total Liabilitas"
    - This is total of all liabilities
    - Example: "Total Liabilitas: 450.000.000"
 
-6. short_term_bank_debt (Utang Bank Jangka Pendek)
-   - Keywords: "Utang Bank Jangka Pendek" + "Utang Bank Saja"
+6. utang_bank (Utang Bank Jangka Pendek)
+   - Keywords: "Utang Bank Jangka Pendek" + "Bagian lancar atas jangka panjang Utang Bank"
    - ADD these two line items together (if both exist)
    - EXCLUDE long-term bank debt
    - Example: If "Utang Bank Jangka Pendek: 50M" and "Utang Bank Saja: 30M" → Sum = 80M
 
-7. total_equity (Ekuitas yang Diatribusikan)
+7. ekuitas (Ekuitas yang Diatribusikan)
    - Keyword: "Ekuitas yang Diatribusikan kepada Pemilik Induk"
    - IMPORTANT: EXCLUDE "Kepentingan Non Pengendali" (non-controlling interest)
    - Use only the parent entity equity
    - Example: "Ekuitas yang Diatribusikan: 200.000.000"
 
-8. revenue (Pendapatan)
+8. pendapatan (Pendapatan)
    - Keyword: "Pendapatan dari Kontrak dengan Pelanggan"
    - This is revenue from contracts with customers (income statement)
    - Example: "Pendapatan dari Kontrak dengan Pelanggan: 500.000.000"
 
-9. net_income (Laba Bersih)
-   - Keyword: "Laba ... Tahun Berjalan yang Diatribusikan kepada Pemilik Induk"
+9. laba_bersih (Laba Bersih)
+   - Keyword: "Laba Periode Berjalan yang Diatribusikan kepada Pemilik Entitas Induk"
+     (interim/quarterly reports say "PERIODE berjalan"; annual reports say "TAHUN
+     berjalan" - accept either wording)
    - IMPORTANT: EXCLUDE "Kepentingan Non Pengendali"
    - Use only the parent entity net income
    - Example: "Laba Tahun Berjalan yang Diatribusikan: 100.000.000"
 
-10. operating_cash_flow (Arus Kas Operasi)
+10. kas_dari_aktivitas_operasi (Arus Kas Operasi)
     - Keyword: "Kas Neto Diperoleh dari Aktivitas Operasi"
     - This is net cash from operating activities (cash flow statement)
     - Example: "Kas Neto Diperoleh dari Aktivitas Operasi: 150.000.000"
 
-11. shares_outstanding (Modal Saham/Shares)
-    - Keyword: "disetor penuh pada tanggal [DATE]"
-    - Extract the most recent date and number of shares
+11. total_share (Modal Saham/Shares)
+    - Keyword: "ditempatkan dan disetor penuh pada tanggal [DATE]"
+    - If several dates are listed, use the figure for the MOST RECENT date
+    - Take the number of SHARES (lembar saham), not the rupiah/dollar par value
     - Example: "Modal Saham disetor penuh pada tanggal 31 Desember 2022: 100.000.000"
 
 12. currency
@@ -86,7 +102,18 @@ FIELD EXTRACTION RULES (Indonesian keywords):
     - Could also be "IDR" if stated otherwise
     - Example: "Disajikan dalam Dolar Amerika Serikat"
 
-13. statement_scope
+13. reporting_scale (SATUAN PENYAJIAN - penting untuk konversi)
+    - Read the header under the statement title, e.g. "(Disajikan dalam ribuan
+      Rupiah)" / "(Expressed in thousands of Rupiah)"
+    - "dalam ribuan"  / "in thousands" -> "THOUSANDS"
+    - "dalam jutaan"  / "in millions"  -> "MILLIONS"
+    - "dalam miliaran"/ "in billions"  -> "BILLIONS"
+    - No scale wording (figures printed in full) -> "FULL"
+    - ARCI prints full US Dollars: "(Disajikan dalam Dolar Amerika Serikat,
+      kecuali dinyatakan lain)" -> "FULL"
+    - Judge from the printed header, never from how large the numbers look
+
+14. statement_scope
     - "CONSOLIDATED" if using consolidated financial statements ("Konsolidasian")
     - "PARENT_ONLY" if using parent entity only statements ("Entitas Induk")
     - Default: "CONSOLIDATED"
@@ -97,19 +124,24 @@ Return valid JSON with all fields. Use null for missing fields.
 Example:
 {
   "period_end_date": "2022-03-31",
-  "total_assets": 694671337,
-  "total_current_assets": 73325265,
-  "cash_and_equivalents": 23125502,
-  "total_liabilities": null,
-  "short_term_bank_debt": null,
-  "total_equity": null,
-  "revenue": null,
-  "net_income": null,
-  "operating_cash_flow": null,
-  "shares_outstanding": null,
+  "aset": 694671337,
+  "total_aset_lancar": 73325265,
+  "kas": 23125502,
+  "liabilitas": null,
+  "utang_bank": null,
+  "ekuitas": null,
+  "pendapatan": null,
+  "laba_bersih": null,
+  "kas_dari_aktivitas_operasi": null,
+  "total_share": null,
   "currency": "USD",
-  "statement_scope": "CONSOLIDATED"
+  "reporting_scale": "FULL",
+  "statement_scope": "CONSOLIDATED",
+  "evidence": {"aset": "Total Aset 694.671.337"}
 }
+
+Put every evidence quote inside the single top-level "evidence" object, mapping
+field name -> exact quote. Never nest a value inside its field.
 
 IMPORTANT:
 - Include evidence for every field (exact quote from document)

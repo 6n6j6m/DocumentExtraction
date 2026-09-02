@@ -23,6 +23,7 @@ from pdf2image import convert_from_path
 from schema import FinancialStatementExtraction
 from prompts import SYSTEM_PROMPT, EXTRACTION_PROMPT
 from page_select import select_statement_pages
+from normalize import to_idr, extract_fx_rate
 
 
 class ExtractorConfig:
@@ -134,9 +135,9 @@ def extract_from_image(image_bytes: bytes, config: ExtractorConfig) -> Optional[
         print(f"  ✓ Parsed JSON")
         
         # Convert numeric strings to floats where needed
-        for key in ['total_assets', 'total_current_assets', 'cash_and_equivalents',
-                    'total_liabilities', 'short_term_bank_debt', 'total_equity',
-                    'revenue', 'net_income', 'operating_cash_flow', 'shares_outstanding']:
+        for key in ['aset', 'total_aset_lancar', 'kas',
+                    'liabilitas', 'utang_bank', 'ekuitas',
+                    'pendapatan', 'laba_bersih', 'kas_dari_aktivitas_operasi', 'total_share']:
             if key in json_data and json_data[key] is not None:
                 try:
                     json_data[key] = float(json_data[key])
@@ -157,56 +158,131 @@ def extract_from_image(image_bytes: bytes, config: ExtractorConfig) -> Optional[
         return None
 
 
+FIELDS = [
+    "period_end_date", "aset", "total_aset_lancar", "kas",
+    "liabilitas", "utang_bank", "ekuitas", "pendapatan",
+    "laba_bersih", "kas_dari_aktivitas_operasi", "total_share", "currency",
+    "reporting_scale", "statement_scope",
+]
+
+
+def _filled(extraction) -> int:
+    """Count non-empty fields."""
+    return sum(1 for f in FIELDS if getattr(extraction, f, None) not in (None, ""))
+
+
+def merge_extractions(base, new):
+    """Fill empty fields of `base` from `new`. First non-null value wins.
+
+    Statements span multiple pages (assets on one page, liabilities/equity on the
+    next, income statement and cash flow later), so a single page never carries
+    every field. Earlier pages win on conflict because the primary statements come
+    before the notes.
+    """
+    for f in FIELDS:
+        if getattr(base, f, None) in (None, "") and getattr(new, f, None) not in (None, ""):
+            setattr(base, f, getattr(new, f))
+    return base
+
+
 def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None) -> Optional[FinancialStatementExtraction]:
-    """Extract financial statement data from PDF.
-    
-    Uses intelligent page selection to identify statement pages (93% cost reduction),
-    then tries extraction on each selected page until one succeeds.
-    
+    """Extract financial statement data from a PDF.
+
+    Uses page selection to find the statement pages, then extracts from EVERY
+    selected page and merges the results, because the fields are spread across
+    the balance sheet, income statement and cash flow pages.
+
     Args:
         pdf_path: Path to PDF file
-        page_numbers: List of 0-indexed page numbers to try. If None, uses page selection.
-        
+        page_numbers: 0-indexed pages to try. If None, uses page selection.
+
     Returns:
-        FinancialStatementExtraction if successful, None otherwise
+        FinancialStatementExtraction with merged fields, or None if nothing extracted.
     """
     config = ExtractorConfig()
-    
+
     if not Path(pdf_path).exists():
         raise FileNotFoundError(f"PDF file not found: {pdf_path}")
-    
-    # If no pages specified, use intelligent page selection
+
     if page_numbers is None:
-        print(f"\n📄 Selecting pages from {Path(pdf_path).name}...")
+        print(f"\n\U0001F4C4 Selecting pages from {Path(pdf_path).name}...")
         selection = select_statement_pages(pdf_path, max_pages=config.max_pdf_pages)
         page_numbers = selection.pages
         print(f"  Method: {selection.method}")
         print(f"  Pages: {[p+1 for p in page_numbers]} (1-indexed)")
-        print(f"  Reduction: {len(page_numbers)}/{selection.total_pages} pages ({100*(1-len(page_numbers)/selection.total_pages):.1f}% reduction)\n")
-    
+        print(f"  Reduction: {len(page_numbers)}/{selection.total_pages} pages "
+              f"({100*(1-len(page_numbers)/selection.total_pages):.1f}% reduction)\n")
+
+    merged = FinancialStatementExtraction()
+    pages_used = []
+
     for page_num in page_numbers:
-        print(f"🔍 Extracting from page {page_num + 1}...")
-        
+        print(f"\U0001F50D Extracting from page {page_num + 1}...")
         try:
             image_bytes = render_pdf_page_to_image(pdf_path, page_num)
             extraction = extract_from_image(image_bytes, config)
-            
-            if extraction and extraction.total_assets:
-                print(f"✓ Successfully extracted from page {page_num + 1}\n")
-                return extraction
         except Exception as e:
-            print(f"  ✗ Error: {e}")
+            print(f"  \u2717 Error: {e}")
             continue
-    
-    print("✗ Failed to extract from any page\n")
-    return None
+
+        if extraction is None:
+            continue
+
+        before = _filled(merged)
+        merge_extractions(merged, extraction)
+        after = _filled(merged)
+
+        if after > before:
+            pages_used.append(page_num + 1)
+            print(f"  \u2713 +{after - before} new field(s) -> {after}/{len(FIELDS)} filled")
+        else:
+            print("  - no new fields")
+
+        if after == len(FIELDS):
+            print("  All fields filled, stopping early.")
+            break
+
+    total = _filled(merged)
+    if total == 0:
+        print("\u2717 Failed to extract any field\n")
+        return None
+
+    print(f"\n\u2713 Extracted {total}/{len(FIELDS)} fields from pages {pages_used}\n")
+    return merged
 
 
 if __name__ == "__main__":
-    test_pdf = "data/raw/Q1_2022_ARCI.pdf"
+    import sys
+
+    test_pdf = sys.argv[1] if len(sys.argv) > 1 else "data/raw/Q1_2022_ARCI.pdf"
     result = extract_from_pdf(test_pdf)
-    if result:
-        print("✓ Extracted data:")
-        print(json.dumps(result.to_dict(), indent=2))
-    else:
-        print("✗ Extraction failed")
+
+    if not result:
+        print("\u2717 Extraction failed")
+        raise SystemExit(1)
+
+    print("=== AS PRINTED ===")
+    print(json.dumps(result.to_dict(), indent=2))
+
+    try:
+        norm = to_idr(result, pdf_path=test_pdf)
+    except ValueError as e:
+        print(f"\n\u2717 Konversi ke Rupiah gagal: {e}")
+        raise SystemExit(1)
+
+    print("\n=== IN FULL RUPIAH ===")
+    if norm["fx"]:
+        fx = norm["fx"]
+        print(f"kurs: {fx.idr_per_usd:,.2f} IDR/USD  ({fx.source}, hal. {fx.page})")
+        print(f"       \"{fx.evidence[:70]}\"")
+    print(f"skala: x{norm['scale_applied']:,}")
+    for w in norm["warnings"]:
+        print(f"  \u26a0 {w}")
+    print()
+    for k, v in norm["values"].items():
+        if v is None:
+            print(f"  {k:24} -")
+        elif isinstance(v, str):
+            print(f"  {k:24} {v}")
+        else:
+            print(f"  {k:24} {v:>28,}")

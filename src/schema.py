@@ -12,58 +12,60 @@ class FinancialStatementExtraction:
     
     Field mapping and keyword rules:
     
-    - shares_outstanding: "disetor penuh pada tanggal [date]" (most recent date)
-    - total_assets: "Total Aset"
-    - total_current_assets: "Total Aset Lancar"
-    - cash_and_equivalents: "Kas dan Setara Kas"
-    - total_liabilities: "Total Liabilitas"
-    - short_term_bank_debt: "Utang Bank Jangka Pendek" + "Utang Bank Saja" (sum, exclude long-term)
-    - total_equity: "Ekuitas yang Diatribusikan kepada Pemilik Induk" (EXCLUDE Kepentingan Non Pengendali)
-    - net_income: "Laba ... Tahun Berjalan yang Diatribusikan kepada Pemilik Induk" (EXCLUDE Kepentingan Non Pengendali)
-    - revenue: "Pendapatan dari Kontrak dengan Pelanggan"
-    - operating_cash_flow: "Kas Neto Diperoleh dari Aktivitas Operasi"
+    - total_share: "disetor penuh pada tanggal [date]" (most recent date)
+    - aset: "Total Aset"
+    - total_aset_lancar: "Total Aset Lancar"
+    - kas: "Kas dan Setara Kas"
+    - liabilitas: "Total Liabilitas"
+    - utang_bank: "Utang Bank Jangka Pendek" + "Utang Bank Saja" (sum, exclude long-term)
+    - ekuitas: "Ekuitas yang Diatribusikan kepada Pemilik Induk" (EXCLUDE Kepentingan Non Pengendali)
+    - laba_bersih: "Laba ... Tahun Berjalan yang Diatribusikan kepada Pemilik Induk" (EXCLUDE Kepentingan Non Pengendali)
+    - pendapatan: "Pendapatan dari Kontrak dengan Pelanggan"
+    - kas_dari_aktivitas_operasi: "Kas Neto Diperoleh dari Aktivitas Operasi"
     """
     
     # Identifiers
     period_end_date: Optional[str] = None          # ISO format: YYYY-MM-DD
     
     # Balance sheet items
-    total_assets: Optional[float] = None
-    total_current_assets: Optional[float] = None
-    cash_and_equivalents: Optional[float] = None
-    total_liabilities: Optional[float] = None
-    short_term_bank_debt: Optional[float] = None  # Utang Bank Jangka Pendek + Utang Bank Saja
-    total_equity: Optional[float] = None          # Ekuitas yang Diatribusikan (exclude non-controlling)
+    aset: Optional[float] = None
+    total_aset_lancar: Optional[float] = None
+    kas: Optional[float] = None
+    liabilitas: Optional[float] = None
+    utang_bank: Optional[float] = None  # Utang Bank Jangka Pendek + Utang Bank Saja
+    ekuitas: Optional[float] = None          # Ekuitas yang Diatribusikan (exclude non-controlling)
     
     # Income statement items
-    revenue: Optional[float] = None                # Pendapatan dari Kontrak dengan Pelanggan
-    net_income: Optional[float] = None             # Laba Tahun Berjalan yang Diatribusikan (exclude non-controlling)
+    pendapatan: Optional[float] = None                # Pendapatan dari Kontrak dengan Pelanggan
+    laba_bersih: Optional[float] = None             # Laba Tahun Berjalan yang Diatribusikan (exclude non-controlling)
     
     # Cash flow items
-    operating_cash_flow: Optional[float] = None    # Kas Neto Diperoleh dari Aktivitas Operasi
+    kas_dari_aktivitas_operasi: Optional[float] = None    # Kas Neto Diperoleh dari Aktivitas Operasi
     
     # Shares
-    shares_outstanding: Optional[float] = None     # Disetor penuh pada tanggal [date]
+    total_share: Optional[float] = None     # Disetor penuh pada tanggal [date]
     
     # Metadata
     currency: Optional[str] = None                 # "USD" or "IDR"
+    reporting_scale: Optional[str] = None          # "FULL" | "THOUSANDS" | "MILLIONS" | "BILLIONS"
     statement_scope: Optional[str] = None          # "CONSOLIDATED" or "PARENT_ONLY"
     
     def to_dict(self):
         """Convert to dictionary."""
         return {
             "period_end_date": self.period_end_date,
-            "total_assets": self.total_assets,
-            "total_current_assets": self.total_current_assets,
-            "cash_and_equivalents": self.cash_and_equivalents,
-            "total_liabilities": self.total_liabilities,
-            "short_term_bank_debt": self.short_term_bank_debt,
-            "total_equity": self.total_equity,
-            "revenue": self.revenue,
-            "net_income": self.net_income,
-            "operating_cash_flow": self.operating_cash_flow,
-            "shares_outstanding": self.shares_outstanding,
+            "aset": self.aset,
+            "total_aset_lancar": self.total_aset_lancar,
+            "kas": self.kas,
+            "liabilitas": self.liabilitas,
+            "utang_bank": self.utang_bank,
+            "ekuitas": self.ekuitas,
+            "pendapatan": self.pendapatan,
+            "laba_bersih": self.laba_bersih,
+            "kas_dari_aktivitas_operasi": self.kas_dari_aktivitas_operasi,
+            "total_share": self.total_share,
             "currency": self.currency,
+            "reporting_scale": self.reporting_scale,
             "statement_scope": self.statement_scope,
         }
     
@@ -71,3 +73,21 @@ class FinancialStatementExtraction:
     def from_dict(cls, data: dict):
         """Create from dictionary."""
         return cls(**{k: v for k, v in data.items() if k in cls.__dataclass_fields__})
+
+
+# Maps each field to the row it belongs to in data/ground_truth/<TICKER>.xlsx.
+# The sheet is the system of record for field naming, so the label text here is
+# copied verbatim from column A -- if a label in the sheet is edited, edit it here
+# too rather than renaming the field.
+EXCEL_ROWS = {
+    "aset":                       (4,  "Aset"),
+    "total_aset_lancar":          (5,  "total aset lancar"),
+    "kas":                        (6,  "KAS"),
+    "liabilitas":                 (7,  "liabilitas"),
+    "utang_bank":                 (8,  "Utang Bank SAJA Jangka Pendek + Panjang jatuh tempo"),
+    "ekuitas":                    (9,  "ekuitas"),
+    "laba_bersih":                (10, "laba bersih"),
+    "pendapatan":                 (11, "pendapatan dari kontrak dengan pelanggan"),
+    "kas_dari_aktivitas_operasi": (12, "kas dari aktivitas operasi"),
+    "total_share":                (13, "total share"),
+}
