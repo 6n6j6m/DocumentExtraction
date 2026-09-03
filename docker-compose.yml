@@ -71,4 +71,16 @@ services:
     volumes:
       - ./data:/app/data:ro
       - ./output:/app/output
-    command: ["python", "scripts/run_eval.py", "--no-cache"]
+    # Every labelled issuer, in one command, because that is what "run the evaluation"
+    # should mean to someone who has just cloned this. Each writes its own scorecard;
+    # the run fails if EITHER does, and neither is skipped because the other failed.
+    command:
+      - sh
+      - -c
+      - |
+        status=0
+        for ticker in ARCI JPFA; do
+          echo "=============== $$ticker ==============="
+          python scripts/run_eval.py --ticker "$$ticker" --no-cache || status=$$?
+        done
+        exit $$status

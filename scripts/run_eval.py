@@ -358,7 +358,10 @@ def main():
     # full four-period scorecard with a one-period one, and the committed artifact
     # quietly stops meaning what its name says -- which happened once already.
     subset = "" if set(args.periods) == set(PERIODS) else "_" + "".join(sorted(args.periods))
-    scorecard_name = f"scorecard_{provider_tag}{subset}.json"
+    # The ticker names the scorecard too. It was missing for the same reason it was
+    # missing from the cache -- one issuer was the only issuer -- and the second one
+    # silently overwrote the first one's committed result on its very first run.
+    scorecard_name = f"scorecard_{args.ticker}_{provider_tag}{subset}.json"
     print(f"provider: {provider_tag}")
 
     xlsx = ROOT / "data" / "ground_truth" / f"{args.ticker}.xlsx"
@@ -386,7 +389,11 @@ def main():
         # recorded failure is itself a result worth keeping.
         try:
             pred, cached = predict(
-                pdf, out_dir / "predictions" / provider_tag / f"{key}.json",
+                # The ticker belongs in the cache name. Without it "Q1" means one
+                # thing for ARCI and another for JPFA, and a second issuer silently
+                # scores the FIRST issuer's cached prediction against its own labels --
+                # every field wrong, for a reason that appears nowhere in the output.
+                pdf, out_dir / "predictions" / provider_tag / f"{args.ticker}_{key}.json",
                 not args.no_cache, api_url=args.api_url)
         except LLMError as exc:
             print(f"  extraction failed: {exc}")

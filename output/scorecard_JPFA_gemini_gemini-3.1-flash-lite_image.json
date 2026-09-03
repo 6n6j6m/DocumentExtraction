@@ -1,0 +1,629 @@
+{
+  "ticker": "JPFA",
+  "tolerance": 0.0001,
+  "run": {
+    "timestamp": "2026-09-03T11:59:54+00:00",
+    "git_commit": "21fb4b3",
+    "git_dirty": true,
+    "prompt_sha256": "819307634e49",
+    "tolerance": 0.0001,
+    "config": {
+      "LLM_PROVIDER": "gemini",
+      "GEMINI_MODEL": "gemini-3.1-flash-lite",
+      "OLLAMA_MODEL": "qwen3-vl:8b",
+      "GEMINI_INPUT_MODE": "image",
+      "OLLAMA_INPUT_MODE": "image",
+      "SPLIT_BY_STATEMENT": "true",
+      "IMAGE_DPI": "150",
+      "MAX_PDF_PAGES": "20"
+    }
+  },
+  "periods": {
+    "Q1": {
+      "fx_rate": null,
+      "fields": {
+        "aset": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 30134349000000,
+          "truth_idr": 30134349000000.0,
+          "pred_raw": 30134349.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "total_aset_lancar": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 15719276000000,
+          "truth_idr": 15719276000000.0,
+          "pred_raw": 15719276.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "kas": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 1139520000000,
+          "truth_idr": 1139520000000.0,
+          "pred_raw": 1139520.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "liabilitas": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 16426569000000,
+          "truth_idr": 16426569000000.0,
+          "pred_raw": 16426569.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "utang_bank": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 1655739000000,
+          "truth_idr": 1655739000000.0,
+          "pred_raw": 1655739.0,
+          "confidence": 1.0,
+          "grounded": null,
+          "abstained": false
+        },
+        "ekuitas": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 12794690000000,
+          "truth_idr": 12794690000000.0,
+          "pred_raw": 12794690.0,
+          "confidence": 1.0,
+          "grounded": null,
+          "abstained": false
+        },
+        "laba_bersih": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 603739000000,
+          "truth_idr": 603739000000.0,
+          "pred_raw": 603739.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "pendapatan": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 12154001000000,
+          "truth_idr": 12154001000000.0,
+          "pred_raw": 12154001.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "kas_dari_aktivitas_operasi": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 904913000000,
+          "truth_idr": 904913000000.0,
+          "pred_raw": 904913.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "total_share": {
+          "status": "no_truth",
+          "rel_error": null,
+          "failure_kind": null,
+          "pred_idr": 11726575201.0,
+          "truth_idr": null,
+          "pred_raw": 11726575201.0,
+          "confidence": 1.0,
+          "grounded": null,
+          "abstained": false
+        }
+      },
+      "elapsed_s": 36.4,
+      "usage": {
+        "llm_calls": 4,
+        "tokens": {
+          "input": 17818,
+          "output": 1172
+        },
+        "latency_ms": {
+          "select_pages": 9465,
+          "read_text": 207,
+          "assess": 5,
+          "extract": 26654
+        },
+        "cost": {
+          "amount": null,
+          "currency": "USD",
+          "per_model": [
+            {
+              "model": "gemini-3.1-flash-lite",
+              "input_tokens": 17818,
+              "output_tokens": 1172,
+              "amount": null
+            }
+          ],
+          "reason": "no price configured for gemini-3.1-flash-lite - add it to /Users/muhammadnajmirahmani/Belajar/ProjectDatasaur/config/pricing.json"
+        },
+        "notes": []
+      },
+      "abstained": []
+    },
+    "Q2": {
+      "fx_rate": null,
+      "fields": {
+        "aset": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 32815710000000,
+          "truth_idr": 32815710000000.0,
+          "pred_raw": 32815710.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "total_aset_lancar": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 18119607000000,
+          "truth_idr": 18119607000000.0,
+          "pred_raw": 18119607.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "kas": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 1097616000000,
+          "truth_idr": 1097616000000.0,
+          "pred_raw": 1097616.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "liabilitas": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 19279165000000,
+          "truth_idr": 19279165000000.0,
+          "pred_raw": 19279165.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "utang_bank": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 2939943000000,
+          "truth_idr": 2939943000000.0,
+          "pred_raw": 2939943.0,
+          "confidence": 1.0,
+          "grounded": null,
+          "abstained": false
+        },
+        "ekuitas": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 12602880000000,
+          "truth_idr": 12602880000000.0,
+          "pred_raw": 12602880.0,
+          "confidence": 1.0,
+          "grounded": null,
+          "abstained": false
+        },
+        "laba_bersih": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 1111746000000,
+          "truth_idr": 1111746000000.0,
+          "pred_raw": 1111746.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "pendapatan": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 24483172000000,
+          "truth_idr": 24483172000000.0,
+          "pred_raw": 24483172.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "kas_dari_aktivitas_operasi": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 436518000000,
+          "truth_idr": 436518000000.0,
+          "pred_raw": 436518.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "total_share": {
+          "status": "no_truth",
+          "rel_error": null,
+          "failure_kind": null,
+          "pred_idr": 11726575201.0,
+          "truth_idr": null,
+          "pred_raw": 11726575201.0,
+          "confidence": 1.0,
+          "grounded": null,
+          "abstained": false
+        }
+      },
+      "elapsed_s": 31.7,
+      "usage": {
+        "llm_calls": 4,
+        "tokens": {
+          "input": 17818,
+          "output": 1209
+        },
+        "latency_ms": {
+          "select_pages": 10360,
+          "read_text": 351,
+          "assess": 5,
+          "extract": 20976
+        },
+        "cost": {
+          "amount": null,
+          "currency": "USD",
+          "per_model": [
+            {
+              "model": "gemini-3.1-flash-lite",
+              "input_tokens": 17818,
+              "output_tokens": 1209,
+              "amount": null
+            }
+          ],
+          "reason": "no price configured for gemini-3.1-flash-lite - add it to /Users/muhammadnajmirahmani/Belajar/ProjectDatasaur/config/pricing.json"
+        },
+        "notes": []
+      },
+      "abstained": []
+    },
+    "Q3": {
+      "fx_rate": null,
+      "fields": {
+        "aset": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 33230376000000,
+          "truth_idr": 33230376000000.0,
+          "pred_raw": 33230376.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "total_aset_lancar": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 17984770000000,
+          "truth_idr": 17984770000000.0,
+          "pred_raw": 17984770.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "kas": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 1219154000000,
+          "truth_idr": 1219154000000.0,
+          "pred_raw": 1219154.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "liabilitas": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 19496543000000,
+          "truth_idr": 19496543000000.0,
+          "pred_raw": 19496543.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "utang_bank": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 4097902000000,
+          "truth_idr": 4097902000000.0,
+          "pred_raw": 4097902.0,
+          "confidence": 1.0,
+          "grounded": null,
+          "abstained": false
+        },
+        "ekuitas": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 12807894000000,
+          "truth_idr": 12807894000000.0,
+          "pred_raw": 12807894.0,
+          "confidence": 1.0,
+          "grounded": null,
+          "abstained": false
+        },
+        "laba_bersih": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 1428249000000,
+          "truth_idr": 1428249000000.0,
+          "pred_raw": 1428249.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "pendapatan": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 36793282000000,
+          "truth_idr": 36793282000000.0,
+          "pred_raw": 36793282.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "kas_dari_aktivitas_operasi": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 372047000000,
+          "truth_idr": 372047000000.0,
+          "pred_raw": 372047.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "total_share": {
+          "status": "both_absent",
+          "rel_error": null,
+          "failure_kind": null,
+          "pred_idr": null,
+          "truth_idr": null,
+          "pred_raw": null,
+          "confidence": 0.4,
+          "grounded": false,
+          "abstained": true
+        }
+      },
+      "elapsed_s": 34.0,
+      "usage": {
+        "llm_calls": 4,
+        "tokens": {
+          "input": 17818,
+          "output": 1103
+        },
+        "latency_ms": {
+          "select_pages": 9899,
+          "read_text": 1012,
+          "assess": 6,
+          "extract": 23076
+        },
+        "cost": {
+          "amount": null,
+          "currency": "USD",
+          "per_model": [
+            {
+              "model": "gemini-3.1-flash-lite",
+              "input_tokens": 17818,
+              "output_tokens": 1103,
+              "amount": null
+            }
+          ],
+          "reason": "no price configured for gemini-3.1-flash-lite - add it to /Users/muhammadnajmirahmani/Belajar/ProjectDatasaur/config/pricing.json"
+        },
+        "notes": []
+      },
+      "abstained": [
+        "total_share"
+      ]
+    },
+    "Q4": {
+      "fx_rate": null,
+      "fields": {
+        "aset": {
+          "status": "missed",
+          "rel_error": null,
+          "failure_kind": null,
+          "pred_idr": null,
+          "truth_idr": 32690887000000.0,
+          "pred_raw": null,
+          "confidence": 0.5,
+          "grounded": true,
+          "abstained": true
+        },
+        "total_aset_lancar": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 17001468000000,
+          "truth_idr": 17001468000000.0,
+          "pred_raw": 17001468.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "kas": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 1811082000000,
+          "truth_idr": 1811082000000.0,
+          "pred_raw": 1811082.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "liabilitas": {
+          "status": "missed",
+          "rel_error": null,
+          "failure_kind": null,
+          "pred_idr": null,
+          "truth_idr": 19036110000000.0,
+          "pred_raw": null,
+          "confidence": 0.5,
+          "grounded": true,
+          "abstained": true
+        },
+        "utang_bank": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 4424209000000,
+          "truth_idr": 4424209000000.0,
+          "pred_raw": 4424209.0,
+          "confidence": 1.0,
+          "grounded": null,
+          "abstained": false
+        },
+        "ekuitas": {
+          "status": "missed",
+          "rel_error": null,
+          "failure_kind": null,
+          "pred_idr": null,
+          "truth_idr": 12748045000000.0,
+          "pred_raw": null,
+          "confidence": 0.54,
+          "grounded": null,
+          "abstained": true
+        },
+        "laba_bersih": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 1419855000000,
+          "truth_idr": 1419855000000.0,
+          "pred_raw": 1419855.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "pendapatan": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 48972085000000,
+          "truth_idr": 48972085000000.0,
+          "pred_raw": 48972085.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "kas_dari_aktivitas_operasi": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 1426749000000,
+          "truth_idr": 1426749000000.0,
+          "pred_raw": 1426749.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "total_share": {
+          "status": "no_truth",
+          "rel_error": null,
+          "failure_kind": null,
+          "pred_idr": 11726575201.0,
+          "truth_idr": null,
+          "pred_raw": 11726575201.0,
+          "confidence": 1.0,
+          "grounded": null,
+          "abstained": false
+        }
+      },
+      "elapsed_s": 23.5,
+      "usage": {
+        "llm_calls": 4,
+        "tokens": {
+          "input": 22186,
+          "output": 1192
+        },
+        "latency_ms": {
+          "select_pages": 6549,
+          "read_text": 235,
+          "assess": 8,
+          "extract": 16706
+        },
+        "cost": {
+          "amount": null,
+          "currency": "USD",
+          "per_model": [
+            {
+              "model": "gemini-3.1-flash-lite",
+              "input_tokens": 22186,
+              "output_tokens": 1192,
+              "amount": null
+            }
+          ],
+          "reason": "no price configured for gemini-3.1-flash-lite - add it to /Users/muhammadnajmirahmani/Belajar/ProjectDatasaur/config/pricing.json"
+        },
+        "notes": []
+      },
+      "abstained": [
+        "aset",
+        "liabilitas",
+        "ekuitas"
+      ]
+    }
+  },
+  "usage": {
+    "documents": 4,
+    "llm_calls": 16,
+    "tokens": {
+      "input": 75640,
+      "output": 4676
+    },
+    "cost": {
+      "amount": null,
+      "currency": "USD",
+      "reason": "no price configured for gemini-3.1-flash-lite - add it to /Users/muhammadnajmirahmani/Belajar/ProjectDatasaur/config/pricing.json"
+    }
+  },
+  "summary": {
+    "correct": 33,
+    "wrong": 0,
+    "missed": 3,
+    "no_truth": 3,
+    "both_absent": 1,
+    "missed_abstained": 3
+  },
+  "failure_kinds": {},
+  "provider": "gemini_gemini-3.1-flash-lite_image",
+  "target": "in-process"
+}

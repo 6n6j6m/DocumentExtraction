@@ -377,3 +377,22 @@ if __name__ == "__main__":
             print(f"  FAIL  {name}: {type(exc).__name__}: {exc}")
     print(f"\n{len(tests) - failed}/{len(tests)} passed")
     raise SystemExit(1 if failed else 0)
+
+
+def test_a_derived_field_cannot_outlive_an_abstained_component(document_text):
+    """Observed on JPFA Q4, the first period of the first scored second issuer.
+
+    The balance sheet did not balance, so `total_ekuitas` was implicated, capped and
+    abstained. `ekuitas` is nothing but that figure minus the non-controlling interest,
+    and it went out at 0.925 -- wrong by exactly the balance-sheet gap. Grading a
+    derived field on its components' grounding was never enough: grounding asks whether
+    a number is printed, and that number was printed. A structural verdict has to travel
+    to everything built on top of it.
+    """
+    e = F(**{**TRUTH, "liabilitas": 400000000})      # breaks the identity
+    _, scores, abstained = assess(e, document_text)
+
+    assert "total_ekuitas" in abstained
+    assert "ekuitas" in abstained, "a sum of an abstained row must not be asserted"
+    assert e.ekuitas is None
+    assert any("component" in r for r in scores["ekuitas"].reasons)

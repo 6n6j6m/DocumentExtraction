@@ -217,6 +217,32 @@ def score_extraction(extraction, document_text: str, issues: list) -> dict:
     return scores
 
 
+def _propagate_abstention(scores: dict, derived: dict, threshold: float) -> None:
+    """A computed value cannot outlive the rows it was computed from.
+
+    Found on JPFA Q4, the first period of the first scored second issuer. The balance
+    sheet did not balance, so `total_ekuitas` was implicated, capped and abstained --
+    and `ekuitas`, which is nothing but `total_ekuitas` minus the non-controlling
+    interest, sailed through at 0.925 and was reported as a figure. It was wrong by
+    exactly the balance-sheet gap.
+
+    Grading a derived field on its components' GROUNDING was never enough: grounding
+    asks "is this number printed", and the component's number was printed. What
+    condemned it was a structural rule, and that verdict has to travel to everything
+    built on top of it. Otherwise abstention protects the row nobody uses and lets the
+    derived figure -- the one that actually reaches a spreadsheet -- through.
+    """
+    for name, parts in derived.items():
+        if name not in scores:
+            continue
+        withdrawn = [p for p in parts
+                     if p in scores and scores[p].confidence < threshold]
+        if withdrawn:
+            scores[name].confidence = min(scores[name].confidence, threshold - 0.01)
+            scores[name].reasons.append(
+                f"component(s) abstained: {', '.join(withdrawn)}")
+
+
 def apply_abstention(extraction, scores: dict, threshold: float = None) -> list:
     """Blank fields the system is not confident enough to assert. Returns their names.
 
@@ -225,6 +251,7 @@ def apply_abstention(extraction, scores: dict, threshold: float = None) -> list:
     value, not merely annotate it.
     """
     threshold = ABSTAIN_THRESHOLD if threshold is None else threshold
+    _propagate_abstention(scores, _derived_from(extraction), threshold)
     abstained = []
     for name, score in scores.items():
         if score.confidence < threshold:
