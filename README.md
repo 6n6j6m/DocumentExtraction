@@ -12,10 +12,17 @@ reported in **US Dollars** while the comparison set is in Rupiah.
 image mode), with **24/24 fault-injection tests** passing. Scorecard committed at
 `output/scorecard_gemini_gemini-3.1-flash-lite_image.json`.
 
-The same pipeline was then run unchanged against two issuers it was never developed
-on — **JPFA** and **CPIN**, both reporting in Rupiah at millions scale — which is
-where its remaining issuer bias was found and removed. See *Generalising to other
-issuers*.
+The same pipeline was then run against three issuers it was never developed on —
+**JPFA** and **CPIN** (Rupiah, millions scale) and **EMAS** (US Dollars, and a text
+layer that extracts as glyph ids). Each one broke a different assumption inherited
+from ARCI, and each is fixed. Those three runs are where most of the real engineering
+in this repo now sits: see *Generalising to other issuers*.
+
+**What is scored and what is not.** Only ARCI has ground-truth labels, so the 40/40
+covers one issuer, four periods, ten fields. The other three are extracted and
+checked against what the filing itself says — the balance sheet balancing, every
+figure appearing in the document — but they are not scored. The distinction is kept
+sharp throughout: a filing that validates is not a filing that was measured.
 
 ---
 
@@ -26,10 +33,11 @@ python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env          # then add GEMINI_API_KEY
 
-# extract one filing
+# extract one filing — any issuer, no ground truth needed
 python src/extract.py data/raw/Q1_2022_ARCI.pdf
+python src/extract.py data/raw/Q3_2025_EMAS.pdf     # OCR path; first run is slow
 
-# full evaluation against ground truth
+# full evaluation against ground truth (ARCI is the only labelled issuer)
 python scripts/run_eval.py
 
 # a subset, or a specific provider
@@ -40,9 +48,18 @@ python scripts/run_eval.py --no-cache --tolerance 0.001
 # catch a regression before shipping (exit 1 if any field got worse)
 python scripts/compare_runs.py output/scorecard_A.json output/scorecard_B.json
 
-# prove the guards fire: 11 fault-injection tests
+# prove the guards fire: 24 fault-injection tests
 python -m pytest tests/ -v          # or: python tests/test_guards.py
 ```
+
+`--no-cache` matters: without it, predictions are read from `output/predictions/` and
+**no model is called**, so a change to the prompt or to `src/` will not show up. That
+is what once produced a committed scorecard with `confidence: null` in every field.
+
+Two optional dependencies, both only needed for filings whose text layer is unusable:
+`pytesseract` and tesseract itself (`brew install tesseract tesseract-lang`). Without
+them EMAS still extracts through the VLM, but page selection, grounding and the
+exchange rate all degrade — and the run says so rather than failing quietly.
 
 ### What a single extraction prints
 
@@ -106,6 +123,15 @@ awkward in ways that matter:
 Ground truth lives in `data/ground_truth/ARCI.xlsx`, one column per period. It was
 labelled by hand from the filings and is stated in full Rupiah.
 
+Three further issuers are in `data/raw/` and are used to test generalisation rather
+than accuracy, because none of them is labelled yet:
+
+| Issuer | Filings | What it adds that ARCI does not have |
+|---|---|---|
+| **JPFA** | Q1–Q4 2022, 171 pages | Rupiah, millions scale; share capital split into two classes; current portion of long-term loans filed under the current-liabilities heading |
+| **CPIN** | Q1–Q4 2022, 120 pages | Rupiah, millions scale; a text layer that splits `14.406` into `1 4.406` |
+| **EMAS** | Q3 2025, 97 pages | US Dollars; **no usable text layer at all** (subset fonts with no ToUnicode CMap); English digit grouping (`80,322,232`); an exchange rate quoted per 10,000 Rupiah to two decimals |
+
 ## Schema
 
 Ten scored fields, mapped to spreadsheet rows by `EXCEL_ROWS` in `src/schema.py`
@@ -127,11 +153,16 @@ Plus metadata (`currency`, `reporting_scale`, `statement_scope`) and five
 ## Architecture
 
 ```
-PDF (122 pages)
+PDF (97-171 pages)
+   │
+   ├─ pdftext.py        the ONE place that decides "is this text real?"
+   │                    text layer where usable; OCR where it is not
+   │                    (empty, or Private Use Area glyph ids) — cached to disk
    │
    ├─ page_select.py    keyword scan of each page's title region (first 250 chars)
    │                    → 8 pages   [93.4% fewer pages]
    │                    → grouped: balance_sheet / income / cash_flow
+   │                    → + the share-capital note, only if no page carries it
    │
    ├─ extract.py        one call PER STATEMENT, asking only for that
    │                    statement's fields
@@ -141,13 +172,21 @@ PDF (122 pages)
    ├─ llm.py            provider layer: Gemini (REST) | Ollama (local)
    │                    JSON forced at the API level, not just requested
    │
-   ├─ derive_fields()   utang_bank = short-term + current-maturity components
-   │                    ekuitas    = total equity − non-controlling interest
+   ├─ numfmt.py         694.671.337 or 80,322,232 — grouping convention decided
+   │                    per value, from its shape
+   │
+   ├─ derive_fields()   utang_bank  = short-term + current-maturity components
+   │                    ekuitas     = total equity − non-controlling interest
+   │                    total_share = sum of the per-class share counts
    │                    + balance-sheet identity check
    │
    └─ normalize.py      scale (FULL/THOUSANDS/…) × FX rate read FROM THE FILING
                         → full Rupiah
 ```
+
+Two of those modules exist only because a second and third issuer were tried.
+`pdftext.py` and `numfmt.py` are the shape the code had to take once "the text layer
+is readable" and "a dot separates thousands" stopped being true.
 
 ### Why a single well-designed call per statement, not an agent
 
@@ -210,6 +249,37 @@ from a disclosed `Rp… (US$…)` pair when the rate table is absent, and says s
 
 **Trade-off:** a filing that discloses no rate cannot be converted. It raises rather
 than substituting a guessed rate — a plausible wrong number is worse than a refusal.
+
+#### Issuers do not write that row the same way
+
+EMAS prints the same disclosure with a different unit, a different decimal mark, and
+the numbers *before* the label — and its page has to be OCR'd first, which drops the
+leading zero:
+
+```
+ARCI   1.000 Rupiah        0,0697 0,0701 0,0686        → 1000 / 0.0697   = 14,347.20
+EMAS   .61 0.62 Indonesian Rupiah 10,000 ("Rp")        → 10000 / 0.61    = 16,393.44
+```
+
+A regex tuned to either one silently misses the other, so the row is read in pieces:
+find the Rupiah unit, remove it, read the first plausible figure from what remains,
+and accept the result only if it lands between 8,000 and 25,000 IDR/USD. Outside that
+band it is not a rate, and nothing is invented in its place.
+
+Two things this surfaced, both now reported as warnings on every conversion:
+
+- **The comparative column is right there.** That row carries the prior periods too.
+  Taking the first column is correct, but the others are named in the output so the
+  choice is checkable rather than assumed.
+- **Precision is not a constant.** ARCI quotes four decimals — 0.07% uncertainty.
+  EMAS quotes two: **0.8%**, eighty times the evaluator's tolerance. Every converted
+  figure inherits it, so it is stated once, up front, instead of surfacing later as
+  an unexplained mismatch.
+
+The OCR resolution matters more than it looks. At 200 dpi tesseract read EMAS's
+current-period column as `S2` while the comparative column beside it came out clean —
+which would have produced a confident rate **from the wrong period**. The default is
+300 dpi for that reason, paid once per filing and cached.
 
 ### Never convert what is not money
 
