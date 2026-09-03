@@ -9,8 +9,11 @@ of 121–123 pages each, bilingual (Indonesian | English) in side-by-side column
 reported in **US Dollars** while the comparison set is in Rupiah.
 
 **Current result: 40/40 fields correct** across four periods (`gemini-3.1-flash-lite`,
-image mode), with **24/24 fault-injection tests** passing. Scorecard committed at
-`output/scorecard_gemini_gemini-3.1-flash-lite_image.json`.
+image mode), with **24 fault-injection tests** among **48 passing** in total. Scorecard
+committed at `output/scorecard_gemini_gemini-3.1-flash-lite_image.json`, and the same
+four periods scored through the HTTP service in
+`output/scorecard_gemini_gemini-3.1-flash-lite_image_api.json` — identical in all 40
+cells.
 
 The same pipeline was then run against three issuers it was never developed on —
 **JPFA** and **CPIN** (Rupiah, millions scale) and **EMAS** (US Dollars, and a text
@@ -48,8 +51,20 @@ python scripts/run_eval.py --no-cache --tolerance 0.001
 # catch a regression before shipping (exit 1 if any field got worse)
 python scripts/compare_runs.py output/scorecard_A.json output/scorecard_B.json
 
-# prove the guards fire: 24 fault-injection tests
+# prove the guards fire: 48 tests, none of which call a model
 python -m pytest tests/ -v          # or: python tests/test_guards.py
+```
+
+Serving it instead of importing it:
+
+```bash
+uvicorn api:app --app-dir src --port 8000
+
+curl localhost:8000/health
+curl -X POST localhost:8000/extract -F "file=@data/raw/Q1_2022_ARCI.pdf"
+
+# score the SERVICE rather than the library — same harness, same scoring code
+python scripts/run_eval.py --no-cache --api-url http://localhost:8000
 ```
 
 `--no-cache` matters: without it, predictions are read from `output/predictions/` and
@@ -299,13 +314,23 @@ calibrated and free to inflate.
 | **Validation** | 0.25 | Is the field implicated in a failing structural rule? |
 | **Derivation** | 0.15 | If computed, how good were the rows it came from? |
 
-**Grounding is the anti-hallucination test.** Every number is re-rendered in
-Indonesian format (`694671337` → `694.671.337`, negatives as `(76.732)`) and
-searched for in the page text. A figure the document does not contain was invented.
+**Grounding is the anti-hallucination test.** Every number is re-rendered the way a
+filing would print it (`694671337` → `694.671.337` *and* `694,671,337`, negatives as
+`(76.732)`) and searched for in the page text. A figure the document does not contain
+was invented.
 
 This works in image mode too, and is *stronger* there: the extractor reads pixels,
 the verifier reads characters, so agreement is genuine corroboration rather than the
 same read performed twice.
+
+**Its failure mode is a false negative, and that is expensive.** Two real cases:
+CPIN's text layer splits `14.406` into `1 4.406`, and EMAS groups digits with commas
+rather than dots. In both, correctly extracted figures read as absent, and abstention
+then *discarded right answers* — for CPIN it took the non-controlling interest and,
+because equity is derived from it, equity with it. Grounding now repairs spacing
+between digits and checks both grouping conventions before concluding that a number
+is not there. Neither repair loosens the test: a comma-grouped string does not occur
+in a dot-grouped document, so the extra form cannot match a different number.
 
 A field implicated in an **error-severity** rule is capped at 0.50 — below the
 abstention threshold — because such a rule does not hint that a value is doubtful,
@@ -385,6 +410,11 @@ Design points that matter:
 - **Per-provider, per-mode scorecards.** `scorecard_<provider>_<model>_<mode>.json` —
   without the mode in the name, a text run and an image run overwrite each other and
   the comparison silently becomes a run compared with itself.
+- **The sheet must name the issuer it is for.** These workbooks are made by copying an
+  existing one and overwriting the columns, and a copy that was never re-labelled
+  scores one issuer's extraction against another's figures — every field wrong, for a
+  reason that appears nowhere in the output. `load_ground_truth` reads the ticker out
+  of cell `D1` and refuses to run when it disagrees with `--ticker`.
 
 ### Results
 
@@ -394,6 +424,28 @@ Design points that matter:
 correct   40      wrong   0      missed   0
 accuracy  100%  (40/40)
 ```
+
+Reproduced after the prompt was rewritten to remove ARCI's own figures from its
+examples (see *Agentic development*), so the score is not the model copying numbers
+it was shown. Latency is in the scorecard: 18–29 s per filing, three or four calls
+each.
+
+#### What this number does not cover
+
+Stated plainly, because a clean scorecard is the easiest thing in this repo to
+over-read:
+
+- **One issuer.** 40 cells = ARCI × four periods × ten fields. JPFA, CPIN and EMAS
+  are extracted and self-checked, not scored, because they have no labels yet.
+- **No failure has ever been observed on real data**, so `failure_kinds` is empty and
+  `abstained` is empty in every period. The failure taxonomy and the abstention layer
+  are demonstrated by fault injection (24 tests), not by anything the model actually
+  did wrong here. That is weaker evidence than a scorecard full of classified
+  failures would be, and it is the honest reading of a 100% run on one template.
+- **The converted leg is not independent**, for the reason given above.
+
+The single highest-value addition is not another guard: it is labels for one JPFA
+period, which would turn three of those four caveats into measurements.
 
 ### Catching a regression before it ships
 
@@ -489,6 +541,75 @@ any looser setting, and it was a real error.
 
 ---
 
+## API surface
+
+`src/api.py` is transport and nothing else. No handler parses a figure, scores a field
+or converts a currency — the moment one does, the extractor has been forked in two, and
+the copy behind the HTTP boundary is the one the evaluation harness cannot test.
+
+| Endpoint | Returns |
+|---|---|
+| `GET /health` | status, provider, model, input mode, git commit. **Shallow by default**; `?deep=true` also contacts the provider, cached 30s |
+| `GET /schema` | the field contract, generated from `FIELDS` / `EXCEL_ROWS` / `DERIVED_FROM` so it cannot drift from the code |
+| `POST /extract` | one filing: values as printed, per-field confidence, abstentions, validation issues, usage |
+| `POST /extract/batch` | many filings, bounded concurrency, **per-document failure isolation** |
+
+```jsonc
+// POST /extract  -F file=@Q1_2022_ARCI.pdf     (trimmed)
+{
+  "filename": "Q1_2022_ARCI.pdf",
+  "pages_selected": [5, 6, 7, 8, 9, 10, 11, 12],
+  "extraction": { "aset": 694671337.0, "utang_bank": 102357484.0, "currency": "USD", ... },
+  "confidence": { "aset": {"confidence": 1.0, "grounded": true, "abstained": false} },
+  "abstained": [],
+  "issues": [],
+  "usage": {
+    "llm_calls": 3,
+    "tokens": {"input": 18019, "output": 982},
+    "latency_ms": {"select_pages": 5769, "read_text": 295, "extract": 16414, "assess": 4},
+    "cost": {"amount": null, "reason": "no price configured for gemini-3.1-flash-lite"}
+  }
+}
+```
+
+Four decisions worth defending:
+
+**Values come back as printed, not normalised.** Converting to Rupiah needs the filing's
+own disclosed rate and reporting scale, and `normalize.py` already does that for the
+harness. Doing it again behind an HTTP boundary would give two implementations that
+agree right up until they do not — and the one the harness cannot reach is the one that
+would drift.
+
+**Batch isolates failure per document.** Fifty filings with one corrupt PDF return
+forty-nine results and one explanation, each entry carrying its own `status`. A batch
+that gives up wholesale makes the caller work out which document poisoned it and resend
+the rest. A rate limit is treated differently *in kind*: `LLMUnavailable` means the
+provider is gone, so the remaining documents fail immediately rather than each spending a
+call to rediscover it.
+
+**Abstentions are returned explicitly**, as a list and as a flag, even though the value
+is already `null`. A caller cannot otherwise distinguish "the filing does not report
+this" from "we read something and did not trust it", and those call for opposite
+responses: the first is a fact about the document, the second is an invitation to look at
+the page.
+
+**A partial extraction is a result, not an error.** A per-page `LLMError` returns 200
+with the fields that were read and `issues` populated. Eight of ten fields plus an
+explanation is worth more than a 500. What does *not* return 200: a non-PDF upload (400,
+checked by magic bytes rather than by a filename the client controls), an oversized
+upload (413), and a provider outage (503, naming the provider).
+
+**Trade-off: the API is synchronous.** A request holds a connection for 20–60 seconds
+while the model works. That is the right shape at this size — no queue to operate, no job
+store, no polling protocol, and the caller gets the answer or the reason in one round
+trip. It becomes the wrong shape at three specific points: when documents take minutes
+rather than seconds (EMAS's first OCR pass takes ~2), when callers cannot hold a
+connection that long (browsers, API gateways with 30-second timeouts), or when retrying
+one failed document in a fifty-document batch means re-uploading all fifty. At that point
+`/extract` should return a job id and the result should be fetched separately — but
+building that before any of those three is true would be paying for a problem this system
+does not have.
+
 ## Production notes
 
 ### Optimisations, with measured impact
@@ -500,12 +621,51 @@ any looser setting, and it was a real error.
 | Group pages into one call (image mode) | **8 requests → 3** per document |
 | Drop rotated pages, keep only number-bearing lines + neighbours | text **−25%** (18,467 → 13,857 chars) |
 | Size `num_ctx` to the actual input | KV cache **16,384 → 8,192** |
+| Batch concurrency, 1 → 2 workers | two filings **50.0 s → 33.4 s (−33%)** |
 
 The second row is the one that mattered. A 7B local model given 18 fields across 7
 pages answered the first few and quietly dropped the rest; given 4–13 fields across
 2–3 pages it answered all of them. The fix was scope per call, not a bigger model.
 
+### Cost
+
+Tokens are recorded from the provider's own accounting, never estimated: Gemini reports
+`usageMetadata`, Ollama reports `prompt_eval_count`/`eval_count`. A four-period ARCI run,
+image mode:
+
+| | Per run (4 filings) | Per filing |
+|---|---:|---:|
+| LLM calls | 13 | 3–4 |
+| Input tokens | 75,151 | ~18,800 |
+| Output tokens | 4,085 | ~1,020 |
+| Cost | *unpriced* | *unpriced* |
+
+Input dominates by 18:1, which is the number that decides where optimisation effort
+goes: the output is a small fixed JSON object, so every saving has to come from what is
+sent. That is what makes page selection (122 pages → 8) the single largest cost lever in
+the system, and why image mode is the expensive choice — an image page costs roughly
+10–20× its text equivalent.
+
+**Cost reads "unpriced" on purpose.** `config/pricing.json` ships with no cloud rates:
+prices change and differ per account, so an unpriced model reports real tokens and a null
+cost carrying the reason. A wrong price would be worse than none, because it would be
+quoted with the same confidence as a measured one. Filling in the rate turns every figure
+above into money without touching code. Locally served models *are* priced — at zero,
+which is true, and which keeps a cloud-versus-local comparison from reading as missing
+data.
+
 ### Latency
+
+Recorded per filing and per stage. Four ARCI periods through the API, image mode:
+**25–40 s per filing (mean 31 s)**; in-process the same run spanned 24–65 s. The stage
+split is what makes it actionable — from a single `/extract`:
+
+```
+select_pages 5.8s | read_text 0.3s | extract 16.4s | assess 0.0s
+```
+
+Page selection is a third of the wall clock on a clean filing and considerably more on
+one that must be OCR'd, which a single total would have charged to the model.
 
 Measured locally (`qwen2.5:7b-instruct`, text mode, single call):
 
@@ -534,6 +694,16 @@ much input, a low generate rate means the model is too big for available RAM.
   with fence-stripping and outermost-object recovery as backstops.
 - **The balance sheet is checked** — `aset − (liabilitas + total ekuitas)` — which
   catches a misread without needing ground truth.
+- **A missing currency stops normalisation.** It used to fall through to "assume IDR",
+  which turns a deliberate abstention into a silent ~14,000x understatement on a USD
+  filer. Refusing is the only defensible behaviour: the abstention already said the
+  value was not worth asserting.
+- **An unreadable text layer is detected, not inherited.** Pages that extract as glyph
+  ids or as nothing are OCR'd rather than passed downstream as empty evidence, which
+  is what turned "every field abstained" into a working extraction on EMAS.
+- **Known limit:** type checking at the JSON boundary. `from_dict` accepts any type,
+  so a hand-edited or stale cache file can raise inside `validate()` rather than being
+  rejected with a clear message. Listed under *Not built yet*.
 
 ---
 
@@ -551,12 +721,33 @@ patches (the older one silently winning), and `FIELDS` missing the new component
 fields, which dropped them between calls and left the derived values empty while
 the output still looked valid.
 
+What worked better still was pointing it at the repo's own claims. An audit pass
+found four things no test was covering, each verified by probing the code rather than
+reading it:
+
+- **The prompt contained ARCI's own figures as its formatting examples** — the same
+  values the scorecard then graded the model on. Grounding could not catch it, since
+  those numbers genuinely are printed in the filing. The prompt now uses placeholder
+  digits, and the score survived the change: still 40/40.
+- **The committed scorecard had been generated from stale caches**, so every
+  `confidence` field in it was `null` — the artifact demonstrating the confidence
+  layer demonstrated nothing about it.
+- **`_coerce_numbers` misread a single dot group**: `"694.671"` became `694.671`, a
+  thousandfold understatement, and `"(76.732)"` came back positive.
+- **A ternary precedence bug** made the balance-sheet check drop `liabilitas` whenever
+  total equity was missing, reporting sound filings as unbalanced.
+
+The general lesson: the artifacts a project is proudest of are the ones least likely
+to be re-examined. Asking an agent to attack its own scorecard is cheaper than having
+a reviewer do it.
+
 **Custom extension:** `.claude/skills/label-groundtruth/SKILL.md`, a repo-local skill
-that encodes the ground-truth labelling rules — values as printed rather than
-pre-normalised, `null` as a positive assertion of absence versus `_unlabelled` for
-"not yet determined", and the rule that the model under evaluation must never
-pre-fill its own labels. Its column-selection warning ("check the column header, not
-the row position") is exactly the failure the extractor hit later.
+that encodes the ground-truth labelling rules — where the labels live and how the
+sheet is shaped, the parent-attributable subtotal rule that caused the one logged
+correction, and the rule that the model under evaluation must never pre-fill its own
+labels. Its column-selection warning ("check the column header, not the row
+position") is exactly the failure the extractor hit later, and its no-self-labelling
+rule is the same principle the prompt leak violated.
 
 ---
 
@@ -580,33 +771,32 @@ Two of these deserve emphasis.
 **Scale is now read, not asked for.** A missed "dalam ribuan" multiplies every figure
 by a thousand, and the wording sits in plain text a fixed distance from the title.
 `detect_scale()` reads it directly and, on disagreement, overrides the model with a
-warning. ARCI reports in full units, so this path had never run on real data — it is
-the most likely thing to break on an issuer that reports in thousands.
+warning. ARCI reports in full units, so this path was untested until JPFA and CPIN,
+both of which report in millions — it now runs on real filings.
 
 **A guard that cannot run now says so.** If an issuer words its liability headings
 differently, `_bank_rows_by_section()` returns an empty map and every wrong-row check
 is skipped. Previously that was silent: the guard switched itself off while
 confidence stayed high. It now raises `section_map_incomplete`.
 
-### Run against two issuers it was never developed on
+### Run against three issuers it was never developed on
 
 Claims about generalisation are worth little until the code meets a document it was
-not written for, so the pipeline was run unchanged on **JPFA Q1 2022** (171 pages)
-and **CPIN Q1 2022** (120 pages). Both report in **Rupiah at millions scale**, so
-this was the first real exercise of the scale path; ARCI is USD at full units.
+not written for, so the pipeline was run on **JPFA Q1 2022** (171 pages), **CPIN Q1
+2022** (120 pages) and **EMAS Q3 2025** (97 pages).
 
-No ground truth exists for either yet, but a filing checks a lot of its own work:
+No ground truth exists for any of them yet, but a filing checks a lot of its own work:
 
-| Check | JPFA | CPIN |
-|---|---|---|
-| Balance sheet identity (`aset = liabilitas + total ekuitas`) | holds exactly | holds exactly |
-| Scale read from the printed header | `MILLIONS` | `MILLIONS` |
-| Currency read from the header | `IDR` | `IDR` |
-| Every extracted figure grounded in the text layer | yes | yes |
-| Bank-debt section map resolved (wrong-row guard active) | yes | yes |
-| Fields returned | 18/18 | 17/18 |
+| Check | JPFA | CPIN | EMAS |
+|---|---|---|---|
+| Balance sheet identity (`aset = liabilitas + total ekuitas`) | holds | holds | holds |
+| Scale read from the printed header | `MILLIONS` | `MILLIONS` | `FULL` |
+| Currency read from the header | `IDR` | `IDR` | `USD` |
+| Every extracted figure grounded in the document | yes | yes | yes |
+| Bank-debt section map resolved | yes | yes | no bank debt reported |
+| Fields returned | 18/18 | 17/18 | 17/18 |
 
-Two issuer-specific assumptions were exposed and fixed, both inherited from ARCI:
+Each one broke something different, and each break is worth more than the passes.
 
 **Share capital is not always one line.** JPFA issues two classes and prints a count
 for each — `8.814.985.201` Seri A and `2.911.590.000` Seri B — and never their total.
@@ -619,10 +809,27 @@ in the filing, so grounding it verbatim would abstain on the right answer. The
 computed total, `11.726.575.201`, matches the figure JPFA's own note states as its
 listed share count on a different page — independent corroboration.
 
-**A grouped number is not a share count.** CPIN's text layer splits `14.406` into
-`1 4.406`, which read as absent and abstained on a correctly extracted
+**A number split by the text layer is still printed.** CPIN's layer breaks `14.406`
+into `1 4.406`, which read as absent and abstained on a correctly extracted
 non-controlling interest — and since equity is derived from it, took equity with it.
 Grounding now repairs spacing between digits before deciding a figure is missing.
+
+**A text layer can exist and still be unreadable.** EMAS was the sharpest case, and
+it broke four things at once:
+
+| What | Why it broke | Fix |
+|---|---|---|
+| Every figure read as ungrounded, all fields abstained | Text layer is subset fonts with no ToUnicode CMap — 100% of characters are Private Use Area glyph ids, versus 0% for ARCI and JPFA | `src/pdftext.py`: one place decides whether text is real, and OCRs the page when it is not (cached to `output/ocr_cache/`) |
+| "no exchange rate is disclosed" | The rate is on page 23, in that unreadable layer | The same OCR path; `extract_fx_rate` now reads through `pdftext` |
+| The rate row itself did not match | EMAS quotes per **10,000** Rupiah with a decimal point, numbers before the label | Rate row read in pieces rather than by one regex — see *The exchange rate comes from the filing* |
+| Grounding still failed after OCR | EMAS groups digits with commas (`80,322,232`), not dots | `src/numfmt.py`: grouping convention decided per value; grounding checks both forms |
+
+The failure the user actually saw was the second one — an error message blaming the
+filing for omitting something it plainly states on page 23. That is worth noting as a
+diagnostic lesson: three subsystems read the text layer independently, so one broken
+layer produced three unrelated-looking symptoms and one misleading message. Putting
+the "is this text real?" decision in a single module is what makes the next such
+filing report *one* problem instead of three.
 
 Also loosened, by audit rather than by failure:
 
@@ -635,6 +842,8 @@ Also loosened, by audit rather than by failure:
 | Bank sections matched ARCI's exact phrase | Matched on distinguishing words; `Kewajiban` accepted alongside `Liabilitas` |
 | Scale taken from the model alone | Read from the printed header, which **overrides** the model |
 | Share count assumed to sit on a statement page | Located anywhere in the document when no selected page carries it |
+| A dot separates thousands | Convention decided per value; both are read |
+| The text layer is what the PDF says it is | Checked, and OCR'd when it is not |
 | Eval periods hard-coded to 2022 | Discovered from `data/raw/*_<TICKER>.pdf` |
 
 ### Honest confidence
@@ -642,45 +851,57 @@ Also loosened, by audit rather than by failure:
 | Case | Confidence | Why |
 |---|---|---|
 | ARCI, other years | High | Same template, four periods score 40/40 |
-| Another IDX filer, IDR, millions | Medium-high | JPFA and CPIN both extract cleanly and self-consistently, but neither is scored against labels |
-| Filer reporting in thousands | Medium | The same deterministic reader handles it, and millions now works on real filings |
+| Another IDX filer, IDR, millions | Medium-high | JPFA and CPIN extract cleanly and self-consistently — but neither is scored against labels |
+| Filer reporting in thousands | Medium | Same deterministic reader as millions, which now works on real filings; the thousands branch itself is still untested |
+| Filer with a broken or absent text layer | Medium | EMAS works end to end through OCR, but on one filing, and OCR quality is the new dependency |
 | Filer with no disclosed FX rate, reporting in USD | Refuses | By design; it raises rather than guessing a rate |
-| Scanned filing (no text layer) | Low | `ocr_pages()` is wired in but has never processed a real scan |
+| Filer quoting its rate to two decimals | Works, with a caveat | 0.8% rounding uncertainty, reported on every conversion rather than hidden |
 
 Grounding does not depend on the issuer at all, and neither do the balance-sheet
 identity or containment rules. A new issuer is therefore more likely to produce
 **abstentions and validation errors** than confident wrong numbers — which is what
-JPFA did: it declined `total_share` rather than inventing one.
+both new issuers did: JPFA declined `total_share` rather than inventing one, and EMAS
+abstained on everything rather than asserting figures it could not verify.
 
-The gap that remains is labels. JPFA and CPIN are extracted but not *scored*, so
-"correct" is asserted only by the filing's own internal consistency. Labelling one
-period of each — the workflow in `.claude/skills/label-groundtruth/SKILL.md` — is the
-single highest-value next step.
+That behaviour is the design working, but it is also the honest limit of what has
+been shown: **the gap that remains is labels.** JPFA, CPIN and EMAS are extracted but
+not *scored*, so "correct" for them rests on the filing's own internal consistency,
+not on measurement. Labelling one JPFA period — ten cells, the workflow in
+`.claude/skills/label-groundtruth/SKILL.md` — is the single highest-value next step in
+this repository.
 
 ## Not built yet
 
 Stated plainly because the brief asks for them:
 
-- **Docker / `docker compose up`.** No Dockerfile or compose file. The eval runs as a
-  local command, not as a one-shot container against a served API.
-- **HTTP API.** Extraction is a library and a CLI; there is no service to bring up.
+- **Docker, verified.** `Dockerfile`, `docker-compose.yml` and `.dockerignore` are in
+  the repo and describe the layout the brief asks for — `api` serving, `eval` as a
+  one-shot behind a profile that waits on `service_healthy` and writes to a mounted
+  `output/`. **Neither has been built or run**, because Docker is not installed on the
+  machine this was developed on. They are committed as work, not as a claim.
 - **Calibration of the confidence scores.** The weights are reasoned, not fitted; the
   threshold has not been swept against the eval set to find where precision and
   coverage actually trade off.
 - **Cross-provider agreement as a fourth signal.** Running two models and scoring
   disagreement is the obvious next input to confidence, and the provider layer
   already supports it.
-- **Cost accounting.** Latency is measured on the local path; token cost per document
-  is not tracked or reported.
+- **A scored second issuer.** Three are extracted, none is labelled, so the scorecard
+  still covers one. This remains the largest gap in the whole repository.
+- **A priced cost figure.** Tokens are measured; money needs a rate in
+  `config/pricing.json`.
+- **Asynchronous extraction.** The API holds the connection for the length of the job.
+  See the trade-off note under *API surface* for the three conditions that would make
+  that the wrong choice.
 
 ## With more time
 
-1. **Calibrate the abstention threshold** by sweeping it against the eval set and
+1. **Label one JPFA period** (ten cells) and score it. That converts three of the four
+   caveats under *What this number does not cover* from disclaimers into measurements,
+   and it is perhaps an hour's work.
+2. **Calibrate the abstention threshold** by sweeping it against the eval set and
    plotting precision against coverage, instead of choosing 0.55 by argument.
-2. **A second ticker end to end** (TLDN, reported in Rupiah, thousands scale) to force
-   the scale path to earn its keep; today only the USD/FULL branch is exercised.
-3. **Scanned filings.** `ocr_pages()` is wired in but has never run on a real scan,
-   because all four ARCI filings carry a clean text layer.
+3. **Run the containers.** The files are written; the verification is not done, and an
+   unbuilt Dockerfile is a hypothesis.
 4. **The layout-aware text path.** `extract_text(layout=True)` preserves the
    indentation that distinguishes the three `Utang bank` rows; it costs +28% tokens
    and was not needed once components were extracted separately, but it is the next
@@ -692,6 +913,11 @@ Stated plainly because the brief asks for them:
 
 ```
 src/
+  api.py           HTTP transport: /health /schema /extract /extract/batch
+  api_models.py    pydantic response models — the contract callers write against
+  usage.py         tokens, cost and per-stage latency for one document
+  pdftext.py       decides whether a text layer is real; OCRs the pages that are not
+  numfmt.py        parses a printed figure under either grouping convention
   page_select.py   title-region keyword scan; groups pages by statement
   extract.py       orchestration, per-statement calls, derived fields
   llm.py           provider layer (Gemini REST / Ollama), JSON handling
@@ -706,10 +932,16 @@ scripts/
 tests/
   test_guards.py   fault injection; proves each guard fires (and stays quiet)
 data/
-  raw/             four ARCI filings
-  ground_truth/    ARCI.xlsx (labels), TLDN.xlsx, JSON template
+  raw/             ARCI, JPFA, CPIN (Q1-Q4 2022) and EMAS (Q3 2025)
+  ground_truth/    ARCI.xlsx (the only labelled issuer), TLDN.xlsx, JSON template
+                   CORRECTIONS.md — every label changed after entry, with evidence
+config/
+  pricing.json     token rates, empty of cloud prices by design
+Dockerfile         api + eval image (written, not yet built)
+docker-compose.yml `up` serves the API; `run --rm eval` scores it
 output/
-  scorecard_*.json committed results from real runs
+  scorecard_*.json committed results from real runs, including a baseline to diff
   predictions/     cached per provider and mode
+  ocr_cache/       OCR text per filing; derived, safe to delete
 .claude/skills/    label-groundtruth (custom agent skill)
 ```

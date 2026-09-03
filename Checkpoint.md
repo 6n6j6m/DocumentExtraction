@@ -231,4 +231,29 @@ resolve.
 
 ## Stage 6 — README
 
-Not started.
+**Done**
+
+- **Quick start** gains the service: `uvicorn`, `curl /health`, `curl -X POST /extract`,
+  and `run_eval --api-url`. The local path stays first, because it is the one that works
+  on this machine today.
+- New **API surface** section: the four endpoints, a trimmed real response, and the four
+  decisions worth defending — as-printed values rather than normalised, per-document
+  failure isolation, explicit abstentions, and a partial extraction returning 200.
+  Includes the synchronous-API trade-off and the three conditions that would make it
+  wrong (documents taking minutes, callers that cannot hold a connection, retrying one
+  document out of fifty).
+- **Cost** table beside Latency, from the real run: 13 calls, 75,151 in / 4,085 out over
+  four filings. Input dominates output 18:1, which is why page selection is the largest
+  cost lever and why image mode is the expensive choice. Cost reads *unpriced* by design.
+- **Latency** rewritten around the per-stage split now recorded.
+- Optimisation table gains the measured concurrency row: 50.0 s → 33.4 s (−33%).
+- *Not built yet*: the HTTP API and cost accounting are gone because they are done;
+  Docker is **rewritten rather than removed** — the files exist, the build has never
+  run, and it says so. Confidence calibration, cross-provider agreement and a labelled
+  second issuer stay, with the second issuer named as the largest remaining gap.
+- Repo layout gains `api.py`, `api_models.py`, `usage.py`, `config/`, `Dockerfile`,
+  `docker-compose.yml`.
+
+**Open**
+
+- The Docker quick-start path is deliberately absent until a build has actually run.
