@@ -1,0 +1,32 @@
+{
+  "_comment": [
+    "Token prices per model, read by src/usage.py. Deliberately EMPTY on arrival.",
+    "",
+    "Prices change and differ per account, so none is shipped as a guess: a model with",
+    "no entry here reports its real token counts and a null cost carrying the reason,",
+    "which is honest. A wrong price would be worse than no price, because it would be",
+    "quoted with the same confidence as a measured one.",
+    "",
+    "To price a run, add the model id exactly as it appears in the scorecard and fill",
+    "in the rates from your provider's own pricing page:",
+    "",
+    "  \"gemini-3.1-flash-lite\": {\"input_per_1m\": 0.00, \"output_per_1m\": 0.00,",
+    "                             \"source\": \"<url>\", \"checked\": \"YYYY-MM-DD\"}",
+    "",
+    "Locally served models are free to run and are priced at zero on purpose, so a",
+    "cloud-versus-local comparison shows tokens on both sides rather than a blank."
+  ],
+  "currency": "USD",
+  "models": {
+    "qwen2.5:7b-instruct": {
+      "input_per_1m": 0,
+      "output_per_1m": 0,
+      "source": "self-hosted via Ollama; no per-token charge"
+    },
+    "qwen3-vl:8b": {
+      "input_per_1m": 0,
+      "output_per_1m": 0,
+      "source": "self-hosted via Ollama; no per-token charge"
+    }
+  }
+}

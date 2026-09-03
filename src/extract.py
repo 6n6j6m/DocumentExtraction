@@ -67,6 +67,8 @@ def render_pdf_page_to_image(pdf_path: str, page_num: int, dpi: int = 150) -> by
 
 
 
+from contextlib import nullcontext as _nullcontext
+
 MIN_TEXT_CHARS = 200   # below this a page is treated as having no usable text layer
 
 
@@ -294,10 +296,11 @@ def derive_fields(extraction) -> list:
 
 
 def extract_from_text(document_text: str, provider,
-                      prompt: Optional[str] = None) -> Optional[FinancialStatementExtraction]:
+                      prompt: Optional[str] = None,
+                      usage=None) -> Optional[FinancialStatementExtraction]:
     """One call for one slice of the filing; structured JSON back."""
     user = f"{prompt or EXTRACTION_PROMPT}\n\nDOCUMENT:\n{document_text}"
-    raw = provider.complete(SYSTEM_PROMPT, user)
+    raw = provider.complete(SYSTEM_PROMPT, user, usage=usage)
     data = parse_json(raw)
     if "evidence" in data:
         data.pop("evidence")
@@ -366,7 +369,8 @@ def assess(extraction, page_texts: dict) -> dict:
             for n, s in scores.items()}
 
 
-def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None) -> Optional[FinancialStatementExtraction]:
+def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None,
+                     usage=None) -> Optional[FinancialStatementExtraction]:
     """Extract statement fields, trying each provider on ITS OWN input mode.
 
     Gemini defaults to images (a VLM reads layout well and the cost is not ours to
@@ -382,10 +386,17 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None) -> Opti
     if not Path(pdf_path).exists():
         raise FileNotFoundError(f"PDF file not found: {pdf_path}")
 
+    # Page selection reads (and may OCR) the whole document, so it is timed apart from
+    # the model calls: on a filing with a broken text layer it dominates the run, and a
+    # single total would blame the model for it.
+    from usage import Usage
+    usage = Usage() if usage is None else usage
+
     share_pages = []
     if page_numbers is None:
         print(f"\n\U0001F4C4 Selecting pages from {Path(pdf_path).name}...")
-        selection = select_statement_pages(pdf_path, max_pages=config.max_pdf_pages)
+        with usage.stage("select_pages"):
+            selection = select_statement_pages(pdf_path, max_pages=config.max_pdf_pages)
         page_numbers = selection.pages
         share_pages = selection.share_capital_pages
         print(f"  Method: {selection.method}")
@@ -406,10 +417,13 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None) -> Opti
 
         if mode == "image":
             if page_texts is None:
-                page_texts = read_page_texts(pdf_path, page_numbers)
-            result = _extract_from_images(pdf_path, page_numbers, config, provider,
-                                          page_texts, share_pages)
+                with usage.stage("read_text"):
+                    page_texts = read_page_texts(pdf_path, page_numbers)
+            with usage.stage("extract"):
+                result = _extract_from_images(pdf_path, page_numbers, config, provider,
+                                              page_texts, share_pages, usage=usage)
             if result is not None and _filled(result):
+                result.usage = usage
                 return result
             continue
 
@@ -436,7 +450,7 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None) -> Opti
             prompt = _focus_prompt(fields) if fields else EXTRACTION_PROMPT
             print(f"  [{group}] pages {[p+1 for p in pages]}, {len(text):,} chars")
             try:
-                part = extract_from_text(text, provider, prompt=prompt)
+                part = extract_from_text(text, provider, prompt=prompt, usage=usage)
             except LLMUnavailable as e:
                 print(f"    \u2717 {e}")
                 failed = True
@@ -454,7 +468,9 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None) -> Opti
         for warning in derive_fields(merged):
             print(f"    \u26a0 {warning}")
 
-        merged.field_confidence = assess(merged, page_texts)
+        with usage.stage("assess"):
+            merged.field_confidence = assess(merged, page_texts)
+        merged.usage = usage
 
         if _filled(merged):
             print(f"  \u2713 {_filled(merged)}/{len(FIELDS)} fields in {time.time()-started:.0f}s\n")
@@ -490,7 +506,7 @@ def ocr_pages(pdf_path: str, page_numbers: list) -> dict:
 
 
 def _extract_from_images(pdf_path, page_numbers, config, provider, page_texts=None,
-                         share_pages=None):
+                         share_pages=None, usage=None):
     """Vision path: one call per statement, showing all of that statement's pages.
 
     Sending pages one at a time was necessary when every page cost a separate
@@ -525,7 +541,7 @@ def _extract_from_images(pdf_path, page_numbers, config, provider, page_texts=No
         print(f"  [{group}] pages {[p+1 for p in pages]}, {len(images)} image(s), {kb:,.0f} KB")
 
         try:
-            raw = provider.complete(SYSTEM_PROMPT, prompt, images=images)
+            raw = provider.complete(SYSTEM_PROMPT, prompt, images=images, usage=usage)
             data = parse_json(raw)
             data.pop("evidence", None)
             part = FinancialStatementExtraction.from_dict(_coerce_numbers(data))
@@ -544,7 +560,8 @@ def _extract_from_images(pdf_path, page_numbers, config, provider, page_texts=No
     for warning in derive_fields(merged):
         print(f"    \u26a0 {warning}")
 
-    merged.field_confidence = assess(merged, page_texts or {})
+    with (usage.stage("assess") if usage else _nullcontext()):
+        merged.field_confidence = assess(merged, page_texts or {})
 
     if not _filled(merged):
         print("\u2717 Failed to extract any field\n")
@@ -575,6 +592,21 @@ if __name__ == "__main__":
 
     print("=== AS PRINTED ===")
     print(json.dumps(result.to_dict(), indent=2))
+
+    usage = getattr(result, "usage", None)
+    if usage:
+        u = usage.to_dict()
+        tokens = u["tokens"]
+        stages = ", ".join(f"{k} {v/1000:.1f}s" for k, v in u["latency_ms"].items())
+        print(f"\n=== USAGE ===")
+        print(f"  {u['llm_calls']} LLM call(s) | {stages}")
+        print(f"  tokens in {tokens['input'] if tokens['input'] is not None else '-'}"
+              f" / out {tokens['output'] if tokens['output'] is not None else '-'}")
+        cost = u["cost"]
+        print(f"  cost {cost['amount']} {cost['currency']}" if cost["amount"] is not None
+              else f"  cost - ({cost.get('reason', 'unknown')})")
+        for note in u["notes"]:
+            print(f"  note: {note}")
 
     scores = getattr(result, "field_confidence", {})
     if scores:

@@ -10,6 +10,44 @@ from dataclasses import dataclass
 from typing import Optional
 
 
+class SchemaTypeError(ValueError):
+    """A payload assigned a value of the wrong type to a schema field.
+
+    A ValueError subclass so existing `except ValueError` handlers keep working, but
+    distinct enough for the API layer to turn into a 400 rather than a 500.
+    """
+
+
+# What each field may hold. Kept as data rather than read from the annotations at
+# runtime because the annotations are Optional[...] unions, and unwrapping those is
+# more code than restating three categories.
+NUMBER = "number"
+TEXT = "text"
+NUMBER_LIST = "number_list"
+
+FIELD_TYPES = {
+    "period_end_date": TEXT,
+    "aset": NUMBER,
+    "total_aset_lancar": NUMBER,
+    "kas": NUMBER,
+    "liabilitas": NUMBER,
+    "utang_bank": NUMBER,
+    "ekuitas": NUMBER,
+    "pendapatan": NUMBER,
+    "laba_bersih": NUMBER,
+    "kas_dari_aktivitas_operasi": NUMBER,
+    "total_share": NUMBER,
+    "utang_bank_jangka_pendek": NUMBER,
+    "utang_bank_bagian_lancar": NUMBER,
+    "total_ekuitas": NUMBER,
+    "kepentingan_non_pengendali": NUMBER,
+    "total_share_components": NUMBER_LIST,
+    "currency": TEXT,
+    "reporting_scale": TEXT,
+    "statement_scope": TEXT,
+}
+
+
 @dataclass
 class FinancialStatementExtraction:
     """Extracted financial statement fields from an IDX filing.
@@ -97,9 +135,62 @@ class FinancialStatementExtraction:
         }
     
     @classmethod
-    def from_dict(cls, data: dict):
-        """Create from dictionary."""
-        return cls(**{k: v for k, v in data.items() if k in cls.__dataclass_fields__})
+    def from_dict(cls, data: dict, strict: bool = True):
+        """Create from a dictionary, rejecting values of the wrong type.
+
+        The annotations on this class used to be documentation only: anything at all
+        could be assigned, and the mistake surfaced later as
+        `TypeError: '<' not supported between instances of 'str' and 'int'` from inside
+        a validation rule, three frames from the thing that was actually wrong. JSON
+        reaches this constructor from two directions -- a model response and a cached
+        prediction file -- and neither is trustworthy enough to skip the check.
+
+        Every offending field is reported in one message rather than one per attempt,
+        because a malformed payload usually has more than one problem and fixing them
+        one round trip at a time is miserable.
+
+        `strict=False` restores the old permissive behaviour for callers that have
+        already coerced their input.
+        """
+        known = {k: v for k, v in data.items() if k in cls.__dataclass_fields__}
+        if not strict:
+            return cls(**known)
+
+        problems = []
+        for name, value in known.items():
+            if value is None:
+                continue
+            expected = FIELD_TYPES.get(name)
+            if expected is NUMBER:
+                # bool is a subclass of int in Python, so `isinstance(True, int)` is
+                # True and a stray boolean would sail through as 1.0.
+                if isinstance(value, bool) or not isinstance(value, (int, float)):
+                    problems.append(f"{name}: expected a number, got "
+                                    f"{type(value).__name__} ({value!r})")
+            elif expected is TEXT:
+                if not isinstance(value, str):
+                    problems.append(f"{name}: expected a string, got "
+                                    f"{type(value).__name__} ({value!r})")
+            elif expected is NUMBER_LIST:
+                if not isinstance(value, list) or any(
+                        isinstance(v, bool) or not isinstance(v, (int, float))
+                        for v in value):
+                    problems.append(f"{name}: expected a list of numbers, got {value!r}")
+
+        if problems:
+            raise SchemaTypeError(
+                f"{cls.__name__} received {len(problems)} field(s) of the wrong type:\n  "
+                + "\n  ".join(problems))
+
+        # int is accepted where a float is declared, and normalised here so downstream
+        # arithmetic and JSON output do not vary by how the model happened to write it.
+        for name, value in list(known.items()):
+            if FIELD_TYPES.get(name) is NUMBER and isinstance(value, int):
+                known[name] = float(value)
+            elif FIELD_TYPES.get(name) is NUMBER_LIST and isinstance(value, list):
+                known[name] = [float(v) for v in value]
+
+        return cls(**known)
 
 
 # Maps each field to the row it belongs to in data/ground_truth/<TICKER>.xlsx.

@@ -27,9 +27,36 @@ reads independently to verify whatever the model saw.
 import json
 import os
 import re
+import time
 from typing import Optional
 
 import requests
+
+
+def _record(usage, provider: str, model: str, reported: Optional[dict], started: float,
+            in_key: str, out_key: str) -> None:
+    """Log one call's tokens and latency into an accumulator, if one was passed.
+
+    A provider that reports no usage block records the call with `None` tokens and the
+    reason, rather than being left out. A missing call would understate the work done;
+    a guessed token count would misstate the spend. Saying "this call happened and its
+    size is unknown" is the only honest option.
+    """
+    if usage is None:
+        return
+    from usage import CallUsage
+
+    latency_ms = int((time.time() - started) * 1000)
+    if not reported:
+        usage.record(CallUsage(provider, model, None, None, latency_ms,
+                               note=f"{provider} reported no token usage for this call"))
+        return
+    usage.record(CallUsage(
+        provider, model,
+        input_tokens=reported.get(in_key),
+        output_tokens=reported.get(out_key),
+        latency_ms=latency_ms,
+    ))
 
 
 class LLMError(RuntimeError):
@@ -98,11 +125,13 @@ class GeminiProvider:
         except Exception:
             return []
 
-    def complete(self, system: str, user: str, images: Optional[list] = None) -> str:
+    def complete(self, system: str, user: str, images: Optional[list] = None,
+                 usage=None) -> str:
         parts = [{"text": f"{system}\n\n{user}"}]
         for image_b64 in images or []:
             parts.append({"inline_data": {"mime_type": "image/png", "data": image_b64}})
 
+        started = time.time()
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent"
         response = requests.post(
             url,
@@ -134,6 +163,11 @@ class GeminiProvider:
         data = response.json()
         if not data.get("candidates"):
             raise LLMError(f"Gemini returned no candidates: {str(data)[:200]}")
+
+        # Token counts come from the API's own accounting, never from our estimate.
+        # Image parts are billed as tokens too, and only Gemini knows how many.
+        _record(usage, "gemini", self.model, data.get("usageMetadata"), started,
+                in_key="promptTokenCount", out_key="candidatesTokenCount")
         return data["candidates"][0]["content"]["parts"][0]["text"]
 
 
@@ -202,7 +236,8 @@ class OllamaProvider:
         except Exception:
             return None
 
-    def complete(self, system: str, user: str, images: Optional[list] = None) -> str:
+    def complete(self, system: str, user: str, images: Optional[list] = None,
+                 usage=None) -> str:
         if images and self._vision_checked is False:
             raise LLMUnavailable(
                 f"{self.model!r} is a text-only model but OLLAMA_INPUT_MODE=image. "
@@ -246,6 +281,7 @@ class OllamaProvider:
                     "Raise OLLAMA_TIMEOUT, or use a smaller / non-reasoning model."
                 )
 
+        started = time.time()
         response = _post(payload)
         if response.status_code == 400 and "think" in response.text.lower():
             # Older Ollama builds reject the field; the model simply keeps thinking.
@@ -259,6 +295,9 @@ class OllamaProvider:
 
         body = response.json()
         self._report_timings(body)
+        # Ollama names its counts differently but reports the same two quantities.
+        _record(usage, "ollama", self.model, body, started,
+                in_key="prompt_eval_count", out_key="eval_count")
         content = body["message"]["content"]
         # A thinking model that ignored think=false leaves its reasoning inline.
         return re.sub(r"<think>.*?</think>", "", content, flags=re.DOTALL).strip()
