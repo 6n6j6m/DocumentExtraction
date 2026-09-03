@@ -1,97 +1,179 @@
 # Financial Statement Extraction — IDX Quarterly Filings
 
-Extracts a fixed schema of financial figures from Indonesian Stock Exchange (IDX)
-filings, normalises them to full Rupiah, and scores the result against audited
-ground truth.
+Pulls a fixed schema of ten financial figures out of Indonesian Stock Exchange filings —
+100 to 170 page bilingual PDFs — normalises them to full Rupiah, scores the result
+against hand-labelled ground truth, and **declines to answer when it is not confident**
+rather than guessing.
 
-Working document set: **PT Archi Indonesia Tbk (ARCI), Q1–Q4 2022** — four filings
-of 121–123 pages each, bilingual (Indonesian | English) in side-by-side columns,
-reported in **US Dollars** while the comparison set is in Rupiah.
+**Result: 40/40 fields correct** across four ARCI periods (`gemini-3.1-flash-lite`, image
+mode), reproduced identically through the HTTP service. **51 tests**, of which 24 break
+one specific thing each and assert the right guard fires.
 
-**Current result: 40/40 fields correct** across four periods (`gemini-3.1-flash-lite`,
-image mode), with **24 fault-injection tests** among **48 passing** in total. Scorecard
-committed at `output/scorecard_gemini_gemini-3.1-flash-lite_image.json`, and the same
-four periods scored through the HTTP service in
-`output/scorecard_gemini_gemini-3.1-flash-lite_image_api.json` — identical in all 40
-cells.
-
-The same pipeline was then run against three issuers it was never developed on —
-**JPFA** and **CPIN** (Rupiah, millions scale) and **EMAS** (US Dollars, and a text
-layer that extracts as glyph ids). Each one broke a different assumption inherited
-from ARCI, and each is fixed. Those three runs are where most of the real engineering
-in this repo now sits: see *Generalising to other issuers*.
-
-**What is scored and what is not.** Only ARCI has ground-truth labels, so the 40/40
-covers one issuer, four periods, ten fields. The other three are extracted and
-checked against what the filing itself says — the balance sheet balancing, every
-figure appearing in the document — but they are not scored. The distinction is kept
-sharp throughout: a filing that validates is not a filing that was measured.
+**What is scored and what is not.** Only ARCI has ground-truth labels, so that 40/40
+covers one issuer, four periods, ten fields. Three further issuers — JPFA, CPIN and EMAS —
+are extracted and checked against what each filing says about itself, but they are **not
+scored**. The distinction is kept sharp throughout: a filing that validates is not a
+filing that was measured.
 
 ---
 
-## Quick start
+## Start here
 
-```bash
-cp .env.example .env          # then add GEMINI_API_KEY
+Four ways in, in increasing order of what they need from you. Everything the commands
+below refer to — the filings, the labels, the committed results — is in the repository, so
+none of it has to be taken on trust.
 
-# bring up the extraction API and leave it serving
-docker compose up -d
-curl localhost:8000/health
+| | Needs | Takes | Shows |
+|---|---|---|---|
+| **1. Run the tests** | Python only — **no API key** | ~80 s | That the guards, the confidence layer and the abstention logic do what this README says |
+| **2. Extract one filing** | A free Gemini key | ~25 s | The system reading a real 122-page filing end to end |
+| **3. Score it** | The key | ~2 min | The full 40/40 scorecard, reproduced from scratch |
+| **4. Docker** | Docker + the key | ~4 min | `compose up` serving the API, then a one-shot eval scoring **against that API** |
 
-# end-to-end evaluation against that API, writing to ./output on the host
-GIT_COMMIT=$(git rev-parse --short HEAD) docker compose run --rm eval
-```
-
-`GIT_COMMIT` is optional but worth passing: the image excludes `.git`, so without it the
-scorecard cannot name the commit that produced it, and two runs stop being comparable.
-
-Running it directly instead, without containers:
+### 1. Run the tests — no key required
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-
-# extract one filing — any issuer, no ground truth needed
-python src/extract.py data/raw/Q1_2022_ARCI.pdf
-python src/extract.py data/raw/Q3_2025_EMAS.pdf     # OCR path; first run is slow
-
-# full evaluation against ground truth (ARCI is the only labelled issuer)
-python scripts/run_eval.py
-
-# a subset, or a specific provider
-python scripts/run_eval.py --periods Q1 Q2
-python scripts/run_eval.py --provider ollama
-python scripts/run_eval.py --no-cache --tolerance 0.001
-
-# catch a regression before shipping (exit 1 if any field got worse)
-python scripts/compare_runs.py output/scorecard_A.json output/scorecard_B.json
-
-# prove the guards fire: 48 tests, none of which call a model
-python -m pytest tests/ -v          # or: python tests/test_guards.py
+python -m pytest tests/ -q
 ```
 
-Serving it instead of importing it:
+```
+51 passed
+```
+
+Nothing here touches the network: `tests/test_api.py` stubs the provider, and
+`tests/test_guards.py` works from the committed PDFs. This is the cheapest way to see
+what the system actually guarantees — each test breaks one thing and names the guard that
+should catch it. Start with `test_wrong_but_real_row_is_caught` and
+`test_hallucinated_value_is_caught`.
+
+### 2. Extract one filing
+
+Get a free key from [Google AI Studio](https://aistudio.google.com/apikey), then:
 
 ```bash
-uvicorn api:app --app-dir src --port 8000
-
-curl localhost:8000/health
-curl -X POST localhost:8000/extract -F "file=@data/raw/Q1_2022_ARCI.pdf"
-
-# score the SERVICE rather than the library — same harness, same scoring code
-python scripts/run_eval.py --no-cache --api-url http://localhost:8000
+cp .env.example .env          # put the key in GEMINI_API_KEY
+python src/extract.py data/raw/Q1_2022_ARCI.pdf
 ```
 
-`--no-cache` matters: without it, predictions are read from `output/predictions/` and
-**no model is called**, so a change to the prompt or to `src/` will not show up. That
-is what once produced a committed scorecard with `confidence: null` in every field.
+Roughly 25 seconds and 3 API calls on the free tier. You should see page selection
+narrowing 122 pages to 8, three per-statement calls, a confidence line per field, and the
+figures converted to Rupiah using an exchange rate read out of the filing itself:
 
-Two optional dependencies, both only needed for filings whose text layer is unusable:
-`pytesseract` and tesseract itself (`brew install tesseract tesseract-lang`). Without
-them EMAS still extracts through the VLM, but page selection, grounding and the
-exchange rate all degrade — and the run says so rather than failing quietly.
+```
+📄 Selecting pages from Q1_2022_ARCI.pdf...
+  Pages: [5, 6, 7, 8, 9, 10, 11, 12] (1-indexed)
+  Reduction: 8/122 pages (93.4% reduction)
 
-### What a single extraction prints
+🔍 gemini:gemini-3.1-flash-lite [image]...
+  [balance_sheet] pages [5, 6, 7], 3 image(s), 1,247 KB   +13 field(s)
+  [income]        pages [8, 9, 10], 3 image(s)             +2 field(s)
+  [cash_flow]     pages [11, 12], 2 image(s)               +1 field(s)
+
+=== USAGE ===
+  3 LLM call(s) | select_pages 5.9s, read_text 0.3s, extract 9.9s
+  tokens in 18019 / out 982
+
+=== IN FULL RUPIAH ===
+kurs: 14,347.20 IDR/USD  (disclosed_rate_table, hal. 29)
+       "1.000 Rupiah 0,0697 0,0701 0,0686 1,000 Rupiah"
+  aset                          9,966,590,200,861
+```
+
+Try the other issuers too — they are the more interesting documents:
+
+```bash
+python src/extract.py data/raw/Q1_2022_JPFA.pdf     # Rupiah, millions, two share classes
+python src/extract.py data/raw/Q3_2025_EMAS.pdf     # no usable text layer; OCR path, slow first run
+```
+
+### 3. Score it — the full evaluation
+
+```bash
+python scripts/run_eval.py --no-cache
+```
+
+Four filings, ~13 API calls, about two minutes. Expect:
+
+```
+SUMMARY
+  correct       40
+  wrong          0
+  missed         0
+  accuracy     100.0%  (40/40)
+
+  usage
+    LLM calls            13
+    tokens              75151 in / 4071 out
+    latency             18-26s per document
+```
+
+Drop `--no-cache` and it re-scores the committed predictions without calling anything —
+useful for reading the output, useless for testing a change.
+
+### 4. Docker, exactly as the brief describes
+
+```bash
+docker compose up -d
+curl localhost:8000/health
+
+GIT_COMMIT=$(git rev-parse --short HEAD) docker compose run --rm eval
+```
+
+`up` leaves the extraction API serving on port 8000; `run --rm eval` is a one-shot that
+runs the harness **against that API** and writes the scorecard to `./output` on your
+machine. `GIT_COMMIT` is optional but worth passing: the image excludes `.git`, so without
+it the scorecard cannot name the commit that produced it.
+
+### If something goes wrong
+
+| Symptom | Cause and fix |
+|---|---|
+| `GEMINI_API_KEY not set` | No `.env`, or the key line is empty. `cp .env.example .env` and fill it in. |
+| `Model 'x' not found on this key` | The error lists the model ids your key actually has — copy one into `GEMINI_MODEL`. |
+| `503 ... high demand` | Gemini capacity spike. One retry is automatic; if it persists, wait a minute. The run continues and reports the field as `missed`, never as a guess. |
+| `429 rate limit` | Free-tier quota. Not retried on purpose — wait, or set `LLM_FALLBACK_PROVIDER=ollama`. |
+| `OCR unavailable` on EMAS | `brew install tesseract tesseract-lang`. Without it EMAS still extracts, but page selection, grounding and the FX rate degrade — and the run says so. |
+| Docker healthcheck never passes | `docker compose logs api`. Usually a missing `.env`, which makes `env_file` fail the whole project. |
+
+---
+
+## Where to look
+
+The code is about 4,000 lines across `src/` and `scripts/`. If you have ten minutes, these are the parts worth the
+time, each of which exists because something went wrong:
+
+| Read | Why it is interesting |
+|---|---|
+| [*Ask for components, not conclusions*](#ask-for-components-not-conclusions) | Three balance-sheet rows all read "Utang bank". The fix was to stop asking the model to choose. |
+| [*Confidence is computed, not self-reported*](#confidence-is-computed-not-self-reported) | The model never grades its own work; the score comes from signals the system can check. |
+| [*What this number does not cover*](#what-this-number-does-not-cover) | Why 40/40 is weaker evidence than it looks. |
+| [*Run against three issuers it was never developed on*](#run-against-three-issuers-it-was-never-developed-on) | Where the real engineering is: each new filer broke a different inherited assumption. |
+| [*The first real failure, and what it cost*](#the-first-real-failure-and-what-it-cost) | An upstream 503 during a real run, and what the system did about it. |
+| [*The harness found an error in the ground truth*](#the-harness-found-an-error-in-the-ground-truth) | The labels were wrong twice, and the tooling caught it. |
+| [*Not built yet*](#not-built-yet) | What is missing, stated plainly. |
+
+Committed artifacts, so nothing has to be taken on trust:
+
+| File | What it is |
+|---|---|
+| `output/scorecard_gemini_gemini-3.1-flash-lite_image.json` | the 40/40 run, in process |
+| `output/scorecard_gemini_gemini-3.1-flash-lite_image_api.json` | the same, scored through the containerised API |
+| `output/scorecard_container_2026-09-03_upstream_503.json` | a **39/40** run, kept because it is the only real failure on record |
+| `output/scorecard_baseline_2026-09-03_leaked_prompt.json` | an older run, so `compare_runs.py` can be demonstrated immediately |
+| `data/ground_truth/CORRECTIONS.md` | every label changed after entry, with the evidence |
+| `Checkpoint.md` | the development log for the serving layer |
+
+```bash
+# see the regression gate work, no API key needed
+python scripts/compare_runs.py output/scorecard_container_2026-09-03_upstream_503.json \
+                               output/scorecard_gemini_gemini-3.1-flash-lite_image_api.json
+```
+
+---
+
+## Reading the output
 
 ```
 === AS PRINTED ===        the figures as the filing states them
@@ -121,13 +203,19 @@ Metadata sits at 0.85 by construction: `currency` is inferred from "Disajikan da
 Dolar Amerika Serikat" rather than printed as a token, and dates are reformatted to
 ISO — neither can be matched verbatim, so neither is fully trusted nor penalised.
 
-Running fully local instead:
+### Running it entirely on your own machine
+
+No key, no network, no per-token cost — a local model through Ollama instead:
 
 ```bash
 ollama serve
 ollama pull qwen3-vl:8b
 LLM_PROVIDER=ollama python src/extract.py data/raw/Q1_2022_ARCI.pdf
 ```
+
+Slower and weaker, but it is the path that proves the provider layer is not a Gemini
+wrapper. `LLM_FALLBACK_PROVIDER=ollama` also makes it the automatic fallback when the
+hosted provider is rate limited.
 
 Predictions are cached per provider under `output/predictions/<provider>_<mode>/`,
 so re-running to inspect results costs no API calls. `--no-cache` forces a fresh

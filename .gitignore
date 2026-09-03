@@ -14,3 +14,4 @@ output/ocr_cache/
 *.bak[0-9]
 ~$*.xlsx
 .ipynb_checkpoints/
+data/ground_truth/JPFA.xlsx
