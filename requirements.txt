@@ -1,7 +1,24 @@
-pdf2image>=1.16.3
-python-dotenv>=1.0.0
-pydantic>=2.5.0
-pdfplumber>=0.9.0
-requests>=2.31.0
+# Extraction pipeline
+pdf2image>=1.16.3          # renders pages for the VLM path; needs poppler-utils
+pdfplumber>=0.9.0          # text layer
 Pillow>=10.0.0
+requests>=2.31.0
+python-dotenv>=1.0.0
+
+# HTTP API
+fastapi>=0.110.0
+uvicorn[standard]>=0.27.0
+python-multipart>=0.0.9    # multipart/form-data uploads
+pydantic>=2.5.0            # typed response models
+
+# Evaluation harness
+openpyxl>=3.1.0            # ground-truth workbooks
+httpx>=0.26.0              # run_eval --api-url, and fastapi's TestClient
+
+# Tests
 pytest>=8.0.0
+
+# Optional, for filings whose text layer is unusable (EMAS). Without these the VLM
+# path still works, but page selection, grounding and the FX rate all degrade -- and
+# say so. Needs the tesseract binary plus the `ind` and `eng` language data.
+pytesseract>=0.3.10

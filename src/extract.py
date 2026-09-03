@@ -354,6 +354,12 @@ def assess(extraction, page_texts: dict) -> dict:
     issues = validate(extraction) + validate_against_document(extraction, document_text)
     for issue in issues:
         print(f"    \u26a0 [{issue.severity}] {issue.rule}: {issue.message}")
+    # Kept on the extraction rather than only printed: the API has to report which
+    # rules fired, and re-running validation to find out would risk answering a
+    # different question than the one the abstention decision was made on.
+    extraction.issues = [{"rule": i.rule, "severity": i.severity,
+                          "message": i.message, "fields": list(i.fields)}
+                         for i in issues]
 
     scores = score_extraction(extraction, document_text, issues)
     abstained = apply_abstention(extraction, scores)
@@ -407,9 +413,17 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None,
         print(f"  Reduction: {len(page_numbers)}/{selection.total_pages} pages "
               f"({100*(1-len(page_numbers)/selection.total_pages):.1f}% reduction)")
 
+    pages_1indexed = [p + 1 for p in page_numbers]
+
     primary, fallback = get_provider_with_fallback()
     page_texts = None      # read lazily, only if some provider wants text
     split = os.getenv("SPLIT_BY_STATEMENT", "true").lower() in ("1", "true", "yes")
+
+    # Why each provider gave up, so the caller is told the difference between "the
+    # filing defeated us" and "nobody was answering the phone". Collapsing both into
+    # one generic failure told an API caller to fix their request when what they
+    # actually needed to do was wait.
+    unavailable = []
 
     for provider in [p for p in (primary, fallback) if p]:
         mode = getattr(provider, "input_mode", "text")
@@ -419,11 +433,17 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None,
             if page_texts is None:
                 with usage.stage("read_text"):
                     page_texts = read_page_texts(pdf_path, page_numbers)
-            with usage.stage("extract"):
-                result = _extract_from_images(pdf_path, page_numbers, config, provider,
-                                              page_texts, share_pages, usage=usage)
+            try:
+                with usage.stage("extract"):
+                    result = _extract_from_images(pdf_path, page_numbers, config,
+                                                  provider, page_texts, share_pages,
+                                                  usage=usage)
+            except LLMUnavailable as exc:
+                unavailable.append(f"{provider.name}: {exc}")
+                continue
             if result is not None and _filled(result):
                 result.usage = usage
+                result.pages_selected = pages_1indexed
                 return result
             continue
 
@@ -453,6 +473,7 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None,
                 part = extract_from_text(text, provider, prompt=prompt, usage=usage)
             except LLMUnavailable as e:
                 print(f"    \u2717 {e}")
+                unavailable.append(f"{provider.name}: {e}")
                 failed = True
                 break
             except Exception as e:
@@ -471,12 +492,18 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None,
         with usage.stage("assess"):
             merged.field_confidence = assess(merged, page_texts)
         merged.usage = usage
+        merged.pages_selected = pages_1indexed
 
         if _filled(merged):
             print(f"  \u2713 {_filled(merged)}/{len(FIELDS)} fields in {time.time()-started:.0f}s\n")
             return merged
         print("  \u2717 no fields filled")
 
+    if unavailable:
+        # Every provider was unreachable, throttled or misconfigured. That is a
+        # transient condition on our side, not a bad document: an HTTP caller should
+        # see 503 and retry, not 422 and go looking for a fault in their PDF.
+        raise LLMUnavailable("no provider was available - " + "; ".join(unavailable))
     raise LLMError("Every provider failed")
 
 
@@ -546,9 +573,12 @@ def _extract_from_images(pdf_path, page_numbers, config, provider, page_texts=No
             data.pop("evidence", None)
             part = FinancialStatementExtraction.from_dict(_coerce_numbers(data))
         except LLMUnavailable as exc:
+            # Raised rather than swallowed into a None: the caller distinguishes "this
+            # provider is gone" from "this provider read nothing useful", and only the
+            # first should send an HTTP caller away to retry later.
             print(f"    \u2717 {exc}")
             print(f"    abandoning {provider.name}")
-            return None
+            raise
         except Exception as exc:
             print(f"    \u2717 {type(exc).__name__}: {exc}")
             continue

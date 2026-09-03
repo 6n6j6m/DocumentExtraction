@@ -60,7 +60,68 @@ would have hidden behind the model.
 
 ## Stage 2 — HTTP API
 
-Not started.
+**Done**
+
+- `src/api_models.py`: pydantic response models. The API is the contract callers write
+  code against, and a typed response fails here when a field is renamed rather than at
+  the caller's parser a week later.
+- `src/api.py`: `GET /health`, `GET /schema`, `POST /extract`, `POST /extract/batch`.
+  FastAPI is transport only — no parsing, no scoring, no arithmetic on a figure in any
+  handler. `/extract` returns values **as printed**; conversion to Rupiah stays in
+  `normalize.py` where the harness can reach it.
+- `/health` is shallow by default and contacts the provider only on `?deep=true`,
+  cached 30s. A compose healthcheck every 10s would otherwise spend ~8,600 provider
+  calls a day to say "I am alive".
+- `/schema` is generated from the extractor's own definitions (`FIELDS`, `EXCEL_ROWS`,
+  `DERIVED_FROM`, `FIELD_TYPES`), so the published contract cannot drift from the code.
+- Batch isolates failure per document and bounds concurrency with
+  `API_MAX_CONCURRENCY` (default 2).
+- Uploads are validated by magic bytes, not by filename or content type, and deleted
+  after the request.
+- Structured JSON-line logs per request.
+- `tests/test_api.py`: 11 tests against a stubbed provider — no network, no key.
+
+**Found and fixed while testing**
+
+`test_provider_unavailable_is_503` failed with 422. `extract_from_pdf` was catching
+`LLMUnavailable` per provider and ending with a generic `LLMError("Every provider
+failed")`, so the API told the caller their *request* was bad when the truth was that
+the provider was rate limited — and the provider's own message was lost. The reason each
+provider gave up is now carried out of the loop, and `LLMUnavailable` is re-raised
+naming every provider that failed. A caller now gets 503 and knows to retry rather than
+to go looking for a fault in their PDF.
+
+**Verified**
+
+`python -m pytest tests/ -q` → **48 passed**.
+
+Live against the real model, `uvicorn api:app --app-dir src`:
+
+```
+GET /health          {"status":"ok","provider":"gemini:gemini-3.1-flash-lite",
+                      "provider_reachable":null,"checked":"shallow"}
+GET /health?deep=true {"provider_reachable":true,"checked":"deep"}
+POST /extract        Q1_2022_ARCI.pdf → pages [5..12], aset 694,671,337,
+                     utang_bank 102,357,484, abstained [], issues 0,
+                     3 LLM calls, 18,019 in / 982 out
+POST /extract (bad)  HTTP 400 "fake.pdf: not a PDF (expected a %PDF header,
+                     got b'# Financ')"
+POST /extract/batch  count 3, ok 2, failed 1 — the corrupt file returned its own
+                     error and the two filings still returned their figures
+```
+
+Concurrency measured rather than assumed, same two filings through `/extract/batch`:
+
+| `API_MAX_CONCURRENCY` | Wall clock |
+|---|---|
+| 1 | 50.0 s |
+| 2 | 33.4 s (**−33%**) |
+
+**Open**
+
+- Batch-level `cost` is null and points at the per-document reports; only per-document
+  costs are priced.
+- `run_eval.py` cannot target the API yet — stage 3.
 
 ## Stage 3 — Evaluation through the API
 
