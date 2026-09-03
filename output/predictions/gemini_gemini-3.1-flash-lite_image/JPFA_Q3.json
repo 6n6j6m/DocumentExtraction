@@ -142,7 +142,7 @@
       ]
     }
   },
-  "_elapsed_s": 34.0,
+  "_elapsed_s": 23.9,
   "_usage": {
     "llm_calls": 4,
     "tokens": {
@@ -150,10 +150,10 @@
       "output": 1103
     },
     "latency_ms": {
-      "select_pages": 9899,
-      "read_text": 1012,
+      "select_pages": 9873,
+      "read_text": 1028,
       "assess": 6,
-      "extract": 23076
+      "extract": 12983
     },
     "cost": {
       "amount": null,
