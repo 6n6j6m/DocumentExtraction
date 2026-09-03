@@ -31,6 +31,24 @@ of guessing.
 filing says about itself, but they have no labels. The distinction is kept sharp
 throughout: a filing that validates is not a filing that was measured.
 
+### What this README covers
+
+The brief asks a README to cover run commands, the dataset, schema and approach with the
+reasoning, the architecture, key trade-offs, eval results, the agentic-development note,
+and what more time would buy. In order:
+
+| | |
+|---|---|
+| Run commands | [Start here](#start-here) · [Reading the output](#reading-the-output) |
+| Dataset, and why | [Dataset, and why this one](#dataset-and-why-this-one) |
+| Schema, and why | [Schema, and why these ten fields](#schema-and-why-these-ten-fields) |
+| Approach, and why | [Architecture](#architecture) · [Why a single well-designed call per statement, not an agent](#why-a-single-well-designed-call-per-statement-not-an-agent) |
+| Architecture | [Architecture](#architecture) · [API surface](#api-surface) |
+| Key trade-offs | [Key decisions and trade-offs](#key-decisions-and-trade-offs) |
+| Eval results | [Evaluation](#evaluation) · [Results](#results) · [What these numbers do not cover](#what-these-numbers-do-not-cover) |
+| Agentic development | [Agentic development](#agentic-development) |
+| With more time | [Not built yet](#not-built-yet) · [With more time](#with-more-time) |
+
 ---
 
 ## Start here
@@ -185,7 +203,7 @@ time, each of which exists because something went wrong:
 |---|---|
 | [*Ask for components, not conclusions*](#ask-for-components-not-conclusions) | Three balance-sheet rows all read "Utang bank". The fix was to stop asking the model to choose. |
 | [*Confidence is computed, not self-reported*](#confidence-is-computed-not-self-reported) | The model never grades its own work; the score comes from signals the system can check. |
-| [*What this number does not cover*](#what-this-number-does-not-cover) | Why 40/40 is weaker evidence than it looks. |
+| [*What this number does not cover*](#what-these-numbers-do-not-cover) | Why 40/40 is weaker evidence than it looks. |
 | [*Run against three issuers it was never developed on*](#run-against-three-issuers-it-was-never-developed-on) | Where the real engineering is: each new filer broke a different inherited assumption. |
 | [*The first real failure, and what it cost*](#the-first-real-failure-and-what-it-cost) | An upstream 503 during a real run, and what the system did about it. |
 | [*The harness found an error in the ground truth*](#the-harness-found-an-error-in-the-ground-truth) | The labels were wrong twice, and the tooling caught it. |
@@ -290,7 +308,7 @@ than accuracy:
 | **CPIN** | Q1–Q4 2022, 120 pages | Rupiah, millions scale; a text layer that splits `14.406` into `1 4.406` |
 | **EMAS** | Q3 2025, 97 pages | US Dollars; **no usable text layer at all** (subset fonts with no ToUnicode CMap); English digit grouping (`80,322,232`); an exchange rate quoted per 10,000 Rupiah to two decimals |
 
-## Schema
+## Schema, and why these ten fields
 
 Ten scored fields, mapped to spreadsheet rows by `EXCEL_ROWS` in `src/schema.py`
 so the sheet stays the single source of naming:
@@ -298,13 +316,42 @@ so the sheet stays the single source of naming:
 `aset` · `total_aset_lancar` · `kas` · `liabilitas` · `utang_bank` · `ekuitas` ·
 `pendapatan` · `laba_bersih` · `kas_dari_aktivitas_operasi` · `total_share`
 
-`period_end_date` is extracted and checked against the period being evaluated, but
-it is not one of the scored rows — a mismatch prints a warning rather than counting
-against the accuracy figure.
+**They are not a sample of interesting figures. They are exactly the inputs to a fixed
+set of valuation ratios**, which the ground-truth workbook computes in the rows below
+them — BVPS, ROA, ROE, PBV, PE, EPS, DER. The schema was chosen by working backwards
+from those:
 
-Plus metadata (`currency`, `reporting_scale`, `statement_scope`) and five
-**component fields** the model is asked for instead of the values they combine into
-— see *Ask for components, not conclusions* below.
+| Ratio | Needs |
+|---|---|
+| Book value per share, EPS | `ekuitas`, `laba_bersih`, `total_share` |
+| ROE, ROA | `laba_bersih`, `ekuitas`, `aset` |
+| DER, net debt | `liabilitas`, `utang_bank`, `kas` |
+| Liquidity | `total_aset_lancar`, `kas` |
+| Margin, cash quality | `pendapatan`, `laba_bersih`, `kas_dari_aktivitas_operasi` |
+| PBV, PE | the above, plus a share price — **market data, never extracted from a filing** |
+
+That origin explains three choices that otherwise look arbitrary:
+
+- **Everything is parent-attributable**, per the workbook's own header, `(HANYA YANG BISA
+  DIATRIBUSIKAN KE ENTITAS INDUK SAJA)`. Per-share metrics belong to the parent's
+  shareholders, so equity and profit exclude the non-controlling interest — which is why
+  `ekuitas` is derived rather than read, and why a negative NCI makes the right answer
+  *larger* than the printed total.
+- **`utang_bank` is bank debt only**, not total liabilities. Leverage measures
+  interest-bearing debt; trade payables are not that. This is also the hardest field in
+  the schema, because three balance-sheet rows carry the label and only one section
+  heading tells them apart.
+- **`total_share` is a count, not money.** It is a denominator in five of the seven
+  ratios, so scaling or FX-converting it would corrupt every one of them by a factor of
+  around 14,000. It is carried through `normalize.py` untouched, by name.
+
+`period_end_date` is extracted and checked against the period being evaluated, but it is
+not one of the scored rows — a mismatch prints a warning rather than counting against the
+accuracy figure.
+
+Plus metadata (`currency`, `reporting_scale`, `statement_scope`) and five **component
+fields** the model is asked for instead of the values they combine into — see *Ask for
+components, not conclusions* below.
 
 ---
 
