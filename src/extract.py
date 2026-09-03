@@ -171,7 +171,16 @@ def _parse_indonesian_number(text: str) -> Optional[float]:
 def _coerce_numbers(data: dict) -> dict:
     """Turn numeric strings into floats; leave anything unparseable as None."""
     numeric = [f for f in FIELDS if f not in
-               ("period_end_date", "currency", "reporting_scale", "statement_scope")]
+               ("period_end_date", "currency", "reporting_scale", "statement_scope",
+                "total_share_components")]
+    components = data.get("total_share_components")
+    if isinstance(components, list):
+        parsed = [_parse_indonesian_number(c) if isinstance(c, str) else c
+                  for c in components]
+        parsed = [float(c) for c in parsed if isinstance(c, (int, float))]
+        data["total_share_components"] = parsed or None
+    elif components is not None:
+        data["total_share_components"] = None
     for key in numeric:
         value = data.get(key)
         if value in (None, ""):
@@ -201,8 +210,31 @@ GROUP_FIELDS = {
     "income":        ["pendapatan", "laba_bersih"],
     "cash_flow":     ["kas_dari_aktivitas_operasi"],
     "equity":        ["total_share"],
+    # A note page located by page_select.find_share_capital_pages, used only when the
+    # share count is not printed within the primary statements.
+    "share_capital": ["total_share"],
 }
 ALWAYS = ["period_end_date", "currency", "reporting_scale", "statement_scope"]
+
+
+def group_pages(page_texts: dict, share_pages: list = None) -> dict:
+    """Group the selected pages by the statement each one carries.
+
+    A share-capital note is pulled out of whatever group it fell into and asked its
+    own narrow question. It is not a statement, so letting it inherit the group of
+    the page before it would put an unrelated note in front of the model alongside
+    the balance sheet -- the opposite of what splitting by statement is for.
+    """
+    groups = classify_pages(page_texts)
+    for page in share_pages or []:
+        for name in list(groups):
+            if page in groups[name]:
+                groups[name] = [p for p in groups[name] if p != page]
+                if not groups[name]:
+                    del groups[name]
+    if share_pages:
+        groups["share_capital"] = sorted(share_pages)
+    return groups
 
 
 def _focus_prompt(fields: list) -> str:
@@ -255,6 +287,17 @@ def derive_fields(extraction) -> list:
                 f"computed {computed:,.0f} - using computed")
         extraction.ekuitas = computed
 
+    parts = extraction.total_share_components
+    if parts:
+        computed = sum(parts)
+        if extraction.total_share is not None and abs(extraction.total_share - computed) > 1:
+            # One class reported as if it were the whole, or the model added a
+            # figure that is not a share class at all. The printed rows win.
+            warnings.append(
+                f"model said total_share={extraction.total_share:,.0f}, "
+                f"{len(parts)} share class(es) sum to {computed:,.0f} - using classes")
+        extraction.total_share = computed
+
     # The identity holds on TOTAL equity, so it can only be checked when the printed
     # total is present. Falling back to the parent-attributable figure would fail by
     # exactly the non-controlling interest and report a balanced sheet as broken.
@@ -287,7 +330,7 @@ FIELDS = [
     # FIELDS, so anything missing is silently dropped between the per-statement
     # calls -- leaving derived utang_bank and ekuitas with nothing to work from.
     "utang_bank_jangka_pendek", "utang_bank_bagian_lancar",
-    "total_ekuitas", "kepentingan_non_pengendali",
+    "total_ekuitas", "kepentingan_non_pengendali", "total_share_components",
     "currency", "reporting_scale", "statement_scope",
 ]
 
@@ -357,12 +400,17 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None) -> Opti
     if not Path(pdf_path).exists():
         raise FileNotFoundError(f"PDF file not found: {pdf_path}")
 
+    share_pages = []
     if page_numbers is None:
         print(f"\n\U0001F4C4 Selecting pages from {Path(pdf_path).name}...")
         selection = select_statement_pages(pdf_path, max_pages=config.max_pdf_pages)
         page_numbers = selection.pages
+        share_pages = selection.share_capital_pages
         print(f"  Method: {selection.method}")
         print(f"  Pages: {[p+1 for p in page_numbers]} (1-indexed)")
+        if share_pages:
+            print(f"  Share-capital note: {[p+1 for p in share_pages]} "
+                  f"(outside the statements; added for total_share)")
         print(f"  Reduction: {len(page_numbers)}/{selection.total_pages} pages "
               f"({100*(1-len(page_numbers)/selection.total_pages):.1f}% reduction)")
 
@@ -377,7 +425,8 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None) -> Opti
         if mode == "image":
             if page_texts is None:
                 page_texts = read_page_texts(pdf_path, page_numbers)
-            result = _extract_from_images(pdf_path, page_numbers, config, provider, page_texts)
+            result = _extract_from_images(pdf_path, page_numbers, config, provider,
+                                          page_texts, share_pages)
             if result is not None and _filled(result):
                 return result
             continue
@@ -387,7 +436,7 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None) -> Opti
             if not any(len(t.strip()) >= MIN_TEXT_CHARS for t in page_texts.values()):
                 page_texts = ocr_pages(pdf_path, page_numbers)
 
-        groups = classify_pages(page_texts) if split else {}
+        groups = group_pages(page_texts, share_pages) if split else {}
         if not groups:
             groups = {"all": sorted(page_texts)}
 
@@ -458,7 +507,8 @@ def ocr_pages(pdf_path: str, page_numbers: list) -> dict:
     return texts
 
 
-def _extract_from_images(pdf_path, page_numbers, config, provider, page_texts=None):
+def _extract_from_images(pdf_path, page_numbers, config, provider, page_texts=None,
+                         share_pages=None):
     """Vision path: one call per statement, showing all of that statement's pages.
 
     Sending pages one at a time was necessary when every page cost a separate
@@ -471,7 +521,7 @@ def _extract_from_images(pdf_path, page_numbers, config, provider, page_texts=No
     dpi = int(os.getenv("IMAGE_DPI", "150"))
     split = os.getenv("SPLIT_BY_STATEMENT", "true").lower() in ("1", "true", "yes")
 
-    groups = classify_pages(page_texts) if (split and page_texts) else {}
+    groups = group_pages(page_texts, share_pages) if (split and page_texts) else {}
     if not groups:
         groups = {"all": list(page_numbers)}
 

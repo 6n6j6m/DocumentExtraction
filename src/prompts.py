@@ -125,10 +125,32 @@ FIELD EXTRACTION RULES (Indonesian keywords):
     - Example: "Kas Neto Diperoleh dari Aktivitas Operasi: 345.678.912"
 
 11. total_share (Modal Saham/Shares)
-    - Keyword: "ditempatkan dan disetor penuh pada tanggal [DATE]"
+    - Labels vary by issuer. Accept any of:
+      "Ditempatkan dan disetor penuh" | "Modal ditempatkan dan disetor penuh" |
+      "Issued and fully paid" | "Total saham beredar" | "Total outstanding shares"
+    - Take the number of SHARES (lembar saham), NOT the rupiah/dollar par value and
+      NOT the percentage beside it. The share count is the large grouped figure
+      (billions of shares is normal); the money column sits next to it.
+    - Report shares ISSUED AND FULLY PAID ("ditempatkan dan disetor"), NOT authorised
+      capital ("modal dasar"), which is always the larger figure and is not issued.
+    - MULTIPLE SHARE CLASSES: many issuers split issued capital into classes, e.g.
+
+        Modal ditempatkan dan disetor -
+          8.814.985.201 saham Seri A ...
+          2.911.590.000 saham Seri B ...
+
+      When the filing lists more than one class, put EACH class's share count in
+      "total_share_components" as a list of numbers, in printed order, and leave
+      total_share null -- the total is computed from them. Do NOT add them yourself.
+      When there is only ONE class, report it in total_share and omit
+      total_share_components.
+    - If the filing separately lists treasury stock ("saham treasuri" / "modal saham
+      diperoleh kembali"), do NOT deduct it: the issued and fully paid count is
+      reported before treasury shares are taken out.
     - If several dates are listed, use the figure for the MOST RECENT date
-    - Take the number of SHARES (lembar saham), not the rupiah/dollar par value
-    - Example: "Modal Saham disetor penuh pada tanggal 31 Desember 2019: 456.789.123"
+    - This may be disclosed in a note rather than on a statement; take it wherever
+      it is printed on the pages you were given
+    - Example: "Ditempatkan dan disetor penuh - 456.789.123 saham"
 
 12. currency
     - Read it from the header line under the statement title
@@ -166,6 +188,7 @@ Example:
   "utang_bank_bagian_lancar": 666666666,
   "total_ekuitas": 999999999,
   "kepentingan_non_pengendali": -888888,
+  "total_share_components": null,
   "pendapatan": null,
   "laba_bersih": null,
   "kas_dari_aktivitas_operasi": null,

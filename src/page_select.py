@@ -50,6 +50,64 @@ class PageSelection:
     total_pages: int
     method: str                   # "keyword_match" | "fallback_first_n" | "whole_document"
     matched_pages: list[int]      # Which pages had keyword matches
+    share_capital_pages: list[int] = None   # note pages carrying the share count
+
+    def __post_init__(self):
+        if self.share_capital_pages is None:
+            self.share_capital_pages = []
+
+
+# Where the issued share count is disclosed varies by issuer, and it is the one
+# scored field that is not necessarily printed on a primary statement at all:
+#
+#   ARCI  balance sheet, beside the share capital line   (inside the span)
+#   CPIN  capital note, a few pages after the statements (inside the span)
+#   JPFA  shareholding note, page 127 of 171            (far outside the span)
+#
+# Relying on it falling inside the statement span is therefore a bias towards the
+# issuers it happened to work for. The count is instead located directly, by the
+# phrases used to introduce it, anywhere in the document.
+SHARE_CAPITAL_MARKERS = [
+    r"ditempatkan dan disetor penuh", r"issued and fully paid",
+    r"modal ditempatkan", r"saham beredar", r"outstanding shares",
+]
+_SHARE_MARKER_RE = re.compile("|".join(SHARE_CAPITAL_MARKERS), re.IGNORECASE)
+
+# A share count is a large grouped number: at least three dot-groups, i.e. >= 1e9
+# ("24.835.000.000", "11.620.308.701", "16.398.000.000"). Requiring the grouping
+# keeps note prose and percentages out.
+_SHARE_COUNT_RE = re.compile(r"\d{1,3}(?:\.\d{3}){2,}")
+
+# The marker and the number are often on adjacent lines rather than the same one:
+# ARCI prints "Ditempatkan dan disetor penuh -" and the count on the line below.
+_SHARE_NEIGHBOURHOOD = 1
+
+
+def find_share_capital_pages(page_texts, limit: int = 2) -> list:
+    """Pages where an issued/outstanding share count is actually printed.
+
+    Args:
+        page_texts: list of page text, or {page_number: text}
+        limit: stop after this many pages, so a filing that mentions share capital
+               throughout its notes does not drag the whole document into the call.
+    """
+    items = (sorted(page_texts.items()) if isinstance(page_texts, dict)
+             else list(enumerate(page_texts)))
+
+    found = []
+    for n, text in items:
+        lines = (text or "").split("\n")
+        marked = [i for i, line in enumerate(lines) if _SHARE_MARKER_RE.search(line)]
+        if not marked:
+            continue
+        for i in marked:
+            window = lines[max(0, i - _SHARE_NEIGHBOURHOOD): i + _SHARE_NEIGHBOURHOOD + 1]
+            if any(_SHARE_COUNT_RE.search(line) for line in window):
+                found.append(n)
+                break
+        if len(found) >= limit:
+            break
+    return found
 
 
 def select_from_page_texts(page_texts: list[str], *, 
@@ -125,9 +183,21 @@ def select_statement_pages(pdf_path: str, *,
     
     with pdfplumber.open(pdf_path) as pdf:
         texts = [page.extract_text() or "" for page in pdf.pages]
-    
-    return select_from_page_texts(texts, max_pages=max_pages,
-                                  always_scan_all_if_under=always_scan_all_if_under)
+
+    selection = select_from_page_texts(texts, max_pages=max_pages,
+                                       always_scan_all_if_under=always_scan_all_if_under)
+
+    # The share count is usually printed on the balance sheet's share-capital line, and
+    # for every issuer tested it is. Only when no selected page carries it at all is a
+    # note page appended -- otherwise this would add a request per document to re-read
+    # something already in front of the model.
+    candidates = find_share_capital_pages(texts, limit=8)
+    if not any(n in selection.pages for n in candidates):
+        share = [n for n in candidates if n not in selection.pages][:1]
+        if share:
+            selection.share_capital_pages = share
+            selection.pages = sorted(selection.pages + share)
+    return selection
 
 
 # Which statement each title marker belongs to, so pages can be grouped by the

@@ -82,6 +82,13 @@ def check_grounding(value, document_text: str) -> Optional[bool]:
     """Is this value printed in the document? None if it cannot be checked."""
     if not document_text or value is None:
         return None
+    if isinstance(value, list):
+        # A list of components (per-class share counts): grounded only if EVERY one
+        # of them is printed. One invented class would otherwise ride along.
+        checks = [check_grounding(v, document_text) for v in value]
+        if not checks or any(c is False for c in checks):
+            return False
+        return None if any(c is None for c in checks) else True
     if isinstance(value, str):
         return None          # dates are reformatted to ISO; not comparable verbatim
     try:
@@ -95,10 +102,24 @@ def check_grounding(value, document_text: str) -> Optional[bool]:
     return any(form in _DIGIT_GAP.sub("", document_text) for form in forms)
 
 
+def _derived_from(extraction) -> dict:
+    """Which fields were computed rather than read, for THIS extraction.
+
+    total_share is only derived when the issuer splits its share capital into classes
+    (JPFA does, ARCI does not). Deriving it unconditionally would grade a directly
+    read count against components that are not there.
+    """
+    derived = dict(DERIVED_FROM)
+    if getattr(extraction, "total_share_components", None):
+        derived["total_share"] = ("total_share_components",)
+    return derived
+
+
 def score_extraction(extraction, document_text: str, issues: list) -> dict:
     """Score every populated field. Returns {field: FieldScore}."""
     implicated = {f for issue in issues for f in issue.fields if issue.severity == "error"}
     warned = {f for issue in issues for f in issue.fields if issue.severity == "warning"}
+    DERIVED = _derived_from(extraction)
 
     scores = {}
     for name in extraction.__dataclass_fields__:
@@ -132,15 +153,15 @@ def score_extraction(extraction, document_text: str, issues: list) -> dict:
         else:
             validation_score = 1.0
 
-        if name in DERIVED_FROM:
-            parts = [scores.get(p) for p in DERIVED_FROM[name]]
+        if name in DERIVED:
+            parts = [scores.get(p) for p in DERIVED[name]]
             known = [p.confidence for p in parts if p]
             # A derived value is only as good as its weakest input.
             derivation_score = min(known) if known else 0.4
             if not known:
                 reasons.append("derived, but components were not scored")
             else:
-                reasons.append(f"derived from {', '.join(DERIVED_FROM[name])}")
+                reasons.append(f"derived from {', '.join(DERIVED[name])}")
         else:
             derivation_score = 1.0
 
@@ -158,7 +179,7 @@ def score_extraction(extraction, document_text: str, issues: list) -> dict:
     # is correctly absent from the document -- testing it verbatim would punish the
     # right answer. Grade it on the rows it was computed from instead, which is what
     # actually has to be read correctly.
-    for name, parts in DERIVED_FROM.items():
+    for name, parts in DERIVED.items():
         if name not in scores:
             continue
         known = [scores[p] for p in parts if p in scores]

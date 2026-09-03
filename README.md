@@ -9,8 +9,13 @@ of 121–123 pages each, bilingual (Indonesian | English) in side-by-side column
 reported in **US Dollars** while the comparison set is in Rupiah.
 
 **Current result: 40/40 fields correct** across four periods (`gemini-3.1-flash-lite`,
-image mode), with **15/15 fault-injection tests** passing. Scorecard committed at
+image mode), with **24/24 fault-injection tests** passing. Scorecard committed at
 `output/scorecard_gemini_gemini-3.1-flash-lite_image.json`.
+
+The same pipeline was then run unchanged against two issuers it was never developed
+on — **JPFA** and **CPIN**, both reporting in Rupiah at millions scale — which is
+where its remaining issuer bias was found and removed. See *Generalising to other
+issuers*.
 
 ---
 
@@ -103,14 +108,17 @@ labelled by hand from the filings and is stated in full Rupiah.
 
 ## Schema
 
-Eleven scored fields, mapped to spreadsheet rows by `EXCEL_ROWS` in `src/schema.py`
+Ten scored fields, mapped to spreadsheet rows by `EXCEL_ROWS` in `src/schema.py`
 so the sheet stays the single source of naming:
 
 `aset` · `total_aset_lancar` · `kas` · `liabilitas` · `utang_bank` · `ekuitas` ·
-`pendapatan` · `laba_bersih` · `kas_dari_aktivitas_operasi` · `total_share` ·
-`period_end_date`
+`pendapatan` · `laba_bersih` · `kas_dari_aktivitas_operasi` · `total_share`
 
-Plus metadata (`currency`, `reporting_scale`, `statement_scope`) and four
+`period_end_date` is extracted and checked against the period being evaluated, but
+it is not one of the scored rows — a mismatch prints a warning rather than counting
+against the accuracy figure.
+
+Plus metadata (`currency`, `reporting_scale`, `statement_scope`) and five
 **component fields** the model is asked for instead of the values they combine into
 — see *Ask for components, not conclusions* below.
 
@@ -275,6 +283,16 @@ Design points that matter:
 - **Two comparisons, deliberately not merged.** As-printed (USD) isolates *extraction*
   error; converted (IDR) adds *conversion* error. A field right in USD but wrong in
   IDR is a scale or rate bug, not a misread row — one number cannot say which.
+
+  **With one honest caveat.** ARCI's labels were entered by reading the filing in
+  USD and converting with the rate the filing itself discloses — the same rate
+  `normalize.py` uses. The converted comparison therefore cannot fail on a rate
+  error: both sides share the rate, which is why every relative error in the ARCI
+  scorecard sits at float noise (~1e-13). Only the as-printed leg measures anything
+  on this issuer. Conversion is instead exercised by the cross-check against Bank
+  Indonesia's middle rates above, and by the guard tests. An IDR-reporting issuer
+  (JPFA, CPIN) has no conversion step at all, so its labels would not have this
+  property.
 - **Tolerance is 0.01% by default.** Loose enough for float residue, tight enough to
   catch a wrong-but-similar row. At 1% the equity error described below survives
   undetected.
@@ -343,7 +361,7 @@ clean path already scores 40/40, and a build with all three deleted would score
 identically. Safety machinery is only observable when something goes wrong.
 
 `tests/test_guards.py` therefore breaks one specific thing per test and asserts that
-the right guard fires — 15 tests, runnable with or without pytest:
+the right guard fires — 24 tests, runnable with or without pytest:
 
 ```
 PASS  test_correct_extraction_passes_cleanly            no false positives
@@ -361,7 +379,16 @@ PASS  test_scale_is_read_from_the_header_not_guessed
 PASS  test_printed_scale_overrides_the_model
 PASS  test_older_balance_sheet_wording_is_still_found
 PASS  test_unmatched_section_headings_warn_instead_of_passing_silently
-15/15 passed
+PASS  test_bank_sections_resolve_for_a_second_issuer        ARCI and JPFA wording
+PASS  test_missing_long_term_section_does_not_crash
+PASS  test_grounding_survives_a_broken_text_layer           CPIN's "1 4.406"
+PASS  test_indonesian_number_strings_are_parsed_correctly
+PASS  test_balance_check_needs_total_equity_to_run
+PASS  test_missing_currency_refuses_rather_than_assuming_idr
+PASS  test_ground_truth_sheet_must_match_the_ticker
+PASS  test_share_capital_split_across_classes_is_summed_and_not_punished
+PASS  test_an_invented_share_class_is_still_caught
+24/24 passed
 ```
 
 The first two are a pair, and both are needed. One proves the guard fires when the
@@ -491,23 +518,74 @@ differently, `_bank_rows_by_section()` returns an empty map and every wrong-row 
 is skipped. Previously that was silent: the guard switched itself off while
 confidence stayed high. It now raises `section_map_incomplete`.
 
+### Run against two issuers it was never developed on
+
+Claims about generalisation are worth little until the code meets a document it was
+not written for, so the pipeline was run unchanged on **JPFA Q1 2022** (171 pages)
+and **CPIN Q1 2022** (120 pages). Both report in **Rupiah at millions scale**, so
+this was the first real exercise of the scale path; ARCI is USD at full units.
+
+No ground truth exists for either yet, but a filing checks a lot of its own work:
+
+| Check | JPFA | CPIN |
+|---|---|---|
+| Balance sheet identity (`aset = liabilitas + total ekuitas`) | holds exactly | holds exactly |
+| Scale read from the printed header | `MILLIONS` | `MILLIONS` |
+| Currency read from the header | `IDR` | `IDR` |
+| Every extracted figure grounded in the text layer | yes | yes |
+| Bank-debt section map resolved (wrong-row guard active) | yes | yes |
+| Fields returned | 18/18 | 17/18 |
+
+Two issuer-specific assumptions were exposed and fixed, both inherited from ARCI:
+
+**Share capital is not always one line.** JPFA issues two classes and prints a count
+for each — `8.814.985.201` Seri A and `2.911.590.000` Seri B — and never their total.
+ARCI issues one class and prints it whole, so the extractor had only ever needed to
+copy a number. The model correctly returned nothing rather than guessing, which cost
+a field. It is now asked for `total_share_components`, a count per class, and the sum
+is computed in `derive_fields()` — the same "components, not conclusions" treatment
+`utang_bank` and `ekuitas` already get, and for the same reason: the sum is nowhere
+in the filing, so grounding it verbatim would abstain on the right answer. The
+computed total, `11.726.575.201`, matches the figure JPFA's own note states as its
+listed share count on a different page — independent corroboration.
+
+**A grouped number is not a share count.** CPIN's text layer splits `14.406` into
+`1 4.406`, which read as absent and abstained on a correctly extracted
+non-controlling interest — and since equity is derived from it, took equity with it.
+Grounding now repairs spacing between digits before deciding a figure is missing.
+
+Also loosened, by audit rather than by failure:
+
+| Was | Now |
+|---|---|
+| Prompt named the issuer and said "usually USD" | Issuer-neutral; currency and scale read from the document |
+| Prompt's examples were ARCI's own figures | Placeholder digits that cannot be copied as an answer |
+| One label per field (`"Total Aset"`) | Variants listed (`Total Aset` \| `Jumlah Aset` \| `Total Assets`) |
+| Balance sheet titled only "Laporan Posisi Keuangan" | Also `Neraca`, `Balance Sheet`, comprehensive-income wordings |
+| Bank sections matched ARCI's exact phrase | Matched on distinguishing words; `Kewajiban` accepted alongside `Liabilitas` |
+| Scale taken from the model alone | Read from the printed header, which **overrides** the model |
+| Share count assumed to sit on a statement page | Located anywhere in the document when no selected page carries it |
+| Eval periods hard-coded to 2022 | Discovered from `data/raw/*_<TICKER>.pdf` |
+
 ### Honest confidence
 
 | Case | Confidence | Why |
 |---|---|---|
-| ARCI, other years | High | Same template, four periods already pass |
-| Another IDX filer, IDR, full units | Medium | Labels and titles broadened, but never run |
-| Filer reporting in thousands | Medium-low | Scale path now has a deterministic reader, still untested on a real filing |
+| ARCI, other years | High | Same template, four periods score 40/40 |
+| Another IDX filer, IDR, millions | Medium-high | JPFA and CPIN both extract cleanly and self-consistently, but neither is scored against labels |
+| Filer reporting in thousands | Medium | The same deterministic reader handles it, and millions now works on real filings |
+| Filer with no disclosed FX rate, reporting in USD | Refuses | By design; it raises rather than guessing a rate |
 | Scanned filing (no text layer) | Low | `ocr_pages()` is wired in but has never processed a real scan |
 
-The design leans in a useful direction here: grounding does not depend on the issuer
-at all, and neither do the balance-sheet identity or containment rules. A new issuer
-is therefore more likely to produce **abstentions and validation errors** than
-confident wrong numbers — the system should fail loudly rather than quietly.
+Grounding does not depend on the issuer at all, and neither do the balance-sheet
+identity or containment rules. A new issuer is therefore more likely to produce
+**abstentions and validation errors** than confident wrong numbers — which is what
+JPFA did: it declined `total_share` rather than inventing one.
 
-`TLDN.xlsx` ground truth is already in the repo (IDR, 2024–2026); dropping one TLDN
-filing into `data/raw/` and running `python scripts/run_eval.py --ticker TLDN` would
-exercise all three untested paths at once. That is the single highest-value next test.
+The gap that remains is labels. JPFA and CPIN are extracted but not *scored*, so
+"correct" is asserted only by the filing's own internal consistency. Labelling one
+period of each — the workflow in `.claude/skills/label-groundtruth/SKILL.md` — is the
+single highest-value next step.
 
 ## Not built yet
 

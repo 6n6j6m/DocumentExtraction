@@ -60,6 +60,13 @@ class FinancialStatementExtraction:
     total_ekuitas: Optional[float] = None                 # "Total Ekuitas" (includes NCI)
     kepentingan_non_pengendali: Optional[float] = None    # "Kepentingan Non-Pengendali", often negative
 
+    # Share capital is not always one line. JPFA issues Seri A and Seri B and prints a
+    # count for each, never their total; ARCI issues one class and prints it whole.
+    # Asking for the per-class counts covers both, and the sum is computed here for
+    # the same reason utang_bank is: the arithmetic is exact, and a wrong answer
+    # points at one misread class rather than at an opaque total.
+    total_share_components: Optional[list] = None         # per-class issued share counts
+
     # Metadata
     currency: Optional[str] = None                 # "USD" or "IDR"
     reporting_scale: Optional[str] = None          # "FULL" | "THOUSANDS" | "MILLIONS" | "BILLIONS"
@@ -83,6 +90,7 @@ class FinancialStatementExtraction:
             "utang_bank_bagian_lancar": self.utang_bank_bagian_lancar,
             "total_ekuitas": self.total_ekuitas,
             "kepentingan_non_pengendali": self.kepentingan_non_pengendali,
+            "total_share_components": self.total_share_components,
             "currency": self.currency,
             "reporting_scale": self.reporting_scale,
             "statement_scope": self.statement_scope,

@@ -280,6 +280,38 @@ def test_balance_check_needs_total_equity_to_run():
     assert not any("does not balance" in w for w in derive_fields(e))
 
 
+def test_share_capital_split_across_classes_is_summed_and_not_punished():
+    """An issuer with Seri A and Seri B prints a count per class and no total.
+
+    ARCI issues one class, so a directly-read count was all the system ever needed.
+    JPFA issues two (8.814.985.201 + 2.911.590.000), and their sum is nowhere in the
+    filing -- so grounding the total verbatim would abstain on the right answer, the
+    same trap utang_bank fell into.
+    """
+    from extract import derive_fields
+    text = ("Modal ditempatkan dan disetor - Issued and fully paid -\n"
+            "8.814.985.201 saham Seri A\n"
+            "2.911.590.000 saham Seri B\n")
+    e = F(total_share_components=[8814985201, 2911590000], currency="IDR",
+          reporting_scale="MILLIONS")
+    derive_fields(e)
+    assert e.total_share == 11726575201
+
+    _, scores, abstained = assess(e, text)
+    assert "total_share" not in abstained
+    assert scores["total_share"].confidence >= 0.9
+    assert scores["total_share_components"].grounded is True
+
+
+def test_an_invented_share_class_is_still_caught():
+    """Summing components must not become a way to smuggle one in."""
+    text = "8.814.985.201 saham Seri A\n2.911.590.000 saham Seri B\n"
+    e = F(total_share_components=[8814985201, 7777777777], currency="IDR")
+    _, scores, abstained = assess(e, text)
+    assert scores["total_share_components"].grounded is False
+    assert "total_share_components" in abstained
+
+
 def test_missing_currency_refuses_rather_than_assuming_idr():
     """An abstained currency must stop normalisation, not default to no conversion.
 

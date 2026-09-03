@@ -14,6 +14,7 @@
   "utang_bank_bagian_lancar": 68136673.0,
   "total_ekuitas": 242185308.0,
   "kepentingan_non_pengendali": -76732.0,
+  "total_share_components": null,
   "currency": "USD",
   "reporting_scale": "FULL",
   "statement_scope": "CONSOLIDATED",
@@ -139,5 +140,5 @@
       ]
     }
   },
-  "_elapsed_s": 17.8
+  "_elapsed_s": 27.6
 }
