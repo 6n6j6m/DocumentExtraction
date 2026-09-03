@@ -15,11 +15,22 @@ import re
 from dataclasses import dataclass
 
 # Bilingual title markers (Indonesian + English)
+# Issuers word these titles differently. "Neraca" is the pre-2012 term and is still
+# used by some filers; "laba rugi komprehensif" and "penghasilan komprehensif" are
+# both current. Matching only one wording silently returns zero pages for an issuer
+# that uses another -- a failure that looks like an empty document, not a bad regex.
 STATEMENT_MARKERS = [
+    # Balance sheet
     r"laporan posisi keuangan", r"statement of financial position",
+    r"\bneraca\b", r"\bbalance sheet\b",
+    # Income statement
     r"laporan laba rugi", r"statement of profit or loss",
+    r"laba rugi dan penghasilan komprehensif", r"comprehensive income",
+    r"\bincome statement\b",
+    # Equity
     r"laporan perubahan ekuitas", r"statement of changes in equity",
-    r"laporan arus kas", r"statement of cash flows",
+    # Cash flow
+    r"laporan arus kas", r"statement of cash flows", r"\bcash flow",
 ]
 _MARKER_RE = re.compile("|".join(STATEMENT_MARKERS), re.IGNORECASE)
 
@@ -122,10 +133,13 @@ def select_statement_pages(pdf_path: str, *,
 # Which statement each title marker belongs to, so pages can be grouped by the
 # statement they carry rather than treated as one undifferentiated blob.
 STATEMENT_GROUPS = {
-    "balance_sheet": [r"laporan posisi keuangan", r"statement of financial position"],
-    "income":        [r"laporan laba rugi", r"statement of profit or loss"],
+    "balance_sheet": [r"laporan posisi keuangan", r"statement of financial position",
+                      r"\bneraca\b", r"\bbalance sheet\b"],
+    "income":        [r"laporan laba rugi", r"statement of profit or loss",
+                      r"laba rugi dan penghasilan komprehensif", r"comprehensive income",
+                      r"\bincome statement\b"],
     "equity":        [r"laporan perubahan ekuitas", r"statement of changes in equity"],
-    "cash_flow":     [r"laporan arus kas", r"statement of cash flows"],
+    "cash_flow":     [r"laporan arus kas", r"statement of cash flows", r"\bcash flow"],
 }
 _GROUP_RES = {g: re.compile("|".join(p), re.IGNORECASE) for g, p in STATEMENT_GROUPS.items()}
 

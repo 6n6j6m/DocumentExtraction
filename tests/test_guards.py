@@ -35,10 +35,11 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from schema import FinancialStatementExtraction as F        # noqa: E402
-from validate import validate, validate_against_document    # noqa: E402
+from validate import validate, validate_against_document, ERROR  # noqa: E402
 from confidence import score_extraction, apply_abstention    # noqa: E402
 from extract import read_page_texts, build_document_text     # noqa: E402
-from normalize import extract_fx_rate, to_idr                # noqa: E402
+from normalize import extract_fx_rate, to_idr, detect_scale   # noqa: E402
+from page_select import select_from_page_texts                # noqa: E402
 
 PDF = ROOT / "data" / "raw" / "Q1_2022_ARCI.pdf"
 
@@ -157,6 +158,158 @@ def test_usd_without_a_rate_refuses_rather_than_guesses():
     e = F(**{**TRUTH, "currency": "USD"})
     with pytest.raises(ValueError):
         to_idr(e, fx=None, pdf_path=None)
+
+
+# --- generalisation to other issuers ---------------------------------------------
+
+def test_scale_is_read_from_the_header_not_guessed():
+    """A missed "dalam ribuan" is a 1000x error in every figure."""
+    assert detect_scale("(Disajikan dalam ribuan Rupiah)") == "THOUSANDS"
+    assert detect_scale("(Expressed in millions of Rupiah)") == "MILLIONS"
+    assert detect_scale("(Disajikan dalam Dolar Amerika Serikat)") is None
+
+
+def test_printed_scale_overrides_the_model():
+    """The header is unambiguous; the model's answer is not. The header wins."""
+    e = F(**{**TRUTH, "currency": "IDR", "reporting_scale": "FULL"})
+    result = to_idr(e, document_text="(Disajikan dalam ribuan Rupiah)")
+    assert result["scale_applied"] == 1000
+    assert any("header says THOUSANDS" in w for w in result["warnings"])
+
+
+def test_older_balance_sheet_wording_is_still_found():
+    """Some issuers still title the balance sheet "Neraca"."""
+    pages = ["cover"] * 3 + ["NERACA KONSOLIDASIAN\n\nPT Contoh Tbk"] + ["notes"] * 20
+    assert 3 in select_from_page_texts(pages).matched_pages
+
+
+def test_unmatched_section_headings_warn_instead_of_passing_silently(document_text):
+    """If the wrong-row guard cannot run, it must say so.
+
+    An issuer wording its headings differently would otherwise skip the check while
+    confidence stayed high -- the guard disabled without anyone noticing.
+    """
+    e = F(**TRUTH)
+    issues = validate_against_document(e, "Utang bank 34.220.811\nUtang bank 68.136.673")
+    assert any(i.rule == "section_map_incomplete" for i in issues)
+
+
+def test_bank_sections_resolve_for_a_second_issuer():
+    """The bank-debt guard must work on an issuer it was not developed against.
+
+    JPFA files the current portion of its long-term loans under the CURRENT
+    liabilities heading while still labelling the row "Utang bank jangka panjang",
+    where ARCI uses an explicit "Bagian lancar" sub-heading. Both must resolve, and
+    in both cases the genuinely non-current row must land in `long_term` so the
+    wrong-row check can exclude it.
+    """
+    from validate import _bank_rows_by_section
+    from page_select import select_statement_pages
+
+    for ticker in ("ARCI", "JPFA"):
+        pdf = ROOT / "data" / "raw" / f"Q1_2022_{ticker}.pdf"
+        if not pdf.exists():
+            continue
+        text = build_document_text(
+            read_page_texts(str(pdf), select_statement_pages(str(pdf)).pages))
+        rows = _bank_rows_by_section(text)
+        assert "short_term" in rows, f"{ticker}: no current-liabilities section found"
+        # Asserted structurally rather than on fixed amounts: the figures differ by
+        # issuer and period, but no amount may appear in two sections at once, which
+        # is what a heading being stolen by the wrong pattern would produce.
+        seen = [v for values in rows.values() for v in values]
+        assert len(seen) == len(set(seen)), f"{ticker}: a row landed in two sections: {rows}"
+
+
+def test_missing_long_term_section_does_not_crash():
+    """A filing whose non-current section falls outside the selected pages.
+
+    JPFA Q1 2022 hit exactly this: `rows` had no "long_term" key, and the exclusion
+    check iterated None. Absent must mean "nothing to exclude", not a crash midway
+    through an extraction that had already cost three API calls.
+    """
+    e = F(**TRUTH)
+    text = ("Liabilitas Jangka Pendek\n"
+            "Utang bank jangka pendek 34.220.811\n"
+            "Bagian lancar atas liabilitas jangka panjang:\n"
+            "Utang bank 68.136.673\n")
+    issues = validate_against_document(e, text)      # must not raise
+    assert not any(i.severity == ERROR for i in issues)
+
+
+def test_grounding_survives_a_broken_text_layer():
+    """A figure split by the PDF's own spacing is still present in the document.
+
+    CPIN extracts "14.406" as "1 4.406". Reading that as absent made the guard
+    abstain on a correctly extracted non-controlling interest -- and because equity
+    is derived from it, the equity figure was lost too. A false negative here is
+    expensive: it discards right answers.
+    """
+    from confidence import check_grounding
+    text = "Kepentingan Nonpengendali 1 4.406 2,19 1 4.711 Noncontrolling Interests"
+    assert check_grounding(14406, text) is True
+    # Repairing the gaps must not start accepting figures that are simply not there.
+    assert check_grounding(99999999, text) is False
+
+
+# --- parsing and defaults --------------------------------------------------------
+
+def test_indonesian_number_strings_are_parsed_correctly():
+    """A model that echoes the filing's own formatting must not shift the magnitude.
+
+    Deciding whether a dot is a separator by counting dots gets a single group wrong:
+    "694.671" read as a decimal understates the figure by a thousand, and a
+    parenthesised negative silently came back positive.
+    """
+    from extract import _coerce_numbers
+    assert _coerce_numbers({"aset": "694.671.337"})["aset"] == 694671337
+    assert _coerce_numbers({"aset": "694.671"})["aset"] == 694671
+    assert _coerce_numbers({"aset": "15.000,50"})["aset"] == 15000.50
+    assert _coerce_numbers({"aset": "(76.732)"})["aset"] == -76732
+    assert _coerce_numbers({"aset": "tidak ada"})["aset"] is None
+
+
+def test_balance_check_needs_total_equity_to_run():
+    """The identity holds on TOTAL equity, so it must not fall back to the parent share.
+
+    Substituting `ekuitas` when `total_ekuitas` is missing dropped `liabilitas` from
+    the sum entirely and reported a perfectly good balance sheet as broken.
+    """
+    from extract import derive_fields
+    e = F(aset=100, liabilitas=60, ekuitas=40, total_ekuitas=None)
+    assert not any("does not balance" in w for w in derive_fields(e))
+
+
+def test_missing_currency_refuses_rather_than_assuming_idr():
+    """An abstained currency must stop normalisation, not default to no conversion.
+
+    Assuming IDR for a filing that is actually in USD understates every figure by the
+    exchange rate -- roughly 14,000x -- with nothing but a warning to show for it.
+    """
+    e = F(**{**TRUTH, "currency": None})
+    with pytest.raises(ValueError):
+        to_idr(e, pdf_path=str(PDF))
+
+
+def test_ground_truth_sheet_must_match_the_ticker():
+    """A copied workbook that was never re-labelled must not be scored against.
+
+    These sheets are made by copying an existing one; a copy still naming the issuer
+    it came from scores one company's extraction against another's figures, and every
+    field fails for a reason that appears nowhere in the output.
+    """
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("run_eval", ROOT / "scripts" / "run_eval.py")
+    run_eval = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(run_eval)
+
+    xlsx = ROOT / "data" / "ground_truth" / "ARCI.xlsx"
+    if not xlsx.exists():
+        pytest.skip("ARCI.xlsx not present")
+    with pytest.raises(ValueError):
+        run_eval.load_ground_truth(xlsx, "Q1 2022", ticker="JPFA")
+    # ...and the matching ticker still loads.
+    assert run_eval.load_ground_truth(xlsx, "Q1 2022", ticker="ARCI")["aset"]
 
 
 # --- failure classification -----------------------------------------------------

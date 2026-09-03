@@ -6,15 +6,22 @@ Two providers, one interface, chosen with LLM_PROVIDER in .env:
     gemini  - hosted, accurate, rate-limited
     ollama  - local, unlimited, weaker
 
-Both take TEXT, not images. These filings carry a real text layer (~2,000
-characters a page), so rendering a page to PNG and asking a model to read the
-pixels throws away text that is already perfect and pays for the privilege --
-an image page costs roughly 10-20x its text equivalent in tokens. Text input is
-also what makes a local fallback practical: a text model needs a fraction of the
-resources of a vision model of the same quality.
+Both accept TEXT or IMAGES, and each has its own default (GEMINI_INPUT_MODE,
+OLLAMA_INPUT_MODE), because the right choice differs by provider:
 
-The image path still exists in extract.py for filings that are scans and have no
-text layer to read.
+  Gemini defaults to IMAGES. A VLM reads a statement's columns and indentation
+  directly, which is exactly the context a flattened text layer destroys, and the
+  cost of the extra tokens is not borne locally. The committed result was produced
+  this way.
+
+  Ollama defaults to TEXT. A local vision model of comparable quality costs far
+  more RAM and time than a text model reading the same page as characters, so text
+  is what makes a local fallback practical at all.
+
+Images cost roughly 10-20x their text equivalent in tokens, so text remains the
+cheaper path wherever layout is not what is being read -- and these filings do
+carry a real text layer (~2,000 characters a page), which the confidence layer
+reads independently to verify whatever the model saw.
 """
 
 import json

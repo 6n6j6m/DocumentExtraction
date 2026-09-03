@@ -72,7 +72,10 @@ def run_metadata(tolerance: float) -> dict:
         except Exception:
             return None
 
-    dirty = git("status", "--porcelain")
+    # Tracked modifications only. An untracked scratch file in data/ does not make a
+    # run irreproducible, but a modified source file does -- lumping the two together
+    # leaves the flag permanently true and therefore meaningless.
+    dirty = git("status", "--porcelain", "--untracked-files=no")
     return {
         "timestamp": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "git_commit": git("rev-parse", "--short", "HEAD"),
@@ -83,19 +86,53 @@ def run_metadata(tolerance: float) -> dict:
         "config": {k: os.getenv(k) for k in TRACKED_CONFIG if os.getenv(k) is not None},
     }
 
-# Spreadsheet period label -> (pdf stem, expected period end date).
-# "TAHUNAN 2022" is the annual filing, which is the Q4 document.
-PERIODS = {
-    "Q1": ("Q1 2022", "Q1_2022_{ticker}", "2022-03-31"),
-    "Q2": ("Q2 2022", "Q2_2022_{ticker}", "2022-06-30"),
-    "Q3": ("Q3 2022", "Q3_2022_{ticker}", "2022-09-30"),
-    "Q4": ("TAHUNAN 2022", "Q4_2022_{ticker}", "2022-12-31"),
-}
+QUARTER_END = {"Q1": "03-31", "Q2": "06-30", "Q3": "09-30", "Q4": "12-31"}
 
 
-def load_ground_truth(xlsx_path: Path, period_label: str) -> dict:
-    """Read one period's column. Returns {field: idr_value_or_None}."""
-    ws = openpyxl.load_workbook(xlsx_path, data_only=True)["Sheet1"]
+def discover_periods(ticker: str) -> dict:
+    """Find the filings present for a ticker and map them to spreadsheet columns.
+
+    Derived from what is on disk rather than hard-coded, so a second issuer needs no
+    code change. Filenames follow <Quarter>_<Year>_<TICKER>.pdf.
+
+    The Q4 filing is the annual report, which the spreadsheet heads "TAHUNAN <year>"
+    rather than "Q4 <year>" -- the figures are cumulative for the year, so the label
+    reflects that.
+    """
+    periods = {}
+    for pdf in sorted((ROOT / "data" / "raw").glob(f"*_{ticker}.pdf")):
+        parts = pdf.stem.split("_")
+        if len(parts) < 3 or parts[0] not in QUARTER_END:
+            continue
+        quarter, year = parts[0], parts[1]
+        label = f"TAHUNAN {year}" if quarter == "Q4" else f"{quarter} {year}"
+        periods[quarter] = (label, pdf.stem, f"{year}-{QUARTER_END[quarter]}")
+    return periods
+
+
+TICKER_CELL = "D1"      # the sheet names its own issuer here
+
+
+def load_ground_truth(xlsx_path: Path, period_label: str, ticker: str = None) -> dict:
+    """Read one period's column. Returns {field: idr_value_or_None}.
+
+    The sheet is checked against the ticker being evaluated first. These workbooks
+    are made by copying an existing one and overwriting the columns, so a copy that
+    was never re-labelled scores one issuer's extraction against another issuer's
+    figures -- and every field comes back `wrong` for a reason that is nowhere in
+    the output. The sheet names its own issuer; comparing costs one cell read.
+    """
+    wb = openpyxl.load_workbook(xlsx_path, data_only=True)
+    ws = wb["Sheet1"]
+
+    sheet_ticker = ws[TICKER_CELL].value
+    if ticker and isinstance(sheet_ticker, str) and sheet_ticker.strip().upper() != ticker.upper():
+        raise ValueError(
+            f"{xlsx_path.name} is labelled for {sheet_ticker.strip()!r} in cell "
+            f"{TICKER_CELL}, but the run is for {ticker!r}. This is what an "
+            f"un-relabelled copy of another issuer's sheet looks like; fix the sheet "
+            f"rather than scoring against the wrong figures."
+        )
 
     column = None
     for cell in ws[HEADER_ROW]:
@@ -179,13 +216,19 @@ def compare(pred, truth, rel_tol, grounded=None):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--ticker", default="ARCI")
-    ap.add_argument("--periods", nargs="*", default=list(PERIODS))
+    ap.add_argument("--periods", nargs="*", default=None)
     ap.add_argument("--tolerance", type=float, default=1e-4,
                     help="relative tolerance, default 0.0001 (0.01%%)")
     ap.add_argument("--no-cache", action="store_true")
     ap.add_argument("--out", default="output")
     ap.add_argument("--provider", help="override LLM_PROVIDER for this run (gemini|ollama)")
     args = ap.parse_args()
+
+    PERIODS = discover_periods(args.ticker)
+    if not PERIODS:
+        print(f"No filings found matching data/raw/*_{args.ticker}.pdf")
+        return 2
+    args.periods = args.periods or sorted(PERIODS)
 
     if args.provider:
         os.environ["LLM_PROVIDER"] = args.provider
@@ -211,14 +254,17 @@ def main():
     failure_kinds = {}
 
     for key in args.periods:
+        if key not in PERIODS:
+            print(f"[{key}] SKIP - no filing for this period")
+            continue
         label, stem, expected_date = PERIODS[key]
-        pdf = ROOT / "data" / "raw" / f"{stem.format(ticker=args.ticker)}.pdf"
+        pdf = ROOT / "data" / "raw" / f"{stem}.pdf"
         if not pdf.exists():
             print(f"[{key}] SKIP - {pdf.name} not found")
             continue
 
         print(f"\n{'='*78}\n{key}  ({label})  {pdf.name}\n{'='*78}")
-        truth = load_ground_truth(xlsx, label)
+        truth = load_ground_truth(xlsx, label, ticker=args.ticker)
 
         # One period failing must not abandon the others: a scorecard covering three
         # of four periods with the fourth recorded as failed is still usable, and the
@@ -241,7 +287,11 @@ def main():
 
         fx = extract_fx_rate(str(pdf))
         rate = fx.idr_per_usd if fx else None
-        converted = to_idr(pred, pdf_path=str(pdf))["values"]
+        from extract import read_page_texts, build_document_text
+        from page_select import select_statement_pages
+        doc_text = build_document_text(
+            read_page_texts(str(pdf), select_statement_pages(str(pdf)).pages))
+        converted = to_idr(pred, pdf_path=str(pdf), document_text=doc_text)["values"]
 
         if pred.period_end_date != expected_date:
             print(f"  ⚠ period_end_date {pred.period_end_date!r}, expected {expected_date!r}")

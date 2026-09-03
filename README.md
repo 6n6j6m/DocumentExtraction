@@ -9,7 +9,7 @@ of 121–123 pages each, bilingual (Indonesian | English) in side-by-side column
 reported in **US Dollars** while the comparison set is in Rupiah.
 
 **Current result: 40/40 fields correct** across four periods (`gemini-3.1-flash-lite`,
-image mode), with **11/11 fault-injection tests** passing. Scorecard committed at
+image mode), with **15/15 fault-injection tests** passing. Scorecard committed at
 `output/scorecard_gemini_gemini-3.1-flash-lite_image.json`.
 
 ---
@@ -343,7 +343,7 @@ clean path already scores 40/40, and a build with all three deleted would score
 identically. Safety machinery is only observable when something goes wrong.
 
 `tests/test_guards.py` therefore breaks one specific thing per test and asserts that
-the right guard fires — 11 tests, runnable with or without pytest:
+the right guard fires — 15 tests, runnable with or without pytest:
 
 ```
 PASS  test_correct_extraction_passes_cleanly            no false positives
@@ -357,7 +357,11 @@ PASS  test_fx_rate_comes_from_the_filing
 PASS  test_share_count_is_never_converted
 PASS  test_usd_without_a_rate_refuses_rather_than_guesses
 PASS  test_failure_kinds_are_distinguished
-11/11 passed
+PASS  test_scale_is_read_from_the_header_not_guessed
+PASS  test_printed_scale_overrides_the_model
+PASS  test_older_balance_sheet_wording_is_still_found
+PASS  test_unmatched_section_headings_warn_instead_of_passing_silently
+15/15 passed
 ```
 
 The first two are a pair, and both are needed. One proves the guard fires when the
@@ -458,6 +462,52 @@ pre-fill its own labels. Its column-selection warning ("check the column header,
 the row position") is exactly the failure the extractor hit later.
 
 ---
+
+## Generalising to other issuers
+
+The system was developed against one issuer, so anything matched on ARCI's exact
+wording is a place it would quietly stop working. Those were found by audit and
+loosened:
+
+| Was | Now |
+|---|---|
+| Prompt named the issuer and said "usually USD" | Issuer-neutral; currency and scale read from the document |
+| One label per field (`"Total Aset"`) | Variants listed (`Total Aset` \| `Jumlah Aset` \| `Total Assets`) |
+| Balance sheet titled only "Laporan Posisi Keuangan" | Also `Neraca`, `Balance Sheet`, comprehensive-income wordings |
+| Bank sections matched ARCI's exact phrase | Matched on distinguishing words; `Kewajiban` accepted alongside `Liabilitas` |
+| Scale taken from the model alone | Read from the printed header, which **overrides** the model |
+| Eval periods hard-coded to 2022 | Discovered from `data/raw/*_<TICKER>.pdf` |
+
+Two of these deserve emphasis.
+
+**Scale is now read, not asked for.** A missed "dalam ribuan" multiplies every figure
+by a thousand, and the wording sits in plain text a fixed distance from the title.
+`detect_scale()` reads it directly and, on disagreement, overrides the model with a
+warning. ARCI reports in full units, so this path had never run on real data — it is
+the most likely thing to break on an issuer that reports in thousands.
+
+**A guard that cannot run now says so.** If an issuer words its liability headings
+differently, `_bank_rows_by_section()` returns an empty map and every wrong-row check
+is skipped. Previously that was silent: the guard switched itself off while
+confidence stayed high. It now raises `section_map_incomplete`.
+
+### Honest confidence
+
+| Case | Confidence | Why |
+|---|---|---|
+| ARCI, other years | High | Same template, four periods already pass |
+| Another IDX filer, IDR, full units | Medium | Labels and titles broadened, but never run |
+| Filer reporting in thousands | Medium-low | Scale path now has a deterministic reader, still untested on a real filing |
+| Scanned filing (no text layer) | Low | `ocr_pages()` is wired in but has never processed a real scan |
+
+The design leans in a useful direction here: grounding does not depend on the issuer
+at all, and neither do the balance-sheet identity or containment rules. A new issuer
+is therefore more likely to produce **abstentions and validation errors** than
+confident wrong numbers — the system should fail loudly rather than quietly.
+
+`TLDN.xlsx` ground truth is already in the repo (IDR, 2024–2026); dropping one TLDN
+filing into `data/raw/` and running `python scripts/run_eval.py --ticker TLDN` would
+exercise all three untested paths at once. That is the single highest-value next test.
 
 ## Not built yet
 

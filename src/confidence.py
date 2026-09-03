@@ -69,6 +69,15 @@ def _indonesian_forms(value: float) -> list:
     return forms
 
 
+# PDF text layers routinely break a number across a space -- CPIN's extracts
+# "14.406" as "1 4.406". Searching the raw text alone reports the figure as absent
+# and the guard then abstains on a value that is printed perfectly well. Removing
+# spaces BETWEEN DIGITS repairs that without touching anything else; adjacent columns
+# may run together ("26.340.959 25.149.999" -> "26.340.95925.149.999") but a
+# substring search still finds either figure inside the join.
+_DIGIT_GAP = re.compile(r"(?<=\d)[ \t]+(?=\d)")
+
+
 def check_grounding(value, document_text: str) -> Optional[bool]:
     """Is this value printed in the document? None if it cannot be checked."""
     if not document_text or value is None:
@@ -76,9 +85,14 @@ def check_grounding(value, document_text: str) -> Optional[bool]:
     if isinstance(value, str):
         return None          # dates are reformatted to ISO; not comparable verbatim
     try:
-        return any(form in document_text for form in _indonesian_forms(float(value)))
+        forms = _indonesian_forms(float(value))
     except (TypeError, ValueError):
         return None
+
+    if any(form in document_text for form in forms):
+        return True
+    # Second pass over a copy with intra-number spacing repaired.
+    return any(form in _DIGIT_GAP.sub("", document_text) for form in forms)
 
 
 def score_extraction(extraction, document_text: str, issues: list) -> dict:

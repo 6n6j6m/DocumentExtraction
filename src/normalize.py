@@ -110,7 +110,31 @@ def extract_fx_rate(pdf_path: str) -> Optional[FxRate]:
     return pair_fallback
 
 
-def to_idr(extraction, fx: Optional[FxRate] = None, pdf_path: Optional[str] = None) -> dict:
+_SCALE_PATTERNS = [
+    ("BILLIONS", re.compile(r"dalam\s+miliar|in\s+billions", re.I)),
+    ("MILLIONS", re.compile(r"dalam\s+juta|in\s+millions", re.I)),
+    ("THOUSANDS", re.compile(r"dalam\s+ribu|in\s+thousands", re.I)),
+]
+
+
+def detect_scale(document_text: str) -> Optional[str]:
+    """Read the reporting scale from the statement header.
+
+    The model is asked for this too, but scale is the single most damaging field to
+    get wrong -- a missed "dalam ribuan" is a 1000x error in every figure, and it is
+    stated in plain text a fixed distance from the title. Reading it directly gives
+    an independent answer to check the model's against.
+    """
+    if not document_text:
+        return None
+    for name, pattern in _SCALE_PATTERNS:
+        if pattern.search(document_text):
+            return name
+    return None
+
+
+def to_idr(extraction, fx: Optional[FxRate] = None, pdf_path: Optional[str] = None,
+           document_text: Optional[str] = None) -> dict:
     """Convert an extraction's monetary fields to full Rupiah.
 
     Args:
@@ -131,13 +155,42 @@ def to_idr(extraction, fx: Optional[FxRate] = None, pdf_path: Optional[str] = No
     """
     warnings = []
 
-    scale_name = (getattr(extraction, "reporting_scale", None) or "FULL").upper()
+    stated_scale = getattr(extraction, "reporting_scale", None)
+    scale_name = (stated_scale or "FULL").upper()
+
+    detected = detect_scale(document_text or "")
+    if stated_scale is None and not document_text:
+        # Nothing said the scale and there is no text to read it from. FULL is the
+        # only sane default, but it is a guess, and a wrong one multiplies every
+        # figure by a thousand -- so it is recorded rather than assumed silently.
+        warnings.append("reporting_scale is absent and no document text was supplied "
+                        "to read it from; assuming FULL")
+    if detected and detected != scale_name:
+        # Trust the printed header over the model: it is unambiguous and a wrong
+        # scale multiplies every figure by a thousand or more.
+        warnings.append(f"model said scale {scale_name}, header says {detected} - "
+                        f"using {detected}")
+        scale_name = detected
+    elif detected is None and scale_name != "FULL":
+        warnings.append(f"model said scale {scale_name} but no scale wording was "
+                        f"found in the text")
     if scale_name not in SCALE_MULTIPLIER:
         warnings.append(f"Unknown reporting_scale {scale_name!r}, assuming FULL")
         scale_name = "FULL"
     scale = SCALE_MULTIPLIER[scale_name]
 
-    currency = (extraction.currency or "").upper()
+    # A MISSING currency and an UNRECOGNISED one are different situations. Missing is
+    # what an abstention leaves behind: the confidence layer decided the value was not
+    # worth asserting, and quietly assuming IDR turns that refusal into a silent
+    # ~14,000x error on a USD filer. Refuse instead -- the whole point of abstaining is
+    # that nothing downstream should proceed on the value.
+    if getattr(extraction, "currency", None) is None:
+        raise ValueError(
+            "Reporting currency is absent (not extracted, or abstained on). "
+            "Refusing to normalise: assuming a currency would silently misstate every "
+            "figure by the exchange rate."
+        )
+    currency = str(extraction.currency).upper()
     if currency not in ("IDR", "USD"):
         warnings.append(f"Unknown currency {currency!r}, assuming IDR (no conversion)")
         currency = "IDR"

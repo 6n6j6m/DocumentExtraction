@@ -31,15 +31,16 @@ from confidence import score_extraction, apply_abstention
 
 
 class ExtractorConfig:
-    """Configuration for extraction."""
+    """Pipeline settings that are not provider-specific.
+
+    Deliberately does NOT require GEMINI_API_KEY. This object is built at the top of
+    every extraction, including a fully local Ollama run, so demanding a hosted
+    provider's key here made `LLM_PROVIDER=ollama` fail before a single page was
+    read. Each provider validates its own credentials in `llm.py` and raises
+    LLMUnavailable, which the caller already knows how to fall back from.
+    """
     def __init__(self):
-        self.api_key = os.getenv("GEMINI_API_KEY")
-        self.model_name = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
         self.max_pdf_pages = int(os.getenv("MAX_PDF_PAGES", "20"))
-        self.api_url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model_name}:generateContent"
-        
-        if not self.api_key:
-            raise ValueError("GEMINI_API_KEY environment variable not set")
 
 
 def render_pdf_page_to_image(pdf_path: str, page_num: int, dpi: int = 150) -> bytes:
@@ -141,6 +142,32 @@ def build_document_text(page_texts: dict) -> str:
     return "\n\n".join(blocks)
 
 
+def _parse_indonesian_number(text: str) -> Optional[float]:
+    """Parse a figure as an Indonesian statement prints it.
+
+    DOT groups thousands, COMMA is the decimal point, and parentheses mean negative.
+    Counting the dots to decide whether they are separators is not enough: a single
+    group ("694.671") is indistinguishable from a decimal by shape alone, and reading
+    it as one understates the figure by a thousand. The convention is fixed here, so
+    it is applied unconditionally instead of guessed per value.
+    """
+    text = text.strip()
+    if not text:
+        return None
+    negative = text.startswith("(") and text.endswith(")")
+    body = text[1:-1] if negative else text
+    body = body.replace(".", "")          # thousands separators
+    body = body.replace(",", ".")         # decimal comma -> decimal point
+    body = re.sub(r"[^\d.\-]", "", body)
+    if not body or body in ("-", "."):
+        return None
+    try:
+        value = float(body)
+    except ValueError:
+        return None
+    return -value if negative else value
+
+
 def _coerce_numbers(data: dict) -> dict:
     """Turn numeric strings into floats; leave anything unparseable as None."""
     numeric = [f for f in FIELDS if f not in
@@ -151,9 +178,10 @@ def _coerce_numbers(data: dict) -> dict:
             data[key] = None
             continue
         if isinstance(value, str):
-            # Model was told to strip separators, but be forgiving.
-            value = value.replace(".", "").replace(",", ".") if value.count(".") > 1 else value
-            value = re.sub(r"[^\d.\-]", "", value)
+            # The model was told to strip separators, but a filing's own formatting
+            # leaks through often enough to be worth handling properly.
+            data[key] = _parse_indonesian_number(value)
+            continue
         try:
             data[key] = float(value)
         except (TypeError, ValueError):
@@ -227,9 +255,11 @@ def derive_fields(extraction) -> list:
                 f"computed {computed:,.0f} - using computed")
         extraction.ekuitas = computed
 
-    if extraction.aset and extraction.liabilitas and extraction.ekuitas:
-        gap = extraction.aset - (extraction.liabilitas + extraction.total_ekuitas
-                                 if extraction.total_ekuitas else extraction.ekuitas)
+    # The identity holds on TOTAL equity, so it can only be checked when the printed
+    # total is present. Falling back to the parent-attributable figure would fail by
+    # exactly the non-controlling interest and report a balanced sheet as broken.
+    if extraction.aset and extraction.liabilitas and extraction.total_ekuitas:
+        gap = extraction.aset - (extraction.liabilitas + extraction.total_ekuitas)
         if abs(gap) > max(abs(extraction.aset) * 0.001, 1):
             warnings.append(
                 f"balance sheet does not balance: aset - (liabilitas + total ekuitas) "
@@ -523,7 +553,9 @@ if __name__ == "__main__":
             print(f"  {name:30}{s['confidence']:>6.2f}  {mark}")
 
     try:
-        norm = to_idr(result, pdf_path=test_pdf)
+        page_texts = read_page_texts(test_pdf, select_statement_pages(test_pdf).pages)
+        norm = to_idr(result, pdf_path=test_pdf,
+                      document_text=build_document_text(page_texts))
     except ValueError as e:
         print(f"\n\u2717 Konversi ke Rupiah gagal: {e}")
         raise SystemExit(1)

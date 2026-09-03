@@ -1,88 +1,84 @@
 ---
 name: label-groundtruth
-description: Build and audit ground truth for the document-extraction eval set. Use when labelling a new document, reviewing a pre-filled stub, or auditing an imported label from a public dataset. Enforces the separation between the pre-fill model and the evaluated model, and records every correction to an audit log.
+description: Build and audit ground truth for the financial-statement eval set. Use when labelling a new period or issuer, correcting an existing label, or auditing the spreadsheet against the filings. Keeps labelling independent of the model under evaluation and records every correction to an audit log.
 ---
 
 # Ground-truth labelling and audit
 
-Ground truth is the foundation the whole scorecard rests on. If it is wrong,
-every metric is wrong in a way no amount of care elsewhere can recover. This
-skill exists to make labelling fast enough that it actually gets done, without
-making it circular.
+Ground truth is the foundation the whole scorecard rests on. If it is wrong, every
+metric is wrong in a way no amount of care elsewhere can recover. This skill records
+the rules that labelling has to follow here, and the audit trail that makes "ground
+truth you can trust" a checkable claim rather than an assertion.
 
 ## The rule that matters most
 
 **Never let the model under evaluation write its own ground truth.**
 
-Pre-filling runs on `LLM_MODEL_STRONG`; the system being scored runs on
-`LLM_MODEL`. If they are the same, the scorecard measures the model agreeing
-with itself. `scripts/prefill_groundtruth.py` refuses to run when they match —
-do not work around that check.
+A label copied from an extraction — even a correct-looking one — turns the scorecard
+into a measurement of the model agreeing with itself. Labels are read from the filing
+by a person, or by a *different and stronger* model whose output is then checked
+field by field against the printed page before it is accepted. A pre-filled value is
+a form to correct, never an answer.
 
-A pre-filled stub is a **form to correct**, not an answer. Read every field
-against the image before accepting it.
+The same applies to the prompt: no figure from a filing in the eval set may appear as
+an example in `src/prompts.py`. Placeholder digits (`111.111.111`, `222.222.222`) are
+used there for exactly this reason.
 
-## Workflow
+## Where ground truth lives
 
-### 1. Pre-fill a stub
+`data/ground_truth/<TICKER>.xlsx`, sheet `Sheet1`:
 
-```bash
-python scripts/prefill_groundtruth.py data/raw/<doc>.<ext> --source own
-```
+- **Cell `D1`** names the issuer. `scripts/run_eval.py` refuses to score a run whose
+  `--ticker` disagrees with it — these workbooks are made by copying an existing one,
+  and a copy that was never re-labelled would otherwise score one issuer against
+  another's figures.
+- **Row 3** holds the period headers: `Q1 2022`, `Q2 2022`, `Q3 2022`, and
+  `TAHUNAN <year>` for the annual (Q4) report, whose figures are cumulative.
+- **Rows 4–13** are the scored fields, mapped by `EXCEL_ROWS` in `src/schema.py`. The
+  sheet is the system of record for field naming: if a label in column A is edited,
+  edit `EXCEL_ROWS` to match rather than renaming the field.
+- Values are stated in **full Rupiah**. An empty cell means *not yet labelled* and is
+  excluded from scoring — it is not an assertion that the figure is absent.
 
-Writes `data/ground_truth/_stubs/<doc>.json` plus a `.transcription.txt`.
-Nothing lands in `data/ground_truth/` yet.
+## Labelling a period
 
-### 2. Review against the document
+1. **Open the filing itself**, not a summary or a previous year's sheet.
+2. **Read the current-period column.** Consolidated vs parent-entity, and
+   current-period vs comparative, are the two easiest columns to take by mistake.
+   *Check the column header date, not the row position.* This is the single most
+   common labelling error, and it is also the extractor's most common failure — so a
+   mistake here can silently agree with a wrong extraction.
+3. **Take the parent-attributable subtotal** for `ekuitas` and `laba_bersih`, per the
+   sheet's own header, `(HANYA YANG BISA DIATRIBUSIKAN KE ENTITAS INDUK SAJA)`. Where
+   non-controlling interest is negative the parent share is *larger* than the printed
+   total — the opposite of the usual intuition, and the source of a real error already
+   logged in `CORRECTIONS.md`.
+4. **Note the scale and currency printed in the header** before converting anything.
+   A missed "dalam ribuan" is a 1000x error in every figure on the page.
+5. **Record how the figure reached full Rupiah.** For an issuer reporting in USD the
+   conversion uses the rate the filing itself discloses (see `src/normalize.py`), so
+   the label and the pipeline share a rate. That makes the converted comparison
+   non-independent, and the README says so; do not present it as a test of conversion.
 
-Open the image or PDF and check each field. Look specifically for:
+## Log every correction
 
-- **Absent vs missed.** If the document has no invoice number, the value is
-  `null` *and* the field stays out of `_unlabelled`. `null` is a positive
-  assertion of absence, and the evaluator scores it as such. Only put a field
-  in `_unlabelled` when you have not determined the truth — then it is
-  excluded from scoring instead of being scored against a guess.
-- **Values as printed.** Keep `"15.000"`, not `15000`. Normalisation happens
-  in one place (`src/normalize.py`) so that ground truth and predictions are
-  parsed identically. Pre-normalising here breaks that.
-- **Line-item order.** Must follow the printed order.
-- **Scale.** Financial statements often print "in millions". The ground truth
-  records what is printed, and the units field carries the scale.
-- **Which column.** On financial statements, consolidated vs parent-entity and
-  current-period vs comparative are the two easiest columns to take by
-  mistake. Check the column header, not the row position.
+Any change to a label after it was first entered goes in
+`data/ground_truth/CORRECTIONS.md`, one entry per cell, with:
 
-### 3. Log every correction
+- the cell reference, the old value and the new one
+- **origin** — where the wrong value came from (manual labelling, an import, a
+  pre-fill)
+- **found by** — what surfaced it, which is what shows the audit was real
+- **evidence** from the filing, with the page
+- **consequence if left** — which downstream metrics the error would have biased
+- any **guard added** so the same class of error is caught next time
 
-```bash
-python scripts/log_correction.py <doc_id> <field> "<was>" "<now>" "<reason>" --origin prefill
-```
-
-Use `--origin cord-v2` when correcting an imported public-dataset label. Those
-entries are the most valuable ones in the repo: they are direct evidence that
-the imported labels were audited rather than trusted, and the README cites the
-count.
-
-### 4. Promote to ground truth
-
-Set `"_reviewed": true`, add `_reviewer_notes` if anything was ambiguous, then
-move the file into `data/ground_truth/`.
-
-```bash
-mv data/ground_truth/_stubs/<doc>.json data/ground_truth/
-```
-
-## When labelling by hand instead
-
-For a blind-labelling subset — used to check that the pre-fill process is not
-biasing the labels — skip step 1 entirely, write the JSON directly, and set
-`"_prefill_model": null`. Comparing blind labels against pre-fill-corrected
-labels on the same documents is what justifies trusting the rest.
+The existing ARCI `ekuitas` entry is the worked example to follow.
 
 ## Invariants to preserve
 
-- `_doc_key` is the record identifier and matches the source filename stem.
-- `document_id` is a *field* — the number printed on the document — and is
-  never set to the filename.
-- A field is either labelled (a value or `null`) or in `_unlabelled`. Never
-  both, never neither.
+- The sheet names its own issuer in `D1`, and it matches the filename.
+- Empty means unlabelled, not absent. If a filing genuinely does not report a field,
+  say so in `CORRECTIONS.md` rather than leaving an ambiguous blank cell.
+- A label is never adjusted to make the scorecard look better. If a label and an
+  extraction disagree, the filing is the tiebreaker, and whichever loses gets fixed.

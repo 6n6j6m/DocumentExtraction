@@ -103,11 +103,36 @@ def validate(e) -> list:
 
 
 # Section headings that decide which "Utang bank" row is which.
-_SECTIONS = [
-    ("short_term", re.compile(r"Liabilitas Jangka Pendek", re.I)),
-    ("current_maturity", re.compile(r"Bagian lancar atas", re.I)),
-    ("long_term", re.compile(r"Liabilitas jangka panjang, setelah", re.I)),
-]
+# Wording varies by issuer, so each heading is matched on its distinguishing words
+# rather than one filer's exact phrase.
+# Heading classification is precedence logic, not pattern matching, because the
+# phrases overlap: "Bagian lancar atas liabilitas jangka panjang" (a CURRENT heading)
+# contains "liabilitas jangka panjang", and "Liabilitas jangka panjang, setelah
+# dikurangi bagian lancar" (a NON-CURRENT heading) contains "bagian lancar". Whichever
+# regex is tried first steals the other's line. Spelling the precedence out keeps it
+# readable and makes the two exceptions explicit.
+_RE_BAGIAN = re.compile(r"bagian\s+lancar|jatuh\s+tempo", re.I)
+_RE_NETTING = re.compile(r"dikurangi|setelah", re.I)
+_RE_PANJANG = re.compile(r"(liabilitas|kewajiban)\s+jangka\s+panjang", re.I)
+_RE_PENDEK = re.compile(r"(liabilitas|kewajiban)\s+jangka\s+pendek", re.I)
+
+
+def _section_of(line: str):
+    """Which bank-debt section a heading line opens, or None if it is not a heading."""
+    mentions_current_portion = _RE_BAGIAN.search(line)
+    is_netted_off = _RE_NETTING.search(line)
+
+    # "Bagian lancar atas liabilitas jangka panjang:" -- the current portion.
+    if mentions_current_portion and not is_netted_off:
+        return "current_maturity"
+    # "Liabilitas jangka panjang, setelah dikurangi bagian lancar:" -- what remains.
+    if _RE_PANJANG.search(line) or (is_netted_off and mentions_current_portion):
+        return "long_term"
+    if _RE_PENDEK.search(line):
+        return "short_term"
+    return None
+
+
 _BANK_ROW = re.compile(r"^\s*Utang bank[^\d]*?([\d.]{6,})", re.I)
 
 
@@ -119,14 +144,18 @@ def _bank_rows_by_section(document_text: str) -> dict:
     """
     found, current = {}, None
     for line in document_text.split("\n"):
-        for name, pattern in _SECTIONS:
-            if pattern.search(line):
-                current = name
-                break
+        section = _section_of(line)
+        if section:
+            current = section
         match = _BANK_ROW.match(line)
-        if match and current and current not in found:
+        if match and current:
             try:
-                found[current] = float(match.group(1).replace(".", ""))
+                # Every bank row under the heading, not just the first. Issuers split
+                # bank debt across several rows, and JPFA files the current portion of
+                # its long-term loans under the CURRENT-liabilities heading while still
+                # labelling the row "Utang bank jangka panjang" -- keeping only the
+                # first row there would lose it.
+                found.setdefault(current, []).append(float(match.group(1).replace(".", "")))
             except ValueError:
                 pass
     return found
@@ -145,28 +174,60 @@ def validate_against_document(e, document_text: str) -> list:
         return issues
 
     rows = _bank_rows_by_section(document_text)
-    long_term = rows.get("long_term")
 
+    # Say so when the guard could not run. If an issuer words its headings in a way
+    # these patterns miss, the map comes back empty and every check below is skipped
+    # -- the guard would stop working while confidence stayed high. A warning makes
+    # that visible instead of silent.
+    if (e.utang_bank_jangka_pendek is not None or e.utang_bank_bagian_lancar is not None) \
+            and len(rows) < 2:
+        issues.append(ValidationIssue(
+            "section_map_incomplete", WARNING,
+            f"could only locate {sorted(rows) or 'no'} bank-debt section(s) in the text; "
+            f"the wrong-row check did not run for this filing",
+            ("utang_bank", "utang_bank_jangka_pendek", "utang_bank_bagian_lancar")))
+        return issues
+
+    # May be absent: an issuer's non-current section can fall outside the selected
+    # pages. Absent means "nothing to exclude", not "crash".
+    long_term = rows.get("long_term") or []
+
+    # The current portion of long-term bank debt sits under the CURRENT-liabilities
+    # heading whatever the row is called, so it is looked for there as well as under
+    # an explicit "Bagian lancar" sub-heading.
     checks = [
         ("utang_bank_jangka_pendek", "short_term"),
         ("utang_bank_bagian_lancar", "current_maturity"),
     ]
+    if "current_maturity" not in rows and "short_term" in rows:
+        rows["current_maturity"] = rows["short_term"]
     for field, section in checks:
         value = getattr(e, field, None)
         if value is None:
             continue
-        if long_term is not None and abs(value - long_term) < 1:
+        if any(abs(value - lt) < 1 for lt in long_term):
             issues.append(ValidationIssue(
                 "wrong_section", ERROR,
-                f"{field} equals the NON-CURRENT bank loan ({long_term:,.0f}); "
+                f"{field} equals a NON-CURRENT bank loan ({value:,.0f}); "
                 f"that row must be excluded",
                 (field, "utang_bank")))
             continue
-        expected = rows.get(section)
-        if expected is not None and abs(value - expected) > 1:
+
+        candidates = rows.get(section)
+        if not candidates:
+            # The heading this field belongs under was not found. Skipping quietly
+            # would disable the check for this issuer while confidence stayed high.
+            issues.append(ValidationIssue(
+                "section_map_incomplete", WARNING,
+                f"no '{section}' bank-debt section found; {field} could not be "
+                f"position-checked (issuer wording may differ)",
+                (field, "utang_bank")))
+            continue
+
+        if not any(abs(value - c) < 1 for c in candidates):
             issues.append(ValidationIssue(
                 "wrong_section", ERROR,
-                f"{field} is {value:,.0f} but the row under its section reads "
-                f"{expected:,.0f}",
+                f"{field} is {value:,.0f} but the rows under its section read "
+                f"{', '.join(f'{c:,.0f}' for c in candidates)}",
                 (field, "utang_bank")))
     return issues

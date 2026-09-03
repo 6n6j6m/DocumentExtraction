@@ -1,5 +1,9 @@
 """
-Financial statement extraction schema for PT Archi Indonesia (ARCI).
+Financial statement extraction schema for Indonesian (IDX) filings.
+
+The label examples below follow PSAK terminology rather than one issuer's wording.
+The system was developed against ARCI and has only been scored on it, but nothing
+in this schema is specific to that issuer.
 """
 
 from dataclasses import dataclass
@@ -8,9 +12,9 @@ from typing import Optional
 
 @dataclass
 class FinancialStatementExtraction:
-    """Extracted financial statement fields from ARCI filings.
-    
-    Field mapping and keyword rules:
+    """Extracted financial statement fields from an IDX filing.
+
+    Field mapping and keyword rules (common variants are listed in src/prompts.py):
     
     - total_share: "disetor penuh pada tanggal [date]" (most recent date)
     - aset: "Total Aset"
