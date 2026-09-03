@@ -33,6 +33,7 @@ import time
 from datetime import datetime, timezone
 import sys
 from pathlib import Path
+from typing import Optional
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
@@ -43,6 +44,7 @@ from schema import FinancialStatementExtraction, EXCEL_ROWS
 from normalize import to_idr, extract_fx_rate
 from extract import extract_from_pdf
 from llm import get_provider_with_fallback, LLMError
+from usage import Usage
 
 HEADER_ROW = 3
 
@@ -149,19 +151,74 @@ def load_ground_truth(xlsx_path: Path, period_label: str, ticker: str = None) ->
     return truth
 
 
-def predict(pdf_path: Path, cache_path: Path, use_cache: bool):
-    """Extract from a filing, caching the raw (as-printed) result."""
+def extract_via_api(pdf_path: Path, api_url: str, timeout: int = 600):
+    """Extract by POSTing the filing to a running service.
+
+    The only difference from the in-process path is *where the extraction happens*.
+    Everything after this -- normalising to Rupiah, comparing, classifying failures --
+    is the same code operating on the same object, which is what makes the two paths
+    comparable by construction rather than by inspection. A second scoring
+    implementation for the service would be a second thing to keep correct, and the
+    scorecard could not then be used to say whether the service and the library agree.
+
+    Raises LLMError so the caller's existing per-period recovery applies unchanged.
+    """
+    import httpx
+
+    url = api_url.rstrip("/") + "/extract"
+    try:
+        with open(pdf_path, "rb") as handle:
+            response = httpx.post(
+                url,
+                files={"file": (pdf_path.name, handle, "application/pdf")},
+                timeout=timeout,
+            )
+    except httpx.HTTPError as exc:
+        raise LLMError(f"could not reach {url}: {exc}")
+
+    if response.status_code == 503:
+        # The service is up but its provider is not. Same meaning as the in-process
+        # LLMUnavailable, and the caller already knows what to do with it.
+        raise LLMError(f"API reports provider unavailable: "
+                       f"{response.json().get('detail', response.text)[:200]}")
+    if response.status_code != 200:
+        raise LLMError(f"API {response.status_code}: {response.text[:200]}")
+
+    body = response.json()
+    result = FinancialStatementExtraction.from_dict(body["extraction"])
+    result.field_confidence = body.get("confidence", {})
+    result.usage_dict = body.get("usage")
+    return result
+
+
+def predict(pdf_path: Path, cache_path: Path, use_cache: bool,
+            api_url: Optional[str] = None):
+    """Extract from a filing, caching the raw (as-printed) result.
+
+    `api_url` chooses WHERE extraction runs, not how it is scored.
+    """
     if use_cache and cache_path.exists():
         data = json.loads(cache_path.read_text())
-        result = FinancialStatementExtraction.from_dict(data)
+        # Cached payloads are read back through the same type checks as a live model
+        # response: a hand-edited or stale cache is exactly the kind of input that used
+        # to raise deep inside a validation rule instead of being rejected here.
+        result = FinancialStatementExtraction.from_dict(
+            {k: v for k, v in data.items() if not k.startswith("_")})
         # Confidence lives beside the fields rather than inside the dataclass, so it
         # has to be restored explicitly or a cached run loses it silently.
         result.field_confidence = data.get("_confidence", {})
         result.elapsed_s = data.get("_elapsed_s")
+        result.usage_dict = data.get("_usage")
         return result, True
 
     started = time.time()
-    result = extract_from_pdf(str(pdf_path))
+    if api_url:
+        result = extract_via_api(pdf_path, api_url)
+    else:
+        usage = Usage()
+        result = extract_from_pdf(str(pdf_path), usage=usage)
+        if result is not None:
+            result.usage_dict = usage.to_dict()
     if result is None:
         return None, False
     result.elapsed_s = round(time.time() - started, 1)
@@ -169,6 +226,7 @@ def predict(pdf_path: Path, cache_path: Path, use_cache: bool):
     payload = result.to_dict()
     payload["_confidence"] = getattr(result, "field_confidence", {})
     payload["_elapsed_s"] = result.elapsed_s
+    payload["_usage"] = getattr(result, "usage_dict", None)
     cache_path.parent.mkdir(parents=True, exist_ok=True)
     cache_path.write_text(json.dumps(payload, indent=2))
     return result, False
@@ -222,6 +280,10 @@ def main():
     ap.add_argument("--no-cache", action="store_true")
     ap.add_argument("--out", default="output")
     ap.add_argument("--provider", help="override LLM_PROVIDER for this run (gemini|ollama)")
+    ap.add_argument("--api-url", default=os.getenv("EVAL_TARGET") or None,
+                    help="score a running service instead of the library "
+                         "(e.g. http://localhost:8000). Defaults to $EVAL_TARGET; "
+                         "empty means in-process, so the tests need no container.")
     args = ap.parse_args()
 
     PERIODS = discover_periods(args.ticker)
@@ -233,12 +295,36 @@ def main():
     if args.provider:
         os.environ["LLM_PROVIDER"] = args.provider
         os.environ["LLM_FALLBACK_PROVIDER"] = ""   # comparing providers means no silent switch
-    _p = get_provider_with_fallback()[0]
+    if args.api_url:
+        # The service decides which model answers; reading LLM_PROVIDER here would tag
+        # the scorecard with this process's configuration and quietly mislabel the run.
+        import httpx
+        try:
+            health = httpx.get(args.api_url.rstrip("/") + "/health", timeout=30).json()
+        except Exception as exc:
+            print(f"cannot reach {args.api_url}: {exc}")
+            return 2
+        print(f"target: {args.api_url}  ({health['provider']} [{health['input_mode']}], "
+              f"commit {health.get('git_commit')})")
+
+        class _Remote:
+            name = health["provider"]
+            input_mode = health["input_mode"]
+        _p = _Remote()
+    else:
+        _p = get_provider_with_fallback()[0]
     # The input mode changes what the model is shown, so two runs of the same model
     # are different experiments. Without it in the tag they overwrite each other and
     # the comparison silently becomes a comparison of a run with itself.
     provider_tag = (f"{_p.name}_{getattr(_p, 'input_mode', 'text')}"
                     .replace(":", "_").replace("/", "_"))
+    # Scoring the service and scoring the library are two experiments, even when the
+    # model behind them is the same one. Without this the API run overwrites the local
+    # run's scorecard and its cached predictions, and the comparison that is supposed to
+    # prove the two paths agree quietly becomes a run compared with itself -- the exact
+    # failure the input mode is already in this name to prevent.
+    if args.api_url:
+        provider_tag += "_api"
     # A subset run gets its own filename. Otherwise `--periods Q1` overwrites the
     # full four-period scorecard with a one-period one, and the committed artifact
     # quietly stops meaning what its name says -- which happened once already.
@@ -272,7 +358,7 @@ def main():
         try:
             pred, cached = predict(
                 pdf, out_dir / "predictions" / provider_tag / f"{key}.json",
-                not args.no_cache)
+                not args.no_cache, api_url=args.api_url)
         except LLMError as exc:
             print(f"  extraction failed: {exc}")
             report["periods"][key] = {"error": str(exc)}
@@ -332,6 +418,7 @@ def main():
         abstained = [f for f, r in rows.items() if r.get("abstained")]
         report["periods"][key] = {"fx_rate": rate, "fields": rows,
                                   "elapsed_s": getattr(pred, "elapsed_s", None),
+                                  "usage": getattr(pred, "usage_dict", None),
                                   "abstained": abstained}
 
     total_scored = tally["correct"] + tally["wrong"] + tally["missed"]
@@ -349,9 +436,50 @@ def main():
     if total_scored:
         print(f"\n  accuracy     {tally['correct']/total_scored:.1%}  ({tally['correct']}/{total_scored})")
 
+    # Totals across the run. Summed from what each period reported rather than
+    # recomputed, so a cached period contributes the usage of the run that produced it
+    # and a period that failed contributes nothing instead of a zero that reads as free.
+    per_period = [p.get("usage") for p in report["periods"].values() if p.get("usage")]
+    if per_period:
+        tokens_in = [u["tokens"]["input"] for u in per_period
+                     if u.get("tokens", {}).get("input") is not None]
+        tokens_out = [u["tokens"]["output"] for u in per_period
+                      if u.get("tokens", {}).get("output") is not None]
+        priced = [u["cost"]["amount"] for u in per_period
+                  if u.get("cost", {}).get("amount") is not None]
+        totals = {
+            "documents": len(per_period),
+            "llm_calls": sum(u.get("llm_calls", 0) for u in per_period),
+            "tokens": {"input": sum(tokens_in) if tokens_in else None,
+                       "output": sum(tokens_out) if tokens_out else None},
+            "cost": {"amount": round(sum(priced), 6) if len(priced) == len(per_period)
+                                else None,
+                     "currency": per_period[0].get("cost", {}).get("currency", "USD"),
+                     "reason": None if len(priced) == len(per_period)
+                               else per_period[0].get("cost", {}).get("reason")},
+        }
+        report["usage"] = totals
+        print("\n  usage")
+        print(f"    documents           {totals['documents']:>3}")
+        print(f"    LLM calls           {totals['llm_calls']:>3}")
+        t = totals["tokens"]
+        print(f"    tokens              {t['input'] if t['input'] is not None else '-'} in"
+              f" / {t['output'] if t['output'] is not None else '-'} out")
+        cost = totals["cost"]
+        if cost["amount"] is not None:
+            print(f"    cost                {cost['amount']} {cost['currency']}")
+        else:
+            print(f"    cost                -  ({cost['reason']})")
+        elapsed = [p.get("elapsed_s") for p in report["periods"].values()
+                   if p.get("elapsed_s")]
+        if elapsed:
+            print(f"    latency             {min(elapsed):.0f}-{max(elapsed):.0f}s per "
+                  f"document (mean {sum(elapsed)/len(elapsed):.0f}s)")
+
     report["summary"] = tally
     report["failure_kinds"] = failure_kinds
     report["provider"] = provider_tag
+    report["target"] = args.api_url or "in-process"
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / scorecard_name).write_text(json.dumps(report, indent=2, default=str))
     print(f"\n  written to {out_dir / scorecard_name}")

@@ -125,7 +125,43 @@ Concurrency measured rather than assumed, same two filings through `/extract/bat
 
 ## Stage 3 — Evaluation through the API
 
-Not started.
+**Done**
+
+- `scripts/run_eval.py` takes `--api-url` (defaulting to `$EVAL_TARGET`). Empty means
+  the in-process path, which stays the default so the tests need no container.
+  `extract_via_api` posts the filing and returns the same `FinancialStatementExtraction`
+  the library would have produced; **everything after that is the same code** —
+  normalising to Rupiah, comparing, classifying failures. There is no second scoring
+  implementation to keep in step.
+- The API run is tagged `..._api` in the scorecard and prediction-cache names. Without
+  it the two runs overwrite each other and the comparison meant to prove they agree
+  becomes a run compared with itself — the same trap the input mode is already in that
+  name to prevent.
+- When targeting a service, the provider is read from its `/health` rather than from
+  this process's environment, which would otherwise mislabel the run with the client's
+  configuration.
+- Usage totals per period and per run land in the scorecard and the CLI summary.
+
+**Verified** — both paths, `--no-cache`, four ARCI periods:
+
+```
+in-process             40/40   13 LLM calls   75,151 in / 4,085 out   24-65s (mean 45s)
+http://localhost:8077  40/40   13 LLM calls   75,151 in / 4,085 out   25-40s (mean 31s)
+```
+
+`compare_runs.py` between them: **no regressions**. And cell by cell, which is the
+stronger claim:
+
+```
+sel dibandingkan: 40
+sel berbeda     : 0   (status, as-printed value and IDR value identical in all 40)
+```
+
+**Open**
+
+- The latency difference between the two runs is not a property of the API: the
+  in-process run OCR'd nothing but paid page selection cold, and per-document times vary
+  by filing. Not reported as a speed-up, because one pair of runs cannot support that.
 
 ## Stage 4 — Docker
 

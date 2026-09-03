@@ -140,5 +140,32 @@
       ]
     }
   },
-  "_elapsed_s": 24.4
+  "_elapsed_s": 64.6,
+  "_usage": {
+    "llm_calls": 3,
+    "tokens": {
+      "input": 18019,
+      "output": 1014
+    },
+    "latency_ms": {
+      "select_pages": 5307,
+      "read_text": 689,
+      "assess": 3,
+      "extract": 58540
+    },
+    "cost": {
+      "amount": null,
+      "currency": "USD",
+      "per_model": [
+        {
+          "model": "gemini-3.1-flash-lite",
+          "input_tokens": 18019,
+          "output_tokens": 1014,
+          "amount": null
+        }
+      ],
+      "reason": "no price configured for gemini-3.1-flash-lite - add it to /Users/muhammadnajmirahmani/Belajar/ProjectDatasaur/config/pricing.json"
+    },
+    "notes": []
+  }
 }

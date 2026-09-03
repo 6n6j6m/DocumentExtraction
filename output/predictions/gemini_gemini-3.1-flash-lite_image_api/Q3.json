@@ -1,19 +1,19 @@
 {
-  "period_end_date": "2022-03-31",
-  "aset": 694671337.0,
-  "total_aset_lancar": 73325265.0,
-  "kas": 23125502.0,
-  "liabilitas": 452486029.0,
-  "utang_bank": 102357484.0,
-  "ekuitas": 242262040.0,
-  "pendapatan": 80129305.0,
-  "laba_bersih": 9450480.0,
-  "kas_dari_aktivitas_operasi": 36388972.0,
+  "period_end_date": "2022-09-30",
+  "aset": 723462894.0,
+  "total_aset_lancar": 74923367.0,
+  "kas": 9586906.0,
+  "liabilitas": 475480467.0,
+  "utang_bank": 80157017.0,
+  "ekuitas": 248127613.0,
+  "pendapatan": 165645314.0,
+  "laba_bersih": 15206789.0,
+  "kas_dari_aktivitas_operasi": 36780985.0,
   "total_share": 24835000000.0,
-  "utang_bank_jangka_pendek": 34220811.0,
-  "utang_bank_bagian_lancar": 68136673.0,
-  "total_ekuitas": 242185308.0,
-  "kepentingan_non_pengendali": -76732.0,
+  "utang_bank_jangka_pendek": 61657211.0,
+  "utang_bank_bagian_lancar": 18499806.0,
+  "total_ekuitas": 247982427.0,
+  "kepentingan_non_pengendali": -145186.0,
   "total_share_components": null,
   "currency": "USD",
   "reporting_scale": "FULL",
@@ -140,31 +140,31 @@
       ]
     }
   },
-  "_elapsed_s": 23.5,
+  "_elapsed_s": 28.7,
   "_usage": {
     "llm_calls": 3,
     "tokens": {
       "input": 18019,
-      "output": 982
+      "output": 947
     },
     "latency_ms": {
       "select_pages": 5750,
-      "read_text": 293,
-      "assess": 4,
-      "extract": 17391
+      "read_text": 258,
+      "assess": 3,
+      "extract": 22641
     },
     "cost": {
       "amount": null,
       "currency": "USD",
+      "reason": "no price configured for gemini-3.1-flash-lite - add it to /Users/muhammadnajmirahmani/Belajar/ProjectDatasaur/config/pricing.json",
       "per_model": [
         {
           "model": "gemini-3.1-flash-lite",
           "input_tokens": 18019,
-          "output_tokens": 982,
+          "output_tokens": 947,
           "amount": null
         }
-      ],
-      "reason": "no price configured for gemini-3.1-flash-lite - add it to /Users/muhammadnajmirahmani/Belajar/ProjectDatasaur/config/pricing.json"
+      ]
     },
     "notes": []
   }
