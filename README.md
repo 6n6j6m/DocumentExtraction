@@ -195,8 +195,10 @@ Committed artifacts, so nothing has to be taken on trust:
 
 | File | What it is |
 |---|---|
-| `output/scorecard_gemini_gemini-3.1-flash-lite_image.json` | the 40/40 run, in process |
-| `output/scorecard_gemini_gemini-3.1-flash-lite_image_api.json` | the same, scored through the containerised API |
+| `output/scorecard_ARCI_gemini_gemini-3.1-flash-lite_image.json` | ARCI 40/40, in process |
+| `output/scorecard_ARCI_gemini_gemini-3.1-flash-lite_image_api.json` | ARCI 40/40, through the containerised API |
+| `output/scorecard_JPFA_gemini_gemini-3.1-flash-lite_image_api.json` | JPFA **36/36**, through the API |
+| `output/scorecard_JPFA_gemini_gemini-3.1-flash-lite_image.json` | JPFA **33/36** — the same code, three abstentions. The pair is the point |
 | `output/scorecard_container_2026-09-03_upstream_503.json` | a **39/40** run, kept because it is the only real failure on record |
 | `output/scorecard_baseline_2026-09-03_leaked_prompt.json` | an older run, so `compare_runs.py` can be demonstrated immediately |
 | `data/ground_truth/CORRECTIONS.md` | every label changed after entry, with the evidence |
@@ -205,7 +207,7 @@ Committed artifacts, so nothing has to be taken on trust:
 ```bash
 # see the regression gate work, no API key needed
 python scripts/compare_runs.py output/scorecard_container_2026-09-03_upstream_503.json \
-                               output/scorecard_gemini_gemini-3.1-flash-lite_image_api.json
+                               output/scorecard_ARCI_gemini_gemini-3.1-flash-lite_image_api.json
 ```
 
 ---
@@ -278,8 +280,9 @@ awkward in ways that matter:
 Ground truth lives in `data/ground_truth/ARCI.xlsx`, one column per period. It was
 labelled by hand from the filings and is stated in full Rupiah.
 
-Three further issuers are in `data/raw/` and are used to test generalisation rather
-than accuracy, because none of them is labelled yet:
+Three further issuers are in `data/raw/`. **JPFA is labelled and scored**; CPIN and EMAS
+are extracted and self-checked but have no labels, so they test generalisation rather
+than accuracy:
 
 | Issuer | Filings | What it adds that ARCI does not have |
 |---|---|---|
@@ -547,9 +550,14 @@ Design points that matter:
   | `wrong_near_miss` | within 5% — a neighbouring row or the comparative column |
   | `wrong_value` | none of the above |
 - **Exit code 1 when anything is `wrong`**, so it can gate CI.
-- **Per-provider, per-mode scorecards.** `scorecard_<provider>_<model>_<mode>.json` —
-  without the mode in the name, a text run and an image run overwrite each other and
-  the comparison silently becomes a run compared with itself.
+- **Per-issuer, per-provider, per-mode scorecards.**
+  `scorecard_<TICKER>_<provider>_<model>_<mode>.json`. Each element of that name earns
+  its place by having been missing once: without the mode, a text run and an image run
+  overwrite each other; without the ticker, the second issuer's first run overwrote the
+  first issuer's committed result, which is exactly what happened when JPFA was added.
+  The prediction cache carries the ticker for the same reason — `Q1` means one thing for
+  ARCI and another for JPFA, and reading the wrong one scores an issuer against another
+  issuer's labels.
 - **The sheet must name the issuer it is for.** These workbooks are made by copying an
   existing one and overwriting the columns, and a copy that was never re-labelled
   scores one issuer's extraction against another's figures — every field wrong, for a
@@ -558,34 +566,42 @@ Design points that matter:
 
 ### Results
 
-`gemini-3.1-flash-lite`, image mode, Q1–Q4 2022:
+`gemini-3.1-flash-lite`, image mode, Q1–Q4 2022, both scored issuers:
 
 ```
-correct   40      wrong   0      missed   0
-accuracy  100%  (40/40)
+ARCI    correct 40   wrong 0   missed 0                accuracy 100%   (40/40)
+JPFA    correct 36   wrong 0   missed 0                accuracy 100%   (36/36)   ← via the API
+JPFA    correct 33   wrong 0   missed 3 (abstained)    accuracy 91.7%  (33/36)   ← a second run
 ```
 
-Reproduced after the prompt was rewritten to remove ARCI's own figures from its
-examples (see *Agentic development*), so the score is not the model copying numbers
-it was shown. Latency is in the scorecard: 18–29 s per filing, three or four calls
-each.
+ARCI was reproduced after the prompt was rewritten to remove its own figures from the
+examples (see *Agentic development*), so the score is not the model copying numbers it was
+shown.
 
-#### What this number does not cover
+**The two JPFA rows are the same code over the same filings.** On the second run the model
+misread one figure on the annual report, the balance-sheet identity failed, and the three
+implicated fields were withdrawn rather than published. Both scorecards are committed.
+Quoting only the first would describe a more reliable system than this is; quoting only
+the second would describe a worse one.
 
-Stated plainly, because a clean scorecard is the easiest thing in this repo to
-over-read:
+#### What these numbers do not cover
 
-- **One issuer.** 40 cells = ARCI × four periods × ten fields. JPFA, CPIN and EMAS
-  are extracted and self-checked, not scored, because they have no labels yet.
+Stated plainly, because a clean scorecard is the easiest thing in this repo to over-read:
+
+- **Two issuers, not four.** 76 scored cells in total. CPIN and EMAS are extracted and
+  self-checked, not scored, because they have no labels.
 - **ARCI has never failed**, so its `failure_kinds` and `abstained` are empty in every
   period. A 100% run on the template the system was built against is weak evidence, and
-  reading it as strong is the mistake this section exists to prevent. JPFA is where the
-  guards were first exercised by something nobody staged — see its scorecard, where
-  three fields are abstained and none is wrong.
-- **The converted leg is not independent**, for the reason given above.
+  reading it as strong is the mistake this section exists to prevent.
+- **No extraction has ever scored `wrong`** on either issuer. Every failure so far has
+  been the system declining to answer, which is the behaviour it is designed for — but it
+  means the failure taxonomy (`wrong_scale`, `wrong_near_miss`, `hallucinated` …) is still
+  demonstrated only by fault injection, never by a real misread that survived the guards.
+- **The converted leg is not independent** for ARCI, for the reason given above. JPFA
+  reports in Rupiah and has no conversion step, so its labels do not share this problem.
 
-The single highest-value addition is not another guard: it is labels for one JPFA
-period, which would turn three of those four caveats into measurements.
+The highest-value addition is not another guard: it is labels for a third issuer, and
+EMAS is the one that would exercise the most untested code.
 
 ### Catching a regression before it ships
 
@@ -880,7 +896,7 @@ regression tool shows the difference precisely:
 
 ```
 $ python scripts/compare_runs.py output/scorecard_container_2026-09-03_upstream_503.json \
-                                 output/scorecard_gemini_gemini-3.1-flash-lite_image_api.json
+                                 output/scorecard_ARCI_gemini_gemini-3.1-flash-lite_image_api.json
 changes in the other direction
   Q1 kas_dari_aktivitas_operasi         missed -> correct
               baseline  candidate   delta
@@ -973,7 +989,8 @@ Claims about generalisation are worth little until the code meets a document it 
 not written for, so the pipeline was run on **JPFA Q1 2022** (171 pages), **CPIN Q1
 2022** (120 pages) and **EMAS Q3 2025** (97 pages).
 
-No ground truth exists for any of them yet, but a filing checks a lot of its own work:
+JPFA is now labelled and scored (see *Evaluation*). For CPIN and EMAS there is still no
+ground truth — but a filing checks a great deal of its own work:
 
 | Check | JPFA | CPIN | EMAS |
 |---|---|---|---|
@@ -1039,7 +1056,7 @@ Also loosened, by audit rather than by failure:
 | Case | Confidence | Why |
 |---|---|---|
 | ARCI, other years | High | Same template, four periods score 40/40 |
-| Another IDX filer, IDR, millions | Medium-high | JPFA and CPIN extract cleanly and self-consistently — but neither is scored against labels |
+| Another IDX filer, IDR, millions | Medium-high | JPFA is scored: 36/36 on one run, 33/36 on another with three abstentions and nothing wrong. CPIN extracts cleanly but is unlabelled |
 | Filer reporting in thousands | Medium | Same deterministic reader as millions, which now works on real filings; the thousands branch itself is still untested |
 | Filer with a broken or absent text layer | Medium | EMAS works end to end through OCR, but on one filing, and OCR quality is the new dependency |
 | Filer with no disclosed FX rate, reporting in USD | Refuses | By design; it raises rather than guessing a rate |
@@ -1051,12 +1068,16 @@ identity or containment rules. A new issuer is therefore more likely to produce
 both new issuers did: JPFA declined `total_share` rather than inventing one, and EMAS
 abstained on everything rather than asserting figures it could not verify.
 
-That behaviour is the design working, but it is also the honest limit of what has
-been shown: **the gap that remains is labels.** JPFA, CPIN and EMAS are extracted but
-not *scored*, so "correct" for them rests on the filing's own internal consistency,
-not on measurement. Labelling one JPFA period — ten cells, the workflow in
-`.claude/skills/label-groundtruth/SKILL.md` — is the single highest-value next step in
-this repository.
+That behaviour is the design working, and JPFA has now shown it under measurement rather
+than under fault injection: on the period whose balance sheet did not balance, three
+fields were withdrawn and none was wrong.
+
+**The gap that remains is still labels, one issuer further out.** CPIN and EMAS are
+extracted but not *scored*, so "correct" for them rests on the filing's own internal
+consistency rather than on measurement. Labelling either — the workflow is in
+`.claude/skills/label-groundtruth/SKILL.md` — is the highest-value next step, and EMAS is
+the more valuable of the two: its text layer is unreadable and its digits are grouped in
+the English convention, so it exercises paths ARCI and JPFA never touch.
 
 ## Not built yet
 
@@ -1068,8 +1089,9 @@ Stated plainly because the brief asks for them:
 - **Cross-provider agreement as a fourth signal.** Running two models and scoring
   disagreement is the obvious next input to confidence, and the provider layer
   already supports it.
-- **A scored second issuer.** Three are extracted, none is labelled, so the scorecard
-  still covers one. This remains the largest gap in the whole repository.
+- **A third and fourth scored issuer.** CPIN and EMAS are extracted and self-checked but
+  unlabelled. Two scored issuers is enough to have found real bugs; it is not enough to
+  characterise the extractor.
 - **A priced cost figure.** Tokens are measured; money needs a rate in
   `config/pricing.json`.
 - **Asynchronous extraction.** The API holds the connection for the length of the job.
@@ -1078,9 +1100,10 @@ Stated plainly because the brief asks for them:
 
 ## With more time
 
-1. **Label one JPFA period** (ten cells) and score it. That converts three of the four
-   caveats under *What this number does not cover* from disclaimers into measurements,
-   and it is perhaps an hour's work.
+1. **Label CPIN or EMAS.** JPFA was labelled during this work and immediately exposed two
+   filename collisions and a hole in the abstention logic. A third issuer is the cheapest
+   remaining source of that kind of finding — especially EMAS, whose text layer is
+   unreadable and whose figures are grouped in the English convention.
 2. **Calibrate the abstention threshold** by sweeping it against the eval set and
    plotting precision against coverage, instead of choosing 0.55 by argument.
 3. **Sweep the retry policy.** One attempt on a `503` recovered the field it was added
