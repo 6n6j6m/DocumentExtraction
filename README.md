@@ -5,15 +5,24 @@ Pulls a fixed schema of ten financial figures out of Indonesian Stock Exchange f
 against hand-labelled ground truth, and **declines to answer when it is not confident**
 rather than guessing.
 
-**Result: 40/40 fields correct** across four ARCI periods (`gemini-3.1-flash-lite`, image
-mode), reproduced identically through the HTTP service. **51 tests**, of which 24 break
-one specific thing each and assert the right guard fires.
+**Two issuers are scored**, and they say different things:
 
-**What is scored and what is not.** Only ARCI has ground-truth labels, so that 40/40
-covers one issuer, four periods, ten fields. Three further issuers — JPFA, CPIN and EMAS —
-are extracted and checked against what each filing says about itself, but they are **not
-scored**. The distinction is kept sharp throughout: a filing that validates is not a
-filing that was measured.
+| Issuer | Result | What it is |
+|---|---|---|
+| **ARCI** | **40/40** (100%) | USD, full units. The issuer this was developed against. |
+| **JPFA** | **33/36** (91.7%) | Rupiah, millions. Never seen during development. |
+
+JPFA is the more informative number. Nothing is scored `wrong` in either — but on JPFA
+the system **declined to answer three times**, because one period's balance sheet does
+not balance and it refused to assert figures it had grounds to doubt. That is the
+behaviour this whole design argues for, and JPFA is where it first happened outside a
+test.
+
+**54 tests**, of which 25 break one specific thing each and assert the right guard fires.
+
+**What is still not scored.** CPIN and EMAS are extracted and checked against what each
+filing says about itself, but they have no labels. The distinction is kept sharp
+throughout: a filing that validates is not a filing that was measured.
 
 ---
 
@@ -25,10 +34,10 @@ none of it has to be taken on trust.
 
 | | Needs | Takes | Shows |
 |---|---|---|---|
-| **1. Run the tests** | Python only — **no API key** | ~80 s | That the guards, the confidence layer and the abstention logic do what this README says |
+| **1. Run the tests** | Python only — **no API key** | ~90 s | That the guards, the confidence layer and the abstention logic do what this README says |
 | **2. Extract one filing** | A free Gemini key | ~25 s | The system reading a real 122-page filing end to end |
-| **3. Score it** | The key | ~2 min | The full 40/40 scorecard, reproduced from scratch |
-| **4. Docker** | Docker + the key | ~4 min | `compose up` serving the API, then a one-shot eval scoring **against that API** |
+| **3. Score it** | The key | ~4 min | Both issuers re-scored from scratch |
+| **4. Docker** | Docker + the key | ~6 min | `compose up` serving the API, then **one command** that scores both issuers **against that API** |
 
 ### 1. Run the tests — no key required
 
@@ -39,7 +48,7 @@ python -m pytest tests/ -q
 ```
 
 ```
-51 passed
+54 passed
 ```
 
 Nothing here touches the network: `tests/test_api.py` stubs the provider, and
@@ -105,10 +114,12 @@ measured: the tolerance, the four statuses, the failure taxonomy, the per-field 
 What it cannot do is test a change, because nothing was re-extracted. For that:
 
 ```bash
-python scripts/run_eval.py --no-cache
+python scripts/run_eval.py --ticker ARCI --no-cache      # 13 calls, ~2 min
+python scripts/run_eval.py --ticker JPFA --no-cache      # 16 calls, ~2 min
 ```
 
-Four filings, 13 API calls, about two minutes. Expect:
+Each writes its own scorecard, `output/scorecard_<TICKER>_<provider>_<mode>.json`. For
+ARCI, expect:
 
 ```
 SUMMARY
@@ -559,11 +570,11 @@ over-read:
 
 - **One issuer.** 40 cells = ARCI × four periods × ten fields. JPFA, CPIN and EMAS
   are extracted and self-checked, not scored, because they have no labels yet.
-- **No failure has ever been observed on real data**, so `failure_kinds` is empty and
-  `abstained` is empty in every period. The failure taxonomy and the abstention layer
-  are demonstrated by fault injection (24 tests), not by anything the model actually
-  did wrong here. That is weaker evidence than a scorecard full of classified
-  failures would be, and it is the honest reading of a 100% run on one template.
+- **ARCI has never failed**, so its `failure_kinds` and `abstained` are empty in every
+  period. A 100% run on the template the system was built against is weak evidence, and
+  reading it as strong is the mistake this section exists to prevent. JPFA is where the
+  guards were first exercised by something nobody staged — see its scorecard, where
+  three fields are abstained and none is wrong.
 - **The converted leg is not independent**, for the reason given above.
 
 The single highest-value addition is not another guard: it is labels for one JPFA
@@ -605,7 +616,7 @@ clean path already scores 40/40, and a build with all three deleted would score
 identically. Safety machinery is only observable when something goes wrong.
 
 `tests/test_guards.py` therefore breaks one specific thing per test and asserts that
-the right guard fires — 24 tests, runnable with or without pytest:
+the right guard fires — 25 tests, runnable with or without pytest:
 
 ```
 PASS  test_correct_extraction_passes_cleanly            no false positives
@@ -632,7 +643,8 @@ PASS  test_missing_currency_refuses_rather_than_assuming_idr
 PASS  test_ground_truth_sheet_must_match_the_ticker
 PASS  test_share_capital_split_across_classes_is_summed_and_not_punished
 PASS  test_an_invented_share_class_is_still_caught
-24/24 passed
+PASS  test_a_derived_field_cannot_outlive_an_abstained_component
+25/25 passed
 ```
 
 The first two are a pair, and both are needed. One proves the guard fires when the
