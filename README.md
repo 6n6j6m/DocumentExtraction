@@ -90,11 +90,25 @@ python src/extract.py data/raw/Q3_2025_EMAS.pdf     # no usable text layer; OCR 
 
 ### 3. Score it — the full evaluation
 
+**Without an API key**, from the predictions committed in this repository:
+
+```bash
+python scripts/run_eval.py
+```
+
+This calls no model at all. It reads the extraction results already in
+`output/predictions/`, converts them to Rupiah, compares them field by field against
+`data/ground_truth/ARCI.xlsx`, and writes a scorecard — the full 40/40, reproduced on your
+machine in a few seconds. It is the fastest way to inspect what is actually being
+measured: the tolerance, the four statuses, the failure taxonomy, the per-field errors.
+
+What it cannot do is test a change, because nothing was re-extracted. For that:
+
 ```bash
 python scripts/run_eval.py --no-cache
 ```
 
-Four filings, ~13 API calls, about two minutes. Expect:
+Four filings, 13 API calls, about two minutes. Expect:
 
 ```
 SUMMARY
@@ -109,8 +123,12 @@ SUMMARY
     latency             18-26s per document
 ```
 
-Drop `--no-cache` and it re-scores the committed predictions without calling anything —
-useful for reading the output, useless for testing a change.
+The `usage` block is measured, not estimated: both providers report their own token
+counts. `cost` reads *unpriced* by design — see [*Cost*](#cost).
+
+Exit codes are meant for CI: **0** if nothing is wrong, **1** if any field is `wrong`,
+**2** if the run could not be performed at all (no provider, no filings, a ground-truth
+sheet labelled for a different issuer).
 
 ### 4. Docker, exactly as the brief describes
 
@@ -131,7 +149,8 @@ it the scorecard cannot name the commit that produced it.
 | Symptom | Cause and fix |
 |---|---|
 | `GEMINI_API_KEY not set` | No `.env`, or the key line is empty. `cp .env.example .env` and fill it in. |
-| `Model 'x' not found on this key` | The error lists the model ids your key actually has — copy one into `GEMINI_MODEL`. |
+| `Model 'x' not found on this key` | Model availability differs per account. The error lists the ids your key actually has — copy one into `GEMINI_MODEL` in `.env`. Any Gemini vision model works; `gemini-3.1-flash-lite` is what the committed results used. |
+| `run_eval` says "only CACHED predictions can be scored" | You have no key configured. That is a working path, not an error: it re-scores the committed predictions. `--no-cache` is what needs a provider. |
 | `503 ... high demand` | Gemini capacity spike. One retry is automatic; if it persists, wait a minute. The run continues and reports the field as `missed`, never as a guess. |
 | `429 rate limit` | Free-tier quota. Not retried on purpose — wait, or set `LLM_FALLBACK_PROVIDER=ollama`. |
 | `OCR unavailable` on EMAS | `brew install tesseract tesseract-lang`. Without it EMAS still extracts, but page selection, grounding and the FX rate degrade — and the run says so. |

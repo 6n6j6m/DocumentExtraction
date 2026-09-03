@@ -43,7 +43,7 @@ import openpyxl
 from schema import FinancialStatementExtraction, EXCEL_ROWS
 from normalize import to_idr, extract_fx_rate
 from extract import extract_from_pdf
-from llm import get_provider_with_fallback, LLMError
+from llm import get_provider_with_fallback, LLMError, LLMUnavailable
 from usage import Usage
 
 HEADER_ROW = 3
@@ -316,7 +316,32 @@ def main():
             input_mode = health["input_mode"]
         _p = _Remote()
     else:
-        _p = get_provider_with_fallback()[0]
+        try:
+            _p = get_provider_with_fallback()[0]
+        except LLMUnavailable as exc:
+            # No usable provider -- almost always a reviewer who has not set up a key
+            # yet. The committed predictions can still be scored, and that path calls
+            # no model at all, so refusing to start would deny them the one thing they
+            # can check for free. The tag is rebuilt from configuration instead, which
+            # is what names the cache directory anyway.
+            provider = os.getenv("LLM_PROVIDER", "gemini").lower()
+            model = os.getenv(f"{provider.upper()}_MODEL",
+                              "gemini-3.1-flash-lite" if provider == "gemini"
+                              else "qwen2.5:7b-instruct")
+            mode = os.getenv(f"{provider.upper()}_INPUT_MODE",
+                             "image" if provider == "gemini" else "text")
+
+            class _Offline:
+                name = f"{provider}:{model}"
+                input_mode = mode
+            _p = _Offline()
+
+            print(f"⚠ {exc}")
+            print(f"  no provider configured, so only CACHED predictions can be scored.")
+            print(f"  assuming {_p.name} [{mode}] from configuration, to find the cache.")
+            if args.no_cache:
+                print("  --no-cache needs a working provider; nothing to extract with.")
+                return 2
     # The input mode changes what the model is shown, so two runs of the same model
     # are different experiments. Without it in the tag they overwrite each other and
     # the comparison silently becomes a comparison of a run with itself.

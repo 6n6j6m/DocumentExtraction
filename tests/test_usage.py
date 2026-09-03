@@ -230,6 +230,56 @@ def test_retries_are_bounded(monkeypatch):
     assert len(calls) == provider.max_retries + 1 == 2
 
 
+
+
+
+def test_the_eval_scores_cached_predictions_without_a_provider(monkeypatch, tmp_path):
+    """A reviewer with no API key must still be able to reproduce the scorecard.
+
+    Every prediction is committed, and scoring them calls no model -- so refusing to
+    start without a provider denied a reviewer the one thing they could check for free.
+    It used to raise LLMUnavailable out of main() as a traceback.
+    """
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("run_eval", ROOT / "scripts" / "run_eval.py")
+    run_eval = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(run_eval)
+
+    import json
+    import shutil
+
+    # The prediction cache lives under the output directory, so pointing --out at a
+    # temp dir moves the cache with it. Copy it across, or the run "passes" by failing
+    # every period and finding nothing wrong in an empty tally.
+    shutil.copytree(ROOT / "output" / "predictions", tmp_path / "predictions")
+
+    monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+    monkeypatch.setattr("sys.argv", ["run_eval", "--periods", "Q1", "--out", str(tmp_path)])
+
+    assert run_eval.main() == 0
+    written = list(tmp_path.glob("scorecard_*.json"))
+    assert written, "a scorecard should have been written from the cache"
+
+    report = json.loads(written[0].read_text())
+    assert report["summary"]["correct"] == 10, "all ten scored fields should be read"
+    assert "error" not in report["periods"]["Q1"], "the period must have scored, not failed"
+
+
+def test_no_cache_without_a_provider_refuses_clearly(monkeypatch, tmp_path, capsys):
+    """--no-cache needs a model. Saying so beats a traceback from three frames down."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("run_eval", ROOT / "scripts" / "run_eval.py")
+    run_eval = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(run_eval)
+
+    monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+    monkeypatch.setattr("sys.argv",
+                        ["run_eval", "--no-cache", "--periods", "Q1", "--out", str(tmp_path)])
+
+    assert run_eval.main() == 2          # could not run, distinct from "found errors"
+    assert "needs a working provider" in capsys.readouterr().out
+
+
 if __name__ == "__main__":
     # Kept at the very BOTTOM on purpose: this block runs the moment the interpreter
     # reaches it, so any test defined after it would never be collected.
