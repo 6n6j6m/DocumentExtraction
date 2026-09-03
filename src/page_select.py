@@ -179,10 +179,14 @@ def select_statement_pages(pdf_path: str, *,
     Returns:
         PageSelection with 0-indexed page numbers
     """
-    import pdfplumber
-    
-    with pdfplumber.open(pdf_path) as pdf:
-        texts = [page.extract_text() or "" for page in pdf.pages]
+    from pdftext import page_texts
+
+    # OCR'd where the text layer is unreadable. Selection matches on statement titles,
+    # so a filing whose characters are glyph ids (EMAS embeds subset fonts with no
+    # ToUnicode CMap) would match nothing and fall back to "the first ten pages"
+    # without ever saying that it could not read the document.
+    by_page = page_texts(pdf_path)
+    texts = [by_page.get(n, "") for n in range(len(by_page))]
 
     selection = select_from_page_texts(texts, max_pages=max_pages,
                                        always_scan_all_if_under=always_scan_all_if_under)

@@ -60,12 +60,25 @@ class FieldScore:
 
 
 def _indonesian_forms(value: float) -> list:
-    """How this figure could legitimately be printed in the filing."""
+    """How this figure could legitimately be printed in the filing.
+
+    Both grouping conventions are generated, because IDX filers use both: ARCI and
+    JPFA print "694.671.337" (dot), EMAS prints "80,322,232" (comma, following the
+    English column it sits beside). Checking only one convention reports every figure
+    in the other kind of filing as absent, and the abstention layer then discards a
+    perfectly good extraction -- which is exactly what EMAS did.
+
+    Generating both is safe rather than lax: a comma-grouped string does not occur in
+    a dot-grouped document, so the extra form cannot match the wrong number.
+    """
     magnitude = abs(int(round(value)))
-    grouped = f"{magnitude:,}".replace(",", ".")
-    forms = [grouped, str(magnitude)]
+    with_commas = f"{magnitude:,}"
+    with_dots = with_commas.replace(",", ".")
+
+    forms = [with_dots, with_commas, str(magnitude)]
     if value < 0:
-        forms += [f"({grouped})", f"-{grouped}"]
+        forms += [f"({with_dots})", f"-{with_dots}",
+                  f"({with_commas})", f"-{with_commas}"]
     return forms
 
 

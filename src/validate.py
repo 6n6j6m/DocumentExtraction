@@ -13,6 +13,8 @@ once and the confidence layer weighs them together.
 import re
 from dataclasses import dataclass
 
+from numfmt import parse_grouped_number
+
 ERROR = "error"       # contradicts the document; something was misread
 WARNING = "warning"   # suspicious but legitimately possible
 
@@ -133,7 +135,7 @@ def _section_of(line: str):
     return None
 
 
-_BANK_ROW = re.compile(r"^\s*Utang bank[^\d]*?([\d.]{6,})", re.I)
+_BANK_ROW = re.compile(r"^\s*Utang bank[^\d]*?([\d.,]{6,})", re.I)
 
 
 def _bank_rows_by_section(document_text: str) -> dict:
@@ -155,7 +157,9 @@ def _bank_rows_by_section(document_text: str) -> dict:
                 # its long-term loans under the CURRENT-liabilities heading while still
                 # labelling the row "Utang bank jangka panjang" -- keeping only the
                 # first row there would lose it.
-                found.setdefault(current, []).append(float(match.group(1).replace(".", "")))
+                amount = parse_grouped_number(match.group(1))
+                if amount is not None:
+                    found.setdefault(current, []).append(amount)
             except ValueError:
                 pass
     return found

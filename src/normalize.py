@@ -42,13 +42,31 @@ SCALE_MULTIPLIER = {
     "BILLIONS": 1_000_000_000,
 }
 
-# "1.000 Rupiah 0,0697 0,0701 0,0686" -> first number is the current period.
-# We match this row DIRECTLY rather than first locating the page by its heading
-# ("nilai tukar yang digunakan untuk AS$1 adalah"): the filings are printed in two
-# columns, Indonesian beside English, so once the page text is flattened that
-# heading is split by the English column and any adjacency-based match fails.
-# The row itself is distinctive enough to find on its own.
-_RATE_ROW = re.compile(r"1[.,]?000\s+Rupiah\s+([0-9]+,[0-9]+)")
+# The rate row is matched DIRECTLY rather than by first locating the page from its
+# heading ("nilai tukar yang digunakan untuk AS$1 adalah"): the filings print
+# Indonesian beside English, so once the text is flattened that heading is split by
+# the other column and any adjacency-based match fails.
+#
+# Issuers do not agree on how the row is written, and the differences all break a
+# regex tuned to one of them:
+#
+#   ARCI  "1.000 Rupiah          0,0697 0,0701"   1,000 as the unit, decimal comma
+#   EMAS  ".61 0.62 Indonesian Rupiah 10,000"     10,000 as the unit, decimal dot,
+#                                                 numbers BEFORE the label, and the
+#                                                 leading zero lost to OCR
+#
+# So the row is read in pieces instead: find the Rupiah unit, then read the plausible
+# rate off the same line, and let the sanity band decide whether the result is a rate
+# at all. That accepts either separator convention and survives an OCR'd page.
+_RUPIAH_LINE = re.compile(r"rupiah", re.I)
+_RATE_UNIT = re.compile(r"\b(1|10|100|1000)[.,]000\b")
+# ".61", "0,0697", "16.393" -- a decimal with 2-6 places, not part of a longer number.
+_RATE_VALUE = re.compile(r"(?<![\d.,])(\d*[.,]\d{2,6})(?![\d])")
+
+# A rate outside this band is not an IDR/USD rate; it is a page number, a percentage
+# or an OCR artefact. Used to accept or reject a candidate rather than to invent one.
+RATE_MIN, RATE_MAX = 8_000, 25_000
+
 # Fallback: a disclosed pair such as "Rp10.880.000.000 (US$758,241)"
 _PAIR = re.compile(r"Rp\s?([\d.]{9,})\s*\(?\s*US\$\s?([\d,]+)")
 
@@ -60,6 +78,25 @@ class FxRate:
     source: str          # "disclosed_rate_table" | "derived_from_pair"
     page: int            # 1-indexed
     evidence: str
+    decimals: int = 4          # decimal places the filing quoted the rate to
+    quoted_value: float = 0.0  # the figure as printed, e.g. 0.0697 or 0.61
+    # Other plausible rates on the same row: the comparative-period columns. Kept so
+    # the caller can say which was taken and what it was taken over.
+    other_candidates: tuple = ()
+
+    @property
+    def rounding_error(self) -> float:
+        """Relative uncertainty implied by the quoted precision.
+
+        ARCI quotes 0,0697 for 1.000 Rupiah -- half a unit in the last decimal place
+        is 0.07%. EMAS quotes 0.61 for 10.000 Rupiah, which is 0.8%: an order of
+        magnitude coarser, and far wider than the 0.01% tolerance the evaluator uses.
+        Carrying it stops a converted figure from being read as more precise than the
+        rate it was produced with.
+        """
+        if not self.quoted_value or self.decimals <= 0:
+            return 0.0
+        return (0.5 * 10 ** -self.decimals) / self.quoted_value
 
 
 def _num(s: str) -> float:
@@ -67,45 +104,100 @@ def _num(s: str) -> float:
     return float(s.replace(".", "").replace(",", "."))
 
 
+def _decimal(token: str) -> tuple:
+    """Read a quoted rate figure. Returns (value, decimal places).
+
+    Accepts either separator convention, and a leading zero that OCR dropped:
+    "0,0697" -> (0.0697, 4);  "0.61" -> (0.61, 2);  ".61" -> (0.61, 2).
+    """
+    normalised = token.replace(",", ".")
+    if normalised.startswith("."):
+        normalised = "0" + normalised
+    value = float(normalised)
+    places = len(normalised.split(".")[1]) if "." in normalised else 0
+    return value, places
+
+
+def _rate_from_line(line: str):
+    """An IDR-per-USD rate quoted on this line, or None.
+
+    The unit ("1.000 Rupiah", "Indonesian Rupiah 10,000") and the figure may appear
+    in either order, so the unit is located and removed first and the figure is then
+    read from what remains. Candidates are tried in printed order -- the current
+    period is the first numeric column -- and the first one landing in the plausible
+    band wins. Anything outside the band is not a rate, so nothing is guessed.
+    """
+    unit_match = _RATE_UNIT.search(line)
+    if not unit_match:
+        return None
+    unit = float(unit_match.group(0).replace(".", "").replace(",", ""))
+
+    remainder = line[:unit_match.start()] + " " + line[unit_match.end():]
+    plausible = []
+    for token in _RATE_VALUE.findall(remainder):
+        try:
+            value, places = _decimal(token)
+        except ValueError:
+            continue
+        if value <= 0:
+            continue
+        rate = unit / value
+        if RATE_MIN < rate < RATE_MAX:
+            plausible.append((rate, places, value))
+    if not plausible:
+        return None
+    # The current period is the first numeric column; the rest are comparatives.
+    rate, places, value = plausible[0]
+    return rate, places, value, tuple(round(r, 2) for r, _, _ in plausible[1:])
+
+
 def extract_fx_rate(pdf_path: str) -> Optional[FxRate]:
     """Read the USD/IDR rate the filing says it used.
 
-    Strategy 1: the disclosed rate table row ("1.000 Rupiah  0,0697").
+    Strategy 1: the disclosed rate table row, in whichever form the issuer prints it
+                ("1.000 Rupiah 0,0697", "Indonesian Rupiah 10,000 ... 0.61").
     Strategy 2: a disclosed Rp / US$ pair elsewhere in the notes.
 
     Returns None when neither is present, rather than guessing a rate.
     """
-    import pdfplumber
+    from pdftext import page_texts
 
     pair_fallback = None
-    with pdfplumber.open(pdf_path) as pdf:
-        for i, page in enumerate(pdf.pages):
-            text = page.extract_text() or ""
+    # OCR'd where the layer is unreadable: EMAS discloses its rate on page 23 in a
+    # text layer that extracts as glyph ids, so reading the layer alone reports a
+    # filing that states its rate as one that does not.
+    texts = page_texts(pdf_path)
+    for i in sorted(texts):
+        text = texts[i]
 
-            for line in text.split("\n"):
-                m = _RATE_ROW.search(line)
-                if m:
-                    usd_per_1000_idr = _num(m.group(1))
-                    if usd_per_1000_idr > 0:
-                        return FxRate(
-                            idr_per_usd=1000 / usd_per_1000_idr,
-                            source="disclosed_rate_table",
-                            page=i + 1,
-                            evidence=line.strip(),
-                        )
+        for line in text.split("\n"):
+            if not _RUPIAH_LINE.search(line):
+                continue
+            found = _rate_from_line(line)
+            if found:
+                rate, places, quoted, others = found
+                return FxRate(
+                    idr_per_usd=rate,
+                    source="disclosed_rate_table",
+                    page=i + 1,
+                    evidence=line.strip(),
+                    decimals=places,
+                    quoted_value=quoted,
+                    other_candidates=others,
+                )
 
-            if pair_fallback is None:
-                for m in _PAIR.finditer(text.replace("\n", " ")):
-                    rp = _num(m.group(1))
-                    usd = float(m.group(2).replace(",", ""))
-                    if usd > 0 and 8_000 < rp / usd < 25_000:
-                        pair_fallback = FxRate(
-                            idr_per_usd=rp / usd,
-                            source="derived_from_pair",
-                            page=i + 1,
-                            evidence=m.group(0).strip(),
-                        )
-                        break
+        if pair_fallback is None:
+            for m in _PAIR.finditer(text.replace("\n", " ")):
+                rp = _num(m.group(1))
+                usd = float(m.group(2).replace(",", ""))
+                if usd > 0 and RATE_MIN < rp / usd < RATE_MAX:
+                    pair_fallback = FxRate(
+                        idr_per_usd=rp / usd,
+                        source="derived_from_pair",
+                        page=i + 1,
+                        evidence=m.group(0).strip(),
+                    )
+                    break
 
     return pair_fallback
 
@@ -209,6 +301,23 @@ def to_idr(extraction, fx: Optional[FxRate] = None, pdf_path: Optional[str] = No
             warnings.append(
                 f"Rate derived from a disclosed Rp/US$ pair (p{fx.page}), not from the "
                 "rate table; may be off by a rounding-level amount."
+            )
+        # A rate quoted to two decimals carries roughly 0.8% uncertainty, which is 80x
+        # the evaluator's tolerance. Every converted figure inherits it, so it is said
+        # once rather than discovered later as an unexplained mismatch.
+        if fx.rounding_error > 1e-3:
+            warnings.append(
+                f"Rate quoted to {fx.decimals} decimal places ({fx.quoted_value}), so "
+                f"converted figures carry about {fx.rounding_error:.1%} rounding "
+                f"uncertainty - wider than the evaluation tolerance."
+            )
+        if fx.other_candidates:
+            # The comparative-period columns sit on the same row. Taking the first is
+            # right, but saying which others were there makes the choice checkable.
+            warnings.append(
+                f"Rate row also carried {', '.join(f'{c:,.0f}' for c in fx.other_candidates)} "
+                f"IDR/USD (comparative periods); took the first column, "
+                f"{fx.idr_per_usd:,.0f}."
             )
         rate = fx.idr_per_usd
     else:

@@ -71,15 +71,15 @@ MIN_TEXT_CHARS = 200   # below this a page is treated as having no usable text l
 
 
 def read_page_texts(pdf_path: str, page_numbers: list) -> dict:
-    """Return {page_number: text} for the selected pages."""
-    import pdfplumber
+    """Return {page_number: text} for the selected pages.
 
-    texts = {}
-    with pdfplumber.open(pdf_path) as pdf:
-        for n in page_numbers:
-            if 0 <= n < len(pdf.pages):
-                texts[n] = pdf.pages[n].extract_text() or ""
-    return texts
+    Pages whose text layer is unreadable -- a scan, or subset fonts with no
+    ToUnicode CMap -- are OCR'd, so grounding and the section checks keep working on
+    a filing whose characters are glyph ids. See src/pdftext.py.
+    """
+    from pdftext import page_texts
+
+    return page_texts(pdf_path, page_numbers)
 
 
 HEADER_LINES = 8          # title, scope, currency and scale live at the top of a page
@@ -111,7 +111,10 @@ def condense_page_text(text: str) -> str:
     if not lines or _is_garbled(lines):
         return ""
 
-    has_number = re.compile(r"\d{1,3}(?:\.\d{3})+|\d{4}")
+    # Either grouping convention, or four bare digits. Without the comma branch, a
+    # filing that prints "80,322,232" has no four consecutive digits anywhere and
+    # condensation throws away every line that carries a figure.
+    has_number = re.compile(r"\d{1,3}(?:[.,]\d{3})+|\d{4}")
     keep = set(range(min(HEADER_LINES, len(lines))))
     for i, line in enumerate(lines):
         if has_number.search(line):
@@ -142,30 +145,9 @@ def build_document_text(page_texts: dict) -> str:
     return "\n\n".join(blocks)
 
 
-def _parse_indonesian_number(text: str) -> Optional[float]:
-    """Parse a figure as an Indonesian statement prints it.
-
-    DOT groups thousands, COMMA is the decimal point, and parentheses mean negative.
-    Counting the dots to decide whether they are separators is not enough: a single
-    group ("694.671") is indistinguishable from a decimal by shape alone, and reading
-    it as one understates the figure by a thousand. The convention is fixed here, so
-    it is applied unconditionally instead of guessed per value.
-    """
-    text = text.strip()
-    if not text:
-        return None
-    negative = text.startswith("(") and text.endswith(")")
-    body = text[1:-1] if negative else text
-    body = body.replace(".", "")          # thousands separators
-    body = body.replace(",", ".")         # decimal comma -> decimal point
-    body = re.sub(r"[^\d.\-]", "", body)
-    if not body or body in ("-", "."):
-        return None
-    try:
-        value = float(body)
-    except ValueError:
-        return None
-    return -value if negative else value
+# Grouping convention varies by issuer (694.671.337 vs 80,322,232), so parsing is
+# decided per value in one place -- see src/numfmt.py.
+from numfmt import parse_grouped_number as _parse_indonesian_number
 
 
 def _coerce_numbers(data: dict) -> dict:
