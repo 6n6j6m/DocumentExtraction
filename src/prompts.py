@@ -61,17 +61,30 @@ FIELD EXTRACTION RULES (Indonesian keywords):
    - This is total of all liabilities
    - Example: "Total Liabilitas: 450.000.000"
 
-6. utang_bank (Utang Bank Jangka Pendek)
-   - Keywords: "Utang Bank Jangka Pendek" + "Bagian lancar atas jangka panjang Utang Bank"
-   - ADD these two line items together (if both exist)
-   - EXCLUDE long-term bank debt
-   - Example: If "Utang Bank Jangka Pendek: 50M" and "Utang Bank Saja: 30M" → Sum = 80M
+6. utang_bank_jangka_pendek + utang_bank_bagian_lancar (JANGAN dijumlah sendiri)
+   The balance sheet has THREE rows labelled "Utang bank". They are told apart ONLY
+   by the section heading above them. Report two of them SEPARATELY:
 
-7. ekuitas (Ekuitas yang Diatribusikan)
-   - Keyword: "Ekuitas yang Diatribusikan kepada Pemilik Induk"
-   - IMPORTANT: EXCLUDE "Kepentingan Non Pengendali" (non-controlling interest)
-   - Use only the parent entity equity
-   - Example: "Ekuitas yang Diatribusikan: 200.000.000"
+     Liabilitas Jangka Pendek                     <- section
+       Utang bank jangka pendek      34.220.811   -> utang_bank_jangka_pendek
+       Bagian lancar atas liabilitas jangka panjang:
+         Utang bank                  68.136.673   -> utang_bank_bagian_lancar
+
+     Liabilitas Jangka Panjang, setelah dikurangi bagian lancar:   <- section
+         Utang bank                 184.336.390   -> IGNORE THIS ROW ENTIRELY
+
+   Read downwards from the nearest section heading to decide which row you are on.
+   Do NOT add them together and do NOT output a field called utang_bank.
+
+7. total_ekuitas + kepentingan_non_pengendali (JANGAN dikurangi sendiri)
+   Report the two printed rows separately, exactly as printed:
+
+       Kepentingan Non-Pengendali      (76.732)   -> kepentingan_non_pengendali
+       Total Ekuitas                242.185.308   -> total_ekuitas
+
+   Values in parentheses are NEGATIVE: "(76.732)" -> -76732. The non-controlling
+   interest is frequently negative here, so keep the sign.
+   Do NOT output a field called ekuitas.
 
 8. pendapatan (Pendapatan)
    - Keyword: "Pendapatan dari Kontrak dengan Pelanggan"
@@ -128,8 +141,10 @@ Example:
   "total_aset_lancar": 73325265,
   "kas": 23125502,
   "liabilitas": null,
-  "utang_bank": null,
-  "ekuitas": null,
+  "utang_bank_jangka_pendek": 34220811,
+  "utang_bank_bagian_lancar": 68136673,
+  "total_ekuitas": 242185308,
+  "kepentingan_non_pengendali": -76732,
   "pendapatan": null,
   "laba_bersih": null,
   "kas_dari_aktivitas_operasi": null,

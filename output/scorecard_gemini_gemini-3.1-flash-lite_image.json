@@ -1,0 +1,500 @@
+{
+  "ticker": "ARCI",
+  "tolerance": 0.0001,
+  "run": {
+    "timestamp": "2026-09-03T00:16:48+00:00",
+    "git_commit": "6e61986",
+    "git_dirty": true,
+    "prompt_sha256": "1bfe3c4dd19a",
+    "tolerance": 0.0001,
+    "config": {
+      "LLM_PROVIDER": "gemini",
+      "GEMINI_MODEL": "gemini-3.1-flash-lite",
+      "OLLAMA_MODEL": "qwen3-vl:8b",
+      "GEMINI_INPUT_MODE": "image",
+      "OLLAMA_INPUT_MODE": "image",
+      "SPLIT_BY_STATEMENT": "true",
+      "IMAGE_DPI": "150",
+      "MAX_PDF_PAGES": "20"
+    }
+  },
+  "periods": {
+    "Q1": {
+      "fx_rate": 14347.202295552368,
+      "fields": {
+        "aset": {
+          "status": "correct",
+          "rel_error": 1.685318113967325e-14,
+          "failure_kind": null,
+          "pred_idr": 9966590200861,
+          "truth_idr": 9966590200860.832,
+          "pred_raw": 694671337.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "total_aset_lancar": {
+          "status": "correct",
+          "rel_error": 1.3576100835179388e-14,
+          "failure_kind": null,
+          "pred_idr": 1052012410330,
+          "truth_idr": 1052012410329.9857,
+          "pred_raw": 73325265.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "kas": {
+          "status": "correct",
+          "rel_error": 6.054099468001548e-13,
+          "failure_kind": null,
+          "pred_idr": 331786255380,
+          "truth_idr": 331786255380.20087,
+          "pred_raw": 23125502.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "liabilitas": {
+          "status": "correct",
+          "rel_error": 2.7076975508121154e-14,
+          "failure_kind": null,
+          "pred_idr": 6491908593974,
+          "truth_idr": 6491908593974.176,
+          "pred_raw": 452486029.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "utang_bank": {
+          "status": "correct",
+          "rel_error": 1.6026189063273576e-13,
+          "failure_kind": null,
+          "pred_idr": 1468543529412,
+          "truth_idr": 1468543529411.7646,
+          "pred_raw": 102357484.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "ekuitas": {
+          "status": "correct",
+          "rel_error": 5.745671124590959e-14,
+          "failure_kind": null,
+          "pred_idr": 3475782496413,
+          "truth_idr": 3475782496413.1997,
+          "pred_raw": 242262040.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "laba_bersih": {
+          "status": "correct",
+          "rel_error": 5.291534169883104e-13,
+          "failure_kind": null,
+          "pred_idr": 135587948350,
+          "truth_idr": 135587948350.07175,
+          "pred_raw": 9450480.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "pendapatan": {
+          "status": "correct",
+          "rel_error": 1.3803677712698243e-14,
+          "failure_kind": null,
+          "pred_idr": 1149631348637,
+          "truth_idr": 1149631348637.0159,
+          "pred_raw": 80129305.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "kas_dari_aktivitas_operasi": {
+          "status": "correct",
+          "rel_error": 3.655703236542207e-13,
+          "failure_kind": null,
+          "pred_idr": 522079942611,
+          "truth_idr": 522079942611.19086,
+          "pred_raw": 36388972.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "total_share": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 24835000000.0,
+          "truth_idr": 24835000000.0,
+          "pred_raw": 24835000000.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        }
+      },
+      "elapsed_s": null,
+      "abstained": []
+    },
+    "Q2": {
+      "fx_rate": 14858.84101040119,
+      "fields": {
+        "aset": {
+          "status": "correct",
+          "rel_error": 2.2193974073035632e-14,
+          "failure_kind": null,
+          "pred_idr": 10560298900446,
+          "truth_idr": 10560298900445.766,
+          "pred_raw": 710708116.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "total_aset_lancar": {
+          "status": "correct",
+          "rel_error": 3.7478930061757036e-13,
+          "failure_kind": null,
+          "pred_idr": 1296301263001,
+          "truth_idr": 1296301263001.4858,
+          "pred_raw": 87241075.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "kas": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 184978038633,
+          "truth_idr": 184978038633.0,
+          "pred_raw": 12449022.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "liabilitas": {
+          "status": "correct",
+          "rel_error": 5.4409214519065094e-14,
+          "failure_kind": null,
+          "pred_idr": 6892214918276,
+          "truth_idr": 6892214918276.375,
+          "pred_raw": 463846064.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "utang_bank": {
+          "status": "correct",
+          "rel_error": 1.7947063755945765e-13,
+          "failure_kind": null,
+          "pred_idr": 959718053492,
+          "truth_idr": 959718053491.8278,
+          "pred_raw": 64589025.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "ekuitas": {
+          "status": "correct",
+          "rel_error": 8.580183794581294e-14,
+          "failure_kind": null,
+          "pred_idr": 3670567132244,
+          "truth_idr": 3670567132243.685,
+          "pred_raw": 247029168.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "laba_bersih": {
+          "status": "correct",
+          "rel_error": 1.9997704141791002e-12,
+          "failure_kind": null,
+          "pred_idr": 210274992571,
+          "truth_idr": 210274992570.5795,
+          "pred_raw": 14151507.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "pendapatan": {
+          "status": "correct",
+          "rel_error": 1.503937240778513e-13,
+          "failure_kind": null,
+          "pred_idr": 1777560772660,
+          "truth_idr": 1777560772659.7327,
+          "pred_raw": 119629840.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "kas_dari_aktivitas_operasi": {
+          "status": "correct",
+          "rel_error": 1.4663634842115324e-12,
+          "failure_kind": null,
+          "pred_idr": 247243491828,
+          "truth_idr": 247243491827.63745,
+          "pred_raw": 16639487.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "total_share": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 24835000000.0,
+          "truth_idr": 24835000000.0,
+          "pred_raw": 24835000000.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        }
+      },
+      "elapsed_s": null,
+      "abstained": []
+    },
+    "Q3": {
+      "fx_rate": 15243.902439024389,
+      "fields": {
+        "aset": {
+          "status": "correct",
+          "rel_error": 2.1960352260996544e-14,
+          "failure_kind": null,
+          "pred_idr": 11028397774390,
+          "truth_idr": 11028397774390.242,
+          "pred_raw": 723462894.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "total_aset_lancar": {
+          "status": "correct",
+          "rel_error": 1.921703128344459e-13,
+          "failure_kind": null,
+          "pred_idr": 1142124496951,
+          "truth_idr": 1142124496951.2195,
+          "pred_raw": 74923367.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "kas": {
+          "status": "correct",
+          "rel_error": 6.673938586129875e-13,
+          "failure_kind": null,
+          "pred_idr": 146141859756,
+          "truth_idr": 146141859756.09753,
+          "pred_raw": 9586906.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "liabilitas": {
+          "status": "correct",
+          "rel_error": 3.38177666928219e-14,
+          "failure_kind": null,
+          "pred_idr": 7248177850610,
+          "truth_idr": 7248177850609.755,
+          "pred_raw": 475480467.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "utang_bank": {
+          "status": "correct",
+          "rel_error": 1.7942323440005264e-13,
+          "failure_kind": null,
+          "pred_idr": 1221905746951,
+          "truth_idr": 1221905746951.2192,
+          "pred_raw": 80157017.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "ekuitas": {
+          "status": "correct",
+          "rel_error": 1.2909183952855745e-16,
+          "failure_kind": null,
+          "pred_idr": 3782433125000,
+          "truth_idr": 3782433124999.9995,
+          "pred_raw": 248127613.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "laba_bersih": {
+          "status": "correct",
+          "rel_error": 7.365741534504753e-13,
+          "failure_kind": null,
+          "pred_idr": 231810807927,
+          "truth_idr": 231810807926.82925,
+          "pred_raw": 15206789.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "pendapatan": {
+          "status": "correct",
+          "rel_error": 1.7403525825064998e-13,
+          "failure_kind": null,
+          "pred_idr": 2525081006098,
+          "truth_idr": 2525081006097.5605,
+          "pred_raw": 165645314.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "kas_dari_aktivitas_operasi": {
+          "status": "correct",
+          "rel_error": 3.9145354250300805e-13,
+          "failure_kind": null,
+          "pred_idr": 560685746951,
+          "truth_idr": 560685746951.2195,
+          "pred_raw": 36780985.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "total_share": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 24835000000.0,
+          "truth_idr": 24835000000.0,
+          "pred_raw": 24835000000.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        }
+      },
+      "elapsed_s": null,
+      "abstained": []
+    },
+    "Q4": {
+      "fx_rate": 15723.270440251572,
+      "fields": {
+        "aset": {
+          "status": "correct",
+          "rel_error": 2.2323561092894584e-14,
+          "failure_kind": null,
+          "pred_idr": 11286421729560,
+          "truth_idr": 11286421729559.748,
+          "pred_raw": 717816422.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "total_aset_lancar": {
+          "status": "correct",
+          "rel_error": 2.743016018006914e-14,
+          "failure_kind": null,
+          "pred_idr": 1370668490566,
+          "truth_idr": 1370668490566.0376,
+          "pred_raw": 87174516.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "kas": {
+          "status": "correct",
+          "rel_error": 8.12451916492721e-13,
+          "failure_kind": null,
+          "pred_idr": 162569716981,
+          "truth_idr": 162569716981.13208,
+          "pred_raw": 10339434.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "liabilitas": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 7390895959119,
+          "truth_idr": 7390895959119.0,
+          "pred_raw": 470060983.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "utang_bank": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 1503778443396,
+          "truth_idr": 1503778443396.0,
+          "pred_raw": 95640309.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "ekuitas": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 3896822720126,
+          "truth_idr": 3896822720126.0,
+          "pred_raw": 247837925.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "laba_bersih": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 228784339623,
+          "truth_idr": 228784339623.0,
+          "pred_raw": 14550684.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "pendapatan": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 3403714968553,
+          "truth_idr": 3403714968553.0,
+          "pred_raw": 216476272.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "kas_dari_aktivitas_operasi": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 853635345912,
+          "truth_idr": 853635345912.0,
+          "pred_raw": 54291208.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        },
+        "total_share": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 24835000000.0,
+          "truth_idr": 24835000000.0,
+          "pred_raw": 24835000000.0,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
+        }
+      },
+      "elapsed_s": null,
+      "abstained": []
+    }
+  },
+  "summary": {
+    "correct": 40,
+    "wrong": 0,
+    "missed": 0,
+    "no_truth": 0,
+    "both_absent": 0
+  },
+  "failure_kinds": {},
+  "provider": "gemini_gemini-3.1-flash-lite_image"
+}

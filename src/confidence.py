@@ -1,0 +1,186 @@
+"""
+Per-field confidence, and the decision to abstain.
+
+The score is NOT the model's own estimate of itself -- self-reported confidence is
+poorly calibrated and costs nothing to inflate. It is computed from three signals
+the system can check independently:
+
+  grounding    Does this exact figure appear in the filing's text layer? A number
+               the document does not contain was invented. This is the only direct
+               anti-hallucination test available, and it is cheap because the text
+               layer is already read for page selection.
+
+  validation   Does the field appear in a failing structural rule (src/validate.py)?
+               A balance sheet that does not balance implicates the fields in it.
+
+  derivation   Was the value computed from components rather than read whole? A
+               derived value inherits the weaker of its inputs -- it cannot be more
+               trustworthy than the rows it came from.
+
+Fields below ABSTAIN_THRESHOLD are set to None and recorded as abstentions. The
+evaluator scores an abstention as `missed`, never as `wrong`: declining and
+inventing are different behaviours and are counted separately.
+"""
+
+import os
+import re
+from dataclasses import dataclass, field as dc_field
+from typing import Optional
+
+ABSTAIN_THRESHOLD = float(os.getenv("CONFIDENCE_ABSTAIN_THRESHOLD", "0.55"))
+
+# Weights sum to 1.0. Grounding dominates: a figure absent from the document is
+# wrong regardless of how consistent the rest of the extraction looks.
+W_GROUNDING = 0.60
+W_VALIDATION = 0.25
+W_DERIVATION = 0.15
+
+# A field contradicted by a structural rule is capped below the abstention
+# threshold. An error-severity rule is not a hint to weigh against other evidence --
+# it is a demonstration that the value disagrees with the document, and no amount of
+# grounding elsewhere should let it through.
+ERROR_CONFIDENCE_CAP = 0.50
+
+DERIVED_FROM = {
+    "utang_bank": ("utang_bank_jangka_pendek", "utang_bank_bagian_lancar"),
+    "ekuitas": ("total_ekuitas", "kepentingan_non_pengendali"),
+}
+
+NON_NUMERIC = ("period_end_date", "currency", "reporting_scale", "statement_scope")
+
+
+@dataclass
+class FieldScore:
+    field: str
+    value: object
+    confidence: float
+    grounded: Optional[bool]          # None when the check could not be run
+    abstained: bool = False
+    reasons: list = dc_field(default_factory=list)
+
+
+def _indonesian_forms(value: float) -> list:
+    """How this figure could legitimately be printed in the filing."""
+    magnitude = abs(int(round(value)))
+    grouped = f"{magnitude:,}".replace(",", ".")
+    forms = [grouped, str(magnitude)]
+    if value < 0:
+        forms += [f"({grouped})", f"-{grouped}"]
+    return forms
+
+
+def check_grounding(value, document_text: str) -> Optional[bool]:
+    """Is this value printed in the document? None if it cannot be checked."""
+    if not document_text or value is None:
+        return None
+    if isinstance(value, str):
+        return None          # dates are reformatted to ISO; not comparable verbatim
+    try:
+        return any(form in document_text for form in _indonesian_forms(float(value)))
+    except (TypeError, ValueError):
+        return None
+
+
+def score_extraction(extraction, document_text: str, issues: list) -> dict:
+    """Score every populated field. Returns {field: FieldScore}."""
+    implicated = {f for issue in issues for f in issue.fields if issue.severity == "error"}
+    warned = {f for issue in issues for f in issue.fields if issue.severity == "warning"}
+
+    scores = {}
+    for name in extraction.__dataclass_fields__:
+        value = getattr(extraction, name)
+        if value is None:
+            continue
+
+        reasons = []
+
+        if name in NON_NUMERIC:
+            grounded = None
+            grounding_score = 0.75          # unverifiable, neither trusted nor doubted
+            reasons.append("not verifiable verbatim")
+        else:
+            grounded = check_grounding(value, document_text)
+            if grounded is True:
+                grounding_score = 1.0
+            elif grounded is False:
+                grounding_score = 0.0
+                reasons.append("value does not appear in the document")
+            else:
+                grounding_score = 0.5
+                reasons.append("no text layer to verify against")
+
+        if name in implicated:
+            validation_score = 0.0
+            reasons.append("implicated in a failing validation rule")
+        elif name in warned:
+            validation_score = 0.5
+            reasons.append("implicated in a validation warning")
+        else:
+            validation_score = 1.0
+
+        if name in DERIVED_FROM:
+            parts = [scores.get(p) for p in DERIVED_FROM[name]]
+            known = [p.confidence for p in parts if p]
+            # A derived value is only as good as its weakest input.
+            derivation_score = min(known) if known else 0.4
+            if not known:
+                reasons.append("derived, but components were not scored")
+            else:
+                reasons.append(f"derived from {', '.join(DERIVED_FROM[name])}")
+        else:
+            derivation_score = 1.0
+
+        confidence = (W_GROUNDING * grounding_score
+                      + W_VALIDATION * validation_score
+                      + W_DERIVATION * derivation_score)
+
+        if name in implicated:
+            confidence = min(confidence, ERROR_CONFIDENCE_CAP)
+
+        scores[name] = FieldScore(name, value, round(confidence, 3), grounded,
+                                  reasons=reasons)
+
+    # Derived values are a special case for grounding. utang_bank is a SUM, so it
+    # is correctly absent from the document -- testing it verbatim would punish the
+    # right answer. Grade it on the rows it was computed from instead, which is what
+    # actually has to be read correctly.
+    for name, parts in DERIVED_FROM.items():
+        if name not in scores:
+            continue
+        known = [scores[p] for p in parts if p in scores]
+        if not known:
+            continue
+        s = scores[name]
+        inherited = min(p.confidence for p in known)
+        grounding_score = min(
+            1.0 if p.grounded else 0.5 if p.grounded is None else 0.0 for p in known)
+        validation_score = 0.0 if name in implicated else (0.5 if name in warned else 1.0)
+        derived_confidence = (W_GROUNDING * grounding_score
+                              + W_VALIDATION * validation_score
+                              + W_DERIVATION * inherited)
+        if name in implicated:
+            derived_confidence = min(derived_confidence, ERROR_CONFIDENCE_CAP)
+        s.confidence = round(derived_confidence, 3)
+        s.grounded = None
+        s.reasons = [f"derived from {', '.join(parts)}; graded on those rows"]
+        if validation_score == 0.0:
+            s.reasons.append("implicated in a failing validation rule")
+
+    return scores
+
+
+def apply_abstention(extraction, scores: dict, threshold: float = None) -> list:
+    """Blank fields the system is not confident enough to assert. Returns their names.
+
+    Setting the value to None is deliberate: a low-confidence number that stays in
+    the output will be used by something downstream. Abstention has to remove the
+    value, not merely annotate it.
+    """
+    threshold = ABSTAIN_THRESHOLD if threshold is None else threshold
+    abstained = []
+    for name, score in scores.items():
+        if score.confidence < threshold:
+            setattr(extraction, name, None)
+            score.abstained = True
+            abstained.append(name)
+    return abstained

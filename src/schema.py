@@ -32,8 +32,8 @@ class FinancialStatementExtraction:
     total_aset_lancar: Optional[float] = None
     kas: Optional[float] = None
     liabilitas: Optional[float] = None
-    utang_bank: Optional[float] = None  # Utang Bank Jangka Pendek + Utang Bank Saja
-    ekuitas: Optional[float] = None          # Ekuitas yang Diatribusikan (exclude non-controlling)
+    utang_bank: Optional[float] = None            # DERIVED = jangka_pendek + bagian_lancar  # Utang Bank Jangka Pendek + Utang Bank Saja
+    ekuitas: Optional[float] = None               # DERIVED = total_ekuitas - kepentingan_non_pengendali          # Ekuitas yang Diatribusikan (exclude non-controlling)
     
     # Income statement items
     pendapatan: Optional[float] = None                # Pendapatan dari Kontrak dengan Pelanggan
@@ -45,6 +45,17 @@ class FinancialStatementExtraction:
     # Shares
     total_share: Optional[float] = None     # Disetor penuh pada tanggal [date]
     
+    # --- Components, asked for separately and combined in code. -----------------
+    # Deciding which of three identically-labelled "Utang bank" rows to add, or
+    # subtracting a negative non-controlling interest, is selection and arithmetic.
+    # A model reading flattened text is unreliable at both and gives no way to see
+    # WHICH half it got wrong. Asking for the atomic rows instead turns the task
+    # into "copy the number beside this label", and the combination becomes code.
+    utang_bank_jangka_pendek: Optional[float] = None      # under "Liabilitas Jangka Pendek"
+    utang_bank_bagian_lancar: Optional[float] = None      # under "Bagian lancar atas liabilitas jangka panjang"
+    total_ekuitas: Optional[float] = None                 # "Total Ekuitas" (includes NCI)
+    kepentingan_non_pengendali: Optional[float] = None    # "Kepentingan Non-Pengendali", often negative
+
     # Metadata
     currency: Optional[str] = None                 # "USD" or "IDR"
     reporting_scale: Optional[str] = None          # "FULL" | "THOUSANDS" | "MILLIONS" | "BILLIONS"
@@ -64,6 +75,10 @@ class FinancialStatementExtraction:
             "laba_bersih": self.laba_bersih,
             "kas_dari_aktivitas_operasi": self.kas_dari_aktivitas_operasi,
             "total_share": self.total_share,
+            "utang_bank_jangka_pendek": self.utang_bank_jangka_pendek,
+            "utang_bank_bagian_lancar": self.utang_bank_bagian_lancar,
+            "total_ekuitas": self.total_ekuitas,
+            "kepentingan_non_pengendali": self.kepentingan_non_pengendali,
             "currency": self.currency,
             "reporting_scale": self.reporting_scale,
             "statement_scope": self.statement_scope,

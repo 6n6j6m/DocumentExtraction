@@ -25,8 +25,12 @@ Usage:
 """
 
 import argparse
+import hashlib
 import json
 import os
+import subprocess
+import time
+from datetime import datetime, timezone
 import sys
 from pathlib import Path
 
@@ -38,9 +42,46 @@ import openpyxl
 from schema import FinancialStatementExtraction, EXCEL_ROWS
 from normalize import to_idr, extract_fx_rate
 from extract import extract_from_pdf
-from llm import get_provider_with_fallback
+from llm import get_provider_with_fallback, LLMError
 
 HEADER_ROW = 3
+
+# Environment that changes what the run measures. Recorded with the scorecard so a
+# difference between two runs can be attributed instead of assumed.
+TRACKED_CONFIG = [
+    "LLM_PROVIDER", "GEMINI_MODEL", "OLLAMA_MODEL",
+    "GEMINI_INPUT_MODE", "OLLAMA_INPUT_MODE",
+    "SPLIT_BY_STATEMENT", "CONDENSE_TEXT", "IMAGE_DPI",
+    "CONFIDENCE_ABSTAIN_THRESHOLD", "MAX_PDF_PAGES",
+]
+
+
+def run_metadata(tolerance: float) -> dict:
+    """Everything needed to say whether two scorecards are comparable.
+
+    A score that moved between runs is only informative if you know what else moved.
+    The prompt hash matters most: prompts are edited far more often than code, and a
+    prompt change is invisible in a git diff of the harness.
+    """
+    from prompts import SYSTEM_PROMPT, EXTRACTION_PROMPT
+
+    def git(*args):
+        try:
+            return subprocess.check_output(["git", *args], cwd=ROOT,
+                                           stderr=subprocess.DEVNULL).decode().strip()
+        except Exception:
+            return None
+
+    dirty = git("status", "--porcelain")
+    return {
+        "timestamp": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "git_commit": git("rev-parse", "--short", "HEAD"),
+        "git_dirty": bool(dirty) if dirty is not None else None,
+        "prompt_sha256": hashlib.sha256(
+            (SYSTEM_PROMPT + EXTRACTION_PROMPT).encode()).hexdigest()[:12],
+        "tolerance": tolerance,
+        "config": {k: os.getenv(k) for k in TRACKED_CONFIG if os.getenv(k) is not None},
+    }
 
 # Spreadsheet period label -> (pdf stem, expected period end date).
 # "TAHUNAN 2022" is the annual filing, which is the Q4 document.
@@ -75,28 +116,64 @@ def predict(pdf_path: Path, cache_path: Path, use_cache: bool):
     """Extract from a filing, caching the raw (as-printed) result."""
     if use_cache and cache_path.exists():
         data = json.loads(cache_path.read_text())
-        return FinancialStatementExtraction.from_dict(data), True
+        result = FinancialStatementExtraction.from_dict(data)
+        # Confidence lives beside the fields rather than inside the dataclass, so it
+        # has to be restored explicitly or a cached run loses it silently.
+        result.field_confidence = data.get("_confidence", {})
+        result.elapsed_s = data.get("_elapsed_s")
+        return result, True
 
+    started = time.time()
     result = extract_from_pdf(str(pdf_path))
     if result is None:
         return None, False
+    result.elapsed_s = round(time.time() - started, 1)
 
+    payload = result.to_dict()
+    payload["_confidence"] = getattr(result, "field_confidence", {})
+    payload["_elapsed_s"] = result.elapsed_s
     cache_path.parent.mkdir(parents=True, exist_ok=True)
-    cache_path.write_text(json.dumps(result.to_dict(), indent=2))
+    cache_path.write_text(json.dumps(payload, indent=2))
     return result, False
 
 
-def compare(pred, truth, rel_tol):
-    """Compare one field. Returns (status, rel_error_or_None)."""
+# Counting failures is not the same as understanding them. A scale bug, a
+# comparative-column read and an invented number all show up as "wrong", but they
+# have different causes and different fixes, so each wrong answer is classified.
+def classify_failure(pred, truth, grounded) -> str:
+    """Name the KIND of wrong answer, from its relationship to the truth."""
+    if truth == 0:
+        return "wrong_value"
+    ratio = pred / truth
+
+    for factor, name in ((1000, "scale_1e3"), (1e6, "scale_1e6"), (1e9, "scale_1e9")):
+        if abs(ratio - factor) < 0.01 or abs(ratio - 1 / factor) < 1e-9:
+            return f"wrong_{name}"
+    # An FX rate applied when it should not have been, or omitted when it should.
+    if 8_000 < ratio < 25_000 or 8_000 < 1 / ratio < 25_000:
+        return "wrong_currency_conversion"
+    if abs(ratio + 1) < 0.01:
+        return "wrong_sign"
+    if grounded is False:
+        return "hallucinated"          # value is not printed anywhere in the filing
+    if abs(ratio - 1) < 0.05:
+        return "wrong_near_miss"       # neighbouring row, or comparative column
+    return "wrong_value"
+
+
+def compare(pred, truth, rel_tol, grounded=None):
+    """Compare one field. Returns (status, rel_error, failure_kind)."""
     if truth is None and pred is None:
-        return "both_absent", None
+        return "both_absent", None, None
     if truth is None:
-        return "no_truth", None
+        return "no_truth", None, None
     if pred is None:
-        return "missed", None
+        return "missed", None, None
     denominator = max(abs(truth), 1.0)
     error = abs(pred - truth) / denominator
-    return ("correct" if error <= rel_tol else "wrong"), error
+    if error <= rel_tol:
+        return "correct", error, None
+    return "wrong", error, classify_failure(pred, truth, grounded)
 
 
 def main():
@@ -113,13 +190,25 @@ def main():
     if args.provider:
         os.environ["LLM_PROVIDER"] = args.provider
         os.environ["LLM_FALLBACK_PROVIDER"] = ""   # comparing providers means no silent switch
-    provider_tag = get_provider_with_fallback()[0].name.replace(":", "_").replace("/", "_")
+    _p = get_provider_with_fallback()[0]
+    # The input mode changes what the model is shown, so two runs of the same model
+    # are different experiments. Without it in the tag they overwrite each other and
+    # the comparison silently becomes a comparison of a run with itself.
+    provider_tag = (f"{_p.name}_{getattr(_p, 'input_mode', 'text')}"
+                    .replace(":", "_").replace("/", "_"))
+    # A subset run gets its own filename. Otherwise `--periods Q1` overwrites the
+    # full four-period scorecard with a one-period one, and the committed artifact
+    # quietly stops meaning what its name says -- which happened once already.
+    subset = "" if set(args.periods) == set(PERIODS) else "_" + "".join(sorted(args.periods))
+    scorecard_name = f"scorecard_{provider_tag}{subset}.json"
     print(f"provider: {provider_tag}")
 
     xlsx = ROOT / "data" / "ground_truth" / f"{args.ticker}.xlsx"
     out_dir = ROOT / args.out
-    report = {"ticker": args.ticker, "tolerance": args.tolerance, "periods": {}}
+    report = {"ticker": args.ticker, "tolerance": args.tolerance,
+              "run": run_metadata(args.tolerance), "periods": {}}
     tally = {"correct": 0, "wrong": 0, "missed": 0, "no_truth": 0, "both_absent": 0}
+    failure_kinds = {}
 
     for key in args.periods:
         label, stem, expected_date = PERIODS[key]
@@ -131,7 +220,18 @@ def main():
         print(f"\n{'='*78}\n{key}  ({label})  {pdf.name}\n{'='*78}")
         truth = load_ground_truth(xlsx, label)
 
-        pred, cached = predict(pdf, out_dir / "predictions" / provider_tag / f"{key}.json", not args.no_cache)
+        # One period failing must not abandon the others: a scorecard covering three
+        # of four periods with the fourth recorded as failed is still usable, and the
+        # recorded failure is itself a result worth keeping.
+        try:
+            pred, cached = predict(
+                pdf, out_dir / "predictions" / provider_tag / f"{key}.json",
+                not args.no_cache)
+        except LLMError as exc:
+            print(f"  extraction failed: {exc}")
+            report["periods"][key] = {"error": str(exc)}
+            tally["failed_periods"] = tally.get("failed_periods", 0) + 1
+            continue
         if pred is None:
             print("  extraction failed - no fields returned")
             report["periods"][key] = {"error": "extraction_failed"}
@@ -153,22 +253,36 @@ def main():
         for field in EXCEL_ROWS:
             truth_idr = truth[field]
             pred_idr = converted.get(field)
-            status, err = compare(pred_idr, truth_idr, args.tolerance)
+            conf = (getattr(pred, "field_confidence", {}) or {}).get(field, {})
+            status, err, kind = compare(pred_idr, truth_idr, args.tolerance,
+                                        conf.get("grounded"))
             tally[status] += 1
+            if kind:
+                failure_kinds[kind] = failure_kinds.get(kind, 0) + 1
+            if status == "missed" and conf.get("abstained"):
+                tally["missed_abstained"] = tally.get("missed_abstained", 0) + 1
 
             raw = getattr(pred, field, None)
             truth_usd = (truth_idr / rate) if (truth_idr and rate and field != "total_share") else truth_idr
-            rows[field] = {"status": status, "rel_error": err,
-                           "pred_idr": pred_idr, "truth_idr": truth_idr, "pred_raw": raw}
+            rows[field] = {"status": status, "rel_error": err, "failure_kind": kind,
+                           "pred_idr": pred_idr, "truth_idr": truth_idr, "pred_raw": raw,
+                           "confidence": conf.get("confidence"),
+                           "grounded": conf.get("grounded"),
+                           "abstained": conf.get("abstained")}
 
-            mark = {"correct": "OK", "wrong": "<<< WRONG", "missed": "-- missed",
+            mark = {"correct": "OK", "wrong": f"<<< {kind}", "missed": "-- missed",
                     "no_truth": "(no truth)", "both_absent": "(both empty)"}[status]
+            if status == "missed" and conf.get("abstained"):
+                mark = "-- abstained"
             print(f"  {field:28}"
                   f"{raw if raw is not None else '-':>16}"
                   f"{f'{truth_usd:,.0f}' if truth_usd else '-':>16}"
                   f"{f'{err:.2%}' if err is not None else '-':>10}  {mark}")
 
-        report["periods"][key] = {"fx_rate": rate, "fields": rows}
+        abstained = [f for f, r in rows.items() if r.get("abstained")]
+        report["periods"][key] = {"fx_rate": rate, "fields": rows,
+                                  "elapsed_s": getattr(pred, "elapsed_s", None),
+                                  "abstained": abstained}
 
     total_scored = tally["correct"] + tally["wrong"] + tally["missed"]
     print(f"\n{'='*78}\nSUMMARY")
@@ -176,14 +290,21 @@ def main():
     print(f"  wrong        {tally['wrong']:>3}")
     print(f"  missed       {tally['missed']:>3}   (truth exists, model returned nothing)")
     print(f"  no truth     {tally['no_truth']:>3}   (not scored)")
+    if tally.get("missed_abstained"):
+        print(f"    of which abstained deliberately: {tally['missed_abstained']}")
+    if failure_kinds:
+        print("\n  failures by kind:")
+        for kind, n in sorted(failure_kinds.items(), key=lambda kv: -kv[1]):
+            print(f"    {kind:28}{n:>3}")
     if total_scored:
         print(f"\n  accuracy     {tally['correct']/total_scored:.1%}  ({tally['correct']}/{total_scored})")
 
     report["summary"] = tally
+    report["failure_kinds"] = failure_kinds
     report["provider"] = provider_tag
     out_dir.mkdir(parents=True, exist_ok=True)
-    (out_dir / f"scorecard_{provider_tag}.json").write_text(json.dumps(report, indent=2, default=str))
-    print(f"\n  written to {out_dir/f'scorecard_{provider_tag}.json'}")
+    (out_dir / scorecard_name).write_text(json.dumps(report, indent=2, default=str))
+    print(f"\n  written to {out_dir / scorecard_name}")
 
     return 1 if tally["wrong"] else 0
 

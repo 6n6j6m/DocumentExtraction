@@ -117,3 +117,39 @@ def select_statement_pages(pdf_path: str, *,
     
     return select_from_page_texts(texts, max_pages=max_pages,
                                   always_scan_all_if_under=always_scan_all_if_under)
+
+
+# Which statement each title marker belongs to, so pages can be grouped by the
+# statement they carry rather than treated as one undifferentiated blob.
+STATEMENT_GROUPS = {
+    "balance_sheet": [r"laporan posisi keuangan", r"statement of financial position"],
+    "income":        [r"laporan laba rugi", r"statement of profit or loss"],
+    "equity":        [r"laporan perubahan ekuitas", r"statement of changes in equity"],
+    "cash_flow":     [r"laporan arus kas", r"statement of cash flows"],
+}
+_GROUP_RES = {g: re.compile("|".join(p), re.IGNORECASE) for g, p in STATEMENT_GROUPS.items()}
+
+
+def classify_pages(page_texts: dict) -> dict:
+    """Group pages by which statement they belong to.
+
+    A statement runs from its title page until the next statement's title, so a
+    continuation page (which repeats no title) inherits the group of the page
+    before it.
+
+    Args:
+        page_texts: {page_number: text}
+    Returns:
+        {group_name: [page_numbers]} preserving order, groups with no pages omitted.
+    """
+    groups = {}
+    current = None
+    for n in sorted(page_texts):
+        head = (page_texts[n] or "")[:TITLE_REGION_CHARS]
+        for group, pattern in _GROUP_RES.items():
+            if pattern.search(head):
+                current = group
+                break
+        if current:
+            groups.setdefault(current, []).append(n)
+    return groups

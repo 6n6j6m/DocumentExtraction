@@ -7,6 +7,7 @@ to avoid dependency issues. Works with GEMINI_API_KEY environment variable.
 
 import os
 import json
+import time
 import base64
 from pathlib import Path
 from typing import Optional
@@ -22,9 +23,11 @@ from pdf2image import convert_from_path
 
 from schema import FinancialStatementExtraction
 from prompts import SYSTEM_PROMPT, EXTRACTION_PROMPT
-from page_select import select_statement_pages
-from normalize import to_idr, extract_fx_rate
-from llm import get_provider_with_fallback, parse_json, LLMError
+from page_select import select_statement_pages, classify_pages
+from normalize import to_idr
+from llm import get_provider_with_fallback, parse_json, LLMError, LLMUnavailable
+from validate import validate, validate_against_document
+from confidence import score_extraction, apply_abstention
 
 
 class ExtractorConfig:
@@ -39,7 +42,7 @@ class ExtractorConfig:
             raise ValueError("GEMINI_API_KEY environment variable not set")
 
 
-def render_pdf_page_to_image(pdf_path: str, page_num: int) -> bytes:
+def render_pdf_page_to_image(pdf_path: str, page_num: int, dpi: int = 150) -> bytes:
     """Render PDF page to PNG bytes using pdf2image.
     
     Args:
@@ -49,7 +52,7 @@ def render_pdf_page_to_image(pdf_path: str, page_num: int) -> bytes:
     Returns:
         PNG bytes
     """
-    images = convert_from_path(pdf_path, first_page=page_num+1, last_page=page_num+1, dpi=150)
+    images = convert_from_path(pdf_path, first_page=page_num+1, last_page=page_num+1, dpi=dpi)
     if not images:
         raise ValueError(f"Failed to render page {page_num}")
     
@@ -59,104 +62,8 @@ def render_pdf_page_to_image(pdf_path: str, page_num: int) -> bytes:
     return img_bytes.getvalue()
 
 
-def extract_json_from_response(text: str) -> dict:
-    """Extract JSON from response, handling markdown code fences.
-    
-    Args:
-        text: Raw response text (may contain markdown, code fences, etc.)
-        
-    Returns:
-        Parsed JSON dict
-    """
-    # Remove markdown code fences if present
-    text = re.sub(r'```json\s*', '', text)
-    text = re.sub(r'```\s*', '', text)
-    text = text.strip()
-    return json.loads(text)
 
 
-def extract_from_image(image_bytes: bytes, config: ExtractorConfig) -> Optional[FinancialStatementExtraction]:
-    """Send image to Gemini via REST API and extract financial data.
-    
-    Args:
-        image_bytes: PNG image bytes
-        config: ExtractorConfig instance
-        
-    Returns:
-        FinancialStatementExtraction if successful, None otherwise
-    """
-    image_base64 = base64.standard_b64encode(image_bytes).decode("utf-8")
-    
-    payload = {
-        "contents": [
-            {
-                "parts": [
-                    {
-                        "text": f"{SYSTEM_PROMPT}\n\n{EXTRACTION_PROMPT}"
-                    },
-                    {
-                        "inline_data": {
-                            "mime_type": "image/png",
-                            "data": image_base64,
-                        }
-                    }
-                ]
-            }
-        ]
-    }
-    
-    headers = {
-        "Content-Type": "application/json",
-    }
-    
-    params = {
-        "key": config.api_key
-    }
-    
-    try:
-        print(f"  Sending to Gemini API ({config.model_name})...")
-        response = requests.post(config.api_url, json=payload, headers=headers, params=params, timeout=30)
-        
-        if response.status_code != 200:
-            print(f"  ✗ API error: {response.status_code}")
-            print(f"    {response.text[:200]}")
-            return None
-        
-        response_data = response.json()
-        
-        # Extract text from response
-        if "candidates" not in response_data or not response_data["candidates"]:
-            print(f"  ✗ No candidates in response")
-            return None
-        
-        response_text = response_data["candidates"][0]["content"]["parts"][0]["text"]
-        print(f"  Raw response: {response_text[:200]}...")
-        
-        json_data = extract_json_from_response(response_text)
-        print(f"  ✓ Parsed JSON")
-        
-        # Convert numeric strings to floats where needed
-        for key in ['aset', 'total_aset_lancar', 'kas',
-                    'liabilitas', 'utang_bank', 'ekuitas',
-                    'pendapatan', 'laba_bersih', 'kas_dari_aktivitas_operasi', 'total_share']:
-            if key in json_data and json_data[key] is not None:
-                try:
-                    json_data[key] = float(json_data[key])
-                except (ValueError, TypeError):
-                    json_data[key] = None
-        
-        extraction = FinancialStatementExtraction.from_dict(json_data)
-        return extraction
-        
-    except requests.exceptions.Timeout:
-        print(f"  ✗ API timeout (30s)")
-        return None
-    except json.JSONDecodeError as e:
-        print(f"  ✗ Failed to parse JSON: {e}")
-        return None
-    except Exception as e:
-        print(f"  ✗ Extraction error: {e}")
-        return None
 
 
 MIN_TEXT_CHARS = 200   # below this a page is treated as having no usable text layer
@@ -174,6 +81,44 @@ def read_page_texts(pdf_path: str, page_numbers: list) -> dict:
     return texts
 
 
+HEADER_LINES = 8          # title, scope, currency and scale live at the top of a page
+GARBLED_MAX_MEDIAN_LEN = 15   # rotated pages extract as many tiny fragments
+
+
+def _is_garbled(lines: list) -> bool:
+    """True for pages whose text layer came out as fragments (rotated pages).
+
+    A rotated page extracts as hundreds of 2-3 character pieces. It carries no
+    readable figures, but it is the single largest page in the set -- worth its
+    own check rather than letting it eat a third of the context window.
+    """
+    if len(lines) < 60:
+        return False
+    lengths = sorted(len(l) for l in lines)
+    return lengths[len(lengths) // 2] < GARBLED_MAX_MEDIAN_LEN
+
+
+def condense_page_text(text: str) -> str:
+    """Drop lines that cannot carry a figure, keeping enough context to read one.
+
+    Statement labels wrap ("Ekuitas yang Dapat Diatribusikan" / "kepada Pemilik
+    Entitas Induk") and the amount often sits on the line after the label, so a
+    kept line brings its immediate neighbours with it. The page header is always
+    kept: currency and reporting scale are stated there, never on a numbered row.
+    """
+    lines = [l for l in text.split("\n") if l.strip()]
+    if not lines or _is_garbled(lines):
+        return ""
+
+    has_number = re.compile(r"\d{1,3}(?:\.\d{3})+|\d{4}")
+    keep = set(range(min(HEADER_LINES, len(lines))))
+    for i, line in enumerate(lines):
+        if has_number.search(line):
+            keep.update((i - 1, i, i + 1))
+
+    return "\n".join(lines[i] for i in sorted(keep) if 0 <= i < len(lines))
+
+
 def build_document_text(page_texts: dict) -> str:
     """Concatenate pages with markers so the model can tell them apart.
 
@@ -182,11 +127,17 @@ def build_document_text(page_texts: dict) -> str:
     little, and the model seeing the balance sheet, income statement and cash flow
     together is what lets it fill every field in a single pass.
     """
+    condense = os.getenv("CONDENSE_TEXT", "true").lower() in ("1", "true", "yes")
     blocks = []
     for n in sorted(page_texts):
         text = page_texts[n]
-        if len(text.strip()) >= MIN_TEXT_CHARS:
-            blocks.append(f"--- PAGE {n + 1} ---\n{text}")
+        if len(text.strip()) < MIN_TEXT_CHARS:
+            continue
+        if condense:
+            text = condense_page_text(text)
+            if not text:
+                continue
+        blocks.append(f"--- PAGE {n + 1} ---\n{text}")
     return "\n\n".join(blocks)
 
 
@@ -210,9 +161,87 @@ def _coerce_numbers(data: dict) -> dict:
     return data
 
 
-def extract_from_text(document_text: str, provider) -> Optional[FinancialStatementExtraction]:
-    """One call, whole statement section, structured JSON back."""
-    user = f"{EXTRACTION_PROMPT}\n\nDOCUMENT:\n{document_text}"
+# Which fields each statement can actually answer. A small model asked for 18
+# fields across 7 pages answers the first few and quietly drops the rest; asked
+# for 4 fields across 2 pages it answers all four. Splitting costs extra calls,
+# which is the right trade when the local model is free and the hosted one is
+# billed per request anyway.
+GROUP_FIELDS = {
+    "balance_sheet": ["aset", "total_aset_lancar", "kas", "liabilitas",
+                      "utang_bank_jangka_pendek", "utang_bank_bagian_lancar",
+                      "total_ekuitas", "kepentingan_non_pengendali", "total_share"],
+    "income":        ["pendapatan", "laba_bersih"],
+    "cash_flow":     ["kas_dari_aktivitas_operasi"],
+    "equity":        ["total_share"],
+}
+ALWAYS = ["period_end_date", "currency", "reporting_scale", "statement_scope"]
+
+
+def _focus_prompt(fields: list) -> str:
+    """Restrict one request to a named subset of fields."""
+    wanted = ", ".join(fields + ALWAYS)
+    return (f"{EXTRACTION_PROMPT}\n\n"
+            f"=== THIS REQUEST ONLY ===\n"
+            f"These pages contain ONLY part of the statements. Extract EXACTLY these "
+            f"fields and nothing else: {wanted}.\n"
+            f"Every one of them is present on these pages -- find all of them before "
+            f"answering. Omit all other fields from your JSON.")
+
+
+def derive_fields(extraction) -> list:
+    """Compute the fields the model was deliberately not asked to compute.
+
+    Returns a list of warnings. Deriving here rather than in the prompt means the
+    arithmetic is exact, and a wrong answer points at ONE misread row instead of an
+    opaque total. Where the model volunteered the combined value anyway, it is
+    cross-checked and the computed value wins.
+    """
+    warnings = []
+
+    short = extraction.utang_bank_jangka_pendek
+    current = extraction.utang_bank_bagian_lancar
+    if short is not None or current is not None:
+        computed = (short or 0) + (current or 0)
+        if short is None or current is None:
+            warnings.append(
+                f"utang_bank from one component only "
+                f"(jangka_pendek={short}, bagian_lancar={current})")
+        if extraction.utang_bank is not None and abs(extraction.utang_bank - computed) > 1:
+            warnings.append(
+                f"model said utang_bank={extraction.utang_bank:,.0f}, "
+                f"components sum to {computed:,.0f} - using components")
+        extraction.utang_bank = computed
+
+    total = extraction.total_ekuitas
+    nci = extraction.kepentingan_non_pengendali
+    if total is not None:
+        # Attributable to the parent = total less the non-controlling interest.
+        # NCI is negative in these filings, so the parent share is LARGER than the
+        # total -- the opposite of the usual intuition, and a common manual error.
+        computed = total - (nci or 0)
+        if nci is None:
+            warnings.append("kepentingan_non_pengendali missing; ekuitas assumes NCI = 0")
+        if extraction.ekuitas is not None and abs(extraction.ekuitas - computed) > 1:
+            warnings.append(
+                f"model said ekuitas={extraction.ekuitas:,.0f}, "
+                f"computed {computed:,.0f} - using computed")
+        extraction.ekuitas = computed
+
+    if extraction.aset and extraction.liabilitas and extraction.ekuitas:
+        gap = extraction.aset - (extraction.liabilitas + extraction.total_ekuitas
+                                 if extraction.total_ekuitas else extraction.ekuitas)
+        if abs(gap) > max(abs(extraction.aset) * 0.001, 1):
+            warnings.append(
+                f"balance sheet does not balance: aset - (liabilitas + total ekuitas) "
+                f"= {gap:,.0f}")
+
+    return warnings
+
+
+def extract_from_text(document_text: str, provider,
+                      prompt: Optional[str] = None) -> Optional[FinancialStatementExtraction]:
+    """One call for one slice of the filing; structured JSON back."""
+    user = f"{prompt or EXTRACTION_PROMPT}\n\nDOCUMENT:\n{document_text}"
     raw = provider.complete(SYSTEM_PROMPT, user)
     data = parse_json(raw)
     if "evidence" in data:
@@ -223,8 +252,13 @@ def extract_from_text(document_text: str, provider) -> Optional[FinancialStateme
 FIELDS = [
     "period_end_date", "aset", "total_aset_lancar", "kas",
     "liabilitas", "utang_bank", "ekuitas", "pendapatan",
-    "laba_bersih", "kas_dari_aktivitas_operasi", "total_share", "currency",
-    "reporting_scale", "statement_scope",
+    "laba_bersih", "kas_dari_aktivitas_operasi", "total_share",
+    # Components belong here too: merge_extractions and _coerce_numbers both iterate
+    # FIELDS, so anything missing is silently dropped between the per-statement
+    # calls -- leaving derived utang_bank and ekuitas with nothing to work from.
+    "utang_bank_jangka_pendek", "utang_bank_bagian_lancar",
+    "total_ekuitas", "kepentingan_non_pengendali",
+    "currency", "reporting_scale", "statement_scope",
 ]
 
 
@@ -247,15 +281,46 @@ def merge_extractions(base, new):
     return base
 
 
+def assess(extraction, page_texts: dict) -> dict:
+    """Validate, score every field, and blank the ones not worth asserting.
+
+    Grounding is checked against the PDF's text layer even when the model was shown
+    images. That makes it an independent channel: the extractor read pixels, the
+    verifier reads characters, so agreement is real evidence rather than the same
+    read twice.
+
+    Returns {field: {confidence, grounded, abstained, reasons}} and mutates
+    `extraction` in place, removing abstained values.
+    """
+    document_text = build_document_text(page_texts) if page_texts else ""
+    issues = validate(extraction) + validate_against_document(extraction, document_text)
+    for issue in issues:
+        print(f"    \u26a0 [{issue.severity}] {issue.rule}: {issue.message}")
+
+    scores = score_extraction(extraction, document_text, issues)
+    abstained = apply_abstention(extraction, scores)
+    if abstained:
+        print(f"    abstained on {len(abstained)}: {', '.join(abstained)}")
+
+    ungrounded = [n for n, s in scores.items() if s.grounded is False]
+    if ungrounded:
+        print(f"    not found in document text: {', '.join(ungrounded)}")
+
+    return {n: {"confidence": s.confidence, "grounded": s.grounded,
+                "abstained": s.abstained, "reasons": s.reasons}
+            for n, s in scores.items()}
+
+
 def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None) -> Optional[FinancialStatementExtraction]:
-    """Extract statement fields from a filing.
+    """Extract statement fields, trying each provider on ITS OWN input mode.
 
-    Text first: the selected pages' text layer goes to the model in one request.
-    Only when a filing has no usable text layer (a scan) does it fall back to
-    rendering pages as images and asking page by page, which is slower and dearer.
+    Gemini defaults to images (a VLM reads layout well and the cost is not ours to
+    bear); Ollama defaults to text (a local text model is far cheaper than a local
+    vision model of the same quality). Either can be overridden with
+    GEMINI_INPUT_MODE / OLLAMA_INPUT_MODE.
 
-    Raises:
-        LLMError: primary provider failed and no LLM_FALLBACK_PROVIDER is set.
+    A provider on text mode needs characters: the PDF's own text layer if it has
+    one, OCR only if it does not.
     """
     config = ExtractorConfig()
 
@@ -272,77 +337,175 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None) -> Opti
               f"({100*(1-len(page_numbers)/selection.total_pages):.1f}% reduction)")
 
     primary, fallback = get_provider_with_fallback()
-    page_texts = read_page_texts(pdf_path, page_numbers)
-    document_text = build_document_text(page_texts)
+    page_texts = None      # read lazily, only if some provider wants text
+    split = os.getenv("SPLIT_BY_STATEMENT", "true").lower() in ("1", "true", "yes")
 
-    if document_text:
-        pages_with_text = document_text.count("--- PAGE ")
-        print(f"  Text layer: {len(document_text):,} chars across {pages_with_text} page(s)")
+    for provider in [p for p in (primary, fallback) if p]:
+        mode = getattr(provider, "input_mode", "text")
+        print(f"\n\U0001F50D {provider.name} [{mode}]...")
 
-        for provider in [p for p in (primary, fallback) if p]:
-            print(f"\n\U0001F50D Extracting via {provider.name} (single text call)...")
-            try:
-                result = extract_from_text(document_text, provider)
-            except LLMError as e:
-                print(f"  \u2717 {e}")
-                continue
-            except Exception as e:
-                print(f"  \u2717 {type(e).__name__}: {e}")
-                continue
-
-            filled = _filled(result)
-            if filled:
-                print(f"  \u2713 {filled}/{len(FIELDS)} fields filled\n")
+        if mode == "image":
+            if page_texts is None:
+                page_texts = read_page_texts(pdf_path, page_numbers)
+            result = _extract_from_images(pdf_path, page_numbers, config, provider, page_texts)
+            if result is not None and _filled(result):
                 return result
-            print("  \u2717 no fields filled")
+            continue
 
-        raise LLMError("All providers failed on the text path")
+        if page_texts is None:
+            page_texts = read_page_texts(pdf_path, page_numbers)
+            if not any(len(t.strip()) >= MIN_TEXT_CHARS for t in page_texts.values()):
+                page_texts = ocr_pages(pdf_path, page_numbers)
 
-    print("  No usable text layer - falling back to page images")
-    return _extract_from_images(pdf_path, page_numbers, config, primary)
+        groups = classify_pages(page_texts) if split else {}
+        if not groups:
+            groups = {"all": sorted(page_texts)}
+
+        if provider.name.startswith("ollama"):
+            print("   (local model; first call also loads the weights - be patient)")
+
+        merged = FinancialStatementExtraction()
+        started = time.time()
+        failed = False
+        for group, pages in groups.items():
+            text = build_document_text({n: page_texts[n] for n in pages})
+            if not text:
+                continue
+            fields = GROUP_FIELDS.get(group)
+            prompt = _focus_prompt(fields) if fields else EXTRACTION_PROMPT
+            print(f"  [{group}] pages {[p+1 for p in pages]}, {len(text):,} chars")
+            try:
+                part = extract_from_text(text, provider, prompt=prompt)
+            except LLMUnavailable as e:
+                print(f"    \u2717 {e}")
+                failed = True
+                break
+            except Exception as e:
+                print(f"    \u2717 {type(e).__name__}: {e}")
+                continue
+            before = _filled(merged)
+            merge_extractions(merged, part)
+            print(f"    +{_filled(merged)-before} field(s)")
+
+        if failed:
+            continue
+
+        for warning in derive_fields(merged):
+            print(f"    \u26a0 {warning}")
+
+        merged.field_confidence = assess(merged, page_texts)
+
+        if _filled(merged):
+            print(f"  \u2713 {_filled(merged)}/{len(FIELDS)} fields in {time.time()-started:.0f}s\n")
+            return merged
+        print("  \u2717 no fields filled")
+
+    raise LLMError("Every provider failed")
 
 
-def _extract_from_images(pdf_path, page_numbers, config, provider):
-    """Scanned-filing path: render each page and merge what each one yields."""
+def ocr_pages(pdf_path: str, page_numbers: list) -> dict:
+    """OCR pages that have no text layer. Only reached for scanned filings.
+
+    Requires tesseract (`brew install tesseract tesseract-lang`) and pytesseract.
+    Indonesian filings are bilingual, so both language packs are requested.
+    """
+    try:
+        import pytesseract
+        from PIL import Image
+    except ImportError:
+        print("  (OCR unavailable: pip install pytesseract, brew install tesseract)")
+        return {}
+
+    import io
+    texts = {}
+    for n in page_numbers:
+        try:
+            image = Image.open(io.BytesIO(render_pdf_page_to_image(pdf_path, n)))
+            texts[n] = pytesseract.image_to_string(image, lang="ind+eng")
+            print(f"  OCR page {n+1}: {len(texts[n]):,} chars")
+        except Exception as e:
+            print(f"  OCR page {n+1} failed: {e}")
+    return texts
+
+
+def _extract_from_images(pdf_path, page_numbers, config, provider, page_texts=None):
+    """Vision path: one call per statement, showing all of that statement's pages.
+
+    Sending pages one at a time was necessary when every page cost a separate
+    request anyway; grouping them means the model sees a statement whole -- the
+    balance sheet's section headings and its indented rows land in the same call as
+    the numbers underneath them, which is the context a flattened text layer loses.
+    """
     import base64
 
-    merged = FinancialStatementExtraction()
-    pages_used = []
+    dpi = int(os.getenv("IMAGE_DPI", "150"))
+    split = os.getenv("SPLIT_BY_STATEMENT", "true").lower() in ("1", "true", "yes")
 
-    for page_num in page_numbers:
-        print(f"\U0001F50D Page {page_num + 1} as image via {provider.name}...")
+    groups = classify_pages(page_texts) if (split and page_texts) else {}
+    if not groups:
+        groups = {"all": list(page_numbers)}
+
+    merged = FinancialStatementExtraction()
+    for group, pages in groups.items():
+        images = []
+        for n in pages:
+            try:
+                images.append(base64.standard_b64encode(
+                    render_pdf_page_to_image(pdf_path, n, dpi=dpi)).decode())
+            except Exception as exc:
+                print(f"    \u2717 render page {n+1}: {exc}")
+        if not images:
+            continue
+
+        fields = GROUP_FIELDS.get(group)
+        prompt = _focus_prompt(fields) if fields else EXTRACTION_PROMPT
+        kb = sum(len(i) for i in images) / 1024
+        print(f"  [{group}] pages {[p+1 for p in pages]}, {len(images)} image(s), {kb:,.0f} KB")
+
         try:
-            image_b64 = base64.standard_b64encode(
-                render_pdf_page_to_image(pdf_path, page_num)).decode()
-            raw = provider.complete(SYSTEM_PROMPT, EXTRACTION_PROMPT, image_b64=image_b64)
+            raw = provider.complete(SYSTEM_PROMPT, prompt, images=images)
             data = parse_json(raw)
             data.pop("evidence", None)
-            extraction = FinancialStatementExtraction.from_dict(_coerce_numbers(data))
-        except Exception as e:
-            print(f"  \u2717 {type(e).__name__}: {e}")
+            part = FinancialStatementExtraction.from_dict(_coerce_numbers(data))
+        except LLMUnavailable as exc:
+            print(f"    \u2717 {exc}")
+            print(f"    abandoning {provider.name}")
+            return None
+        except Exception as exc:
+            print(f"    \u2717 {type(exc).__name__}: {exc}")
             continue
 
         before = _filled(merged)
-        merge_extractions(merged, extraction)
-        after = _filled(merged)
-        if after > before:
-            pages_used.append(page_num + 1)
-            print(f"  \u2713 +{after - before} field(s) -> {after}/{len(FIELDS)}")
-        if after == len(FIELDS):
-            break
+        merge_extractions(merged, part)
+        print(f"    +{_filled(merged) - before} field(s)")
+
+    for warning in derive_fields(merged):
+        print(f"    \u26a0 {warning}")
+
+    merged.field_confidence = assess(merged, page_texts or {})
 
     if not _filled(merged):
         print("\u2717 Failed to extract any field\n")
         return None
-    print(f"\n\u2713 {_filled(merged)}/{len(FIELDS)} fields from pages {pages_used}\n")
+    print(f"  \u2713 {_filled(merged)}/{len(FIELDS)} fields\n")
     return merged
+
+
+
+
 
 
 if __name__ == "__main__":
     import sys
 
     test_pdf = sys.argv[1] if len(sys.argv) > 1 else "data/raw/Q1_2022_ARCI.pdf"
-    result = extract_from_pdf(test_pdf)
+    try:
+        result = extract_from_pdf(test_pdf)
+    except LLMError as e:
+        # Expected operational states (model not pulled, server down, rate limited)
+        # are not bugs; a traceback here only buries the sentence that helps.
+        print(f"\n\u2717 {e}")
+        raise SystemExit(1)
 
     if not result:
         print("\u2717 Extraction failed")
@@ -350,6 +513,14 @@ if __name__ == "__main__":
 
     print("=== AS PRINTED ===")
     print(json.dumps(result.to_dict(), indent=2))
+
+    scores = getattr(result, "field_confidence", {})
+    if scores:
+        print("\n=== CONFIDENCE ===")
+        for name, s in sorted(scores.items(), key=lambda kv: kv[1]["confidence"]):
+            mark = "ABSTAINED" if s["abstained"] else ("grounded" if s["grounded"]
+                   else "NOT IN TEXT" if s["grounded"] is False else "-")
+            print(f"  {name:30}{s['confidence']:>6.2f}  {mark}")
 
     try:
         norm = to_idr(result, pdf_path=test_pdf)

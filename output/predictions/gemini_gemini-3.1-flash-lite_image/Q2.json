@@ -10,6 +10,10 @@
   "laba_bersih": 14151507.0,
   "kas_dari_aktivitas_operasi": 16639487.0,
   "total_share": 24835000000.0,
+  "utang_bank_jangka_pendek": 62588116.0,
+  "utang_bank_bagian_lancar": 2000909.0,
+  "total_ekuitas": 246862052.0,
+  "kepentingan_non_pengendali": -167116.0,
   "currency": "USD",
   "reporting_scale": "FULL",
   "statement_scope": "CONSOLIDATED"
