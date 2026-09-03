@@ -578,11 +578,15 @@ ARCI was reproduced after the prompt was rewritten to remove its own figures fro
 examples (see *Agentic development*), so the score is not the model copying numbers it was
 shown.
 
-**The two JPFA rows are the same code over the same filings.** On the second run the model
+**The two JPFA rows are the same code over the same filings.** Where they differ, the model
 misread one figure on the annual report, the balance-sheet identity failed, and the three
-implicated fields were withdrawn rather than published. Both scorecards are committed.
-Quoting only the first would describe a more reliable system than this is; quoting only
-the second would describe a worse one.
+implicated fields were withdrawn rather than published. So far that is two local runs
+agreeing on 33/36 against one containerised run at 36/36 — not enough to say which is
+typical, and the honest thing is to publish both rather than pick.
+
+Quoting only the 36/36 would describe a more reliable system than this is; quoting only
+the 33/36 would describe a worse one. What both agree on is the part that matters: **on an
+issuer it was never tuned for, this extractor has never yet published a wrong figure.**
 
 #### What these numbers do not cover
 
