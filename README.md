@@ -5,6 +5,40 @@ Pulls a fixed schema of ten financial figures out of Indonesian Stock Exchange f
 against hand-labelled ground truth, and **declines to answer when it is not confident**
 rather than guessing.
 
+## Why this exists
+
+This is not a problem found for the exercise. It is freelance work I do with a friend who
+analyses Indonesian listed companies, combining qualitative judgement with the numbers. He
+does the judgement; my job has been collecting the quantitative side — opening each
+quarterly filing, finding the four primary statements somewhere inside a hundred-odd
+pages, and copying ten figures per period into a spreadsheet so he can compute the ratios
+he actually reasons with.
+
+It is slow, and slow in the least interesting way: the work is almost entirely locating
+and transcribing. It also fails badly rather than gracefully — a single misread row
+quietly poisons every ratio built on top of it, and nothing downstream can tell. Per
+issuer it is tolerable. Across a watchlist, and repeated every quarter, it is the reason
+this repository exists.
+
+So the question behind this repository is a practical one — **can this be automated
+without becoming untrustworthy?** Automation that is right most of the time is worse than
+useless here, because a wrong figure looks exactly like a right one once it is in the
+spreadsheet. That is why so much of what follows is about the system knowing when it is
+unsure, refusing rather than guessing, and being measurable enough that we could tell.
+
+Two consequences worth knowing before reading further:
+
+- **The schema is his, not mine.** The ten fields are whatever his ratios need — see
+  [Schema, and why these ten fields](#schema-and-why-these-ten-fields). I did not choose
+  them to be convenient to extract, and two of them are genuinely awkward.
+- **The ground truth is the real working spreadsheet**, Indonesian labels and all, with
+  his ratio formulas still in the rows beneath the extracted figures. It was not built for
+  this evaluation; the evaluation was fitted to it.
+
+---
+
+## Where it stands
+
 **Two issuers are scored**, and they say different things:
 
 | Issuer | Result | What it is |
@@ -40,6 +74,7 @@ and what more time would buy. In order:
 | | |
 |---|---|
 | Run commands | [Start here](#start-here) · [Reading the output](#reading-the-output) |
+| Why the problem | [Why this exists](#why-this-exists) |
 | Dataset, and why | [Dataset, and why this one](#dataset-and-why-this-one) |
 | Schema, and why | [Schema, and why these ten fields](#schema-and-why-these-ten-fields) |
 | Approach, and why | [Architecture](#architecture) · [Why a single well-designed call per statement, not an agent](#why-a-single-well-designed-call-per-statement-not-an-agent) |
@@ -282,8 +317,9 @@ extraction.
 
 ## Dataset, and why this one
 
-Public IDX filings, downloaded as published. They were chosen because they are
-awkward in ways that matter:
+Public IDX filings, downloaded as published — the same documents the manual workflow this
+replaces already used. They were not chosen for being tractable, and they are awkward in
+ways that matter:
 
 | Property | Why it makes the problem real |
 |---|---|
