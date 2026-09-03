@@ -2,8 +2,8 @@
   "ticker": "ARCI",
   "tolerance": 0.0001,
   "run": {
-    "timestamp": "2026-09-03T09:25:28+00:00",
-    "git_commit": "9d300f4",
+    "timestamp": "2026-09-03T09:30:14+00:00",
+    "git_commit": "d5ce1a3",
     "git_dirty": null,
     "prompt_sha256": "819307634e49",
     "tolerance": 0.0001,
@@ -133,7 +133,7 @@
           "abstained": false
         }
       },
-      "elapsed_s": 18.8,
+      "elapsed_s": 19.5,
       "usage": {
         "llm_calls": 3,
         "tokens": {
@@ -141,10 +141,10 @@
           "output": 982
         },
         "latency_ms": {
-          "select_pages": 6517,
-          "read_text": 642,
-          "assess": 7,
-          "extract": 11581
+          "select_pages": 7328,
+          "read_text": 721,
+          "assess": 8,
+          "extract": 11466
         },
         "cost": {
           "amount": null,
@@ -277,7 +277,7 @@
           "abstained": false
         }
       },
-      "elapsed_s": 21.6,
+      "elapsed_s": 24.4,
       "usage": {
         "llm_calls": 3,
         "tokens": {
@@ -285,10 +285,10 @@
           "output": 1014
         },
         "latency_ms": {
-          "select_pages": 5864,
-          "read_text": 632,
-          "assess": 7,
-          "extract": 15127
+          "select_pages": 6198,
+          "read_text": 1042,
+          "assess": 5,
+          "extract": 17093
         },
         "cost": {
           "amount": null,
@@ -421,7 +421,7 @@
           "abstained": false
         }
       },
-      "elapsed_s": 19.6,
+      "elapsed_s": 18.5,
       "usage": {
         "llm_calls": 3,
         "tokens": {
@@ -429,10 +429,10 @@
           "output": 947
         },
         "latency_ms": {
-          "select_pages": 6335,
-          "read_text": 339,
-          "assess": 6,
-          "extract": 12875
+          "select_pages": 6502,
+          "read_text": 376,
+          "assess": 5,
+          "extract": 11608
         },
         "cost": {
           "amount": null,
@@ -565,7 +565,7 @@
           "abstained": false
         }
       },
-      "elapsed_s": 23.8,
+      "elapsed_s": 25.6,
       "usage": {
         "llm_calls": 4,
         "tokens": {
@@ -573,10 +573,10 @@
           "output": 1128
         },
         "latency_ms": {
-          "select_pages": 8115,
-          "read_text": 939,
-          "assess": 5,
-          "extract": 14721
+          "select_pages": 9284,
+          "read_text": 1039,
+          "assess": 4,
+          "extract": 15222
         },
         "cost": {
           "amount": null,
