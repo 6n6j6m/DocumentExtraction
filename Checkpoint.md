@@ -257,3 +257,18 @@ resolve.
 **Open**
 
 - The Docker quick-start path is deliberately absent until a build has actually run.
+
+## Stage 7 — Self-review against the PDF's Evaluation Criteria
+
+Walked the six rows. Summary of where this repository actually stands:
+
+| Aspect | Standing | The thin part |
+|---|---|---|
+| Evaluation Rigor | Partial | One labelled issuer. Failure taxonomy and abstention are proven by fault injection, never by a real failure — `failure_kinds` is empty because nothing has ever been wrong. |
+| Extraction Quality | Strong | Four issuers, three of them unseen during development; multi-page, tables, absent fields, no hallucination surviving grounding. Only ARCI is measured against labels. |
+| LLM/VLM Engineering | Strong | Confidence is computed from checkable signals, not self-reported; abstention removes the value. Weights are reasoned, not calibrated. |
+| Production-Readiness | Strong on visibility, unproven on containers | Cost and latency are real and per-stage; batch concurrency measured. Docker is written but never built. |
+| Agentic Development | Good | One skill, genuinely used, and an audit trail of what the agent found by verifying rather than assuming. |
+| Code Quality & Communication | Strong | 48 tests, no network in the test suite, README states its own limits. `src/` still uses flat imports rather than being a package. |
+
+Full reasoning delivered in the session reply rather than duplicated here.
