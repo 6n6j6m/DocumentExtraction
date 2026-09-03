@@ -1,22 +1,25 @@
 {
   "period_end_date": "2022-12-31",
-  "aset": 717816422.0,
-  "total_aset_lancar": 87174516.0,
-  "kas": 10339434.0,
-  "liabilitas": 470060983.0,
-  "utang_bank": 95640309.0,
-  "ekuitas": 247837925.0,
-  "pendapatan": 216476272.0,
-  "laba_bersih": 14550684.0,
-  "kas_dari_aktivitas_operasi": 54291208.0,
-  "total_share": 24835000000.0,
-  "utang_bank_jangka_pendek": 60699682.0,
-  "utang_bank_bagian_lancar": 34940627.0,
-  "total_ekuitas": 247755439.0,
-  "kepentingan_non_pengendali": -82486.0,
-  "total_share_components": null,
-  "currency": "USD",
-  "reporting_scale": "FULL",
+  "aset": 32690887.0,
+  "total_aset_lancar": 17001468.0,
+  "kas": 1811082.0,
+  "liabilitas": 19036110.0,
+  "utang_bank": 4424209.0,
+  "ekuitas": 12748045.0,
+  "pendapatan": 48972085.0,
+  "laba_bersih": 1419855.0,
+  "kas_dari_aktivitas_operasi": 1426749.0,
+  "total_share": 11726575201.0,
+  "utang_bank_jangka_pendek": 3868963.0,
+  "utang_bank_bagian_lancar": 555246.0,
+  "total_ekuitas": 13654777.0,
+  "kepentingan_non_pengendali": 906732.0,
+  "total_share_components": [
+    8814985201.0,
+    2911590000.0
+  ],
+  "currency": "IDR",
+  "reporting_scale": "MILLIONS",
   "statement_scope": "CONSOLIDATED",
   "_confidence": {
     "period_end_date": {
@@ -87,9 +90,11 @@
     },
     "total_share": {
       "confidence": 1.0,
-      "grounded": true,
+      "grounded": null,
       "abstained": false,
-      "reasons": []
+      "reasons": [
+        "derived from total_share_components; graded on those rows"
+      ]
     },
     "utang_bank_jangka_pendek": {
       "confidence": 1.0,
@@ -110,6 +115,12 @@
       "reasons": []
     },
     "kepentingan_non_pengendali": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": []
+    },
+    "total_share_components": {
       "confidence": 1.0,
       "grounded": true,
       "abstained": false,
@@ -140,18 +151,18 @@
       ]
     }
   },
-  "_elapsed_s": 23.0,
+  "_elapsed_s": 32.8,
   "_usage": {
     "llm_calls": 4,
     "tokens": {
-      "input": 21094,
-      "output": 1128
+      "input": 22186,
+      "output": 1215
     },
     "latency_ms": {
-      "select_pages": 8991,
-      "read_text": 604,
-      "assess": 7,
-      "extract": 13408
+      "select_pages": 9848,
+      "read_text": 336,
+      "assess": 6,
+      "extract": 22609
     },
     "cost": {
       "amount": null,
@@ -160,8 +171,8 @@
       "per_model": [
         {
           "model": "gemini-3.1-flash-lite",
-          "input_tokens": 21094,
-          "output_tokens": 1128,
+          "input_tokens": 22186,
+          "output_tokens": 1215,
           "amount": null
         }
       ]

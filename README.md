@@ -10,13 +10,20 @@ rather than guessing.
 | Issuer | Result | What it is |
 |---|---|---|
 | **ARCI** | **40/40** (100%) | USD, full units. The issuer this was developed against. |
-| **JPFA** | **33/36** (91.7%) | Rupiah, millions. Never seen during development. |
+| **JPFA** | **36/36** and **33/36** | Rupiah, millions. Never seen during development. Two runs, two answers. |
 
-JPFA is the more informative number. Nothing is scored `wrong` in either — but on JPFA
-the system **declined to answer three times**, because one period's balance sheet does
-not balance and it refused to assert figures it had grounds to doubt. That is the
-behaviour this whole design argues for, and JPFA is where it first happened outside a
-test.
+JPFA is the more informative row, and the disagreement is the reason. Two runs of the
+same code over the same filings scored 36/36 and 33/36. **Nothing was `wrong` in either.**
+In the second, the model misread one figure on JPFA's annual report, the balance sheet
+stopped balancing, and the system withdrew the three implicated fields rather than
+publishing them — the abstention machinery firing on something nobody staged, for the
+first time.
+
+Both scorecards are committed. Reporting only the 36/36 would describe a system that is
+more reliable than this one is; reporting only the 33/36 would describe one that is worse.
+The pair says what is actually true: on an issuer it has never been tuned for, the
+extractor is occasionally wrong on the hardest period, and when it is, it says so instead
+of guessing.
 
 **54 tests**, of which 25 break one specific thing each and assert the right guard fires.
 
