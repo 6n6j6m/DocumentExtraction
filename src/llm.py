@@ -33,6 +33,11 @@ from typing import Optional
 import requests
 
 
+# Transient capacity failures, worth one more attempt. 429 is excluded on purpose --
+# see the comment at the retry loop.
+RETRIABLE_STATUS = frozenset({500, 502, 503, 504})
+
+
 def _record(usage, provider: str, model: str, reported: Optional[dict], started: float,
             in_key: str, out_key: str) -> None:
     """Log one call's tokens and latency into an accumulator, if one was passed.
@@ -100,6 +105,10 @@ class GeminiProvider:
         self.timeout = int(os.getenv("GEMINI_TIMEOUT", os.getenv("LLM_TIMEOUT", "120")))
         # "image" sends rendered pages to the VLM; "text" sends the text layer.
         self.input_mode = os.getenv("GEMINI_INPUT_MODE", "image").lower()
+        # One retry by default: enough to ride out a capacity spike, few enough that a
+        # genuinely down provider is discovered quickly rather than after a long stall.
+        self.max_retries = int(os.getenv("LLM_MAX_RETRIES", "1"))
+        self.retry_backoff = float(os.getenv("LLM_RETRY_BACKOFF_S", "2"))
         if not self.api_key:
             raise LLMUnavailable("GEMINI_API_KEY not set")
 
@@ -133,18 +142,39 @@ class GeminiProvider:
 
         started = time.time()
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent"
-        response = requests.post(
-            url,
-            params={"key": self.api_key},
-            json={
-                "contents": [{"parts": parts}],
-                "generationConfig": {
-                    "temperature": 0,
-                    "responseMimeType": "application/json",
-                },
+        body = {
+            "contents": [{"parts": parts}],
+            "generationConfig": {
+                "temperature": 0,
+                "responseMimeType": "application/json",
             },
-            timeout=self.timeout,
-        )
+        }
+
+        # One bounded retry, for CAPACITY errors only.
+        #
+        # This exists because of an observed failure, not a hypothetical one: during a
+        # containerised evaluation run Gemini answered one call with
+        #   503 "This model is currently experiencing high demand. Spikes in demand are
+        #        usually temporary. Please try again later."
+        # and the filing lost `kas_dari_aktivitas_operasi` -- a field the model could
+        # read perfectly well, on a page it had already been sent. The three documents
+        # after it succeeded immediately, which is what "temporary" looked like in
+        # practice.
+        #
+        # 429 is deliberately NOT retried. A 503 says the service is briefly oversubscribed
+        # and invites a retry in its own message; a 429 says WE are over our allowance, and
+        # retrying spends another unit of the thing we have just run out of. They read
+        # alike in a status-code table and behave nothing alike.
+        for attempt in range(self.max_retries + 1):
+            response = requests.post(url, params={"key": self.api_key}, json=body,
+                                     timeout=self.timeout)
+            if response.status_code not in RETRIABLE_STATUS or attempt == self.max_retries:
+                break
+            delay = self.retry_backoff * (2 ** attempt)
+            print(f"    ⏳ {response.status_code} from Gemini (capacity); retrying once "
+                  f"in {delay:.0f}s")
+            time.sleep(delay)
+
         if response.status_code == 429:
             raise LLMUnavailable("Gemini rate limit (429) - falling back if configured")
         if response.status_code == 404:

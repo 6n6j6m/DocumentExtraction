@@ -2,7 +2,7 @@
   "ticker": "ARCI",
   "tolerance": 0.0001,
   "run": {
-    "timestamp": "2026-09-03T09:25:28+00:00",
+    "timestamp": "2026-09-03T09:06:01+00:00",
     "git_commit": "9d300f4",
     "git_dirty": null,
     "prompt_sha256": "819307634e49",
@@ -111,15 +111,15 @@
           "abstained": false
         },
         "kas_dari_aktivitas_operasi": {
-          "status": "correct",
-          "rel_error": 3.655703236542207e-13,
+          "status": "missed",
+          "rel_error": null,
           "failure_kind": null,
-          "pred_idr": 522079942611,
+          "pred_idr": null,
           "truth_idr": 522079942611.19086,
-          "pred_raw": 36388972.0,
-          "confidence": 1.0,
-          "grounded": true,
-          "abstained": false
+          "pred_raw": null,
+          "confidence": null,
+          "grounded": null,
+          "abstained": null
         },
         "total_share": {
           "status": "correct",
@@ -133,18 +133,18 @@
           "abstained": false
         }
       },
-      "elapsed_s": 18.8,
+      "elapsed_s": 19.5,
       "usage": {
-        "llm_calls": 3,
+        "llm_calls": 2,
         "tokens": {
-          "input": 18019,
-          "output": 982
+          "input": 12755,
+          "output": 783
         },
         "latency_ms": {
-          "select_pages": 6517,
-          "read_text": 642,
-          "assess": 7,
-          "extract": 11581
+          "select_pages": 6689,
+          "read_text": 669,
+          "assess": 11,
+          "extract": 12158
         },
         "cost": {
           "amount": null,
@@ -153,8 +153,8 @@
           "per_model": [
             {
               "model": "gemini-3.1-flash-lite",
-              "input_tokens": 18019,
-              "output_tokens": 982,
+              "input_tokens": 12755,
+              "output_tokens": 783,
               "amount": null
             }
           ]
@@ -277,7 +277,7 @@
           "abstained": false
         }
       },
-      "elapsed_s": 21.6,
+      "elapsed_s": 24.8,
       "usage": {
         "llm_calls": 3,
         "tokens": {
@@ -285,10 +285,10 @@
           "output": 1014
         },
         "latency_ms": {
-          "select_pages": 5864,
-          "read_text": 632,
-          "assess": 7,
-          "extract": 15127
+          "select_pages": 5946,
+          "read_text": 620,
+          "assess": 5,
+          "extract": 18229
         },
         "cost": {
           "amount": null,
@@ -421,7 +421,7 @@
           "abstained": false
         }
       },
-      "elapsed_s": 19.6,
+      "elapsed_s": 18.9,
       "usage": {
         "llm_calls": 3,
         "tokens": {
@@ -429,10 +429,10 @@
           "output": 947
         },
         "latency_ms": {
-          "select_pages": 6335,
-          "read_text": 339,
-          "assess": 6,
-          "extract": 12875
+          "select_pages": 6029,
+          "read_text": 312,
+          "assess": 5,
+          "extract": 12579
         },
         "cost": {
           "amount": null,
@@ -565,7 +565,7 @@
           "abstained": false
         }
       },
-      "elapsed_s": 23.8,
+      "elapsed_s": 29.2,
       "usage": {
         "llm_calls": 4,
         "tokens": {
@@ -573,10 +573,10 @@
           "output": 1128
         },
         "latency_ms": {
-          "select_pages": 8115,
-          "read_text": 939,
-          "assess": 5,
-          "extract": 14721
+          "select_pages": 9311,
+          "read_text": 606,
+          "assess": 1,
+          "extract": 19243
         },
         "cost": {
           "amount": null,
@@ -598,10 +598,10 @@
   },
   "usage": {
     "documents": 4,
-    "llm_calls": 13,
+    "llm_calls": 12,
     "tokens": {
-      "input": 75151,
-      "output": 4071
+      "input": 69887,
+      "output": 3872
     },
     "cost": {
       "amount": null,
@@ -610,9 +610,9 @@
     }
   },
   "summary": {
-    "correct": 40,
+    "correct": 39,
     "wrong": 0,
-    "missed": 0,
+    "missed": 1,
     "no_truth": 0,
     "both_absent": 0
   },

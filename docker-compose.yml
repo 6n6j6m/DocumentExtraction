@@ -9,7 +9,13 @@
 
 services:
   api:
-    build: .
+    build:
+      context: .
+      args:
+        # Which code is in the image. .git is not copied in, so without this the
+        # scorecard from a containerised run cannot name its own commit.
+        #   GIT_COMMIT=$(git rev-parse --short HEAD) docker compose build
+        GIT_COMMIT: "${GIT_COMMIT:-}"
     image: idx-extraction:latest
     ports:
       - "${API_PORT:-8000}:8000"
@@ -41,7 +47,10 @@ services:
     restart: unless-stopped
 
   eval:
-    build: .
+    build:
+      context: .
+      args:
+        GIT_COMMIT: "${GIT_COMMIT:-}"
     image: idx-extraction:latest
     profiles: ["eval"]
     depends_on:
@@ -56,6 +65,9 @@ services:
       # This is what makes it an end-to-end test of the SERVICE rather than of the
       # library that happens to be in the same image.
       EVAL_TARGET: "http://api:8000"
+      # Run-time override, so a scorecard can be attributed without a rebuild:
+      #   GIT_COMMIT=$(git rev-parse --short HEAD) docker compose run --rm eval
+      GIT_COMMIT: "${GIT_COMMIT:-}"
     volumes:
       - ./data:/app/data:ro
       - ./output:/app/output

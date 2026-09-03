@@ -163,16 +163,93 @@ def test_stage_timing_is_recorded_separately():
     assert set(usage.stages) == {"select_pages", "extract"}
 
 
+
+
+# --- transient upstream failures -------------------------------------------------
+
+class _Response:
+    def __init__(self, status, payload=None):
+        self.status_code = status
+        self._payload = payload or {}
+        self.text = str(self._payload)
+
+    def json(self):
+        return self._payload
+
+
+_OK = {"candidates": [{"content": {"parts": [{"text": '{"aset": 1}'}]}}],
+       "usageMetadata": {"promptTokenCount": 10, "candidatesTokenCount": 2}}
+
+
+def _gemini(monkeypatch, statuses):
+    """A GeminiProvider whose HTTP calls return `statuses` in order."""
+    import llm
+    monkeypatch.setenv("GEMINI_API_KEY", "test-key")
+    monkeypatch.setenv("LLM_RETRY_BACKOFF_S", "0")     # no real sleeping in tests
+    calls = []
+
+    def fake_post(url, **kwargs):
+        status = statuses[len(calls)] if len(calls) < len(statuses) else statuses[-1]
+        calls.append(status)
+        return _Response(status, _OK if status == 200 else {"error": {"code": status}})
+
+    monkeypatch.setattr(llm.requests, "post", fake_post)
+    return llm.GeminiProvider(), calls
+
+
+def test_a_capacity_503_is_retried_once_and_recovers(monkeypatch):
+    """Observed, not hypothetical: a 503 "high demand" spike cost a real run one field.
+
+    The model could read the page perfectly well; the service was briefly
+    oversubscribed and said so. One more attempt is the proportionate answer.
+    """
+    provider, calls = _gemini(monkeypatch, [503, 200])
+    assert provider.complete("sys", "user") == '{"aset": 1}'
+    assert calls == [503, 200], "should have tried again after the 503"
+
+
+def test_a_rate_limit_is_not_retried(monkeypatch):
+    """429 and 503 read alike in a status table and behave nothing alike.
+
+    A 503 says the service is briefly oversubscribed. A 429 says we are over our own
+    allowance, and retrying spends another unit of the thing we have just run out of.
+    """
+    from llm import LLMUnavailable
+    provider, calls = _gemini(monkeypatch, [429, 200])
+    with pytest.raises(LLMUnavailable):
+        provider.complete("sys", "user")
+    assert calls == [429], "a throttle must not be retried"
+
+
+def test_retries_are_bounded(monkeypatch):
+    """A provider that is genuinely down must be discovered quickly, not stalled on."""
+    from llm import LLMError
+    provider, calls = _gemini(monkeypatch, [503, 503, 503])
+    with pytest.raises(LLMError):
+        provider.complete("sys", "user")
+    assert len(calls) == provider.max_retries + 1 == 2
+
+
 if __name__ == "__main__":
+    # Kept at the very BOTTOM on purpose: this block runs the moment the interpreter
+    # reaches it, so any test defined after it would never be collected.
+    import inspect
+
     tests = [(n, f) for n, f in sorted(globals().items())
              if n.startswith("test_") and callable(f)]
-    failed = 0
+    failed = skipped = 0
     for name, fn in tests:
+        if inspect.signature(fn).parameters:
+            # Needs a pytest fixture (monkeypatch). Runnable under pytest only.
+            skipped += 1
+            print(f"  SKIP  {name}  (needs pytest fixtures)")
+            continue
         try:
             fn()
             print(f"  PASS  {name}")
         except Exception as exc:
             failed += 1
             print(f"  FAIL  {name}: {type(exc).__name__}: {exc}")
-    print(f"\n{len(tests) - failed}/{len(tests)} passed")
+    print(f"\n{len(tests) - failed - skipped}/{len(tests) - skipped} passed"
+          f"{f', {skipped} skipped' if skipped else ''}")
     raise SystemExit(1 if failed else 0)

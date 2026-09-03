@@ -122,11 +122,18 @@ def _provider_reachable(provider) -> Optional[bool]:
 
 
 def _git_commit() -> Optional[str]:
+    """Which commit is serving, even when there is no .git to ask.
+
+    The image deliberately excludes .git, so `git rev-parse` inside a container returns
+    nothing and the scorecard loses the one field that makes two runs comparable. The
+    build stamps GIT_COMMIT instead; the git call remains for a local checkout, where it
+    stays correct across commits without rebuilding.
+    """
     try:
         return subprocess.check_output(["git", "rev-parse", "--short", "HEAD"],
                                        cwd=ROOT, stderr=subprocess.DEVNULL).decode().strip()
     except Exception:
-        return None
+        return os.getenv("GIT_COMMIT") or None
 
 
 # --- upload handling ------------------------------------------------------------

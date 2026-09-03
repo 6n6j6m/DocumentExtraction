@@ -37,7 +37,12 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 
 COPY --from=builder /opt/venv /opt/venv
 
+# Stamped at build time because .dockerignore excludes .git: without this a
+# containerised run produces a scorecard that cannot say which code made it.
+ARG GIT_COMMIT=""
+
 ENV PATH="/opt/venv/bin:$PATH" \
+    GIT_COMMIT=${GIT_COMMIT} \
     PYTHONPATH=/app/src \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1

@@ -32,9 +32,24 @@ sharp throughout: a filing that validates is not a filing that was measured.
 ## Quick start
 
 ```bash
+cp .env.example .env          # then add GEMINI_API_KEY
+
+# bring up the extraction API and leave it serving
+docker compose up -d
+curl localhost:8000/health
+
+# end-to-end evaluation against that API, writing to ./output on the host
+GIT_COMMIT=$(git rev-parse --short HEAD) docker compose run --rm eval
+```
+
+`GIT_COMMIT` is optional but worth passing: the image excludes `.git`, so without it the
+scorecard cannot name the commit that produced it, and two runs stop being comparable.
+
+Running it directly instead, without containers:
+
+```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env          # then add GEMINI_API_KEY
 
 # extract one filing — any issuer, no ground truth needed
 python src/extract.py data/raw/Q1_2022_ARCI.pdf
@@ -701,9 +716,56 @@ much input, a low generate rate means the model is too big for available RAM.
 - **An unreadable text layer is detected, not inherited.** Pages that extract as glyph
   ids or as nothing are OCR'd rather than passed downstream as empty evidence, which
   is what turned "every field abstained" into a working extraction on EMAS.
+- **A capacity spike is retried once; a rate limit is not.** These read alike in a
+  status table and behave nothing alike. A `503` says the service is briefly
+  oversubscribed — its own message invites a retry — so one more attempt follows after a
+  short backoff. A `429` says *we* are over our allowance, and retrying spends another
+  unit of the thing we just ran out of, so it abandons the provider immediately. This
+  distinction was not theoretical: see below.
 - **Known limit:** type checking at the JSON boundary. `from_dict` accepts any type,
   so a hand-edited or stale cache file can raise inside `validate()` rather than being
   rejected with a clear message. Listed under *Not built yet*.
+
+
+### The first real failure, and what it cost
+
+Every resilience claim above was, until this run, demonstrated only by fault injection.
+Then a containerised evaluation hit a genuine one. Gemini answered one call of one
+filing with:
+
+```
+[cash_flow] pages [11, 12], 2 image(s), 794 KB
+  ✗ LLMError: Gemini HTTP 503: "This model is currently experiencing high demand.
+     Spikes in demand are usually temporary. Please try again later."
+✓ 17/19 fields
+```
+
+The system behaved as designed, and the design was right about the important part and
+wrong about a smaller one.
+
+**Right:** the failure was classified as `LLMError`, not `LLMUnavailable`, so the other
+statement groups still ran; the API returned a partial result with HTTP 200 rather than a
+500; and the evaluator scored the lost field **`missed`, not `wrong`**. Nothing was
+invented to fill the gap. The scorecard read 39/40 and said exactly which field and why.
+
+**Wrong:** the field was recoverable. The model could read that page perfectly well —
+the service was briefly busy and said so. One bounded retry now follows a `503`, and the
+regression tool shows the difference precisely:
+
+```
+$ python scripts/compare_runs.py output/scorecard_container_2026-09-03_upstream_503.json \
+                                 output/scorecard_gemini_gemini-3.1-flash-lite_image_api.json
+changes in the other direction
+  Q1 kas_dari_aktivitas_operasi         missed -> correct
+              baseline  candidate   delta
+  correct           39         40      +1
+  missed             1          0      -1
+```
+
+Both scorecards are committed. The 39/40 is kept deliberately: a repository in which
+nothing has ever gone wrong is a repository that has not been run enough, and this is the
+only evidence here of the abstention-versus-invention distinction holding under a failure
+nobody staged.
 
 ---
 
@@ -874,11 +936,6 @@ this repository.
 
 Stated plainly because the brief asks for them:
 
-- **Docker, verified.** `Dockerfile`, `docker-compose.yml` and `.dockerignore` are in
-  the repo and describe the layout the brief asks for — `api` serving, `eval` as a
-  one-shot behind a profile that waits on `service_healthy` and writes to a mounted
-  `output/`. **Neither has been built or run**, because Docker is not installed on the
-  machine this was developed on. They are committed as work, not as a claim.
 - **Calibration of the confidence scores.** The weights are reasoned, not fitted; the
   threshold has not been swept against the eval set to find where precision and
   coverage actually trade off.
@@ -900,8 +957,9 @@ Stated plainly because the brief asks for them:
    and it is perhaps an hour's work.
 2. **Calibrate the abstention threshold** by sweeping it against the eval set and
    plotting precision against coverage, instead of choosing 0.55 by argument.
-3. **Run the containers.** The files are written; the verification is not done, and an
-   unbuilt Dockerfile is a hypothesis.
+3. **Sweep the retry policy.** One attempt on a `503` recovered the field it was added
+   for, but one observation is not a policy: how often capacity spikes happen, and
+   whether a second attempt ever helps, is unmeasured.
 4. **The layout-aware text path.** `extract_text(layout=True)` preserves the
    indentation that distinguishes the three `Utang bank` rows; it costs +28% tokens
    and was not needed once components were extracted separately, but it is the next

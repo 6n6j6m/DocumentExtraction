@@ -165,110 +165,61 @@ sel berbeda     : 0   (status, as-printed value and IDR value identical in all 4
 
 ## Stage 4 — Docker
 
-**Written, NOT verified.** `Dockerfile`, `docker-compose.yml` and `.dockerignore` are in
-the repo; `docker` is still not installed on this machine, so neither has ever been built
-or run. Nothing about containers goes into the README until it has.
-
-What is in them, and why:
-
-- Two stages. The build stage carries the compilers some wheels need, and none of that
-  belongs in a running service. Three system packages survive into the runtime layer
-  because they are genuinely needed there: `poppler-utils` (pdf2image shells out to
-  `pdftoppm`), `tesseract-ocr`, and the `ind`+`eng` language data. Omitting tesseract
-  would not break the build — it would break EMAS silently: page selection falling back
-  to the first ten pages, grounding verifying nothing, and the exchange rate reported as
-  undisclosed for a filing that discloses it on page 23.
-- Non-root (uid 10001). `./data` mounted read-only, `./output` read-write.
-- `eval` sits behind a compose profile so `up` does not start it: it is a job that
-  finishes, and a finished job in `up` reads as a crashed service. It waits on
-  `service_healthy`, not merely `started`, or the harness would race the first request
-  against a service still importing pdfplumber and record a connection error as an
-  extraction failure.
-- The healthcheck uses the shallow `/health` and `httpx`, which is already a dependency,
-  so no `curl` is needed in the image.
-
-**Verified without Docker:** the exact invocation the `eval` service uses — `EVAL_TARGET`
-as an environment variable rather than the `--api-url` flag — resolves and scores against
-a running API:
+**Done and verified.** Docker installed via Colima; everything below is real output.
 
 ```
-target: http://localhost:8079  (gemini:gemini-3.1-flash-lite [image], commit 7f23831)
-provider: gemini_gemini-3.1-flash-lite_image_api
-Q1 2022 ... aset 694,671,337  OK
+docker compose build            → Successfully tagged idx-extraction:latest   (608 MB)
+docker compose up -d            → healthy after 9s
+curl localhost:8000/health      → {"status":"ok","provider":"gemini:gemini-3.1-flash-lite",
+                                   "git_commit":"…","checked":"shallow"}
+docker compose run --rm eval    → 40/40, written to /app/output → ./output on the host
 ```
 
-**Open:** `docker compose build`, `up`, `run --rm eval`, and confirming the scorecard
-lands in the host's `output/`. Most likely to need a fix once run: write permission on the
-mounted `./output` under uid 10001, and `.env` needing to exist for `env_file` to
-resolve.
+The build needed no fixes. Two things did:
+
+**`git_commit` came back null inside the container**, because `.dockerignore` excludes
+`.git` — correctly, but it cost the scorecard the one field that makes two runs
+comparable. The build now takes a `GIT_COMMIT` arg and both `api.py` and `run_eval.py`
+fall back to it when there is no git to ask.
+
+**The first containerised run scored 39/40.** Gemini answered one call with a 503
+"experiencing high demand". The system did the right thing — partial result, HTTP 200,
+scored `missed` rather than `wrong`, nothing invented — but the field was recoverable, so
+a bounded retry now follows a 503. A 429 still is not retried: a capacity spike invites a
+retry, a throttle spends the allowance we have just exhausted. The 39/40 scorecard is
+committed as `output/scorecard_container_2026-09-03_upstream_503.json`; `compare_runs.py`
+between it and the current run shows `Q1 kas_dari_aktivitas_operasi missed -> correct`.
+
+Tests 48 → 51 (retry recovers a 503, a 429 is not retried, retries are bounded).
 
 ## Stage 5 — Artifacts
 
-**Done (pending the containerised run).**
+**Done.** In `output/`:
 
-- `output/scorecard_gemini_gemini-3.1-flash-lite_image.json` — in-process run, 40/40.
-- `output/scorecard_gemini_gemini-3.1-flash-lite_image_api.json` — the same four periods
-  scored through the HTTP service, 40/40, agreeing cell for cell.
-- `output/scorecard_baseline_2026-09-03_leaked_prompt.json` — a genuine earlier run, made
-  before the prompt leak was removed. It exists so `compare_runs.py` can be demonstrated
-  without the reviewer generating a run first, and the comparison prints the useful part
-  rather than a bare verdict:
-
-```
-⚠ prompts differ: cbecb1bc356c -> 819307634e49
-⚠ code differs: 5ccca6d -> 34a995b
-              baseline  candidate   delta
-  correct           40         40      +0
-✓ no regressions
-```
-
-  Two runs that score the same for different reasons are exactly the case where a bare
-  "no regressions" would mislead.
-
-- Per-document results under `output/predictions/<provider>_<mode>[_api]/`.
-
-**Open:** the scorecard from the containerised run, once stage 4 can be executed.
+| File | What it is |
+|---|---|
+| `scorecard_gemini_gemini-3.1-flash-lite_image.json` | in-process run, 40/40 |
+| `scorecard_gemini_gemini-3.1-flash-lite_image_api.json` | the containerised run against the service, 40/40 |
+| `scorecard_container_2026-09-03_upstream_503.json` | the 39/40 run, kept as evidence |
+| `scorecard_baseline_2026-09-03_leaked_prompt.json` | pre-de-leak baseline, so the regression gate is demonstrable |
+| `predictions/<provider>_<mode>[_api]/` | per-document results |
 
 ## Stage 6 — README
 
-**Done**
-
-- **Quick start** gains the service: `uvicorn`, `curl /health`, `curl -X POST /extract`,
-  and `run_eval --api-url`. The local path stays first, because it is the one that works
-  on this machine today.
-- New **API surface** section: the four endpoints, a trimmed real response, and the four
-  decisions worth defending — as-printed values rather than normalised, per-document
-  failure isolation, explicit abstentions, and a partial extraction returning 200.
-  Includes the synchronous-API trade-off and the three conditions that would make it
-  wrong (documents taking minutes, callers that cannot hold a connection, retrying one
-  document out of fifty).
-- **Cost** table beside Latency, from the real run: 13 calls, 75,151 in / 4,085 out over
-  four filings. Input dominates output 18:1, which is why page selection is the largest
-  cost lever and why image mode is the expensive choice. Cost reads *unpriced* by design.
-- **Latency** rewritten around the per-stage split now recorded.
-- Optimisation table gains the measured concurrency row: 50.0 s → 33.4 s (−33%).
-- *Not built yet*: the HTTP API and cost accounting are gone because they are done;
-  Docker is **rewritten rather than removed** — the files exist, the build has never
-  run, and it says so. Confidence calibration, cross-provider agreement and a labelled
-  second issuer stay, with the second issuer named as the largest remaining gap.
-- Repo layout gains `api.py`, `api_models.py`, `usage.py`, `config/`, `Dockerfile`,
-  `docker-compose.yml`.
-
-**Open**
-
-- The Docker quick-start path is deliberately absent until a build has actually run.
+**Done.** Quick start now leads with `docker compose up` / `docker compose run --rm eval`
+and the local path follows. New *API surface* section with the four defensible decisions
+and the synchronous trade-off. *Cost* table beside *Latency*, both from real runs. New
+*The first real failure, and what it cost* under Resilience. *Not built yet* keeps
+calibration, cross-provider agreement, a scored second issuer, a priced cost figure and
+async extraction.
 
 ## Stage 7 — Self-review against the PDF's Evaluation Criteria
 
-Walked the six rows. Summary of where this repository actually stands:
-
 | Aspect | Standing | The thin part |
 |---|---|---|
-| Evaluation Rigor | Partial | One labelled issuer. Failure taxonomy and abstention are proven by fault injection, never by a real failure — `failure_kinds` is empty because nothing has ever been wrong. |
-| Extraction Quality | Strong | Four issuers, three of them unseen during development; multi-page, tables, absent fields, no hallucination surviving grounding. Only ARCI is measured against labels. |
-| LLM/VLM Engineering | Strong | Confidence is computed from checkable signals, not self-reported; abstention removes the value. Weights are reasoned, not calibrated. |
-| Production-Readiness | Strong on visibility, unproven on containers | Cost and latency are real and per-stage; batch concurrency measured. Docker is written but never built. |
-| Agentic Development | Good | One skill, genuinely used, and an audit trail of what the agent found by verifying rather than assuming. |
-| Code Quality & Communication | Strong | 48 tests, no network in the test suite, README states its own limits. `src/` still uses flat imports rather than being a package. |
-
-Full reasoning delivered in the session reply rather than duplicated here.
+| Evaluation Rigor | Partial | One labelled issuer. The failure taxonomy has now seen one real failure (an upstream 503) but still no real *extraction* error. |
+| Extraction Quality | Strong | Four issuers, three unseen during development; multi-page, tables, absent fields, nothing invented. Only ARCI is measured. |
+| LLM/VLM Engineering | Strong | Confidence computed from checkable signals; abstention removes the value. Weights reasoned, not calibrated. |
+| Production-Readiness | Strong | API, batch with per-document isolation, compose up + one-shot eval, cost and latency per stage, a retry added because of an observed failure. Cost is unpriced by choice. |
+| Agentic Development | Good | One skill, genuinely used; an audit trail of what verification found that reasoning had missed. |
+| Code Quality & Communication | Strong | 51 tests, none touching the network. `src/` still uses flat imports rather than being a package. |

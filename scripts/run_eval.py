@@ -72,7 +72,11 @@ def run_metadata(tolerance: float) -> dict:
             return subprocess.check_output(["git", *args], cwd=ROOT,
                                            stderr=subprocess.DEVNULL).decode().strip()
         except Exception:
-            return None
+            # No .git -- running inside the image, which excludes it. The build stamps
+            # GIT_COMMIT so the scorecard can still say which code produced it; without
+            # that, a containerised run is unattributable and cannot be compared with
+            # anything.
+            return os.getenv("GIT_COMMIT") if args[:1] == ("rev-parse",) else None
 
     # Tracked modifications only. An untracked scratch file in data/ does not make a
     # run irreproducible, but a modified source file does -- lumping the two together
