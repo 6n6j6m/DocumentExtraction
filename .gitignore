@@ -8,6 +8,8 @@ venv/
 data/cord_cache/
 # Dataset images and ground truth ARE committed so the eval runs out of the box.
 # Output artifacts from real runs are committed too -- see output/.
+# OCR text is derived from the committed PDFs and regenerates on demand.
+output/ocr_cache/
 *.bak
 *.bak[0-9]
 ~$*.xlsx
