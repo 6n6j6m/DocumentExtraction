@@ -1,0 +1,27 @@
+# Keep the build context small. Everything the image needs is copied explicitly in the
+# Dockerfile; everything else here either belongs to the host or arrives via a mount.
+
+.git
+.venv
+venv
+__pycache__
+**/__pycache__
+*.pyc
+.pytest_cache
+
+# Filings and labels are MOUNTED, not baked in: they are the user's data, and a 60 MB
+# build context slows every rebuild for no benefit.
+data/
+
+# Derived artifacts. The OCR cache regenerates; scorecards are written to the mount.
+output/
+
+# Never in an image.
+.env
+
+# Host-only files.
+.DS_Store
+*.bak
+~$*.xlsx
+.claude/
+AI_Engineer_Take-Home_Test_Document_Extraction.pdf

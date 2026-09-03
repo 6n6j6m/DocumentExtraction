@@ -165,13 +165,69 @@ sel berbeda     : 0   (status, as-printed value and IDR value identical in all 4
 
 ## Stage 4 — Docker
 
-Blocked: Docker is not installed on this machine (`docker: command not found`). Nothing
-about containers will be written into the README as working until it has actually been
-built and run here.
+**Written, NOT verified.** `Dockerfile`, `docker-compose.yml` and `.dockerignore` are in
+the repo; `docker` is still not installed on this machine, so neither has ever been built
+or run. Nothing about containers goes into the README until it has.
+
+What is in them, and why:
+
+- Two stages. The build stage carries the compilers some wheels need, and none of that
+  belongs in a running service. Three system packages survive into the runtime layer
+  because they are genuinely needed there: `poppler-utils` (pdf2image shells out to
+  `pdftoppm`), `tesseract-ocr`, and the `ind`+`eng` language data. Omitting tesseract
+  would not break the build — it would break EMAS silently: page selection falling back
+  to the first ten pages, grounding verifying nothing, and the exchange rate reported as
+  undisclosed for a filing that discloses it on page 23.
+- Non-root (uid 10001). `./data` mounted read-only, `./output` read-write.
+- `eval` sits behind a compose profile so `up` does not start it: it is a job that
+  finishes, and a finished job in `up` reads as a crashed service. It waits on
+  `service_healthy`, not merely `started`, or the harness would race the first request
+  against a service still importing pdfplumber and record a connection error as an
+  extraction failure.
+- The healthcheck uses the shallow `/health` and `httpx`, which is already a dependency,
+  so no `curl` is needed in the image.
+
+**Verified without Docker:** the exact invocation the `eval` service uses — `EVAL_TARGET`
+as an environment variable rather than the `--api-url` flag — resolves and scores against
+a running API:
+
+```
+target: http://localhost:8079  (gemini:gemini-3.1-flash-lite [image], commit 7f23831)
+provider: gemini_gemini-3.1-flash-lite_image_api
+Q1 2022 ... aset 694,671,337  OK
+```
+
+**Open:** `docker compose build`, `up`, `run --rm eval`, and confirming the scorecard
+lands in the host's `output/`. Most likely to need a fix once run: write permission on the
+mounted `./output` under uid 10001, and `.env` needing to exist for `env_file` to
+resolve.
 
 ## Stage 5 — Artifacts
 
-Not started.
+**Done (pending the containerised run).**
+
+- `output/scorecard_gemini_gemini-3.1-flash-lite_image.json` — in-process run, 40/40.
+- `output/scorecard_gemini_gemini-3.1-flash-lite_image_api.json` — the same four periods
+  scored through the HTTP service, 40/40, agreeing cell for cell.
+- `output/scorecard_baseline_2026-09-03_leaked_prompt.json` — a genuine earlier run, made
+  before the prompt leak was removed. It exists so `compare_runs.py` can be demonstrated
+  without the reviewer generating a run first, and the comparison prints the useful part
+  rather than a bare verdict:
+
+```
+⚠ prompts differ: cbecb1bc356c -> 819307634e49
+⚠ code differs: 5ccca6d -> 34a995b
+              baseline  candidate   delta
+  correct           40         40      +0
+✓ no regressions
+```
+
+  Two runs that score the same for different reasons are exactly the case where a bare
+  "no regressions" would mislead.
+
+- Per-document results under `output/predictions/<provider>_<mode>[_api]/`.
+
+**Open:** the scorecard from the containerised run, once stage 4 can be executed.
 
 ## Stage 6 — README
 

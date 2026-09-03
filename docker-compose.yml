@@ -1,0 +1,62 @@
+# One project, two services, as the brief describes:
+#
+#   docker compose up              brings up the extraction API and leaves it serving
+#   docker compose run --rm eval   one-shot, runs the harness AGAINST that API and
+#                                  writes the scorecard to the mounted ./output
+#
+# `eval` sits behind a profile so `up` does not start it: it is a job that finishes, and
+# a finished job in `up` looks like a crashed service.
+
+services:
+  api:
+    build: .
+    image: idx-extraction:latest
+    ports:
+      - "${API_PORT:-8000}:8000"
+    env_file:
+      - .env
+    environment:
+      # No key is ever baked into the image; it arrives from .env at run time.
+      # Reaching an Ollama running on the host from inside the container needs this
+      # name rather than localhost, which would resolve to the container itself.
+      OLLAMA_HOST: "${OLLAMA_HOST:-http://host.docker.internal:11434}"
+    volumes:
+      # Read-only: the service reads filings, it never writes to the dataset.
+      - ./data:/app/data:ro
+      # Writable: OCR cache and anything the service persists.
+      - ./output:/app/output
+    extra_hosts:
+      # Docker Desktop (macOS, Windows) provides host.docker.internal already; on Linux
+      # it does not exist unless mapped like this. Harmless where it is already present.
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      # The shallow /health on purpose. A deep check would contact the provider every
+      # 15 seconds -- thousands of billed calls a day to answer "I am alive".
+      test: ["CMD", "python", "-c",
+             "import httpx,sys; sys.exit(0 if httpx.get('http://localhost:8000/health', timeout=4).status_code==200 else 1)"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+
+  eval:
+    build: .
+    image: idx-extraction:latest
+    profiles: ["eval"]
+    depends_on:
+      api:
+        # Not just "started": the harness would otherwise race the first request against
+        # a service still importing pdfplumber, and report a connection error as an
+        # extraction failure.
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      # This is what makes it an end-to-end test of the SERVICE rather than of the
+      # library that happens to be in the same image.
+      EVAL_TARGET: "http://api:8000"
+    volumes:
+      - ./data:/app/data:ro
+      - ./output:/app/output
+    command: ["python", "scripts/run_eval.py", "--no-cache"]
