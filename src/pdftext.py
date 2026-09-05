@@ -60,9 +60,89 @@ def text_layer_usable(text: str) -> bool:
     return bool(_LETTER.search(text))
 
 
-def _cache_path(pdf_path: str) -> Path:
+def _cache_path(pdf_path: str, kind: str = "full") -> Path:
     root = Path(__file__).resolve().parent.parent
-    return root / "output" / "ocr_cache" / f"{Path(pdf_path).stem}.json"
+    suffix = "" if kind == "full" else f".{kind}"
+    return root / "output" / "ocr_cache" / f"{Path(pdf_path).stem}{suffix}.json"
+
+
+# Page SELECTION only needs to know what a page IS, and that is written at the top of
+# it: the statement title, the entity name, the currency and scale header. Everything
+# below is detail that selection never reads.
+#
+# That distinction is worth a lot on a scanned filing. Reading every page in full to
+# find the eight that matter cost three minutes on a 97-page filing whose text layer is
+# glyph ids -- almost all of it spent OCR'ing pages at full resolution that were then
+# thrown away. Rendering only the top third, at 120 dpi instead of 300, cuts the pixels
+# by roughly twenty times, and the title is large type that survives the lower
+# resolution easily.
+TITLE_FRACTION = 0.35     # of page height; the title block never reaches this far down
+TITLE_DPI = 120
+
+
+def _ocr_title(pdf_path: str, page_number: int) -> str:
+    """OCR just the head of a page -- enough to identify it, far cheaper than the page."""
+    from extract import render_pdf_page_to_image
+    import io
+    import pytesseract
+    from PIL import Image
+
+    image = Image.open(io.BytesIO(
+        render_pdf_page_to_image(pdf_path, page_number, dpi=TITLE_DPI)))
+    head = image.crop((0, 0, image.width, int(image.height * TITLE_FRACTION)))
+    return pytesseract.image_to_string(head, lang="ind+eng")
+
+
+def page_titles(pdf_path: str) -> dict:
+    """{page_number: text from the top of the page}, for identifying pages cheaply.
+
+    Uses the text layer wherever it is readable -- which costs nothing and is the case
+    for most filings -- and falls back to a cropped, low-resolution OCR only for the
+    pages that are unreadable. Callers should treat the result as a title region, not
+    as the page: it is deliberately incomplete.
+    """
+    import pdfplumber
+
+    with pdfplumber.open(pdf_path) as pdf:
+        texts = {n: (page.extract_text() or "") for n, page in enumerate(pdf.pages)}
+
+    unreadable = [n for n, t in texts.items() if not text_layer_usable(t)]
+    if not unreadable:
+        return texts
+
+    try:
+        import pytesseract  # noqa: F401
+    except ImportError:
+        print(f"  ⚠ {len(unreadable)} page(s) unreadable and OCR is not installed; "
+              f"page selection will fall back to the first pages")
+        return texts
+
+    cache_file = _cache_path(pdf_path, "titles")
+    cache = {}
+    if cache_file.exists():
+        try:
+            cache = json.loads(cache_file.read_text())
+        except ValueError:
+            cache = {}
+
+    missing = [n for n in unreadable if str(n) not in cache]
+    if missing:
+        print(f"  text layer unreadable on {len(unreadable)} page(s); reading titles "
+              f"only ({len(missing)} to OCR, {len(unreadable) - len(missing)} cached)")
+    for n in unreadable:
+        key = str(n)
+        if key not in cache:
+            try:
+                cache[key] = _ocr_title(pdf_path, n)
+            except Exception as exc:
+                print(f"    ✗ title OCR page {n+1}: {exc}")
+                continue
+        texts[n] = cache[key]
+
+    if missing:
+        cache_file.parent.mkdir(parents=True, exist_ok=True)
+        cache_file.write_text(json.dumps(cache))
+    return texts
 
 
 def _ocr_page(pdf_path: str, page_number: int, dpi: int) -> str:

@@ -223,3 +223,57 @@ async extraction.
 | Production-Readiness | Strong | API, batch with per-document isolation, compose up + one-shot eval, cost and latency per stage, a retry added because of an observed failure. Cost is unpriced by choice. |
 | Agentic Development | Good | One skill, genuinely used; an audit trail of what verification found that reasoning had missed. |
 | Code Quality & Communication | Strong | 51 tests, none touching the network. `src/` still uses flat imports rather than being a package. |
+
+---
+
+## Stage 8 — Reading method over label matching, and a cheaper scan
+
+Prompted by testing against a 65-file corpus (ARCI, CPIN, EMAS, GTRA, JPFA — five
+issuers, 2022 to 2026) where misses and misreadings appeared.
+
+**Prompts rewritten around meaning, not wording.** Each field is now described by what
+it MEANS, where it structurally SITS, how to DISAMBIGUATE it from neighbouring lines,
+and the TRAP actually observed. Wordings are illustrations, marked non-exhaustive. Two
+cases show why: equity attributable to the parent is a bare `Sub total` for ARCI and a
+named section total elsewhere, so it is now identified by the property *this figure +
+non-controlling interest = total equity*; and bank debt is `Utang bank` for ARCI but
+`Pinjaman` for EMAS, so the prompt describes the concept and its section rather than the
+noun. The model is also asked to check its reading against the statement's own
+identities before answering.
+
+Verified against a filing annotated by hand: **10/10**, including both traps in it —
+the share count for the current date rather than the parenthesised earlier one
+(25.235.000.000, not 24.835.000.000), and `Sub total` rather than `Total Ekuitas`.
+Across five issuers and four years every extraction balances: `aset − liabilitas −
+ekuitas` equals the non-controlling interest in each.
+
+**Page selection now reads title regions, not pages.** Selection matches on statement
+titles, which are printed at the top of a page; reading whole pages to find them cost
+three minutes on a 97-page filing whose text layer is glyph ids. Unreadable pages are
+now OCR'd cropped to the top 35% at 120 dpi instead of full-page at 300 — about a
+twentieth of the pixels. The share-capital search was reordered to look in the selected
+pages first, since those must be read in full anyway, and only widen when none carries a
+count. **3:00 → 1:01**, identical pages selected.
+
+**Three real defects the corpus exposed**
+
+- *GTRA total assets was abstained away.* Its text layer splits the leading digit from
+  the separator — `1.092.421.914.566` extracts as `1 .092.421.914.566` — and the
+  existing repair only closed gaps between two digits. The most basic field in the
+  filing was discarded on a balance sheet that balanced to the rupiah.
+- *Nil and missing were the same answer.* EMAS reports borrowings but none from a bank,
+  so the truthful answer is 0; the model returned null. For a leverage ratio those are
+  wrong in opposite directions, so the prompt now distinguishes them and treats a dash
+  in a numeric column as the value nil.
+- *A zero was position-checked.* CPIN has no separate current-portion bank row, so 0 is
+  correct — but the wrong-row guard, using a fallback added for JPFA, compared that zero
+  against the short-term row and abstained on two correct extractions. A zero says the
+  row does not exist; asking which row it came from is a category error.
+
+**Verified**: 56 tests (27 guards). The three files above re-run clean at 10/10.
+
+**Open**
+
+- Prompt grew from ~2,400 to ~5,000 tokens; input per filing ~18,000 → ~28,000.
+- The corpus is unlabelled apart from ARCI and JPFA, so "correct" for the other three
+  rests on the balance-sheet identity and grounding, not on measurement.

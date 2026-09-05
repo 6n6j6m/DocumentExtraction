@@ -209,6 +209,14 @@ def validate_against_document(e, document_text: str) -> list:
         value = getattr(e, field, None)
         if value is None:
             continue
+        if value == 0:
+            # An explicit nil says "this row does not exist in this filing" -- CPIN
+            # reports short-term bank loans and long-term bank loans with no separate
+            # current-portion row at all. Asking which printed row a zero came from is
+            # a category error, and answering it wrongly cost two correct extractions:
+            # the JPFA fallback below mapped the current-portion check onto the
+            # short-term row and then flagged the zero as contradicting it.
+            continue
         if any(abs(value - lt) < 1 for lt in long_term):
             issues.append(ValidationIssue(
                 "wrong_section", ERROR,

@@ -396,3 +396,35 @@ def test_a_derived_field_cannot_outlive_an_abstained_component(document_text):
     assert "ekuitas" in abstained, "a sum of an abstained row must not be asserted"
     assert e.ekuitas is None
     assert any("component" in r for r in scores["ekuitas"].reasons)
+
+
+def test_grounding_survives_a_digit_split_from_its_separator():
+    """A second shape of the same broken-text-layer problem, seen on GTRA.
+
+    CPIN splits a number between two digits ("1 4.406"); GTRA splits the leading digit
+    from the separator that follows it, so "1.092.421.914.566" extracts as
+    "1 .092.421.914.566". The first repair did not close that gap, and total assets --
+    the single most basic field in the filing -- was reported as absent and abstained
+    away, on a balance sheet that balanced to the rupiah.
+    """
+    from confidence import check_grounding
+    text = "TOTAL ASET 1 .092.421.914.566 9 89.890.084.157 TOTAL ASSETS"
+    assert check_grounding(1092421914566, text) is True
+    assert check_grounding(989890084157, text) is True
+    # Repairing the gaps must not start accepting figures that are simply not there.
+    assert check_grounding(777777777777, text) is False
+
+
+def test_an_explicit_nil_is_not_position_checked(document_text):
+    """Zero means the row does not exist, so there is no row to locate it in.
+
+    CPIN reports short-term bank loans and long-term bank loans with no separate
+    current-portion line. The model correctly answered 0 for the current portion, and
+    the wrong-row guard -- using a fallback added for JPFA, which files its current
+    portion under the current-liabilities heading -- compared that zero against the
+    short-term row and abstained on a correct extraction.
+    """
+    e = F(**{**TRUTH, "utang_bank_bagian_lancar": 0, "utang_bank": 34220811})
+    issues = validate_against_document(e, document_text)
+    assert not any(i.rule == "wrong_section" and "bagian_lancar" in " ".join(i.fields)
+                   for i in issues), [i.message for i in issues]

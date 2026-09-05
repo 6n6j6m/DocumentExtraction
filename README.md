@@ -59,7 +59,7 @@ The pair says what is actually true: on an issuer it has never been tuned for, t
 extractor is occasionally wrong on the hardest period, and when it is, it says so instead
 of guessing.
 
-**54 tests**, of which 25 break one specific thing each and assert the right guard fires.
+**56 tests**, of which 27 break one specific thing each and assert the right guard fires.
 
 **What is still not scored.** CPIN and EMAS are extracted and checked against what each
 filing says about itself, but they have no labels. The distinction is kept sharp
@@ -108,7 +108,7 @@ python -m pytest tests/ -q
 ```
 
 ```
-54 passed
+56 passed
 ```
 
 Nothing here touches the network: `tests/test_api.py` stubs the provider, and
@@ -142,13 +142,26 @@ figures converted to Rupiah using an exchange rate read out of the filing itself
 
 === USAGE ===
   3 LLM call(s) | select_pages 5.9s, read_text 0.3s, extract 9.9s
-  tokens in 18019 / out 982
+  tokens in 28306 / out 1125
 
 === IN FULL RUPIAH ===
 kurs: 14,347.20 IDR/USD  (disclosed_rate_table, hal. 29)
        "1.000 Rupiah 0,0697 0,0701 0,0686 1,000 Rupiah"
   aset                          9,966,590,200,861
 ```
+
+**Or straight to a spreadsheet.** One filing becomes one CSV row; a batch becomes one
+row per filing in the same file, in the order given:
+
+```bash
+python scripts/pdf_to_csv.py data/raw/Q1_2022_ARCI.pdf -o output/extractions.csv
+python scripts/pdf_to_csv.py --dir data/raw --ticker JPFA -o output/jpfa.csv
+```
+
+Figures are converted to full Rupiah by default so a column can mix issuers reporting in
+different currencies and scales; `--as-printed` turns that off. An empty cell means "not
+asserted" and never zero, `abstained` names the fields withdrawn on purpose, and a
+document that fails still gets a row saying why.
 
 Try the other issuers too — they are the more interesting documents:
 
@@ -464,6 +477,48 @@ with a warning.
 
 **Trade-off:** four extra fields to extract, and the schema no longer mirrors the
 output one-to-one.
+
+### Teach the reading method, not the labels
+
+The first version of the extraction prompt was a list of labels to match: `"Total Aset"
+| "Jumlah Aset" | "Total Assets"`. That is the part which does not survive a new
+issuer. Every filer states the same accounting concepts in its own words, and a
+label-matching extractor gets the first issuer right and then fails silently on the
+second — returning a well-formed number from the wrong row, which is worse than an
+error.
+
+So each field is now described by what it **means** and where it **structurally sits**,
+with wordings given as illustrations and explicitly marked non-exhaustive:
+
+| | |
+|---|---|
+| MEANING | the accounting concept, independent of any wording |
+| POSITION | where that concept sits in the statement's hierarchy |
+| DISAMBIGUATE | how to tell it from the lines around it that look similar |
+| TRAP | the specific mistake that has actually been observed |
+
+Two examples of why the distinction is not academic:
+
+**Equity attributable to the parent** is printed as a bare `Sub total` by ARCI, as a
+named section total by others, and not at all by some. No label list covers that. What
+does cover it is the arithmetic property: *this figure plus non-controlling interest
+equals total equity*. The prompt now states that property and lets the model find
+whichever row satisfies it.
+
+**Bank debt due within a year** is `Utang bank` for ARCI and `Pinjaman` for EMAS. The
+concept — interest-bearing borrowings from a bank, falling due within twelve months —
+is the same, and the prompt describes the concept and the section it lives in rather
+than the noun the issuer chose.
+
+The prompt also asks the model to check its own reading against the identities the
+statement must satisfy before answering. On a test across five issuers and four years,
+every extraction now balances: `aset − liabilitas − ekuitas` equals the non-controlling
+interest in each case.
+
+**Trade-off:** the prompt roughly doubled in size, from ~2,400 to ~5,000 tokens, and it
+is sent on every per-statement call. Input tokens per filing went from ~18,000 to
+~28,000. That is the price of the accuracy, and it is paid on the cheaper side of the
+bill.
 
 ### The exchange rate comes from the filing, not from an API
 
@@ -866,6 +921,7 @@ does not have.
 | Drop rotated pages, keep only number-bearing lines + neighbours | text **−25%** (18,467 → 13,857 chars) |
 | Size `num_ctx` to the actual input | KV cache **16,384 → 8,192** |
 | Batch concurrency, 1 → 2 workers | two filings **50.0 s → 33.4 s (−33%)** |
+| Page selection reads title regions, not pages | scanned filing **3:00 → 1:01 (−66%)** |
 
 The second row is the one that mattered. A 7B local model given 18 fields across 7
 pages answered the first few and quietly dropped the rest; given 4–13 fields across
@@ -1221,6 +1277,7 @@ src/
   schema.py        field definitions, EXCEL_ROWS mapping
   prompts.py       system + extraction prompts, per-field keyword rules
 scripts/
+  pdf_to_csv.py    unstructured PDF -> one structured CSV row per filing
   run_eval.py      scorecard generation, failure classification
   compare_runs.py  regression gate between two scorecards
 tests/

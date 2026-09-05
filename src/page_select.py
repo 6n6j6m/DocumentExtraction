@@ -179,28 +179,35 @@ def select_statement_pages(pdf_path: str, *,
     Returns:
         PageSelection with 0-indexed page numbers
     """
-    from pdftext import page_texts
+    from pdftext import page_texts, page_titles
 
-    # OCR'd where the text layer is unreadable. Selection matches on statement titles,
-    # so a filing whose characters are glyph ids (EMAS embeds subset fonts with no
-    # ToUnicode CMap) would match nothing and fall back to "the first ten pages"
-    # without ever saying that it could not read the document.
-    by_page = page_texts(pdf_path)
-    texts = [by_page.get(n, "") for n in range(len(by_page))]
+    # Selection matches on statement TITLES, so it reads title regions rather than
+    # pages. On a filing whose characters are glyph ids (EMAS embeds subset fonts with
+    # no ToUnicode CMap) that is the difference between OCR'ing 97 pages at full
+    # resolution and OCR'ing 97 page-heads at a fifth of it. Without either, selection
+    # would match nothing and fall back to "the first ten pages" without ever saying it
+    # could not read the document.
+    titles = page_titles(pdf_path)
+    texts = [titles.get(n, "") for n in range(len(titles))]
 
     selection = select_from_page_texts(texts, max_pages=max_pages,
                                        always_scan_all_if_under=always_scan_all_if_under)
 
-    # The share count is usually printed on the balance sheet's share-capital line, and
-    # for every issuer tested it is. Only when no selected page carries it at all is a
-    # note page appended -- otherwise this would add a request per document to re-read
-    # something already in front of the model.
-    candidates = find_share_capital_pages(texts, limit=8)
-    if not any(n in selection.pages for n in candidates):
-        share = [n for n in candidates if n not in selection.pages][:1]
-        if share:
-            selection.share_capital_pages = share
-            selection.pages = sorted(selection.pages + share)
+    # The share count is nearly always printed on the balance sheet's share-capital
+    # line, so the selected pages are searched FIRST -- they have to be read in full
+    # anyway. Only when none of them carries a count is the rest of the document
+    # scanned, which is the expensive path and is now taken by the rare filing that
+    # needs it rather than by every filing.
+    selected_full = page_texts(pdf_path, selection.pages)
+    if find_share_capital_pages(selected_full, limit=1):
+        return selection
+
+    everything = page_texts(pdf_path)
+    candidates = [n for n in find_share_capital_pages(everything, limit=8)
+                  if n not in selection.pages]
+    if candidates:
+        selection.share_capital_pages = candidates[:1]
+        selection.pages = sorted(selection.pages + selection.share_capital_pages)
     return selection
 
 
