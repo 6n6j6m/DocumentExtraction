@@ -466,6 +466,84 @@ def test_failure_kinds_are_distinguished():
     assert run_eval.classify_failure(123, truth, False) == "hallucinated"
 
 
+def test_an_annual_column_is_recognised_as_q4():
+    """The share-price script must not skip a quarter because the sheet renames it.
+
+    Every workbook in data/ground_truth labels its annual column "TAHUNAN 2024" rather
+    than "Q4 2024" -- for every year except 2025, which uses the Q4 spelling. A parser
+    that only knew "Q4" found no fourth quarter at all for 2020-2024 and quietly priced
+    three quarters a year instead of four. Nothing failed; the columns just stayed empty.
+
+    Both spellings must collapse to the same tuple, because the price is looked up under
+    one and written into a column headed the other.
+    """
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "fetch_share_prices", ROOT / "scripts" / "fetch_share_prices.py")
+    prices = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(prices)
+
+    assert prices.parse_period("TAHUNAN 2024") == ("Q4", 2024)
+    assert prices.parse_period("Q4 2024") == prices.parse_period("TAHUNAN 2024")
+    assert prices.parse_period("Q1_2024") == ("Q1", 2024)
+    # A label is not a period. Matching one would write a price into a data row.
+    assert prices.parse_period("Harga saham rupiah") is None
+    assert prices.parse_period("2024") is None
+
+    # Q4 prices on 17 May of the FOLLOWING year: the annual report is audited and does
+    # not reach the market in December. The other three quarters stay in their own year.
+    from datetime import date
+    assert prices.price_date("Q4", 2024) == date(2025, 5, 17)
+    assert prices.price_date("Q4", 2024, q4_same_year=True) == date(2024, 5, 17)
+    assert prices.price_date("Q1", 2024) == date(2024, 6, 17)
+
+
+def test_a_ratio_is_blank_when_any_input_is():
+    """An abstained field must not reappear as a confident ratio.
+
+    The extractor withdraws a value it cannot verify. If the ratio layer then treats
+    that blank as zero, the abstention is undone one step downstream and the analyst
+    sees a number with a decimal point where the system had actually declined to
+    answer -- the exact failure the confidence layer exists to prevent, reintroduced
+    by arithmetic.
+
+    Blanking has to propagate, too: PBV and PE stand on BVPS and EPS, so a missing
+    share count takes four ratios with it, not two.
+    """
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "build_dataset", ROOT / "scripts" / "build_dataset.py")
+    dataset = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(dataset)
+
+    whole = dict(aset=100, total_aset_lancar=60, liabilitas=40, ekuitas=60,
+                 laba_bersih=10, total_share=5)
+    values, why = dataset.ratios(whole, price=24.0)
+    assert values["bvps"] == 12.0 and values["eps"] == 2.0
+    assert values["pbv"] == 2.0 and values["pe"] == 12.0 and not why
+
+    # An abstained equity blanks what depends on it and nothing else.
+    values, why = dataset.ratios({**whole, "ekuitas": None}, price=24.0)
+    assert values["bvps"] is None and values["roe"] is None and values["der"] is None
+    assert values["pbv"] is None, "PBV survived a missing BVPS"
+    assert values["eps"] == 2.0 and values["roa"] == 0.1 and values["pe"] == 12.0
+    assert "ekuitas missing" in why["roe"]
+
+    # A missing share count reaches four ratios through two.
+    values, why = dataset.ratios({**whole, "total_share": None}, price=24.0)
+    assert {k for k, v in values.items() if v is None} == {"bvps", "eps", "pbv", "pe"}
+
+    # Zero is a real printed figure, and the ratio it denominates does not exist --
+    # which is not the same as it being infinite, and not the same as it being missing.
+    values, why = dataset.ratios({**whole, "ekuitas": 0}, price=24.0)
+    assert values["roe"] is None and "is zero" in why["roe"]
+
+    # No price: the two market ratios go, the accounting ones stay.
+    values, why = dataset.ratios(whole, price=None)
+    assert values["pbv"] is None and values["pe"] is None
+    assert values["roa"] == 0.1 and values["der"] is not None
+
+
 if __name__ == "__main__":
     # Runnable without pytest, so the guards can be demonstrated anywhere.
     text = build_document_text(read_page_texts(str(PDF), [4, 5, 6, 7, 8, 9, 10, 11]))

@@ -59,7 +59,7 @@ the extractor occasionally cannot read the hardest period, and when that happens
 so instead of guessing. **One period out of four is where the variance lives**, and one
 more clean run is not evidence that it has gone away.
 
-**65 tests**, of which 34 break one specific thing each and assert the right guard fires.
+**66 tests**, of which 35 break one specific thing each and assert the right guard fires.
 
 **What is still not scored.** CPIN and EMAS are extracted and checked against what each
 filing says about itself, but they have no labels. The distinction is kept sharp
@@ -108,7 +108,7 @@ python -m pytest tests/ -q
 ```
 
 ```
-65 passed
+66 passed
 ```
 
 Nothing here touches the network: `tests/test_api.py` stubs the provider, and
@@ -172,6 +172,26 @@ error travels unnoticed. `notes` carries the sentences explaining why, verbatim:
 model said scale THOUSANDS, header says FULL - using FULL
 Rate row also carried 15,408, 15,015 IDR/USD (comparative periods); took the first column, 16,420.
 ```
+
+**The one figure that is not in the filing.** `Harga saham rupiah` feeds PBV and PE, and
+no balance sheet contains it — it is what the market paid. A quarter is priced on the date
+by which its report is public, not on the period end (Q1 → 17 June, Q2 → 17 August, Q3 →
+17 November, Q4 → 17 May of the *following* year, because the annual report is audited):
+
+```bash
+python scripts/fetch_share_prices.py --ticker ARCI            # show what it would write
+python scripts/fetch_share_prices.py --ticker ARCI --write-xlsx   # fill the row
+```
+
+The workbooks head their annual column `TAHUNAN 2024` rather than `Q4 2024` — every year
+but 2025 — so both spellings are read as the same period. Without that, the fourth quarter
+of five years was silently never priced: no error, just empty cells.
+
+The 17th is frequently closed — 17 August is Independence Day every year, so Q2 never
+lands on an open market — so the last close **on or before** it is used and the date
+actually taken is printed on every row. A period with no session in the lookback window
+stays blank and says why, and one whose pricing date has not arrived yet says that
+instead.
 
 Try the other issuers too — they are the more interesting documents:
 
@@ -814,7 +834,7 @@ clean path already scores 40/40, and a build with all three deleted would score
 identically. Safety machinery is only observable when something goes wrong.
 
 `tests/test_guards.py` therefore breaks one specific thing per test and asserts that
-the right guard fires — 34 tests, runnable with or without pytest:
+the right guard fires — 35 tests, runnable with or without pytest:
 
 ```
 PASS  test_correct_extraction_passes_cleanly            no false positives
@@ -851,7 +871,8 @@ PASS  test_missing_currency_refuses_rather_than_assuming_idr
 PASS  test_ground_truth_sheet_must_match_the_ticker
 PASS  test_failure_kinds_are_distinguished
 PASS  test_a_derived_field_cannot_outlive_an_abstained_component
-34/34 passed
+PASS  test_an_annual_column_is_recognised_as_q4        "TAHUNAN 2024" is Q4
+35/35 passed
 ```
 
 The first two are a pair, and both are needed. One proves the guard fires when the
@@ -1460,6 +1481,7 @@ src/
   prompts.py       system + extraction prompts, per-field keyword rules
 scripts/
   pdf_to_csv.py    unstructured PDF -> one structured CSV row per filing
+  fetch_share_prices.py  market close per quarter; the one sheet input not in the filing
   run_eval.py      scorecard generation, failure classification
   compare_runs.py  regression gate between two scorecards
 tests/
