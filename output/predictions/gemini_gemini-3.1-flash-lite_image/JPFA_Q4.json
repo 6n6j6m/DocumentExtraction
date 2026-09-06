@@ -1,18 +1,18 @@
 {
   "period_end_date": "2022-12-31",
-  "aset": null,
+  "aset": 32690887.0,
   "total_aset_lancar": 17001468.0,
   "kas": 1811082.0,
-  "liabilitas": null,
+  "liabilitas": 19036110.0,
   "utang_bank": 4424209.0,
-  "ekuitas": null,
+  "ekuitas": 12748045.0,
   "pendapatan": 48972085.0,
   "laba_bersih": 1419855.0,
   "kas_dari_aktivitas_operasi": 1426749.0,
   "total_share": 11726575201.0,
   "utang_bank_jangka_pendek": 3868963.0,
   "utang_bank_bagian_lancar": 555246.0,
-  "total_ekuitas": null,
+  "total_ekuitas": 13654777.0,
   "kepentingan_non_pengendali": 906732.0,
   "total_share_components": [
     8814985201.0,
@@ -31,12 +31,10 @@
       ]
     },
     "aset": {
-      "confidence": 0.5,
+      "confidence": 1.0,
       "grounded": true,
-      "abstained": true,
-      "reasons": [
-        "implicated in a failing validation rule"
-      ]
+      "abstained": false,
+      "reasons": []
     },
     "total_aset_lancar": {
       "confidence": 1.0,
@@ -51,12 +49,10 @@
       "reasons": []
     },
     "liabilitas": {
-      "confidence": 0.5,
+      "confidence": 1.0,
       "grounded": true,
-      "abstained": true,
-      "reasons": [
-        "implicated in a failing validation rule"
-      ]
+      "abstained": false,
+      "reasons": []
     },
     "utang_bank": {
       "confidence": 1.0,
@@ -67,12 +63,11 @@
       ]
     },
     "ekuitas": {
-      "confidence": 0.54,
+      "confidence": 1.0,
       "grounded": null,
-      "abstained": true,
+      "abstained": false,
       "reasons": [
-        "derived from total_ekuitas, kepentingan_non_pengendali; graded on those rows",
-        "component(s) abstained: total_ekuitas"
+        "derived from total_ekuitas, kepentingan_non_pengendali; graded on those rows"
       ]
     },
     "pendapatan": {
@@ -114,12 +109,10 @@
       "reasons": []
     },
     "total_ekuitas": {
-      "confidence": 0.5,
+      "confidence": 1.0,
       "grounded": true,
-      "abstained": true,
-      "reasons": [
-        "implicated in a failing validation rule"
-      ]
+      "abstained": false,
+      "reasons": []
     },
     "kepentingan_non_pengendali": {
       "confidence": 1.0,
@@ -158,18 +151,18 @@
       ]
     }
   },
-  "_elapsed_s": 40.1,
+  "_elapsed_s": 23.3,
   "_usage": {
     "llm_calls": 4,
     "tokens": {
-      "input": 22186,
-      "output": 1192
+      "input": 30102,
+      "output": 1203
     },
     "latency_ms": {
-      "select_pages": 7234,
-      "read_text": 248,
-      "assess": 10,
-      "extract": 32569
+      "select_pages": 7870,
+      "read_text": 235,
+      "assess": 13,
+      "extract": 15127
     },
     "cost": {
       "amount": null,
@@ -177,8 +170,8 @@
       "per_model": [
         {
           "model": "gemini-3.1-flash-lite",
-          "input_tokens": 22186,
-          "output_tokens": 1192,
+          "input_tokens": 30102,
+          "output_tokens": 1203,
           "amount": null
         }
       ],

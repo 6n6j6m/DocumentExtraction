@@ -13,7 +13,7 @@ once and the confidence layer weighs them together.
 import re
 from dataclasses import dataclass
 
-from numfmt import parse_grouped_number
+from numfmt import grouped_numbers
 
 ERROR = "error"       # contradicts the document; something was misread
 WARNING = "warning"   # suspicious but legitimately possible
@@ -135,7 +135,22 @@ def _section_of(line: str):
     return None
 
 
-_BANK_ROW = re.compile(r"^\s*Utang bank[^\d]*?([\d.,]{6,})", re.I)
+# The row itself, by concept rather than by one issuer's wording. A bank borrowing is
+# labelled "Utang bank" by ARCI and JPFA, "Pinjaman bank" by GTRA, "Hutang bank" by
+# older filings and "Bank loans" in the English column -- all the same line. Matching
+# only the first of those silently disarmed this whole check for GTRA: the position
+# map came back empty on every one of its fifteen filings, and the warning that says
+# so fired every time without anyone reading it. The prompt was rewritten to describe
+# this row by meaning; a validator that still matches one label makes the prompt's
+# generalisation moot, because the check behind it only works for the issuer it was
+# written against.
+# Only the label. The amounts are read separately, by column, because a row's note
+# reference sits between the two and is itself digits -- "Utang bank 2c,4
+# 1.092.421.914.566". A pattern that tries to skip from the label to the first amount
+# with [^\d]*? cannot get past that reference, so it matched nothing on any row that
+# carries one, and the position check quietly did not run.
+_BANK_ROW = re.compile(
+    r"^\s*(?:utang|hutang|pinjaman|liabilitas|kewajiban)\s+bank\b", re.I)
 
 
 def _bank_rows_by_section(document_text: str) -> dict:
@@ -149,19 +164,23 @@ def _bank_rows_by_section(document_text: str) -> dict:
         section = _section_of(line)
         if section:
             current = section
-        match = _BANK_ROW.match(line)
-        if match and current:
-            try:
-                # Every bank row under the heading, not just the first. Issuers split
-                # bank debt across several rows, and JPFA files the current portion of
-                # its long-term loans under the CURRENT-liabilities heading while still
-                # labelling the row "Utang bank jangka panjang" -- keeping only the
-                # first row there would lose it.
-                amount = parse_grouped_number(match.group(1))
-                if amount is not None:
-                    found.setdefault(current, []).append(amount)
-            except ValueError:
-                pass
+        if current and _BANK_ROW.match(line):
+            # Every bank row under the heading, not just the first. Issuers split
+            # bank debt across several rows, and JPFA files the current portion of
+            # its long-term loans under the CURRENT-liabilities heading while still
+            # labelling the row "Utang bank jangka panjang" -- keeping only the
+            # first row there would lose it.
+            #
+            # Every COLUMN of the row too. The rule this feeds is named wrong_section
+            # and that is exactly what it can prove: that a figure was taken from a
+            # row filed under a different heading. Which of a row's two periods a
+            # figure came from is a different question, and one a flattened text
+            # layer cannot answer reliably -- claiming to answer it here would turn a
+            # column mis-read into an ERROR against whichever value happened to be
+            # printed leftmost.
+            amounts = grouped_numbers(line)
+            if amounts:
+                found.setdefault(current, []).extend(amounts)
     return found
 
 

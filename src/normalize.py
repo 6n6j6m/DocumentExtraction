@@ -203,26 +203,60 @@ def extract_fx_rate(pdf_path: str) -> Optional[FxRate]:
 
 
 _SCALE_PATTERNS = [
-    ("BILLIONS", re.compile(r"dalam\s+miliar|in\s+billions", re.I)),
+    ("BILLIONS", re.compile(r"dalam\s+mil[iy]ar|in\s+billions", re.I)),
     ("MILLIONS", re.compile(r"dalam\s+juta|in\s+millions", re.I)),
-    ("THOUSANDS", re.compile(r"dalam\s+ribu|in\s+thousands", re.I)),
+    ("THOUSANDS", re.compile(r"dalam\s+ribu|in\s+thousands|\bRp\s*'?000\b|"
+                             r"US\s*\$?\s*'000", re.I)),
 ]
+
+# The sentence every IDX statement prints under its title, in both languages:
+#
+#     (Disajikan dalam Rupiah, kecuali dinyatakan lain)
+#     (Expressed in millions of Rupiah, unless otherwise stated)
+#
+# It is the ONE place the scale is stated, so its presence without a scale word is
+# not silence -- it is the filing saying "full units". Bilingual filings typeset the
+# two languages side by side and the parenthesis closes a line later, so the match
+# runs to the first ")" and may swallow the English half; that is harmless, both
+# halves say the same thing.
+_HEADER_STATEMENT = re.compile(
+    r"\((?:disajikan|dinyatakan|expressed)\b[^)]{0,160}\)", re.I)
+
+
+def scale_headers(document_text: str) -> list:
+    """The scale each currency header declares, in page order.
+
+    "FULL" for a header that names a currency and no scale, which is what a filing
+    printing whole units looks like.
+    """
+    return [next((name for name, pattern in _SCALE_PATTERNS if pattern.search(header)),
+                 "FULL")
+            for header in _HEADER_STATEMENT.findall(document_text or "")]
 
 
 def detect_scale(document_text: str) -> Optional[str]:
-    """Read the reporting scale from the statement header.
+    """Read the reporting scale from the statement header, or None if it is not there.
 
     The model is asked for this too, but scale is the single most damaging field to
-    get wrong -- a missed "dalam ribuan" is a 1000x error in every figure, and it is
-    stated in plain text a fixed distance from the title. Reading it directly gives
-    an independent answer to check the model's against.
+    get wrong -- it multiplies EVERY figure -- and it is the one field the grounding
+    check cannot verify, because a scale is a word rather than a number. So it is
+    read directly from the text, and the reading is authoritative in BOTH directions.
+    Answering only "THOUSANDS" and never "FULL" would leave the expensive half of the
+    mistake uncaught: ARCI's header says nothing about scale in any quarter, yet the
+    model called three of its fourteen filings THOUSANDS and inflated them a
+    thousandfold.
+
+    None means the header itself could not be found -- an unreadable text layer, or a
+    page set that does not include a statement front page. Only then does the model's
+    answer stand unchecked.
     """
-    if not document_text:
+    headers = scale_headers(document_text)
+    if not headers:
         return None
-    for name, pattern in _SCALE_PATTERNS:
-        if pattern.search(document_text):
-            return name
-    return None
+    # Statements come before notes in page order, so the first header is the primary
+    # statements'. A note table printed at a different scale disagrees loudly rather
+    # than quietly overriding the statement it annotates -- see to_idr.
+    return headers[0]
 
 
 def to_idr(extraction, fx: Optional[FxRate] = None, pdf_path: Optional[str] = None,
@@ -264,8 +298,18 @@ def to_idr(extraction, fx: Optional[FxRate] = None, pdf_path: Optional[str] = No
                         f"using {detected}")
         scale_name = detected
     elif detected is None and scale_name != "FULL":
-        warnings.append(f"model said scale {scale_name} but no scale wording was "
-                        f"found in the text")
+        warnings.append(f"model said scale {scale_name} but no currency header could "
+                        f"be read from the text to confirm it")
+
+    # Notes are sometimes tabulated at a different scale from the statements they
+    # annotate. One scale is applied to the whole extraction, so a disagreement is
+    # said out loud rather than resolved silently in favour of whichever page came
+    # first.
+    declared = set(scale_headers(document_text or ""))
+    if len(declared) > 1:
+        warnings.append("pages declare more than one scale (" +
+                        ", ".join(sorted(declared)) +
+                        f"); using the first, {scale_name}")
     if scale_name not in SCALE_MULTIPLIER:
         warnings.append(f"Unknown reporting_scale {scale_name!r}, assuming FULL")
         scale_name = "FULL"

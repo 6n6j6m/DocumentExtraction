@@ -49,7 +49,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from extract import (build_document_text, extract_from_pdf,  # noqa: E402
                      read_page_texts)
 from llm import LLMError  # noqa: E402
-from normalize import to_idr  # noqa: E402
+from normalize import detect_scale, to_idr  # noqa: E402
 from page_select import select_statement_pages  # noqa: E402
 from schema import EXCEL_ROWS  # noqa: E402
 from usage import Usage  # noqa: E402
@@ -65,7 +65,7 @@ FIELD_COLUMNS = list(EXCEL_ROWS)
 COLUMNS = (
     ["file", "ticker", "period_end_date", "currency", "reporting_scale", "unit"]
     + FIELD_COLUMNS
-    + ["status", "fields_filled", "abstained", "issues",
+    + ["status", "fields_filled", "abstained", "issues", "notes",
        "fx_rate", "fx_source", "fx_page",
        "pages_selected", "llm_calls", "tokens_in", "tokens_out", "seconds", "error"]
 )
@@ -106,20 +106,30 @@ def extract_row(pdf: Path, as_printed: bool = False) -> dict:
     confidence = getattr(result, "field_confidence", {}) or {}
     abstained = [name for name, score in confidence.items() if score.get("abstained")]
     issues = getattr(result, "issues", []) or []
+    notes = []
 
     values = result.to_dict()
     unit = f"{result.currency or '?'} as printed"
+
+    document_text = build_document_text(
+        read_page_texts(str(pdf), select_statement_pages(str(pdf)).pages))
+
+    # The scale the figures in this row are actually expressed in, which is not always
+    # the one the model reported. The header is authoritative and normalise applies it;
+    # a column that printed the model's answer instead would label a converted row with
+    # a multiplier that was never used -- and this is the field where being wrong costs
+    # a factor of a thousand, so the label has to describe what happened.
+    scale = detect_scale(document_text) or result.reporting_scale or ""
 
     if not as_printed:
         # Conversion needs the filing's own disclosed rate, and refuses rather than
         # guessing one. A refusal is a fact about the document, so it lands in the row
         # instead of stopping the batch.
         try:
-            page_texts = read_page_texts(str(pdf), select_statement_pages(str(pdf)).pages)
-            converted = to_idr(result, pdf_path=str(pdf),
-                               document_text=build_document_text(page_texts))
+            converted = to_idr(result, pdf_path=str(pdf), document_text=document_text)
             values = converted["values"]
             unit = "IDR full"
+            notes += converted["warnings"]
             if converted["fx"]:
                 fx = converted["fx"]
                 row.update(fx_rate=round(fx.idr_per_usd, 4), fx_source=fx.source,
@@ -128,6 +138,8 @@ def extract_row(pdf: Path, as_printed: bool = False) -> dict:
             row.update(status="error", error=f"could not convert to IDR: {exc}",
                        seconds=round(time.time() - started, 1))
             return row
+    elif scale and result.reporting_scale and scale != result.reporting_scale:
+        notes.append(f"model said scale {result.reporting_scale}, header says {scale}")
 
     for field in FIELD_COLUMNS:
         value = values.get(field)
@@ -138,12 +150,17 @@ def extract_row(pdf: Path, as_printed: bool = False) -> dict:
     row.update(
         period_end_date=result.period_end_date or "",
         currency=result.currency or "",
-        reporting_scale=result.reporting_scale or "",
+        reporting_scale=scale,
         unit=unit,
         status="ok" if filled == len(FIELD_COLUMNS) else "partial",
         fields_filled=f"{filled}/{len(FIELD_COLUMNS)}",
         abstained=" ".join(sorted(abstained)),
         issues=" ".join(sorted({i["rule"] for i in issues})),
+        # Verbatim, not a rule name. These are the sentences that say the header
+        # disagreed with the model, or that no header could be read at all -- the
+        # reasons a reader needs to judge the row, and previously the pipeline
+        # computed them and then dropped them on the floor.
+        notes="; ".join(notes),
         pages_selected=" ".join(str(p) for p in getattr(result, "pages_selected", [])),
         llm_calls=usage.llm_calls,
         tokens_in=usage.input_tokens if usage.input_tokens is not None else "",

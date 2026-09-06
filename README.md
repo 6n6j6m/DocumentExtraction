@@ -44,22 +44,22 @@ Two consequences worth knowing before reading further:
 | Issuer | Result | What it is |
 |---|---|---|
 | **ARCI** | **40/40** (100%) | USD, full units. The issuer this was developed against. |
-| **JPFA** | **36/36** and **33/36** | Rupiah, millions. Never seen during development. Two runs, two answers. |
+| **JPFA** | **36/36**, and **33/36** once | Rupiah, millions. Never seen during development. Three runs, two answers. |
 
-JPFA is the more informative row, and the disagreement is the reason. Two runs of the
-same code over the same filings scored 36/36 and 33/36. **Nothing was `wrong` in either.**
-In the second, the model misread one figure on JPFA's annual report, the balance sheet
-stopped balancing, and the system withdrew the three implicated fields rather than
-publishing them — the abstention machinery firing on something nobody staged, for the
-first time.
+JPFA is the more informative row, and the disagreement is the reason. Three runs of the
+same code over the same filings scored 36/36, 33/36 and 36/36. **Nothing was `wrong` in
+any of them.** In the middle one the model misread a figure on JPFA's annual report, the
+balance sheet stopped balancing, and the system withdrew the three implicated fields
+rather than publishing them — the abstention machinery firing on something nobody staged.
 
-Both scorecards are committed. Reporting only the 36/36 would describe a system that is
-more reliable than this one is; reporting only the 33/36 would describe one that is worse.
-The pair says what is actually true: on an issuer it has never been tuned for, the
-extractor is occasionally wrong on the hardest period, and when it is, it says so instead
-of guessing.
+All three scorecards are committed. Reporting only the 36/36 would describe a system that
+is more reliable than this one is; reporting only the 33/36 would describe one that is
+worse. Together they say what is actually true: on an issuer it has never been tuned for,
+the extractor occasionally cannot read the hardest period, and when that happens it says
+so instead of guessing. **One period out of four is where the variance lives**, and one
+more clean run is not evidence that it has gone away.
 
-**56 tests**, of which 27 break one specific thing each and assert the right guard fires.
+**65 tests**, of which 34 break one specific thing each and assert the right guard fires.
 
 **What is still not scored.** CPIN and EMAS are extracted and checked against what each
 filing says about itself, but they have no labels. The distinction is kept sharp
@@ -108,7 +108,7 @@ python -m pytest tests/ -q
 ```
 
 ```
-56 passed
+65 passed
 ```
 
 Nothing here touches the network: `tests/test_api.py` stubs the provider, and
@@ -163,6 +163,16 @@ different currencies and scales; `--as-printed` turns that off. An empty cell me
 asserted" and never zero, `abstained` names the fields withdrawn on purpose, and a
 document that fails still gets a row saying why.
 
+Two columns exist so the row cannot hide its own assumptions. `reporting_scale` is the
+scale that was actually **applied**, which is not always the one the model reported —
+labelling a converted row with a multiplier that was never used is how a thousandfold
+error travels unnoticed. `notes` carries the sentences explaining why, verbatim:
+
+```
+model said scale THOUSANDS, header says FULL - using FULL
+Rate row also carried 15,408, 15,015 IDR/USD (comparative periods); took the first column, 16,420.
+```
+
 Try the other issuers too — they are the more interesting documents:
 
 ```bash
@@ -203,8 +213,8 @@ SUMMARY
 
   usage
     LLM calls            13
-    tokens              75151 in / 4071 out
-    latency             18-26s per document
+    tokens              100878 in / 3765 out
+    latency             21-36s per document (mean 28s)
 ```
 
 The `usage` block is measured, not estimated: both providers report their own token
@@ -235,8 +245,9 @@ it the scorecard cannot name the commit that produced it.
 | `GEMINI_API_KEY not set` | No `.env`, or the key line is empty. `cp .env.example .env` and fill it in. |
 | `Model 'x' not found on this key` | Model availability differs per account. The error lists the ids your key actually has — copy one into `GEMINI_MODEL` in `.env`. Any Gemini vision model works; `gemini-3.1-flash-lite` is what the committed results used. |
 | `run_eval` says "only CACHED predictions can be scored" | You have no key configured. That is a working path, not an error: it re-scores the committed predictions. `--no-cache` is what needs a provider. |
+| The cache-only run took minutes and billed you | Predictions are cached per **model**. If `GEMINI_MODEL` in your `.env` is not `gemini-3.1-flash-lite`, every lookup misses and the run silently calls the API instead. Pin the model, or accept that you are doing a fresh extraction. |
 | `503 ... high demand` | Gemini capacity spike. One retry is automatic; if it persists, wait a minute. The run continues and reports the field as `missed`, never as a guess. |
-| `429 rate limit` | Free-tier quota. Not retried on purpose — wait, or set `LLM_FALLBACK_PROVIDER=ollama`. |
+| `429 rate limit` | Per-minute quota: waited out and retried automatically (`LLM_RATE_LIMIT_WAIT_S`, default 75s). A per-**day** quota is not waited out — sleeping cannot clear it — so it fails fast; wait, or set `LLM_FALLBACK_PROVIDER=ollama`. |
 | `OCR unavailable` on EMAS | `brew install tesseract tesseract-lang`. Without it EMAS still extracts, but page selection, grounding and the FX rate degrade — and the run says so. |
 | Docker healthcheck never passes | `docker compose logs api`. Usually a missing `.env`, which makes `env_file` fail the whole project. |
 
@@ -710,21 +721,43 @@ Design points that matter:
 ARCI    correct 40   wrong 0   missed 0                accuracy 100%   (40/40)
 JPFA    correct 36   wrong 0   missed 0                accuracy 100%   (36/36)   ← via the API
 JPFA    correct 33   wrong 0   missed 3 (abstained)    accuracy 91.7%  (33/36)   ← a second run
+JPFA    correct 36   wrong 0   missed 0                accuracy 100%   (36/36)   ← current code
 ```
 
 ARCI was reproduced after the prompt was rewritten to remove its own figures from the
 examples (see *Agentic development*), so the score is not the model copying numbers it was
 shown.
 
-**The two JPFA rows are the same code over the same filings.** Where they differ, the model
-misread one figure on the annual report, the balance-sheet identity failed, and the three
-implicated fields were withdrawn rather than published. So far that is two local runs
-agreeing on 33/36 against one containerised run at 36/36 — not enough to say which is
-typical, and the honest thing is to publish both rather than pick.
+**The three JPFA rows are the same filings.** Where they differ, the model misread one
+figure on the annual report, the balance-sheet identity failed, and the three implicated
+fields were withdrawn rather than published.
 
+The last row is this code, re-run after the prompt rewrite and the text-layer fixes below.
+`compare_runs.py` against the 33/36 baseline reports the three Q4 fields moving
+`missed → correct` and **no regressions in either direction**:
+
+```
+Q4 aset          missed -> correct
+Q4 ekuitas       missed -> correct
+Q4 liabilitas    missed -> correct
+correct 33 -> 36   wrong 0 -> 0   missed 3 -> 0
+```
+
+**One run does not prove the JPFA variance is gone.** The same period produced
+both answers before anything changed, so a single clean pass cannot distinguish "fixed"
+from "lucky". What it does establish is that nothing that used to be right became wrong.
 Quoting only the 36/36 would describe a more reliable system than this is; quoting only
-the 33/36 would describe a worse one. What both agree on is the part that matters: **on an
-issuer it was never tuned for, this extractor has never yet published a wrong figure.**
+the 33/36 would describe a worse one. What all three agree on is the part that matters:
+**on an issuer it was never tuned for, this extractor has never yet published a wrong
+figure.**
+
+**The same prompt, a different model.** ARCI was also run end to end on
+`gemini-3.5-flash-lite` with no prompt change: **40/40**, 13 calls, 100,878 in / 3,788 out,
+15–25 s per document. One issuer on one model swap is thin evidence, but it is the right
+kind: the prompt describes accounting concepts rather than a model's habits, so it should
+travel — and where it does not, `compare_runs.py` between the two scorecards is the way to
+find out rather than to guess.
+
 
 #### What these numbers do not cover
 
@@ -781,35 +814,44 @@ clean path already scores 40/40, and a build with all three deleted would score
 identically. Safety machinery is only observable when something goes wrong.
 
 `tests/test_guards.py` therefore breaks one specific thing per test and asserts that
-the right guard fires — 25 tests, runnable with or without pytest:
+the right guard fires — 34 tests, runnable with or without pytest:
 
 ```
 PASS  test_correct_extraction_passes_cleanly            no false positives
+PASS  test_derived_field_is_not_punished_for_being_absent
 PASS  test_hallucinated_value_is_caught                 invented figure -> abstained
 PASS  test_wrong_but_real_row_is_caught                 wrong row, genuine number
 PASS  test_unbalanced_balance_sheet_is_caught
 PASS  test_containment_violation_is_caught
 PASS  test_fractional_share_count_is_caught
-PASS  test_derived_field_is_not_punished_for_being_absent
 PASS  test_fx_rate_comes_from_the_filing
 PASS  test_share_count_is_never_converted
 PASS  test_usd_without_a_rate_refuses_rather_than_guesses
-PASS  test_failure_kinds_are_distinguished
 PASS  test_scale_is_read_from_the_header_not_guessed
+PASS  test_a_header_naming_only_a_currency_means_full_units   no scale word = FULL
+PASS  test_no_header_at_all_is_still_unknown
 PASS  test_printed_scale_overrides_the_model
+PASS  test_the_header_also_overrides_a_scale_the_model_invented   ARCI's 1000x
+PASS  test_pages_declaring_different_scales_say_so
+PASS  test_a_text_layer_shredded_into_single_characters_is_not_trusted   GTRA
+PASS  test_a_dense_ordinary_page_is_still_trusted        the detector's other half
+PASS  test_a_bank_row_is_found_whatever_the_issuer_calls_it   "Pinjaman bank"
 PASS  test_older_balance_sheet_wording_is_still_found
 PASS  test_unmatched_section_headings_warn_instead_of_passing_silently
-PASS  test_bank_sections_resolve_for_a_second_issuer        ARCI and JPFA wording
+PASS  test_bank_sections_resolve_for_a_second_issuer     ARCI and JPFA wording
 PASS  test_missing_long_term_section_does_not_crash
-PASS  test_grounding_survives_a_broken_text_layer           CPIN's "1 4.406"
+PASS  test_grounding_survives_a_broken_text_layer        CPIN's "1 4.406"
+PASS  test_grounding_survives_a_digit_split_from_its_separator   GTRA's "1 .092"
 PASS  test_indonesian_number_strings_are_parsed_correctly
 PASS  test_balance_check_needs_total_equity_to_run
-PASS  test_missing_currency_refuses_rather_than_assuming_idr
-PASS  test_ground_truth_sheet_must_match_the_ticker
 PASS  test_share_capital_split_across_classes_is_summed_and_not_punished
 PASS  test_an_invented_share_class_is_still_caught
+PASS  test_an_explicit_nil_is_not_position_checked
+PASS  test_missing_currency_refuses_rather_than_assuming_idr
+PASS  test_ground_truth_sheet_must_match_the_ticker
+PASS  test_failure_kinds_are_distinguished
 PASS  test_a_derived_field_cannot_outlive_an_abstained_component
-25/25 passed
+34/34 passed
 ```
 
 The first two are a pair, and both are needed. One proves the guard fires when the
@@ -936,9 +978,13 @@ image mode:
 | | Per run (4 filings) | Per filing |
 |---|---:|---:|
 | LLM calls | 13 | 3–4 |
-| Input tokens | 75,151 | ~18,800 |
-| Output tokens | 4,085 | ~1,020 |
+| Input tokens | 100,878 | ~25,200 |
+| Output tokens | 3,765 | ~940 |
 | Cost | *unpriced* | *unpriced* |
+
+Input was 75,151 before the prompt was rewritten from a list of labels into a reading
+method. The extra ~25,000 tokens per run is that prompt, charged 13 times — a real and
+deliberate cost, paid for the generalisation it buys across issuers.
 
 Input dominates by 18:1, which is the number that decides where optimisation effort
 goes: the output is a small fixed JSON object, so every saving has to come from what is
@@ -956,9 +1002,11 @@ data.
 
 ### Latency
 
-Recorded per filing and per stage. Four ARCI periods through the API, image mode:
-**25–40 s per filing (mean 31 s)**; in-process the same run spanned 24–65 s. The stage
-split is what makes it actionable — from a single `/extract`:
+Recorded per filing and per stage. In-process, image mode, current code:
+**ARCI 21–36 s per filing (mean 28 s)**, **JPFA 23–50 s (mean 32 s)**. An earlier run of
+the four ARCI periods *through the API* spanned 25–40 s (mean 31 s) — measured before the
+prompt rewrite, so it is not directly comparable to the two figures above. The stage split
+is what makes any of it actionable — from a single `/extract`:
 
 ```
 select_pages 5.8s | read_text 0.3s | extract 16.4s | assess 0.0s
@@ -999,14 +1047,19 @@ much input, a low generate rate means the model is too big for available RAM.
   filer. Refusing is the only defensible behaviour: the abstention already said the
   value was not worth asserting.
 - **An unreadable text layer is detected, not inherited.** Pages that extract as glyph
-  ids or as nothing are OCR'd rather than passed downstream as empty evidence, which
-  is what turned "every field abstained" into a working extraction on EMAS.
-- **A capacity spike is retried once; a rate limit is not.** These read alike in a
-  status table and behave nothing alike. A `503` says the service is briefly
-  oversubscribed — its own message invites a retry — so one more attempt follows after a
-  short backoff. A `429` says *we* are over our allowance, and retrying spends another
-  unit of the thing we just ran out of, so it abandons the provider immediately. This
-  distinction was not theoretical: see below.
+  ids, as nothing, or as single characters with the columns interleaved are OCR'd rather
+  than passed downstream as empty evidence. That is what turned "every field abstained"
+  into a working extraction on EMAS, and 2/10 fields into 10/10 on GTRA — see
+  [*A text layer can be present, readable-looking, and still useless*](#a-text-layer-can-be-present-readable-looking-and-still-useless).
+- **Three failures that all arrive as one status code are told apart.** A `503` says the
+  service is briefly oversubscribed — its own message invites a retry — so one more
+  attempt follows after a short backoff. A `429` needs reading further: a **per-minute**
+  limit refills on a clock, so it is waited out and retried (`LLM_RATE_LIMIT_WAIT_S`,
+  default 75 s, or the provider's own `retryDelay` plus a margin, because sleeping to the
+  exact boundary races the reset); a **per-day** quota cannot be cleared by sleeping, so
+  it abandons the provider immediately. Waiting out a per-minute limit costs a minute;
+  failing on one costs the whole batch. The `503`/`429` distinction was not theoretical:
+  see below.
 - **Known limit:** type checking at the JSON boundary. `from_dict` accepts any type,
   so a hand-edited or stale cache file can raise inside `validate()` rather than being
   rejected with a clear message. Listed under *Not built yet*.
@@ -1117,9 +1170,11 @@ Two of these deserve emphasis.
 
 **Scale is now read, not asked for.** A missed "dalam ribuan" multiplies every figure
 by a thousand, and the wording sits in plain text a fixed distance from the title.
-`detect_scale()` reads it directly and, on disagreement, overrides the model with a
-warning. ARCI reports in full units, so this path was untested until JPFA and CPIN,
-both of which report in millions — it now runs on real filings.
+`detect_scale()` reads it directly and overrides the model **in both directions** — a
+header naming a currency and no scale means full units, which is an answer rather than a
+silence. Answering only "THOUSANDS" and never "FULL" left the expensive half of the
+mistake uncaught for three ARCI filings; see
+[*The scale field was the one the guards could not see*](#the-scale-field-was-the-one-the-guards-could-not-see).
 
 **A guard that cannot run now says so.** If an issuer words its liability headings
 differently, `_bank_rows_by_section()` returns an empty map and every wrong-row check
@@ -1188,11 +1243,132 @@ Also loosened, by audit rather than by failure:
 | One label per field (`"Total Aset"`) | Variants listed (`Total Aset` \| `Jumlah Aset` \| `Total Assets`) |
 | Balance sheet titled only "Laporan Posisi Keuangan" | Also `Neraca`, `Balance Sheet`, comprehensive-income wordings |
 | Bank sections matched ARCI's exact phrase | Matched on distinguishing words; `Kewajiban` accepted alongside `Liabilitas` |
-| Scale taken from the model alone | Read from the printed header, which **overrides** the model |
+| Scale taken from the model alone | Read from the printed header, which **overrides** the model in both directions |
 | Share count assumed to sit on a statement page | Located anywhere in the document when no selected page carries it |
 | A dot separates thousands | Convention decided per value; both are read |
 | The text layer is what the PDF says it is | Checked, and OCR'd when it is not |
+| A page is unreadable only if empty or glyph ids | Also when shredded into single characters |
+| Bank-debt rows matched the literal `"Utang bank"` | Matched by concept: `Utang` / `Hutang` / `Pinjaman` / `Liabilitas` + `bank` |
+| A row's amount was the first number after the label | Amounts read per column, so a note reference between them is skipped |
 | Eval periods hard-coded to 2022 | Discovered from `data/raw/*_<TICKER>.pdf` |
+
+### Sixty-five filings, five issuers, and four defects that were not the model's
+
+The three-issuer run above was one filing each. The next step was the whole archive the
+manual workflow actually covers: **65 filings, five issuers (ARCI, JPFA, CPIN, GTRA,
+EMAS), 2022–2026**, through `scripts/pdf_to_csv.py`.
+
+Two kinds of failure showed up, and neither was fixed by a better model. Both were fixed
+in deterministic code.
+
+#### The scale field was the one the guards could not see
+
+ARCI prints the same header in all fourteen of its filings, word for word:
+
+```
+(Disajikan dalam Dolar Amerika Serikat,   (Expressed in United States Dollar,
+kecuali dinyatakan lain)                   unless otherwise stated)
+```
+
+No scale word anywhere. The model still answered `THOUSANDS` on three of the fourteen,
+and every figure in those rows came out a thousandfold too large — total assets recorded
+as 13,503,189,704,433,**496** where the neighbouring quarter reads 12,882,307,892,235.
+
+The model's variance is the smaller half of that story. `detect_scale()` could only
+correct in **one direction**: it looked for "dalam ribuan", and finding it, overrode the
+model. Finding nothing, it answered "unknown" and let the model stand. But a header that
+names a currency and no scale is not silent — it is the filing saying *whole units*. The
+header is the one place a scale is ever stated.
+
+Worse, `reporting_scale` is the single field grounding **cannot** check, because a scale
+is a word and grounding compares numbers. So the field that multiplies every other figure
+was the one field with no independent verification at all.
+
+It is now authoritative in both directions, and the warning it produces — which the
+pipeline used to compute and then discard — is written into a `notes` column:
+
+```
+model said scale THOUSANDS, header says FULL - using FULL
+```
+
+Re-running ARCI Q2 2024 confirms it end to end: the model still says `THOUSANDS`
+(reproduced under `gemini-3.5-flash-lite` as well, so this is not a capability gap that a
+newer model closes), the header overrides it, and total assets come back
+13,503,189,704,433.
+
+#### A text layer can be present, readable-looking, and still useless
+
+PT Grahaprima (GTRA) typesets some quarters so that every glyph is its own positioned
+text run. pdfplumber returns the balance sheet one character at a time with the columns
+interleaved:
+
+```
+T o ta l A s e t L a n c a r        2 0 .4 0 9 .3 0 1 .3
+```
+
+The page has thousands of characters, plenty of letters and no Private Use Area glyphs,
+so all three existing usability tests passed it. The model, reading the image, extracted
+the figures correctly. Then **grounding** — which verifies against the text layer —
+found none of them, scored every field at zero and withdrew the lot.
+
+The correlation across GTRA's fifteen filings is exact:
+
+| Statement pages shredded | Result |
+|---:|---|
+| 0 | 10/10 |
+| 2 | 9/10 |
+| 3 | 8/10 |
+| 6 | **2/10**, twelve fields withdrawn |
+
+Measured over every page of all 65 filings, an ordinary page has ~0.12 single-character
+tokens and a shredded one ~0.90. Two ratios have to agree before a page is called
+shredded — single-character tokens **and** numbers reduced to lone digits — because
+either alone has honest counter-examples: a note page of short bilingual labels scores
+high on the first, a page of dates and note references on the second. 197 pages across
+the archive are flagged; spot-checking the highest-scoring ones in each issuer found no
+false positives.
+
+A flagged page now goes down the OCR path that already existed for EMAS. Two further
+defects surfaced on the way there and are fixed too:
+
+- **`_is_garbled` threw the OCR'd page away again.** It called a page garbled when its
+  lines were short — a proxy for "rotated page, carries nothing". But OCR returns a
+  column layout as many short lines, so the page that had just been expensively
+  recovered was discarded, and the figures on it failed grounding for want of anywhere
+  to check them. It now tests the property directly: does this page carry figures?
+- **The bank-debt validator had memorised one issuer's wording.** The prompt was
+  rewritten to describe that row by *meaning* so `Utang bank`, `Pinjaman` and
+  `Bank loans` all reach the same field — but `_bank_rows_by_section()` still matched
+  the literal string `"Utang bank"`. GTRA writes `Pinjaman bank`, so the position check
+  never ran for it: `section_map_incomplete` fired on all fifteen of its filings and
+  nobody read it. A generalising prompt behind a memorising validator is not
+  generalisation. The pattern now matches the concept, and the amounts are read per
+  column so a note reference between label and figure (`Utang bank 2c,4 1.092.421.914.566`)
+  no longer defeats it — which it had been doing on **every** issuer, silently.
+
+#### Verified, not asserted
+
+| Filing | Before | After |
+|---|---|---|
+| ARCI Q2 2024 | `aset` 13,503,189,704,433,496 | **13,503,189,704,433** |
+| GTRA Q1 2026 | 2/10, twelve abstentions | **10/10, none** |
+| CPIN Q1 2025 | 10/10 | 10/10, **byte-identical** |
+| JPFA Q1 2023 | 9/10 | 9/10, unchanged |
+
+GTRA Q1 2026's nine recovered figures match, to the rupiah, the ones that had been
+collected by hand for that filing — an independent check rather than the system grading
+itself.
+
+The last two rows matter as much as the first two: a fix to the OCR and grounding path
+is exactly the kind of change that quietly moves figures on documents that were already
+working, and neither of these moved.
+
+**Still open after all this:** GTRA Q1 2026 continues to raise
+`section_map_incomplete`, because on an OCR'd page the section headings and the amounts
+do not land on the same reconstructed line, so the position check genuinely cannot run.
+The warning is correct. `pytesseract.image_to_data` returns per-word coordinates and
+would rebuild those rows — the OCR path currently asks only for `image_to_string` and
+throws the geometry away.
 
 ### Honest confidence
 
@@ -1201,7 +1377,8 @@ Also loosened, by audit rather than by failure:
 | ARCI, other years | High | Same template, four periods score 40/40 |
 | Another IDX filer, IDR, millions | Medium-high | JPFA is scored: 36/36 on one run, 33/36 on another with three abstentions and nothing wrong. CPIN extracts cleanly but is unlabelled |
 | Filer reporting in thousands | Medium | Same deterministic reader as millions, which now works on real filings; the thousands branch itself is still untested |
-| Filer with a broken or absent text layer | Medium | EMAS works end to end through OCR, but on one filing, and OCR quality is the new dependency |
+| Filer with a broken or absent text layer | Medium | Three distinct breakages now handled — glyph ids (EMAS), empty layers, single-character shredding (GTRA) — across 65 filings. OCR quality is the dependency this trades into, and it is not measured |
+| Filer whose statement pages must be OCR'd | Medium-low | Figures and grounding recover, but the bank-debt position check cannot run: OCR does not preserve which heading a row sits under |
 | Filer with no disclosed FX rate, reporting in USD | Refuses | By design; it raises rather than guessing a rate |
 | Filer quoting its rate to two decimals | Works, with a caveat | 0.8% rounding uncertainty, reported on every conversion rather than hidden |
 
@@ -1235,6 +1412,11 @@ Stated plainly because the brief asks for them:
 - **A third and fourth scored issuer.** CPIN and EMAS are extracted and self-checked but
   unlabelled. Two scored issuers is enough to have found real bugs; it is not enough to
   characterise the extractor.
+- **Layout-aware OCR.** The OCR path asks tesseract for `image_to_string` and discards
+  the geometry. `image_to_data` returns per-word coordinates, which would rebuild rows on
+  an OCR'd page and let the bank-debt position check run there — the one guard still
+  unable to work on a filing that had to be OCR'd. Measured at ~1 s per page, no new
+  dependency.
 - **A priced cost figure.** Tokens are measured; money needs a rate in
   `config/pricing.json`.
 - **Asynchronous extraction.** The API holds the connection for the length of the job.

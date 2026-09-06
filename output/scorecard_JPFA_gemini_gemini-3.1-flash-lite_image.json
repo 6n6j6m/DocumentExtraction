@@ -2,10 +2,10 @@
   "ticker": "JPFA",
   "tolerance": 0.0001,
   "run": {
-    "timestamp": "2026-09-03T12:22:03+00:00",
-    "git_commit": "bf01309",
+    "timestamp": "2026-09-06T08:59:34+00:00",
+    "git_commit": "bf9f208",
     "git_dirty": true,
-    "prompt_sha256": "819307634e49",
+    "prompt_sha256": "8f2e77c1a9fd",
     "tolerance": 0.0001,
     "config": {
       "LLM_PROVIDER": "gemini",
@@ -122,29 +122,29 @@
           "abstained": false
         },
         "total_share": {
-          "status": "no_truth",
+          "status": "both_absent",
           "rel_error": null,
           "failure_kind": null,
-          "pred_idr": 11726575201.0,
+          "pred_idr": null,
           "truth_idr": null,
-          "pred_raw": 11726575201.0,
-          "confidence": 1.0,
-          "grounded": null,
-          "abstained": false
+          "pred_raw": null,
+          "confidence": 0.4,
+          "grounded": false,
+          "abstained": true
         }
       },
-      "elapsed_s": 29.0,
+      "elapsed_s": 23.9,
       "usage": {
         "llm_calls": 4,
         "tokens": {
-          "input": 17818,
-          "output": 1172
+          "input": 25734,
+          "output": 1062
         },
         "latency_ms": {
-          "select_pages": 9413,
-          "read_text": 209,
-          "assess": 5,
-          "extract": 19315
+          "select_pages": 9936,
+          "read_text": 210,
+          "assess": 11,
+          "extract": 13748
         },
         "cost": {
           "amount": null,
@@ -152,8 +152,8 @@
           "per_model": [
             {
               "model": "gemini-3.1-flash-lite",
-              "input_tokens": 17818,
-              "output_tokens": 1172,
+              "input_tokens": 25734,
+              "output_tokens": 1062,
               "amount": null
             }
           ],
@@ -161,7 +161,9 @@
         },
         "notes": []
       },
-      "abstained": []
+      "abstained": [
+        "total_share"
+      ]
     },
     "Q2": {
       "fx_rate": null,
@@ -266,29 +268,29 @@
           "abstained": false
         },
         "total_share": {
-          "status": "no_truth",
+          "status": "both_absent",
           "rel_error": null,
           "failure_kind": null,
-          "pred_idr": 11726575201.0,
+          "pred_idr": null,
           "truth_idr": null,
-          "pred_raw": 11726575201.0,
-          "confidence": 1.0,
-          "grounded": null,
-          "abstained": false
+          "pred_raw": null,
+          "confidence": 0.4,
+          "grounded": false,
+          "abstained": true
         }
       },
-      "elapsed_s": 30.1,
+      "elapsed_s": 50.2,
       "usage": {
         "llm_calls": 4,
         "tokens": {
-          "input": 17818,
-          "output": 1209
+          "input": 25734,
+          "output": 1162
         },
         "latency_ms": {
-          "select_pages": 10478,
-          "read_text": 343,
-          "assess": 5,
-          "extract": 19230
+          "select_pages": 17924,
+          "read_text": 325,
+          "assess": 9,
+          "extract": 31216
         },
         "cost": {
           "amount": null,
@@ -296,8 +298,8 @@
           "per_model": [
             {
               "model": "gemini-3.1-flash-lite",
-              "input_tokens": 17818,
-              "output_tokens": 1209,
+              "input_tokens": 25734,
+              "output_tokens": 1162,
               "amount": null
             }
           ],
@@ -305,7 +307,9 @@
         },
         "notes": []
       },
-      "abstained": []
+      "abstained": [
+        "total_share"
+      ]
     },
     "Q3": {
       "fx_rate": null,
@@ -421,18 +425,18 @@
           "abstained": true
         }
       },
-      "elapsed_s": 23.9,
+      "elapsed_s": 31.9,
       "usage": {
         "llm_calls": 4,
         "tokens": {
-          "input": 17818,
-          "output": 1103
+          "input": 25734,
+          "output": 1114
         },
         "latency_ms": {
-          "select_pages": 9873,
-          "read_text": 1028,
-          "assess": 6,
-          "extract": 12983
+          "select_pages": 19628,
+          "read_text": 387,
+          "assess": 13,
+          "extract": 11883
         },
         "cost": {
           "amount": null,
@@ -440,8 +444,8 @@
           "per_model": [
             {
               "model": "gemini-3.1-flash-lite",
-              "input_tokens": 17818,
-              "output_tokens": 1103,
+              "input_tokens": 25734,
+              "output_tokens": 1114,
               "amount": null
             }
           ],
@@ -457,15 +461,15 @@
       "fx_rate": null,
       "fields": {
         "aset": {
-          "status": "missed",
-          "rel_error": null,
+          "status": "correct",
+          "rel_error": 0.0,
           "failure_kind": null,
-          "pred_idr": null,
+          "pred_idr": 32690887000000,
           "truth_idr": 32690887000000.0,
-          "pred_raw": null,
-          "confidence": 0.5,
+          "pred_raw": 32690887.0,
+          "confidence": 1.0,
           "grounded": true,
-          "abstained": true
+          "abstained": false
         },
         "total_aset_lancar": {
           "status": "correct",
@@ -490,15 +494,15 @@
           "abstained": false
         },
         "liabilitas": {
-          "status": "missed",
-          "rel_error": null,
+          "status": "correct",
+          "rel_error": 0.0,
           "failure_kind": null,
-          "pred_idr": null,
+          "pred_idr": 19036110000000,
           "truth_idr": 19036110000000.0,
-          "pred_raw": null,
-          "confidence": 0.5,
+          "pred_raw": 19036110.0,
+          "confidence": 1.0,
           "grounded": true,
-          "abstained": true
+          "abstained": false
         },
         "utang_bank": {
           "status": "correct",
@@ -512,15 +516,15 @@
           "abstained": false
         },
         "ekuitas": {
-          "status": "missed",
-          "rel_error": null,
+          "status": "correct",
+          "rel_error": 0.0,
           "failure_kind": null,
-          "pred_idr": null,
+          "pred_idr": 12748045000000,
           "truth_idr": 12748045000000.0,
-          "pred_raw": null,
-          "confidence": 0.54,
+          "pred_raw": 12748045.0,
+          "confidence": 1.0,
           "grounded": null,
-          "abstained": true
+          "abstained": false
         },
         "laba_bersih": {
           "status": "correct",
@@ -567,18 +571,18 @@
           "abstained": false
         }
       },
-      "elapsed_s": 40.1,
+      "elapsed_s": 23.3,
       "usage": {
         "llm_calls": 4,
         "tokens": {
-          "input": 22186,
-          "output": 1192
+          "input": 30102,
+          "output": 1203
         },
         "latency_ms": {
-          "select_pages": 7234,
-          "read_text": 248,
-          "assess": 10,
-          "extract": 32569
+          "select_pages": 7870,
+          "read_text": 235,
+          "assess": 13,
+          "extract": 15127
         },
         "cost": {
           "amount": null,
@@ -586,8 +590,8 @@
           "per_model": [
             {
               "model": "gemini-3.1-flash-lite",
-              "input_tokens": 22186,
-              "output_tokens": 1192,
+              "input_tokens": 30102,
+              "output_tokens": 1203,
               "amount": null
             }
           ],
@@ -595,19 +599,15 @@
         },
         "notes": []
       },
-      "abstained": [
-        "aset",
-        "liabilitas",
-        "ekuitas"
-      ]
+      "abstained": []
     }
   },
   "usage": {
     "documents": 4,
     "llm_calls": 16,
     "tokens": {
-      "input": 75640,
-      "output": 4676
+      "input": 107304,
+      "output": 4541
     },
     "cost": {
       "amount": null,
@@ -616,12 +616,11 @@
     }
   },
   "summary": {
-    "correct": 33,
+    "correct": 36,
     "wrong": 0,
-    "missed": 3,
-    "no_truth": 3,
-    "both_absent": 1,
-    "missed_abstained": 3
+    "missed": 0,
+    "no_truth": 1,
+    "both_absent": 3
   },
   "failure_kinds": {},
   "provider": "gemini_gemini-3.1-flash-lite_image",

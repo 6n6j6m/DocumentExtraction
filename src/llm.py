@@ -28,14 +28,54 @@ import json
 import os
 import re
 import time
+from pathlib import Path
 from typing import Optional
 
 import requests
+from dotenv import load_dotenv
+
+# Loaded here as well as in extract.py, because a provider that only works when some
+# other module happened to be imported first is a trap: `from llm import
+# GeminiProvider` on its own reported "GEMINI_API_KEY not set" on a machine where the
+# key was sitting in .env the whole time.
+load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
 
-# Transient capacity failures, worth one more attempt. 429 is excluded on purpose --
-# see the comment at the retry loop.
+# Transient capacity failures, worth one more attempt. 429 is handled separately --
+# see _rate_limit_wait.
 RETRIABLE_STATUS = frozenset({500, 502, 503, 504})
+
+# A 429 is not one thing, and the difference decides whether waiting helps at all.
+#
+#   requests per MINUTE   a bucket that refills on a clock. Waiting out the window is
+#                         exactly the right response, and the only one that works.
+#   requests per DAY      a cap that resets at midnight. Sleeping 75 seconds achieves
+#                         nothing except a slower failure.
+#
+# An earlier version of this file refused to retry any 429 at all, reasoning that
+# retrying a throttle deepens it. That is true of a daily cap and false of a per-minute
+# one, and conflating them made a 65-file batch fail on a limit that would have cleared
+# itself in about a minute.
+_PER_MINUTE = re.compile(r"per\s*minute|PerMinute|RPM", re.I)
+_PER_DAY = re.compile(r"per\s*day|PerDay|daily", re.I)
+# Gemini often returns google.rpc.RetryInfo telling you exactly how long to wait.
+_RETRY_DELAY = re.compile(r'"retryDelay"\s*:\s*"(\d+(?:\.\d+)?)s"')
+
+
+def _rate_limit_wait(body_text: str, default_wait: float):
+    """How long to wait out a 429, or None if waiting cannot help.
+
+    The provider's own RetryInfo is preferred when present -- it knows when its bucket
+    refills and we do not. A margin is added on top, because sleeping exactly to the
+    boundary races the reset and buys a second 429.
+    """
+    if _PER_DAY.search(body_text) and not _PER_MINUTE.search(body_text):
+        return None
+
+    match = _RETRY_DELAY.search(body_text)
+    if match:
+        return float(match.group(1)) + 5.0
+    return default_wait
 
 
 def _record(usage, provider: str, model: str, reported: Optional[dict], started: float,
@@ -109,6 +149,10 @@ class GeminiProvider:
         # genuinely down provider is discovered quickly rather than after a long stall.
         self.max_retries = int(os.getenv("LLM_MAX_RETRIES", "1"))
         self.retry_backoff = float(os.getenv("LLM_RETRY_BACKOFF_S", "2"))
+        # Slightly over a minute: a per-minute bucket refills on the clock, and waiting
+        # to the exact boundary races the reset. Set to 0 to fail fast instead.
+        self.rate_limit_wait = float(os.getenv("LLM_RATE_LIMIT_WAIT_S", "75"))
+        self.rate_limit_retries = int(os.getenv("LLM_RATE_LIMIT_RETRIES", "1"))
         if not self.api_key:
             raise LLMUnavailable("GEMINI_API_KEY not set")
 
@@ -165,9 +209,22 @@ class GeminiProvider:
         # and invites a retry in its own message; a 429 says WE are over our allowance, and
         # retrying spends another unit of the thing we have just run out of. They read
         # alike in a status-code table and behave nothing alike.
+        waited_out = 0
         for attempt in range(self.max_retries + 1):
             response = requests.post(url, params={"key": self.api_key}, json=body,
                                      timeout=self.timeout)
+
+            if response.status_code == 429 and waited_out < self.rate_limit_retries \
+                    and self.rate_limit_wait > 0:
+                wait = _rate_limit_wait(response.text, self.rate_limit_wait)
+                if wait is None:
+                    break          # a daily cap; waiting a minute changes nothing
+                waited_out += 1
+                print(f"    ⏳ rate limited (429); the per-minute window resets on a "
+                      f"clock, waiting {wait:.0f}s")
+                time.sleep(wait)
+                continue           # this attempt did not consume a capacity retry
+
             if response.status_code not in RETRIABLE_STATUS or attempt == self.max_retries:
                 break
             delay = self.retry_backoff * (2 ** attempt)
@@ -176,7 +233,9 @@ class GeminiProvider:
             time.sleep(delay)
 
         if response.status_code == 429:
-            raise LLMUnavailable("Gemini rate limit (429) - falling back if configured")
+            raise LLMUnavailable(
+                "Gemini rate limit (429) and waiting did not clear it - "
+                "either a daily quota, or more than LLM_RATE_LIMIT_RETRIES windows")
         if response.status_code == 404:
             # Guessing model names wastes a round trip each time; ask the API instead.
             available = self.list_models()

@@ -21,6 +21,55 @@ _US_GROUPED = re.compile(r"^\d{1,3}(,\d{3})+(\.\d+)?$")
 _ID_GROUPED = re.compile(r"^\d{1,3}(\.\d{3})+(,\d+)?$")
 _ONE_GROUP = re.compile(r"^\d{1,3}[.,]\d{3}$")
 
+# PDF text layers routinely break a printed figure across a space, in three shapes
+# seen in real filings:
+#
+#   CPIN   "14.406"              extracts as "1 4.406"        digit | digit
+#   GTRA   "1.092.421.914.566"   extracts as "1 .092.421..."  digit | separator
+#   GTRA   "43.048.092.371"      extracts as "4 3.048.092.371"
+#
+# Anything reading figures out of a text layer -- the grounding check, the bank-debt
+# position check -- has to close those gaps first or it reads a different number than
+# the one printed, which is worse than reading none.
+_DIGIT_GAP = re.compile(r"(?<=\d)[ \t]+(?=\d)"          # 1 4.406
+                        r"|(?<=\d)[ \t]+(?=[.,]\d)"      # 1 .092
+                        r"|(?<=[.,])[ \t]+(?=\d)")        # 1. 092
+
+
+def repair_digit_gaps(text: str) -> str:
+    """Rejoin figures a text layer split across a space.
+
+    Adjacent columns may run together as a side effect ("26.340.959 25.149.999"
+    becomes one long run). That is acceptable for substring searching, which is all
+    this is used for, and it is repaired per line where the position matters.
+    """
+    return _DIGIT_GAP.sub("", text or "")
+
+
+# Reading the COLUMNS of a row needs the opposite trade. Closing every gap turns
+# "Pinjaman bank 14 17.729.771.107 17.744.025.136" -- a note reference and two
+# periods -- into one 26-digit run that parses as nothing at all. So only the gap
+# that a split figure leaves is closed: a lone digit standing at the start of a word,
+# immediately before a properly grouped number, is that number's first digit.
+_SPLIT_LEAD = re.compile(r"(?<!\d)(\d)[ \t]+(?=\d{1,3}[.,]\d{3}|[.,]\d{3})")
+
+# A figure as a statement prints one: at least one group of three behind a separator.
+# Anything shorter is a note reference or a year, not an amount.
+_GROUPED = re.compile(r"\(?\d{1,3}(?:[.,]\d{3})+\)?")
+
+
+def grouped_numbers(line: str) -> list:
+    """Every printed amount on one line, in the order the columns appear.
+
+    Used where the POSITION of a figure carries meaning -- which column, which row,
+    under which heading -- and where joining two columns together would therefore
+    read a number that is not on the page.
+    """
+    repaired = _SPLIT_LEAD.sub(r"\1", line or "")
+    values = [parse_grouped_number(m.group()) for m in _GROUPED.finditer(repaired)]
+    return [v for v in values if v is not None]
+
+
 
 def parse_grouped_number(text):
     """Parse a printed figure to a float, or None if it is not one.

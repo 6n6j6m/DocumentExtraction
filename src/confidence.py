@@ -27,6 +27,14 @@ import re
 from dataclasses import dataclass, field as dc_field
 from typing import Optional
 
+# A text layer routinely splits a printed figure across a space. Searching the raw
+# text alone reports such a figure as absent, and the guard then abstains on a value
+# that is printed perfectly well -- discarding a right answer, which is the expensive
+# direction to fail in. GTRA's total assets was lost exactly this way while the
+# balance sheet it came from balanced to the rupiah. The repair lives in numfmt
+# because the bank-debt position check in validate.py needs the same one.
+from numfmt import repair_digit_gaps
+
 ABSTAIN_THRESHOLD = float(os.getenv("CONFIDENCE_ABSTAIN_THRESHOLD", "0.55"))
 
 # Weights sum to 1.0. Grounding dominates: a figure absent from the document is
@@ -82,25 +90,6 @@ def _indonesian_forms(value: float) -> list:
     return forms
 
 
-# PDF text layers routinely break a number across a space. Two shapes have been seen
-# in real filings, and they need different patterns:
-#
-#   CPIN   "14.406"             extracts as "1 4.406"        digit | digit
-#   GTRA   "1.092.421.914.566"  extracts as "1 .092.421..."  digit | separator
-#
-# Searching the raw text alone reports such a figure as absent, and the guard then
-# abstains on a value that is printed perfectly well -- discarding a right answer,
-# which is the expensive direction to fail in. GTRA's total assets was lost exactly
-# this way while the balance sheet it came from balanced to the rupiah.
-#
-# Closing the gap on either side of a separator repairs both without touching anything
-# else. Adjacent columns may run together ("26.340.959 25.149.999" becomes one long
-# run) but a substring search still finds either figure inside the join.
-_DIGIT_GAP = re.compile(r"(?<=\d)[ \t]+(?=\d)"          # 1 4.406
-                        r"|(?<=\d)[ \t]+(?=[.,]\d)"      # 1 .092
-                        r"|(?<=[.,])[ \t]+(?=\d)")        # 1. 092
-
-
 def check_grounding(value, document_text: str) -> Optional[bool]:
     """Is this value printed in the document? None if it cannot be checked."""
     if not document_text or value is None:
@@ -122,7 +111,7 @@ def check_grounding(value, document_text: str) -> Optional[bool]:
     if any(form in document_text for form in forms):
         return True
     # Second pass over a copy with intra-number spacing repaired.
-    return any(form in _DIGIT_GAP.sub("", document_text) for form in forms)
+    return any(form in repair_digit_gaps(document_text) for form in forms)
 
 
 def _derived_from(extraction) -> dict:

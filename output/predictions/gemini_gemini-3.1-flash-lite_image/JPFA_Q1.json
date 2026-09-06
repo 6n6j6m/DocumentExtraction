@@ -9,15 +9,12 @@
   "pendapatan": 12154001.0,
   "laba_bersih": 603739.0,
   "kas_dari_aktivitas_operasi": 904913.0,
-  "total_share": 11726575201.0,
+  "total_share": null,
   "utang_bank_jangka_pendek": 961101.0,
   "utang_bank_bagian_lancar": 694638.0,
   "total_ekuitas": 13707780.0,
   "kepentingan_non_pengendali": 913090.0,
-  "total_share_components": [
-    8814985201.0,
-    2911590000.0
-  ],
+  "total_share_components": null,
   "currency": "IDR",
   "reporting_scale": "MILLIONS",
   "statement_scope": "CONSOLIDATED",
@@ -89,11 +86,11 @@
       "reasons": []
     },
     "total_share": {
-      "confidence": 1.0,
-      "grounded": null,
-      "abstained": false,
+      "confidence": 0.4,
+      "grounded": false,
+      "abstained": true,
       "reasons": [
-        "derived from total_share_components; graded on those rows"
+        "value does not appear in the document"
       ]
     },
     "utang_bank_jangka_pendek": {
@@ -115,12 +112,6 @@
       "reasons": []
     },
     "kepentingan_non_pengendali": {
-      "confidence": 1.0,
-      "grounded": true,
-      "abstained": false,
-      "reasons": []
-    },
-    "total_share_components": {
       "confidence": 1.0,
       "grounded": true,
       "abstained": false,
@@ -151,18 +142,18 @@
       ]
     }
   },
-  "_elapsed_s": 29.0,
+  "_elapsed_s": 23.9,
   "_usage": {
     "llm_calls": 4,
     "tokens": {
-      "input": 17818,
-      "output": 1172
+      "input": 25734,
+      "output": 1062
     },
     "latency_ms": {
-      "select_pages": 9413,
-      "read_text": 209,
-      "assess": 5,
-      "extract": 19315
+      "select_pages": 9936,
+      "read_text": 210,
+      "assess": 11,
+      "extract": 13748
     },
     "cost": {
       "amount": null,
@@ -170,8 +161,8 @@
       "per_model": [
         {
           "model": "gemini-3.1-flash-lite",
-          "input_tokens": 17818,
-          "output_tokens": 1172,
+          "input_tokens": 25734,
+          "output_tokens": 1062,
           "amount": null
         }
       ],

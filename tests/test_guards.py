@@ -166,7 +166,24 @@ def test_scale_is_read_from_the_header_not_guessed():
     """A missed "dalam ribuan" is a 1000x error in every figure."""
     assert detect_scale("(Disajikan dalam ribuan Rupiah)") == "THOUSANDS"
     assert detect_scale("(Expressed in millions of Rupiah)") == "MILLIONS"
-    assert detect_scale("(Disajikan dalam Dolar Amerika Serikat)") is None
+    assert detect_scale("(Disajikan dalam milyar Rupiah)") == "BILLIONS"
+
+
+def test_a_header_naming_only_a_currency_means_full_units():
+    """Absence of a scale word in the header is an answer, not a silence.
+
+    The header is the one place a filing states its scale, so a header that names a
+    currency and no scale says "whole units". Reading that as "unknown" leaves the
+    expensive half of the mistake uncaught -- see the next test.
+    """
+    assert detect_scale("(Disajikan dalam Dolar Amerika Serikat)") == "FULL"
+    assert detect_scale("(Expressed in Rupiah, unless otherwise stated)") == "FULL"
+
+
+def test_no_header_at_all_is_still_unknown():
+    """An unreadable page must not be mistaken for a page that says "full units"."""
+    assert detect_scale("Total Aset 111.111.111") is None
+    assert detect_scale("") is None
 
 
 def test_printed_scale_overrides_the_model():
@@ -175,6 +192,94 @@ def test_printed_scale_overrides_the_model():
     result = to_idr(e, document_text="(Disajikan dalam ribuan Rupiah)")
     assert result["scale_applied"] == 1000
     assert any("header says THOUSANDS" in w for w in result["warnings"])
+
+
+def test_the_header_also_overrides_a_scale_the_model_invented():
+    """The direction that actually cost money.
+
+    ARCI's header says nothing about scale in any quarter of any year, yet the model
+    answered THOUSANDS on three of its fourteen filings and every figure in those rows
+    came out a thousandfold too large. reporting_scale is the one field grounding
+    cannot check -- a scale is a word, not a number -- so the header has to be
+    authoritative in BOTH directions or this passes silently.
+    """
+    e = F(**{**TRUTH, "currency": "IDR", "reporting_scale": "THOUSANDS"})
+    result = to_idr(e, document_text="(Disajikan dalam Rupiah, kecuali dinyatakan lain)")
+    assert result["scale_applied"] == 1
+    assert any("header says FULL" in w for w in result["warnings"])
+
+
+def test_pages_declaring_different_scales_say_so():
+    """A note tabulated at another scale is not resolved silently."""
+    e = F(**{**TRUTH, "currency": "IDR", "reporting_scale": "FULL"})
+    result = to_idr(e, document_text="(Disajikan dalam Rupiah)\n"
+                                     "(Disajikan dalam ribuan Rupiah)")
+    assert result["scale_applied"] == 1
+    assert any("more than one scale" in w for w in result["warnings"])
+
+
+def test_a_text_layer_shredded_into_single_characters_is_not_trusted():
+    """The failure that made one issuer look like two different systems.
+
+    PT Grahaprima files Q1 2024, Q1 2025 and Q1 2026 typeset so that every glyph is
+    its own text run; pdfplumber returns the balance sheet a character at a time with
+    the columns interleaved. Nothing else about the filing changed -- the other
+    quarters of the same issuer come out clean -- and the page is perfectly legible
+    to the model reading the image. But the text layer is what every deterministic
+    check verifies against, so grounding failed on every figure at once and the
+    confidence layer withdrew twelve fields that had been read correctly.
+
+    Length, letters and encoding all look fine on such a page, which is why the two
+    existing tests pass it. It has to be recognised on its shape.
+    """
+    from pdftext import text_layer_usable
+
+    shredded = ("T o ta l A s e t L a n c a r 2 0 .4 0 9 .3 0 1 .3\n"
+                "K a s d a n s e ta ra k a s 1 5 7 .7 2 3 .6 7 7 .7\n"
+                "P iu ta n g u s a h a - n e to 2 1 .8 7 9 .9 0 2 .8\n") * 12
+    assert not text_layer_usable(shredded)
+
+
+def test_a_dense_ordinary_page_is_still_trusted():
+    """The detector must not send readable pages to OCR.
+
+    Two ratios have to agree before a page is called shredded, because either alone
+    has honest counter-examples: a note page of short bilingual labels scores high on
+    the first, and a page of dates and note references scores high on the second.
+    """
+    from pdftext import text_layer_usable
+
+    ordinary = ("PT CONTOH TBK DAN ENTITAS ANAKNYA\n"
+                "LAPORAN POSISI KEUANGAN KONSOLIDASIAN\n"
+                "(Disajikan dalam Rupiah, kecuali dinyatakan lain)\n"
+                "Kas dan setara kas 2c,4 20.409.301.364 15.284.771.902\n"
+                "Piutang usaha - neto 5 157.723.677.712 143.006.912.550\n") * 12
+    assert text_layer_usable(ordinary)
+
+
+def test_a_bank_row_is_found_whatever_the_issuer_calls_it():
+    """The validator must not memorise the wording the prompt was taught to generalise.
+
+    The extraction prompt describes bank debt by meaning, so that "Pinjaman" and
+    "Utang bank" and "Bank loans" all reach the same field. The position check behind
+    it still matched the single string "Utang bank", which disarmed it completely for
+    an issuer that says "Pinjaman bank": the section map came back empty on all
+    fifteen of that issuer's filings and the warning saying so fired every time.
+
+    A note reference between the label and the figure, and a leading digit the text
+    layer split off, both have to survive too -- reading "3.048.092.371" out of
+    "Pinjaman bank 14 4 3.048.092.371" would report a wrong-section ERROR against a
+    value that was right.
+    """
+    from validate import _bank_rows_by_section
+
+    text = ("LIABILITAS JANGKA PENDEK\n"
+            "Pinjaman bank jangka pendek 10 17.729.771.107 17.744.025.136\n"
+            "Liabilitas jangka panjang yang jatuh tempo dalam satu tahun:\n"
+            "Pinjaman bank 14 4 3.048.092.371 2 4.611.346.132\n")
+    rows = _bank_rows_by_section(text)
+    assert 17_729_771_107 in rows["short_term"]
+    assert 43_048_092_371 in rows["current_maturity"]
 
 
 def test_older_balance_sheet_wording_is_still_found():

@@ -140,18 +140,18 @@
       ]
     }
   },
-  "_elapsed_s": 27.2,
+  "_elapsed_s": 35.5,
   "_usage": {
     "llm_calls": 4,
     "tokens": {
-      "input": 21094,
-      "output": 1142
+      "input": 29010,
+      "output": 1042
     },
     "latency_ms": {
-      "select_pages": 7317,
-      "read_text": 905,
-      "assess": 3,
-      "extract": 18937
+      "select_pages": 9288,
+      "read_text": 521,
+      "assess": 7,
+      "extract": 25684
     },
     "cost": {
       "amount": null,
@@ -159,8 +159,8 @@
       "per_model": [
         {
           "model": "gemini-3.1-flash-lite",
-          "input_tokens": 21094,
-          "output_tokens": 1142,
+          "input_tokens": 29010,
+          "output_tokens": 1042,
           "amount": null
         }
       ],

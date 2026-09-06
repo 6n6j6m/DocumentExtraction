@@ -181,17 +181,20 @@ _OK = {"candidates": [{"content": {"parts": [{"text": '{"aset": 1}'}]}}],
        "usageMetadata": {"promptTokenCount": 10, "candidatesTokenCount": 2}}
 
 
-def _gemini(monkeypatch, statuses):
+def _gemini(monkeypatch, statuses, error_body=None):
     """A GeminiProvider whose HTTP calls return `statuses` in order."""
     import llm
     monkeypatch.setenv("GEMINI_API_KEY", "test-key")
-    monkeypatch.setenv("LLM_RETRY_BACKOFF_S", "0")     # no real sleeping in tests
+    monkeypatch.setenv("LLM_RETRY_BACKOFF_S", "0")      # no real sleeping in tests
+    monkeypatch.setenv("LLM_RATE_LIMIT_WAIT_S", "0.01")
     calls = []
 
     def fake_post(url, **kwargs):
         status = statuses[len(calls)] if len(calls) < len(statuses) else statuses[-1]
         calls.append(status)
-        return _Response(status, _OK if status == 200 else {"error": {"code": status}})
+        if status == 200:
+            return _Response(200, _OK)
+        return _Response(status, error_body or {"error": {"code": status}})
 
     monkeypatch.setattr(llm.requests, "post", fake_post)
     return llm.GeminiProvider(), calls
@@ -208,17 +211,44 @@ def test_a_capacity_503_is_retried_once_and_recovers(monkeypatch):
     assert calls == [503, 200], "should have tried again after the 503"
 
 
-def test_a_rate_limit_is_not_retried(monkeypatch):
-    """429 and 503 read alike in a status table and behave nothing alike.
+def test_a_per_minute_rate_limit_is_waited_out(monkeypatch):
+    """A requests-per-minute bucket refills on a clock, so waiting IS the fix.
 
-    A 503 says the service is briefly oversubscribed. A 429 says we are over our own
-    allowance, and retrying spends another unit of the thing we have just run out of.
+    This test replaces one that asserted the opposite. The earlier reasoning -- that
+    retrying a throttle deepens it -- holds for a daily cap and fails for a per-minute
+    one, and treating them alike made a long batch die on a limit that would have
+    cleared itself in about a minute.
+    """
+    provider, calls = _gemini(monkeypatch, [429, 200])
+    assert provider.complete("sys", "user") == '{"aset": 1}'
+    assert calls == [429, 200], "should have waited out the window and tried again"
+
+
+def test_a_daily_quota_is_not_waited_out(monkeypatch):
+    """The other half of the distinction: sleeping a minute cannot clear a daily cap.
+
+    Waiting there buys nothing but a slower failure, so the caller is told immediately
+    and can fall back to another provider or stop for the day.
     """
     from llm import LLMUnavailable
-    provider, calls = _gemini(monkeypatch, [429, 200])
+    provider, calls = _gemini(monkeypatch, [429, 200],
+                              error_body={"error": {"code": 429, "message":
+                                          "Quota exceeded: GenerateRequestsPerDay"}})
     with pytest.raises(LLMUnavailable):
         provider.complete("sys", "user")
-    assert calls == [429], "a throttle must not be retried"
+    assert calls == [429], "a daily cap must fail fast, not sleep"
+
+
+def test_the_providers_own_retry_delay_is_preferred(monkeypatch):
+    """When Gemini says how long its bucket needs, believe it rather than guessing.
+
+    A margin is added on top, because sleeping exactly to the boundary races the reset
+    and buys a second 429.
+    """
+    from llm import _rate_limit_wait
+    assert _rate_limit_wait('"retryDelay": "34s" PerMinute', 75) == 39.0
+    assert _rate_limit_wait("per minute quota exceeded", 75) == 75
+    assert _rate_limit_wait("GenerateRequestsPerDay exceeded", 75) is None
 
 
 def test_retries_are_bounded(monkeypatch):
@@ -254,6 +284,12 @@ def test_the_eval_scores_cached_predictions_without_a_provider(monkeypatch, tmp_
     shutil.copytree(ROOT / "output" / "predictions", tmp_path / "predictions")
 
     monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+    # Pin the model to the one the committed cache was produced with. Without this the
+    # test reads whichever model .env happens to name, misses the cache, and tries to
+    # call a provider it has just been denied -- failing for a reason that has nothing
+    # to do with what it is testing.
+    monkeypatch.setenv("GEMINI_MODEL", "gemini-3.1-flash-lite")
+    monkeypatch.setenv("GEMINI_INPUT_MODE", "image")
     monkeypatch.setattr("sys.argv", ["run_eval", "--periods", "Q1", "--out", str(tmp_path)])
 
     assert run_eval.main() == 0
@@ -273,6 +309,9 @@ def test_no_cache_without_a_provider_refuses_clearly(monkeypatch, tmp_path, caps
     spec.loader.exec_module(run_eval)
 
     monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+    # llm.py loads .env itself, so deleting the variable is not enough to simulate a
+    # machine without a key -- the file would put it straight back on the next import.
+    monkeypatch.setattr("dotenv.load_dotenv", lambda *a, **k: False)
     monkeypatch.setattr("sys.argv",
                         ["run_eval", "--no-cache", "--periods", "Q1", "--out", str(tmp_path)])
 

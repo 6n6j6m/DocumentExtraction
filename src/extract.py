@@ -86,16 +86,30 @@ def read_page_texts(pdf_path: str, page_numbers: list) -> dict:
 
 HEADER_LINES = 8          # title, scope, currency and scale live at the top of a page
 GARBLED_MAX_MEDIAN_LEN = 15   # rotated pages extract as many tiny fragments
+_GROUPED_FIGURE = re.compile(r"\d{1,3}(?:[.,]\d{3})+")
+
+
+# What the check is actually looking for, stated positively. A rotated page carries
+# no readable figures; that is the property, and short lines were only ever a proxy
+# for it. The proxy alone throws away a page OCR returns in column order -- label
+# column first, then the amounts, one per line -- which is precisely the page an
+# unreadable text layer had to be OCR'd for. GTRA Q1 2026's balance sheet was
+# discarded that way after being read correctly, and every figure on it then failed
+# grounding for want of anywhere to check it against.
+GARBLED_MIN_FIGURES = 5
 
 
 def _is_garbled(lines: list) -> bool:
     """True for pages whose text layer came out as fragments (rotated pages).
 
-    A rotated page extracts as hundreds of 2-3 character pieces. It carries no
-    readable figures, but it is the single largest page in the set -- worth its
-    own check rather than letting it eat a third of the context window.
+    A rotated page extracts as hundreds of 2-3 character pieces. It is the single
+    largest page in the set, so it is worth its own check rather than letting it eat
+    a third of the context window -- but only when it really carries nothing.
     """
     if len(lines) < 60:
+        return False
+    figures = sum(1 for line in lines if _GROUPED_FIGURE.search(line))
+    if figures >= GARBLED_MIN_FIGURES:
         return False
     lengths = sorted(len(l) for l in lines)
     return lengths[len(lengths) // 2] < GARBLED_MAX_MEDIAN_LEN

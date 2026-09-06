@@ -37,6 +37,30 @@ PUA_RATIO_UNUSABLE = 0.20
 MIN_USABLE_CHARS = 200
 
 _LETTER = re.compile(r"[A-Za-z]")
+_DIGIT_RUN = re.compile(r"\d+")
+
+# A third way a text layer breaks, and the one that hides best. Some filings are
+# typeset so that every glyph is its own positioned text run; pdfplumber then returns
+# the page one character at a time, with the columns interleaved:
+#
+#     T o ta l A s e t L a n c a r        20 .4 0 9 .3 0 1 .3
+#
+# Every check downstream reads that as a page that simply does not contain the
+# figures. It has letters, no Private Use Area glyphs and thousands of characters, so
+# the two tests above pass it -- and then grounding fails on every value, the FX
+# reader finds no rate, and the bank-debt position check finds no rows. PT Grahaprima
+# (GTRA) files this way in Q1 2024, Q1 2025 and Q1 2026 while the other quarters of
+# the same issuer come out clean, which is why the same document read twice a year
+# apart behaves differently.
+#
+# Two conditions together, because either alone has honest counter-examples. A note
+# page listing many one-character bullets scores high on the first; a page of dates
+# and note references scores high on the second. A page where MOST tokens are single
+# characters AND most numbers have been reduced to lone digits is not prose.
+SHREDDED_SINGLE_CHAR_TOKENS = 0.50
+SHREDDED_LONE_DIGIT_RUNS = 0.75
+_SHRED_MIN_TOKENS = 40
+_SHRED_MIN_NUMBERS = 30
 
 
 def _pua_ratio(text: str) -> float:
@@ -46,18 +70,35 @@ def _pua_ratio(text: str) -> float:
     return sum(1 for c in chars if 0xE000 <= ord(c) <= 0xF8FF) / len(chars)
 
 
+def text_layer_shredded(text: str) -> bool:
+    """True when the layer came out one character at a time.
+
+    Needs enough of a page to judge: on a short page the two ratios swing on a
+    handful of tokens, and a sparse page is not worth OCR'ing anyway.
+    """
+    tokens = text.split()
+    runs = _DIGIT_RUN.findall(text)
+    if len(tokens) < _SHRED_MIN_TOKENS or len(runs) < _SHRED_MIN_NUMBERS:
+        return False
+    single = sum(1 for t in tokens if len(t) == 1) / len(tokens)
+    lone = sum(1 for r in runs if len(r) == 1) / len(runs)
+    return single >= SHREDDED_SINGLE_CHAR_TOKENS and lone >= SHREDDED_LONE_DIGIT_RUNS
+
+
 def text_layer_usable(text: str) -> bool:
     """Is this page's extracted text actually readable text?
 
-    False for three distinct situations that all mean "ask the pixels instead":
-    an empty or near-empty layer, a layer of Private Use Area glyph ids, and a
-    layer with no letters in it at all.
+    False for four distinct situations that all mean "ask the pixels instead":
+    an empty or near-empty layer, a layer of Private Use Area glyph ids, a layer
+    with no letters in it at all, and a layer shredded into single characters.
     """
     if not text or len(text.strip()) < MIN_USABLE_CHARS:
         return False
     if _pua_ratio(text) >= PUA_RATIO_UNUSABLE:
         return False
-    return bool(_LETTER.search(text))
+    if not _LETTER.search(text):
+        return False
+    return not text_layer_shredded(text)
 
 
 def _cache_path(pdf_path: str, kind: str = "full") -> Path:

@@ -1,19 +1,19 @@
 {
-  "period_end_date": "2022-03-31",
-  "aset": 694671337.0,
-  "total_aset_lancar": 73325265.0,
-  "kas": 23125502.0,
-  "liabilitas": 452486029.0,
-  "utang_bank": 102357484.0,
-  "ekuitas": 242262040.0,
-  "pendapatan": 80129305.0,
-  "laba_bersih": 9450480.0,
-  "kas_dari_aktivitas_operasi": 36388972.0,
+  "period_end_date": "2022-12-31",
+  "aset": 717816422.0,
+  "total_aset_lancar": 87174516.0,
+  "kas": 10339434.0,
+  "liabilitas": 470060983.0,
+  "utang_bank": 95640309.0,
+  "ekuitas": 247837925.0,
+  "pendapatan": 216476272.0,
+  "laba_bersih": 14550684.0,
+  "kas_dari_aktivitas_operasi": 54291208.0,
   "total_share": 24835000000.0,
-  "utang_bank_jangka_pendek": 34220811.0,
-  "utang_bank_bagian_lancar": 68136673.0,
-  "total_ekuitas": 242185308.0,
-  "kepentingan_non_pengendali": -76732.0,
+  "utang_bank_jangka_pendek": 60699682.0,
+  "utang_bank_bagian_lancar": 34940627.0,
+  "total_ekuitas": 247755439.0,
+  "kepentingan_non_pengendali": -82486.0,
   "total_share_components": null,
   "currency": "USD",
   "reporting_scale": "FULL",
@@ -140,31 +140,31 @@
       ]
     }
   },
-  "_elapsed_s": 22.7,
+  "_elapsed_s": 19.7,
   "_usage": {
-    "llm_calls": 3,
+    "llm_calls": 4,
     "tokens": {
-      "input": 23956,
-      "output": 924
+      "input": 29010,
+      "output": 1112
     },
     "latency_ms": {
-      "select_pages": 6384,
-      "read_text": 711,
+      "select_pages": 7778,
+      "read_text": 487,
       "assess": 7,
-      "extract": 15560
+      "extract": 11374
     },
     "cost": {
       "amount": null,
       "currency": "USD",
       "per_model": [
         {
-          "model": "gemini-3.1-flash-lite",
-          "input_tokens": 23956,
-          "output_tokens": 924,
+          "model": "gemini-3.5-flash-lite",
+          "input_tokens": 29010,
+          "output_tokens": 1112,
           "amount": null
         }
       ],
-      "reason": "no price configured for gemini-3.1-flash-lite - add it to /Users/muhammadnajmirahmani/Belajar/ProjectDatasaur/config/pricing.json"
+      "reason": "no price configured for gemini-3.5-flash-lite - add it to /Users/muhammadnajmirahmani/Belajar/ProjectDatasaur/config/pricing.json"
     },
     "notes": []
   }
