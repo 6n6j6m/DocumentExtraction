@@ -70,12 +70,28 @@ RATE_MIN, RATE_MAX = 8_000, 25_000
 # Fallback: a disclosed pair such as "Rp10.880.000.000 (US$758,241)"
 _PAIR = re.compile(r"Rp\s?([\d.]{9,})\s*\(?\s*US\$\s?([\d,]+)")
 
+# A rate quoted directly as Rupiah per dollar, the way ITMG prints it:
+#
+#     Rupiah per AS$       16,782  16,162  equivalent to US$1     (2023 onwards)
+#     Rupiah per Dolar AS  14,349  14,269  equivalent to US$1     (2022)
+#
+# No "1.000 Rupiah" unit and no small decimal, so the table reader above finds nothing
+# and the filing was reported as disclosing no rate at all -- while stating it on every
+# one of its eighteen reports. Anchored on "Rupiah per <dollar>" or "US$1 = Rp", so a
+# neighbouring "AS$ per Euro" row is never read as the Rupiah rate.
+_DIRECT_QUOTE = re.compile(
+    r"(?:rupiah|\bRp|\bIDR)\s+per\s+(?:AS\s?\$|US\s?\$|USD\b|Dolar\s+(?:AS|Amerika)|"
+    r"United\s+States\s+Dollar)|(?:US|AS)\s?\$\s?1\s*(?:=|equivalent\s+to|setara)\s*"
+    r"(?:dengan\s+)?(?:Rp|Rupiah|IDR)", re.I)
+# A whole-Rupiah rate: 8.000-24.999 with a grouping separator, optionally decimals.
+_WHOLE_RATE = re.compile(r"(?<![\d.,])(\d{1,2}[.,]\d{3}(?:[.,]\d{1,4})?)(?![\d])")
+
 
 @dataclass
 class FxRate:
     """An IDR-per-USD rate plus where it came from."""
     idr_per_usd: float
-    source: str          # "disclosed_rate_table" | "derived_from_pair"
+    source: str          # "disclosed_rate_table" | "disclosed_direct_quote" | "derived_from_pair"
     page: int            # 1-indexed
     evidence: str
     decimals: int = 4          # decimal places the filing quoted the rate to
@@ -151,6 +167,27 @@ def _rate_from_line(line: str):
     return rate, places, value, tuple(round(r, 2) for r, _, _ in plausible[1:])
 
 
+def _rate_from_direct_quote(line: str):
+    """(rate, comparatives) when a line quotes Rupiah per US dollar outright, else None.
+
+    Candidates are taken in printed order -- the current period is the first numeric
+    column -- and only those inside the plausible band count, so a note reference or a
+    year on the same line cannot become the rate.
+    """
+    from numfmt import parse_grouped_number
+
+    if not _DIRECT_QUOTE.search(line):
+        return None
+    rates = []
+    for token in _WHOLE_RATE.findall(line):
+        value = parse_grouped_number(token)
+        if value is not None and RATE_MIN < value < RATE_MAX:
+            rates.append(value)
+    if not rates:
+        return None
+    return rates[0], tuple(round(r, 2) for r in rates[1:])
+
+
 def extract_fx_rate(pdf_path: str) -> Optional[FxRate]:
     """Read the USD/IDR rate the filing says it used.
 
@@ -171,7 +208,7 @@ def extract_fx_rate(pdf_path: str) -> Optional[FxRate]:
         text = texts[i]
 
         for line in text.split("\n"):
-            if not _RUPIAH_LINE.search(line):
+            if not (_RUPIAH_LINE.search(line) or _DIRECT_QUOTE.search(line)):
                 continue
             found = _rate_from_line(line)
             if found:
@@ -183,6 +220,20 @@ def extract_fx_rate(pdf_path: str) -> Optional[FxRate]:
                     evidence=line.strip(),
                     decimals=places,
                     quoted_value=quoted,
+                    other_candidates=others,
+                )
+            direct = _rate_from_direct_quote(line)
+            if direct:
+                rate, others = direct
+                # Quoted to the whole Rupiah, so its rounding is negligible: decimals=0
+                # makes rounding_error report zero rather than a made-up precision.
+                return FxRate(
+                    idr_per_usd=rate,
+                    source="disclosed_direct_quote",
+                    page=i + 1,
+                    evidence=line.strip(),
+                    decimals=0,
+                    quoted_value=rate,
                     other_candidates=others,
                 )
 
@@ -220,7 +271,15 @@ _SCALE_PATTERNS = [
 # runs to the first ")" and may swallow the English half; that is harmless, both
 # halves say the same thing.
 _HEADER_STATEMENT = re.compile(
-    r"\((?:disajikan|dinyatakan|expressed)\b[^)]{0,160}\)", re.I)
+    r"\((?:disajikan|dinyatakan|expressed|dalam|in)\b[^)]{0,160}\)", re.I)
+# Some issuers drop the verb: DSNG heads every statement "(Dalam jutaan Rupiah, kecuali
+# dinyatakan lain/In millions of Rupiah, ...)", so a header list requiring "Disajikan"
+# found none, and the model's scale stood unchecked. Admitting "(Dalam" and "(In" also
+# admits parentheticals that are not headers at all -- "(in accordance with PSAK 1)" --
+# and one of those read as a scale-less header would assert FULL over a correct
+# THOUSANDS. So a header must name a currency; that is the part of the sentence that
+# makes it a statement of units.
+_HEADER_CURRENCY = re.compile(r"rupiah|dolar|dollar|US\s?\$|AS\s?\$|\bIDR\b|\bUSD\b", re.I)
 
 
 def scale_headers(document_text: str) -> list:
@@ -231,7 +290,8 @@ def scale_headers(document_text: str) -> list:
     """
     return [next((name for name, pattern in _SCALE_PATTERNS if pattern.search(header)),
                  "FULL")
-            for header in _HEADER_STATEMENT.findall(document_text or "")]
+            for header in _HEADER_STATEMENT.findall(document_text or "")
+            if _HEADER_CURRENCY.search(header)]
 
 
 def detect_scale(document_text: str) -> Optional[str]:

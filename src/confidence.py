@@ -122,8 +122,34 @@ def _derived_from(extraction) -> dict:
     read count against components that are not there.
     """
     derived = dict(DERIVED_FROM)
-    if getattr(extraction, "total_share_components", None):
+    components = getattr(extraction, "total_share_components", None)
+    if components:
         derived["total_share"] = ("total_share_components",)
+        derived["saham_ditempatkan"] = ("total_share_components",)
+    # total_share is outstanding. Taken from a printed outstanding total, it is graded on
+    # that row; computed as issued less treasury, on both inputs.
+    beredar = getattr(extraction, "saham_beredar", None)
+    treasuri = getattr(extraction, "saham_treasuri", None)
+    issued = getattr(extraction, "saham_ditempatkan", None)
+    issued_source = "total_share_components" if components else "saham_ditempatkan"
+    # When an outstanding figure agrees with issued less treasury, grade the result on
+    # issued and treasury. EMAS prints those two and no outstanding total; the model
+    # subtracted anyway and reported 14.731.366.060 as saham_beredar. The figure was
+    # right, but printed nowhere on the pages sent, so grounding withdrew it -- and a
+    # total_share graded only on saham_beredar went with it, although both of its real
+    # inputs were on the page. Agreement makes the printed pair the stronger evidence.
+    consistent = (beredar is not None and treasuri and issued is not None
+                  and abs(issued - treasuri - beredar) <= 1)
+    if consistent:
+        derived["total_share"] = (issued_source, "saham_treasuri")
+    elif beredar is not None:
+        derived["total_share"] = ("saham_beredar",)
+    elif treasuri:
+        derived["total_share"] = (issued_source, "saham_treasuri")
+    # Same reasoning for cash printed as sub-lines: the total is computed, so it is
+    # graded on the rows it was computed from and falls if any of them does.
+    if getattr(extraction, "kas_components", None):
+        derived["kas"] = ("kas_components",)
     return derived
 
 

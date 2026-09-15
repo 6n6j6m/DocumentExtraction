@@ -42,6 +42,10 @@ FIELD_TYPES = {
     "total_ekuitas": NUMBER,
     "kepentingan_non_pengendali": NUMBER,
     "total_share_components": NUMBER_LIST,
+    "kas_components": NUMBER_LIST,
+    "saham_beredar": NUMBER,
+    "saham_treasuri": NUMBER,
+    "saham_ditempatkan": NUMBER,
     "currency": TEXT,
     "reporting_scale": TEXT,
     "statement_scope": TEXT,
@@ -54,7 +58,7 @@ class FinancialStatementExtraction:
 
     Field mapping and keyword rules (common variants are listed in src/prompts.py):
     
-    - total_share: "disetor penuh pada tanggal [date]" (most recent date)
+    - total_share: shares outstanding, from the shareholder table in the notes (current date)
     - aset: "Total Aset"
     - total_aset_lancar: "Total Aset Lancar"
     - kas: "Kas dan Setara Kas"
@@ -85,7 +89,7 @@ class FinancialStatementExtraction:
     kas_dari_aktivitas_operasi: Optional[float] = None    # Kas Neto Diperoleh dari Aktivitas Operasi
     
     # Shares
-    total_share: Optional[float] = None     # Disetor penuh pada tanggal [date]
+    total_share: Optional[float] = None     # shares outstanding, from the shareholder table
     
     # --- Components, asked for separately and combined in code. -----------------
     # Deciding which of three identically-labelled "Utang bank" rows to add, or
@@ -104,6 +108,20 @@ class FinancialStatementExtraction:
     # the same reason utang_bank is: the arithmetic is exact, and a wrong answer
     # points at one misread class rather than at an opaque total.
     total_share_components: Optional[list] = None         # per-class issued share counts
+
+    # Cash is not always one line either. LSIP prints "Kas dan setara kas" as a
+    # heading over a related-party and a third-party amount and no total; asked for
+    # the total, the model added them in its head and missed on a third of its
+    # filings. The sub-lines are printed, so they are what is asked for.
+    kas_components: Optional[list] = None                 # cash sub-lines when no total is printed
+
+    # total_share is the count OUTSTANDING -- the denominator of EPS, book value per share
+    # and PBV. Treasury shares are held by the issuer itself and share in neither profit
+    # nor equity, so IAS 33 leaves them out. The model reads what is printed; the code
+    # decides: a printed outstanding total first, else issued less treasury, else issued.
+    saham_beredar: Optional[float] = None       # "Jumlah saham beredar", when printed
+    saham_treasuri: Optional[float] = None      # treasury shares, as a count
+    saham_ditempatkan: Optional[float] = None   # issued and fully paid; set by derive_fields
 
     # Metadata
     currency: Optional[str] = None                 # "USD" or "IDR"
@@ -129,6 +147,10 @@ class FinancialStatementExtraction:
             "total_ekuitas": self.total_ekuitas,
             "kepentingan_non_pengendali": self.kepentingan_non_pengendali,
             "total_share_components": self.total_share_components,
+            "kas_components": self.kas_components,
+            "saham_beredar": self.saham_beredar,
+            "saham_treasuri": self.saham_treasuri,
+            "saham_ditempatkan": self.saham_ditempatkan,
             "currency": self.currency,
             "reporting_scale": self.reporting_scale,
             "statement_scope": self.statement_scope,

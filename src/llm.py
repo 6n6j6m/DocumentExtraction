@@ -65,17 +65,46 @@ _RETRY_DELAY = re.compile(r'"retryDelay"\s*:\s*"(\d+(?:\.\d+)?)s"')
 def _rate_limit_wait(body_text: str, default_wait: float):
     """How long to wait out a 429, or None if waiting cannot help.
 
-    The provider's own RetryInfo is preferred when present -- it knows when its bucket
-    refills and we do not. A margin is added on top, because sleeping exactly to the
-    boundary races the reset and buys a second 429.
+    A 429 is "Too Many Requests", and on Gemini it covers three different limits:
+    requests per minute (RPM), input tokens per minute (TPM) and requests per day (RPD).
+    The body names which one was hit in its quotaId ("...PerMinute..." / "...PerDay...").
+
+    Any per-day violation fails fast, even when a per-minute one is listed beside it:
+    once the day's allowance is gone, a minute's sleep ends in the same 429.
+
+    Otherwise the wait is the configured cooldown, lengthened -- never shortened -- by
+    the provider's own RetryInfo plus a margin. Gemini sometimes says "retry in 20s";
+    trusting that alone buys a second 429 when the window has not actually reset, and
+    a cooldown the user chose should not be undercut by a hint.
     """
-    if _PER_DAY.search(body_text) and not _PER_MINUTE.search(body_text):
+    if _PER_DAY.search(body_text):
         return None
 
     match = _RETRY_DELAY.search(body_text)
     if match:
-        return float(match.group(1)) + 5.0
+        return max(float(match.group(1)) + 5.0, default_wait)
     return default_wait
+
+
+# Which models are resting, and until when (time.monotonic()). Shared by every
+# provider object in the process, because the chain is rebuilt for each document: a
+# model that was throttled on document 3 must still be skipped on document 4, or every
+# document pays one wasted call rediscovering the same limit.
+_COOLDOWN_UNTIL: dict = {}
+# A per-day quota does not come back within a batch. Resting the model for the rest of
+# the run is the honest reading; a fresh process starts clean.
+DAILY_COOLDOWN_S = 24 * 3600
+
+
+def _cool(model: str, seconds: float) -> None:
+    """Rest a model for `seconds`, never shortening a rest it is already on."""
+    until = time.monotonic() + max(seconds, 0)
+    _COOLDOWN_UNTIL[model] = max(_COOLDOWN_UNTIL.get(model, 0.0), until)
+
+
+def cooling_down(model: str) -> bool:
+    """True while a model is inside a rest it earned on an earlier call."""
+    return _COOLDOWN_UNTIL.get(model, 0.0) > time.monotonic()
 
 
 def _record(usage, provider: str, model: str, reported: Optional[dict], started: float,
@@ -139,9 +168,11 @@ def parse_json(text: str) -> dict:
 class GeminiProvider:
     """Google Gemini via REST (no SDK dependency)."""
 
-    def __init__(self):
+    def __init__(self, model: Optional[str] = None):
         self.api_key = os.getenv("GEMINI_API_KEY")
-        self.model = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
+        # A model can be named explicitly so the same class serves every Gemini model in
+        # the fallback chain -- see get_provider_chain.
+        self.model = model or os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
         self.timeout = int(os.getenv("GEMINI_TIMEOUT", os.getenv("LLM_TIMEOUT", "120")))
         # "image" sends rendered pages to the VLM; "text" sends the text layer.
         self.input_mode = os.getenv("GEMINI_INPUT_MODE", "image").lower()
@@ -151,8 +182,15 @@ class GeminiProvider:
         self.retry_backoff = float(os.getenv("LLM_RETRY_BACKOFF_S", "2"))
         # Slightly over a minute: a per-minute bucket refills on the clock, and waiting
         # to the exact boundary races the reset. Set to 0 to fail fast instead.
-        self.rate_limit_wait = float(os.getenv("LLM_RATE_LIMIT_WAIT_S", "75"))
+        self.rate_limit_wait = float(os.getenv("LLM_RATE_LIMIT_WAIT_S", "70"))
+        # The configured rest, kept separately: get_provider_chain zeroes
+        # rate_limit_wait on models that hand over, but the ledger still needs to know
+        # how long such a model should be skipped.
+        self.cooldown_s = self.rate_limit_wait
         self.rate_limit_retries = int(os.getenv("LLM_RATE_LIMIT_RETRIES", "1"))
+        # Set by get_provider_chain when another Gemini model follows this one: a 429
+        # then hands the document over instead of cooling down.
+        self.hands_over = False
         if not self.api_key:
             raise LLMUnavailable("GEMINI_API_KEY not set")
 
@@ -205,14 +243,44 @@ class GeminiProvider:
         # after it succeeded immediately, which is what "temporary" looked like in
         # practice.
         #
-        # 429 is deliberately NOT retried. A 503 says the service is briefly oversubscribed
-        # and invites a retry in its own message; a 429 says WE are over our allowance, and
-        # retrying spends another unit of the thing we have just run out of. They read
-        # alike in a status-code table and behave nothing alike.
+        # A 429 is handled separately, above the capacity retry: a per-minute limit is
+        # cooled down and retried (LLM_RATE_LIMIT_WAIT_S), a per-day limit fails at
+        # once. The wait does not consume the capacity retry -- they are different
+        # failures and one should not use up the other's allowance.
         waited_out = 0
-        for attempt in range(self.max_retries + 1):
-            response = requests.post(url, params={"key": self.api_key}, json=body,
-                                     timeout=self.timeout)
+        # A while loop, not `for attempt in range(...)`: waiting out a per-minute 429 must
+        # not use up a capacity retry, and a `continue` inside a for loop does exactly
+        # that. With two cooldowns and three retries configured, the for loop spent two
+        # of the four passes on cooldowns and gave up on a 503 it had been told to retry.
+        attempt = 0
+        while True:
+            try:
+                response = requests.post(url, params={"key": self.api_key}, json=body,
+                                         timeout=self.timeout)
+            except requests.RequestException as exc:
+                # A read timeout or dropped connection is the same condition as a 503 --
+                # the service did not answer -- and used to escape this method as a raw
+                # requests exception. The image path catches exceptions per statement
+                # group and moves on, so an overloaded model spent the full timeout on
+                # every group of the document in turn, lost each group's fields, and
+                # never handed the document to the next model. Observed on
+                # gemini-3.7-flash: "Read timed out. (read timeout=120)" on the balance
+                # sheet, then again on the income statement.
+                if attempt < self.max_retries:
+                    delay = self.retry_backoff * (2 ** attempt)
+                    print(f"    \u23f3 {type(exc).__name__} from Gemini; retry {attempt + 1}/{self.max_retries} in "
+                          f"{delay:.0f}s")
+                    time.sleep(delay)
+                    attempt += 1
+                    continue
+                if self.hands_over:
+                    _cool(self.model, self.cooldown_s)
+                    raise LLMUnavailable(
+                        f"Gemini did not answer on {self.model} ({type(exc).__name__}) "
+                        f"after {self.max_retries} retry; handing over to the next model"
+                    ) from exc
+                raise LLMError(f"Gemini did not answer on {self.model}: "
+                               f"{type(exc).__name__}: {exc}") from exc
 
             if response.status_code == 429 and waited_out < self.rate_limit_retries \
                     and self.rate_limit_wait > 0:
@@ -220,22 +288,35 @@ class GeminiProvider:
                 if wait is None:
                     break          # a daily cap; waiting a minute changes nothing
                 waited_out += 1
-                print(f"    ⏳ rate limited (429); the per-minute window resets on a "
-                      f"clock, waiting {wait:.0f}s")
+                print(f"    ⏳ 429 per-minute limit (RPM/TPM); cooling down {wait:.0f}s "
+                      f"for the window to reset")
                 time.sleep(wait)
                 continue           # this attempt did not consume a capacity retry
 
             if response.status_code not in RETRIABLE_STATUS or attempt == self.max_retries:
                 break
             delay = self.retry_backoff * (2 ** attempt)
-            print(f"    ⏳ {response.status_code} from Gemini (capacity); retrying once "
+            print(f"    ⏳ {response.status_code} from Gemini (capacity); retry {attempt + 1}/{self.max_retries} "
                   f"in {delay:.0f}s")
             time.sleep(delay)
+            attempt += 1
 
         if response.status_code == 429:
-            raise LLMUnavailable(
-                "Gemini rate limit (429) and waiting did not clear it - "
-                "either a daily quota, or more than LLM_RATE_LIMIT_RETRIES windows")
+            # Say which of the three situations this is. They need different responses
+            # from whoever reads the log -- wait until tomorrow, do nothing, or raise the
+            # retry count -- and one catch-all sentence left them to guess.
+            if _PER_DAY.search(response.text):
+                reason = "daily quota (RPD) used up; waiting cannot clear it"
+                _cool(self.model, DAILY_COOLDOWN_S)
+            elif self.hands_over:
+                reason = "per-minute limit (RPM/TPM); handing over to the next model"
+                _cool(self.model, self.cooldown_s)
+            elif self.rate_limit_wait <= 0:
+                reason = "per-minute limit (RPM/TPM); cooldown disabled (LLM_RATE_LIMIT_WAIT_S=0)"
+            else:
+                reason = (f"per-minute limit (RPM/TPM) still hit after "
+                          f"{self.rate_limit_retries} cooldown(s)")
+            raise LLMUnavailable(f"Gemini rate limit (429) on {self.model}: {reason}")
         if response.status_code == 404:
             # Guessing model names wastes a round trip each time; ask the API instead.
             available = self.list_models()
@@ -246,6 +327,17 @@ class GeminiProvider:
                        "\n  all: " + ", ".join(available)
             raise LLMUnavailable(f"Model {self.model!r} not found on this key."
                            f" Set GEMINI_MODEL in .env to one of these.{hint}")
+        if response.status_code in RETRIABLE_STATUS and self.hands_over:
+            # "High demand" that outlived its retry. Raised as LLMUnavailable so the
+            # document moves to the next model. As a plain LLMError it was caught per
+            # statement group and skipped: the model stayed in charge of the document
+            # and one statement's fields went missing without anyone being told why.
+            # Only when another model follows -- for the last one, losing a group is
+            # still better than losing the document.
+            _cool(self.model, self.cooldown_s)
+            raise LLMUnavailable(
+                f"Gemini {response.status_code} (capacity) on {self.model} after "
+                f"{self.max_retries} retry; handing over to the next model")
         if response.status_code != 200:
             raise LLMError(f"Gemini HTTP {response.status_code}: {response.text[:200]}")
 
@@ -402,16 +494,77 @@ def get_provider(name: Optional[str] = None):
     raise LLMError(f"Unknown LLM_PROVIDER {name!r} (expected 'gemini' or 'ollama')")
 
 
-def get_provider_with_fallback():
-    """Primary provider, plus the fallback named by LLM_FALLBACK_PROVIDER (if any).
+def get_provider_chain() -> list:
+    """Every provider to try for one document, in order.
 
-    Returns (primary, fallback_or_None). The caller decides when to switch, so a
-    rate limit costs one wasted call rather than silently changing which model
-    produced a number -- the eval scorecard has to be able to say which one it was.
+        GEMINI_MODEL  ->  each of GEMINI_FALLBACK_MODELS  ->  LLM_FALLBACK_PROVIDER
+
+    Gemini counts its rate limits PER MODEL, so a second model has its own RPM, TPM and
+    RPD allowance. When the first model is throttled, that makes another Gemini model a
+    better next step than a local one: same prompt, same image input, seconds instead of
+    minutes per document.
+
+    Every Gemini model except the last is given no cooldown. Sleeping 70 seconds on a 429
+    while a model with spare quota is one call away would be waiting for nothing. The
+    last Gemini model keeps its cooldown, because the only thing after it is a local
+    model that is slower still.
+
+    Duplicates are dropped, so listing the primary model among the fallbacks is harmless.
+    A document is always extracted by ONE provider from start to finish: if a model fails
+    partway through, the document restarts on the next one rather than mixing answers,
+    and the result records which provider it came from.
     """
-    primary = get_provider()
+    chain = [get_provider()]
+    if chain[0].name.startswith("gemini:"):
+        for model in os.getenv("GEMINI_FALLBACK_MODELS", "").split(","):
+            model = model.strip()
+            if model and all(p.name != f"gemini:{model}" for p in chain):
+                chain.append(GeminiProvider(model=model))
+
     fallback_name = os.getenv("LLM_FALLBACK_PROVIDER", "").strip().lower()
-    if not fallback_name:
-        return primary, None
-    fallback = get_provider(fallback_name)
-    return primary, (None if fallback.name == primary.name else fallback)
+    if fallback_name:
+        fallback = get_provider(fallback_name)
+        if all(p.name != fallback.name for p in chain):
+            chain.append(fallback)
+
+    gemini = [p for p in chain if p.name.startswith("gemini:")]
+    others = [p for p in chain if not p.name.startswith("gemini:")]
+    if chain[0].name.startswith("gemini:"):
+        # Rotation. A model still resting from an earlier document moves to the back of
+        # the Gemini queue, soonest-back-first, instead of being asked again and
+        # answering 429 again. It is not dropped: if every model is resting, the one
+        # closest to returning is still tried last, with its cooldown, before anything
+        # local.
+        ready = [p for p in gemini if not cooling_down(p.model)]
+        resting = sorted((p for p in gemini if cooling_down(p.model)),
+                         key=lambda p: _COOLDOWN_UNTIL[p.model])
+        gemini = ready + resting
+        chain = gemini + others
+    for provider in gemini[:-1]:
+        provider.rate_limit_wait = 0
+        provider.hands_over = True
+
+    # Patience. Handing over at once is right for a model that is merely one of several
+    # equals, but not for the cheap, fast models at the front of the queue: the next ones
+    # cost three times as much and answer several times slower. A model named in
+    # GEMINI_PATIENT_MODELS therefore waits out a per-minute 429 (cooling down up to
+    # GEMINI_PATIENT_RATE_LIMIT_RETRIES times) and retries a 503, 500 or timeout up to
+    # GEMINI_PATIENT_RETRIES times with a longer backoff, before handing over. A daily
+    # quota still hands over immediately -- no amount of waiting brings it back.
+    patient = {m.strip() for m in os.getenv("GEMINI_PATIENT_MODELS", "").split(",") if m.strip()}
+    for provider in gemini:
+        if provider.model in patient:
+            provider.rate_limit_wait = provider.cooldown_s
+            provider.rate_limit_retries = int(os.getenv("GEMINI_PATIENT_RATE_LIMIT_RETRIES", "2"))
+            provider.max_retries = int(os.getenv("GEMINI_PATIENT_RETRIES", "3"))
+            provider.retry_backoff = float(os.getenv("GEMINI_PATIENT_BACKOFF_S", "5"))
+    return chain
+
+
+def get_provider_with_fallback():
+    """(first, second_or_None) from the chain, for callers that only need the primary.
+
+    Extraction itself walks the whole chain via get_provider_chain.
+    """
+    chain = get_provider_chain()
+    return chain[0], (chain[1] if len(chain) > 1 else None)

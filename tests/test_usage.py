@@ -181,6 +181,20 @@ _OK = {"candidates": [{"content": {"parts": [{"text": '{"aset": 1}'}]}}],
        "usageMetadata": {"promptTokenCount": 10, "candidatesTokenCount": 2}}
 
 
+@pytest.fixture(autouse=True)
+def _fresh_cooldown_ledger(monkeypatch):
+    """The rotation ledger is process-wide on purpose, so a test must not inherit a rest
+    that an earlier test earned -- that is exactly how one test's 429 once reordered
+    another test's provider chain."""
+    import llm
+    monkeypatch.setattr(llm, "_COOLDOWN_UNTIL", {})
+    # Likewise the patience settings: .env names patient models, and a test that did not
+    # ask for them must not inherit them.
+    for name in ("GEMINI_PATIENT_MODELS", "GEMINI_PATIENT_RETRIES",
+                 "GEMINI_PATIENT_RATE_LIMIT_RETRIES", "GEMINI_PATIENT_BACKOFF_S"):
+        monkeypatch.delenv(name, raising=False)
+
+
 def _gemini(monkeypatch, statuses, error_body=None):
     """A GeminiProvider whose HTTP calls return `statuses` in order."""
     import llm
@@ -239,16 +253,205 @@ def test_a_daily_quota_is_not_waited_out(monkeypatch):
     assert calls == [429], "a daily cap must fail fast, not sleep"
 
 
-def test_the_providers_own_retry_delay_is_preferred(monkeypatch):
-    """When Gemini says how long its bucket needs, believe it rather than guessing.
+def test_the_cooldown_is_never_shorter_than_configured(monkeypatch):
+    """The provider's retryDelay can lengthen the cooldown, never shorten it.
 
-    A margin is added on top, because sleeping exactly to the boundary races the reset
-    and buys a second 429.
+    Gemini sometimes answers "retry in 20s". Trusting that alone retries before the
+    per-minute window has reset and buys a second 429, so the configured cooldown is a
+    floor. A longer hint is still honoured, with a margin, because the provider knows
+    when its bucket refills.
     """
     from llm import _rate_limit_wait
-    assert _rate_limit_wait('"retryDelay": "34s" PerMinute', 75) == 39.0
-    assert _rate_limit_wait("per minute quota exceeded", 75) == 75
-    assert _rate_limit_wait("GenerateRequestsPerDay exceeded", 75) is None
+    assert _rate_limit_wait('"retryDelay": "20s" PerMinute', 70) == 70
+    assert _rate_limit_wait('"retryDelay": "90s" PerMinute', 70) == 95.0
+    assert _rate_limit_wait("per minute quota exceeded", 70) == 70
+    assert _rate_limit_wait("GenerateRequestsPerDayPerProjectPerModel-FreeTier", 70) is None
+    # Both exhausted: the day's cap decides it. A minute's sleep ends in the same 429.
+    assert _rate_limit_wait("GenerateRequestsPerMinute ... GenerateRequestsPerDay", 70) is None
+
+
+def test_other_gemini_models_are_tried_before_the_local_one(monkeypatch):
+    """Gemini counts limits per model, so a second model is the cheaper next step.
+
+    Order is GEMINI_MODEL, then GEMINI_FALLBACK_MODELS, then LLM_FALLBACK_PROVIDER.
+    Every Gemini model but the last hands over on a 429 without cooling down -- sleeping
+    a minute while a model with spare quota is one call away waits for nothing. The last
+    keeps its cooldown, because what follows it is slower still.
+    """
+    import llm
+    monkeypatch.setenv("GEMINI_API_KEY", "test-key")
+    monkeypatch.setenv("LLM_PROVIDER", "gemini")
+    monkeypatch.setenv("GEMINI_MODEL", "gemini-3.1-flash-lite")
+    # The primary repeated, and a trailing comma: both must be tolerated.
+    monkeypatch.setenv("GEMINI_FALLBACK_MODELS", "gemini-3.5-flash-lite, gemini-3.1-flash-lite,")
+    monkeypatch.setenv("LLM_FALLBACK_PROVIDER", "ollama")
+    monkeypatch.setenv("OLLAMA_INPUT_MODE", "text")      # image mode probes the server
+    monkeypatch.setenv("OLLAMA_MODEL", "qwen3-vl:8b")
+    monkeypatch.setenv("LLM_RATE_LIMIT_WAIT_S", "70")
+
+    chain = llm.get_provider_chain()
+    assert [p.name for p in chain] == ["gemini:gemini-3.1-flash-lite",
+                                       "gemini:gemini-3.5-flash-lite",
+                                       "ollama:qwen3-vl:8b"]
+    assert chain[0].rate_limit_wait == 0, "a model with a fallback must not cool down"
+    assert chain[1].rate_limit_wait == 70, "the last Gemini model keeps its cooldown"
+    assert chain[0].hands_over and not chain[1].hands_over
+
+    # With no Gemini fallback, the primary is the last Gemini model and cools down.
+    monkeypatch.setenv("GEMINI_FALLBACK_MODELS", "")
+    chain = llm.get_provider_chain()
+    assert [p.name for p in chain] == ["gemini:gemini-3.1-flash-lite", "ollama:qwen3-vl:8b"]
+    assert chain[0].rate_limit_wait == 70
+
+
+def test_a_throttled_model_hands_over_without_cooling_down(monkeypatch):
+    """With another model waiting, a 429 is reported after one call, not after a minute."""
+    from llm import LLMUnavailable
+    provider, calls = _gemini(monkeypatch, [429, 200])
+    provider.rate_limit_wait = 0          # what get_provider_chain sets for a non-last model
+    provider.hands_over = True
+    with pytest.raises(LLMUnavailable, match="handing over to the next model"):
+        provider.complete("sys", "user")
+    assert calls == [429]
+
+
+def test_exhausted_capacity_hands_over_only_when_a_model_is_next(monkeypatch):
+    """A 503 that outlives its retry moves the document on -- if there is somewhere to go.
+
+    As a plain LLMError it was swallowed per statement group: the overloaded model kept
+    the document and one statement's fields silently went missing. With another model
+    next, it must hand over. As the last model, losing a group still beats losing the
+    whole document, so it stays an ordinary error there.
+    """
+    import llm
+    monkeypatch.setattr(llm, "_COOLDOWN_UNTIL", {})
+    provider, calls = _gemini(monkeypatch, [503, 503, 503])
+    provider.hands_over = True
+    with pytest.raises(llm.LLMUnavailable, match="capacity"):
+        provider.complete("sys", "user")
+    assert llm.cooling_down(provider.model), "an overloaded model should rest"
+
+    last, _ = _gemini(monkeypatch, [503, 503, 503])
+    with pytest.raises(llm.LLMError) as caught:
+        last.complete("sys", "user")
+    assert not isinstance(caught.value, llm.LLMUnavailable)
+
+
+def test_a_resting_model_moves_to_the_back_of_the_rotation(monkeypatch):
+    """The chain is rebuilt per document, so it must remember who is resting.
+
+    Otherwise every document asks the throttled model first and pays a wasted 429 to
+    learn what the previous document already knew.
+    """
+    import llm
+    monkeypatch.setattr(llm, "_COOLDOWN_UNTIL", {})
+    monkeypatch.setenv("GEMINI_API_KEY", "test-key")
+    monkeypatch.setenv("LLM_PROVIDER", "gemini")
+    monkeypatch.setenv("GEMINI_MODEL", "gemini-3.1-flash-lite")
+    monkeypatch.setenv("GEMINI_FALLBACK_MODELS", "gemini-3.6-flash,gemini-3.7-flash")
+    monkeypatch.setenv("LLM_FALLBACK_PROVIDER", "")
+    monkeypatch.setenv("LLM_RATE_LIMIT_WAIT_S", "70")
+
+    names = lambda chain: [p.model for p in chain]
+    assert names(llm.get_provider_chain()) == [
+        "gemini-3.1-flash-lite", "gemini-3.6-flash", "gemini-3.7-flash"]
+
+    llm._cool("gemini-3.1-flash-lite", 60)
+    chain = llm.get_provider_chain()
+    assert names(chain) == ["gemini-3.6-flash", "gemini-3.7-flash", "gemini-3.1-flash-lite"]
+    assert chain[0].hands_over and chain[1].hands_over
+    assert not chain[2].hands_over and chain[2].rate_limit_wait == 70, \
+        "the model resting last is still tried, with its cooldown"
+
+    # A 429 that hands over is what puts a model in the ledger in the first place.
+    monkeypatch.setattr(llm, "_COOLDOWN_UNTIL", {})
+    provider, _ = _gemini(monkeypatch, [429])
+    provider.hands_over = True
+    provider.rate_limit_wait = 0
+    with pytest.raises(llm.LLMUnavailable):
+        provider.complete("sys", "user")
+    assert llm.cooling_down(provider.model)
+
+
+def test_a_model_that_times_out_hands_the_document_over(monkeypatch):
+    """A read timeout is a model not answering, and must move the document on.
+
+    It used to escape as a raw requests exception, which the image path swallows per
+    statement group: gemini-3.7-flash timed out at 120 s on the balance sheet, then again
+    on the income statement, losing both and never reaching gemini-3.8-flash.
+    """
+    import llm
+    import requests as real_requests
+    monkeypatch.setenv("GEMINI_API_KEY", "test-key")
+    monkeypatch.setenv("LLM_RETRY_BACKOFF_S", "0")
+    calls = []
+
+    def timing_out(url, **kwargs):
+        calls.append(url)
+        raise real_requests.exceptions.ReadTimeout("Read timed out. (read timeout=120)")
+
+    monkeypatch.setattr(llm.requests, "post", timing_out)
+
+    provider = llm.GeminiProvider(model="gemini-3.7-flash")
+    provider.hands_over = True
+    with pytest.raises(llm.LLMUnavailable, match="handing over"):
+        provider.complete("sys", "user")
+    assert len(calls) == provider.max_retries + 1, "one retry, then hand over"
+    assert llm.cooling_down("gemini-3.7-flash")
+
+    # The last model has nowhere to hand over to: an ordinary error, as for a 503.
+    calls.clear()
+    last = llm.GeminiProvider(model="gemini-3.8-flash")
+    with pytest.raises(llm.LLMError) as caught:
+        last.complete("sys", "user")
+    assert not isinstance(caught.value, llm.LLMUnavailable)
+
+
+def test_patient_models_wait_and_retry_before_handing_over(monkeypatch):
+    """The cheap models at the front of the queue should be tried harder than the rest.
+
+    Handing over at once sends the document to a model that costs three times as much
+    and answers several times slower. A patient model waits out a per-minute limit and
+    retries capacity errors first; only then does it hand over. Everyone else keeps
+    handing over at once, and a daily quota never waits.
+    """
+    import llm
+    monkeypatch.setenv("GEMINI_API_KEY", "test-key")
+    monkeypatch.setenv("LLM_PROVIDER", "gemini")
+    monkeypatch.setenv("GEMINI_MODEL", "gemini-3.1-flash-lite")
+    monkeypatch.setenv("GEMINI_FALLBACK_MODELS", "gemini-3.5-flash-lite,gemini-3.6-flash,gemini-3.8-flash")
+    monkeypatch.setenv("LLM_FALLBACK_PROVIDER", "")
+    monkeypatch.setenv("LLM_RATE_LIMIT_WAIT_S", "70")
+    monkeypatch.setenv("GEMINI_PATIENT_MODELS", "gemini-3.1-flash-lite, gemini-3.5-flash-lite")
+    monkeypatch.setenv("GEMINI_PATIENT_RETRIES", "3")
+    monkeypatch.setenv("GEMINI_PATIENT_RATE_LIMIT_RETRIES", "2")
+
+    chain = {p.model: p for p in llm.get_provider_chain()}
+    for model in ("gemini-3.1-flash-lite", "gemini-3.5-flash-lite"):
+        p = chain[model]
+        assert p.hands_over, "patient, but still hands over in the end"
+        assert p.rate_limit_wait == 70 and p.rate_limit_retries == 2 and p.max_retries == 3
+    assert chain["gemini-3.6-flash"].rate_limit_wait == 0, "the rest still hand over at once"
+
+    # Behaviour: three 503s then success -- the patient model recovers without handing over.
+    provider, calls = _gemini(monkeypatch, [503, 503, 503, 200])
+    provider.hands_over, provider.max_retries, provider.retry_backoff = True, 3, 0
+    assert provider.complete("sys", "user") == '{"aset": 1}'
+    assert calls == [503, 503, 503, 200]
+
+    # Two per-minute 429s are waited out, then it answers.
+    provider, calls = _gemini(monkeypatch, [429, 429, 200])
+    provider.hands_over, provider.rate_limit_retries = True, 2
+    assert provider.complete("sys", "user") == '{"aset": 1}'
+    assert calls == [429, 429, 200]
+
+    # A daily quota is never waited for, however patient the model.
+    provider, calls = _gemini(monkeypatch, [429, 200],
+                              error_body={"error": {"code": 429, "message": "GenerateRequestsPerDay"}})
+    provider.hands_over, provider.rate_limit_retries = True, 2
+    with pytest.raises(llm.LLMUnavailable, match="daily"):
+        provider.complete("sys", "user")
+    assert calls == [429]
 
 
 def test_retries_are_bounded(monkeypatch):

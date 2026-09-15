@@ -186,6 +186,17 @@ def test_no_header_at_all_is_still_unknown():
     assert detect_scale("") is None
 
 
+def test_a_header_without_the_verb_is_still_a_header():
+    """DSNG writes "(Dalam jutaan Rupiah, ...)" with no "Disajikan" in front of it."""
+    assert detect_scale("(Dalam jutaan Rupiah, kecuali dinyatakan lain/"
+                        "In millions of Rupiah, unless otherwise specified)") == "MILLIONS"
+    # Admitting "(in" must not admit every parenthetical that starts with it: without a
+    # currency this is not a statement of units, and reading it as FULL would override
+    # a correct scale.
+    assert detect_scale("(in accordance with PSAK 1)") is None
+    assert detect_scale("(dalam hal ini Direksi)") is None
+
+
 def test_printed_scale_overrides_the_model():
     """The header is unambiguous; the model's answer is not. The header wins."""
     e = F(**{**TRUTH, "currency": "IDR", "reporting_scale": "FULL"})
@@ -282,6 +293,50 @@ def test_a_bank_row_is_found_whatever_the_issuer_calls_it():
     assert 43_048_092_371 in rows["current_maturity"]
 
 
+def test_a_title_behind_the_translation_notice_is_still_found():
+    """LSIP opens every page with a translation notice and a bilingual company name.
+
+    Its statement titles then start around character 248, and a 250-character title
+    region cut them mid-word -- every LSIP filing fell back to its first ten pages. The
+    notice identifies nothing, so it is removed before the region is measured.
+    """
+    from page_select import select_from_page_texts, classify_pages
+    notice = ("The original interim consolidated financial statements included herein\n"
+              "are in Indonesian language.\n"
+              "PT PERUSAHAAN PERKEBUNAN LONDON SUMATRA INDONESIA Tbk PT PERUSAHAAN PERKEBUNAN\n"
+              "LONDON SUMATRA INDONESIA Tbk DAN ENTITAS ANAKNYA AND ITS SUBSIDIARIES\n")
+    pages = (["cover"] * 3
+             + [notice + "LAPORAN POSISI KEUANGAN KONSOLIDASIAN INTERIM"] * 2
+             + [notice + "LAPORAN LABA RUGI DAN PENGHASILAN KOMPREHENSIF LAIN"]
+             + [notice + "LAPORAN ARUS KAS KONSOLIDASIAN INTERIM"]
+             + ["notes"] * 20)
+    assert len(notice) > 200, "the test must actually push the title past the region"
+    selection = select_from_page_texts(pages)
+    assert selection.method == "keyword_match" and selection.pages[0] == 3
+    groups = classify_pages({n: pages[n] for n in selection.pages})
+    assert groups["income"] == [5] and groups["cash_flow"][0] == 6
+
+
+def test_a_title_split_across_bilingual_columns_is_still_found():
+    """TLDN and PTBA print the Indonesian title in two halves around the English one."""
+    from page_select import select_from_page_texts, classify_pages
+    split = ("PT TELADAN PRIMA AGRO TBK\n"
+             "LAPORAN POSISI CONSOLIDATED STATEMENT OF\n"
+             "KEUANGAN KONSOLIDASIAN FINANCIAL POSITION\n")
+    pages = ["cover"] * 4 + [split, "LAPORAN POSISI KEUANGAN KONSOLIDASIAN (lanjutan)"] + ["notes"] * 20
+    selection = select_from_page_texts(pages)
+    assert selection.pages[0] == 4, "the first balance-sheet page carries cash and current assets"
+    assert classify_pages({n: pages[n] for n in selection.pages})["balance_sheet"][0] == 4
+
+
+def test_a_note_mentioning_a_statement_is_not_a_title():
+    """Widening the region was rejected because notes mention the statements too."""
+    from page_select import _is_statement_title, _title_head
+    note = ("5. KAS DAN SETARA KAS\n" + "Rincian kas dan setara kas adalah sebagai berikut " * 6
+            + "sebagaimana disajikan dalam laporan posisi keuangan konsolidasian")
+    assert not _is_statement_title(_title_head(note))
+
+
 def test_older_balance_sheet_wording_is_still_found():
     """Some issuers still title the balance sheet "Neraca"."""
     pages = ["cover"] * 3 + ["NERACA KONSOLIDASIAN\n\nPT Contoh Tbk"] + ["notes"] * 20
@@ -324,6 +379,35 @@ def test_bank_sections_resolve_for_a_second_issuer():
         # is what a heading being stolen by the wrong pattern would produce.
         seen = [v for values in rows.values() for v in values]
         assert len(seen) == len(set(seen)), f"{ticker}: a row landed in two sections: {rows}"
+
+
+def test_a_figure_found_under_no_heading_is_unverified_not_wrong():
+    """wrong_section must be proven, not inferred from absence.
+
+    PTBA prints its current portion of long-term bank borrowings as "Pinjaman bank 100"
+    under "Bagian jangka pendek dari liabilitas jangka panjang". The model read 100
+    correctly; 100 carries no thousands separator, so it never entered the section map,
+    and the old rule reported the correct value as copied from the wrong row. A value
+    printed under no heading at all is unverifiable -- a warning, not an error.
+    """
+    e = F(**{**TRUTH, "utang_bank_jangka_pendek": 1_950_000, "utang_bank_bagian_lancar": 100})
+    text = ("LIABILITAS JANGKA PENDEK\n"
+            "Pinjaman bank jangka pendek 1.950.000 20 1.397.680\n"
+            "Bagian jangka pendek dari\n"
+            "liabilitas jangka panjang:\n"
+            "Pinjaman bank 100 20 -\n"
+            "LIABILITAS JANGKA PANJANG\n"
+            "Liabilitas jangka panjang setelah bagian lancar:\n"
+            "Pinjaman bank 1.277.425 20 -\n")
+    issues = validate_against_document(e, text)
+    assert not any(i.rule == "wrong_section" for i in issues), [i.message for i in issues]
+    assert any(i.rule == "section_map_incomplete" and "utang_bank_bagian_lancar" in i.fields
+               for i in issues)
+
+    # The case the rule exists for still fires: a long-term figure reported as current.
+    wrong = F(**{**TRUTH, "utang_bank_jangka_pendek": 1_950_000,
+                 "utang_bank_bagian_lancar": 1_277_425})
+    assert any(i.rule == "wrong_section" for i in validate_against_document(wrong, text))
 
 
 def test_missing_long_term_section_does_not_crash():
@@ -542,6 +626,305 @@ def test_a_ratio_is_blank_when_any_input_is():
     values, why = dataset.ratios(whole, price=None)
     assert values["pbv"] is None and values["pe"] is None
     assert values["roa"] == 0.1 and values["der"] is not None
+
+
+def test_a_rate_quoted_directly_as_rupiah_per_dollar_is_read():
+    """ITMG states its rate on every report; it just does not use the 1.000-Rupiah table.
+
+    "Rupiah per AS$ 16,782" is the rate itself. Reading only the table form reported
+    all eighteen ITMG filings as disclosing no rate, and every row failed conversion.
+    The neighbouring "AS$ per Euro" row must not be mistaken for it.
+    """
+    from normalize import _rate_from_direct_quote as quote
+    assert quote("Rupiah per AS$ 16,782 16,162 equivalent to US$1") == (16782.0, (16162.0,))
+    assert quote("Rupiah per Dolar AS 14,349 14,269 equivalent to US$1")[0] == 14349.0
+    assert quote("US$1 = Rp15.731")[0] == 15731.0
+    assert quote("AS$ per Euro 0.8496 0.9591 US$1 equivalent to Euro") is None
+    # The table form still belongs to the table reader, not this one.
+    assert quote("Rupiah 10.000 (Rp) 0.56 0.60 Rupiah 10,000") is None
+
+
+def test_share_count_search_reads_only_the_shareholder_table():
+    """Three pages DSNG really prints, in the order it prints them.
+
+    The balance sheet puts authorised capital beside the issued-capital phrase; the
+    notes open with the share count at listing; the shareholder table ends in the count
+    in issue now. Only the table says what is outstanding, so only the table is found --
+    the share-capital line of the statements is not a source even when it prints a count.
+    """
+    from page_select import find_shareholder_table_pages as find, shareholder_note_pages
+    pages = {
+        5: "Modal dasar: 35.000.000.000 saham\n"
+           "Modal ditempatkan dan disetor penuh 28 211.997 211.997",
+        11: "Perseroan mencatatkan saham\n"
+            "jumlah saham beredar menjadi 1.844.700.000 saham.",
+        77: "Susunan pemegang saham\n"
+            "Masyarakat 4.109.621.351 82.194 38,77\n"
+            "10.599.842.400 211.997 100,00",
+    }
+    assert find(pages) == [77]
+    assert find({5: pages[5]}) == [], "authorised capital is not a count"
+    arci = {6: "Modal dasar - 80.000.000.000 saham\n"
+               "Ditempatkan dan disetor penuh -\n"
+               "24.835.000.000 saham 20.350.482"}
+    assert find(arci) == [], "the statements' share-capital line is not the source"
+
+    # As DSNG actually lays it out: heading on page 76, total row alone on page 77, and
+    # the listing-date count still earlier. The total page is found, and its heading page
+    # travels with it, because the rows above the total are there.
+    split = {11: pages[11],
+             76: "Susunan pemegang saham Perusahaan adalah sebagai berikut:\n"
+                 "Masyarakat 4.109.621.351 82.194 38,77",
+             77: "10.599.842.400 211.997 100,00"}
+    assert find(split) == [77]
+    assert shareholder_note_pages(split, 77) == [76, 77]
+    assert shareholder_note_pages(pages, 77) == [77]
+    # A heading that is not on the preceding page vouches for nothing.
+    far = {10: "pemegang saham", 77: "10.599.842.400 211.997 100,00"}
+    assert find(far) == []
+
+    # The current date's table comes first: EMAS Q1 2026, pages 63 and 64.
+    emas = {63: "Pemegang saham/Shareholders 31 Maret/March 2026\n"
+                "Jumlah/Total 14,731,366,060 100.00% 139,149,609",
+            64: "Pemegang saham/Shareholders 31 Desember/December 2025\n"
+                "Saham treasuri/Treasury stock 1,448,866,615 8.95% 13,741,835\n"
+                "Jumlah/Total 16,180,232,675 100.00% 152,891,444"}
+    assert find(emas) == [63]
+    # Two total rows the pattern once missed, as printed.
+    assert find({76: "Pemegang saham\nTotal 40,882,331,500 100 303,919,662"}) == [76]  # ADMR Q1 2023
+    assert find({106: "Pemegang saham\nTotal 19.852.540.000 100,0000 1.985.254"}) == [106]  # TAPG Q3 2023
+    # A subsidiary table on a page naming its shareholders: ownership first, then assets.
+    admr = {15: "Pemegang saham ASC adalah PT Trinugraha Thohir\n"
+                "PT Alamtri Indo Aluminium Investasi Indonesia - 100.00% 100.00% 1,069,356,077 629,420,541",
+            77: "Pemegang saham\nTotal 40,882,331,500 100 303,919,662"}
+    assert find(admr) == [77]                                                             # ADMR Q2 2025
+
+    # A par value is not a percentage. This sentence is on DSNG's page 12, beside the
+    # listing-date count, on a page that does mention shareholders.
+    par = {11: "Pemegang saham\nRp 100 (Rupiah penuh) per saham sehingga jumlah "
+               "outstanding shares changed to 1,844,700,000 shares."}
+    from page_select import _HUNDRED_PERCENT_RE
+    assert not _HUNDRED_PERCENT_RE.search(par[11]) and find(par) == []
+    for printed in ("100,00", "100.00", "100%", "100,00%", "100,000", "100 %"):
+        assert _HUNDRED_PERCENT_RE.search(f"Total 1.234.567.890 {printed} 123.456"), printed
+
+    # English-style grouping, and "100%" rather than "100,00".
+    comma = {40: "Shareholders\nJumlah/Total 7,786,891,760 100.00 2,519,582"}
+    assert find(comma) == [40]
+    ptba = {103: "Pemegang saham\ndan disetor penuh 11,520,659,250 100% 1,152,066"}
+    assert find(ptba) == [103]
+
+
+def test_only_the_shareholder_table_group_supplies_share_counts():
+    """A count a statement group volunteers is dropped, not merged.
+
+    DSNG, as it actually happened: the balance-sheet group invented 10.599.850.000
+    (capital divided by par value, printed nowhere) and beat the 10.599.842.400 the note
+    read. And an issued count from the share-capital line is not outstanding either. So
+    no statement group can supply one -- not first, and not in place of a missing table.
+    """
+    from extract import merge_group, GROUP_FIELDS
+    merged = F()
+    merge_group(merged, F(total_share=10_599_850_000, saham_treasuri=1, aset=5), "balance_sheet")
+    assert merged.total_share is None and merged.saham_treasuri is None and merged.aset == 5
+    merge_group(merged, F(total_share=10_599_842_400), "share_capital")
+    assert merged.total_share == 10_599_842_400
+
+    assert "total_share" not in GROUP_FIELDS["balance_sheet"]
+    assert GROUP_FIELDS["equity"] == [], "the equity statement is no longer asked anything"
+
+
+def test_cash_printed_as_sub_lines_is_summed_and_each_line_is_checked():
+    """LSIP's balance sheet carries no cash total, only its two parts.
+
+    Asked for kas, the model summed them in its head: 3.460.442 for a true 3.460.392,
+    and wrong by 2 to 128 on six of eighteen filings. Grounding withdrew each, correctly,
+    because that sum is printed nowhere -- which left the field empty. The parts ARE
+    printed, so they are what is asked for, the total is computed, and each part is
+    checked on its own.
+    """
+    from extract import derive_fields
+    from confidence import score_extraction, apply_abstention
+    text = ("Kas dan setara kas 5 Cash and cash equivalents\n"
+            "Pihak berelasi 877.632 29 518.756 Related party\n"
+            "Pihak ketiga 2.582.760 2.849.111 Third parties\n")
+
+    e = F(kas=3_460_442, kas_components=[877_632, 2_582_760], currency="IDR")
+    warnings = derive_fields(e)
+    assert e.kas == 3_460_392, "the printed parts decide, not the model's sum"
+    assert any("sub-line" in w for w in warnings)
+    scores = score_extraction(e, text, [])
+    assert scores["kas_components"].grounded is True
+    assert "kas" not in apply_abstention(e, scores)
+
+    # One invented part takes the computed total down with it.
+    bad = F(kas_components=[877_632, 9_999_999], currency="IDR")
+    derive_fields(bad)
+    scores = score_extraction(bad, text, [])
+    abstained = apply_abstention(bad, scores)
+    assert scores["kas_components"].grounded is False
+    assert "kas_components" in abstained and "kas" in abstained
+
+
+def test_total_share_is_the_outstanding_count():
+    """EPS, BVPS and PBV divide by shares outstanding, not shares issued.
+
+    Treasury shares are held by the issuer and share in neither profit nor equity (IAS 33
+    excludes them). The three layouts in the archive, as printed:
+      JPFA  prints the outstanding total      11.627.669.901 of 11.726.575.201 issued
+      EMAS  prints only treasury shares        1.448.866.615 of 16.180.232.675 issued
+      ARCI  has no treasury shares at all
+    The issued count is kept beside the result so the adjustment is visible.
+    """
+    from extract import derive_fields
+    jpfa = F(total_share=11_726_575_201, saham_beredar=11_627_669_901)
+    derive_fields(jpfa)
+    assert jpfa.total_share == 11_627_669_901 and jpfa.saham_ditempatkan == 11_726_575_201
+
+    emas = F(total_share=16_180_232_675, saham_treasuri=1_448_866_615)
+    derive_fields(emas)
+    assert emas.total_share == 14_731_366_060 and emas.saham_ditempatkan == 16_180_232_675
+
+    arci = F(total_share=24_835_000_000)
+    derive_fields(arci)
+    assert arci.total_share == 24_835_000_000 == arci.saham_ditempatkan
+
+    # Classes summed first, then the outstanding adjustment -- JPFA prints both.
+    classes = F(total_share_components=[8_814_985_201, 2_911_590_000], saham_beredar=11_627_669_901)
+    derive_fields(classes)
+    assert classes.saham_ditempatkan == 11_726_575_201 and classes.total_share == 11_627_669_901
+
+    # Impossible figures are refused rather than believed.
+    bad = F(total_share=1_000_000_000, saham_beredar=2_000_000_000, saham_treasuri=1_000_000_000)
+    warnings = derive_fields(bad)
+    assert bad.total_share == 1_000_000_000 and len(warnings) == 2
+
+
+def test_a_computed_outstanding_count_is_graded_on_what_it_was_computed_from():
+    """EMAS prints issued and treasury but no outstanding total, so the result is
+    printed nowhere. It must be graded on its two inputs, not withdrawn for absence."""
+    from extract import derive_fields
+    from confidence import score_extraction, apply_abstention
+    text = ("Saham treasuri/Treasury stock 1,448,866,615 8.95% 13,741,835\n"
+            "Jumlah/Total 16,180,232,675 100.00% 152,891,444\n")
+    e = F(total_share=16_180_232_675, saham_treasuri=1_448_866_615, currency="USD")
+    derive_fields(e)
+    scores = score_extraction(e, text, [])
+    assert scores["saham_treasuri"].grounded is True
+    assert "total_share" not in apply_abstention(e, scores)
+    assert e.total_share == 14_731_366_060
+
+
+def test_a_computed_outstanding_figure_does_not_sink_a_total_its_inputs_support():
+    """EMAS Q4 2025, as it actually ran.
+
+    Page 72 prints issued (16,180,232,675) and treasury (1,448,866,615) shares, and no
+    outstanding total. The model subtracted anyway and put 14,731,366,060 in
+    saham_beredar. Grounding rightly withdrew that figure -- it is not on the page -- but
+    total_share was graded on it alone and was withdrawn too, although it equals issued
+    less treasury, both printed. When the three agree, the printed pair decides.
+    """
+    from extract import derive_fields
+    from confidence import score_extraction, apply_abstention
+    text = ("Saham treasuri/Treasury stock 1,448,866,615 8.95% 13,741,835\n"
+            "Jumlah/Total 16,180,232,675 100.00% 152,891,444\n")
+    e = F(total_share=16_180_232_675, saham_treasuri=1_448_866_615,
+          saham_beredar=14_731_366_060, currency="USD")
+    derive_fields(e)
+    scores = score_extraction(e, text, [])
+    abstained = apply_abstention(e, scores)
+    assert "saham_beredar" in abstained, "the computed figure is still not printed"
+    assert "total_share" not in abstained
+    assert e.total_share == 14_731_366_060
+
+    # A printed outstanding total that disagrees with issued less treasury still wins,
+    # and is graded on itself -- JPFA-style.
+    text2 = ("Total saham beredar 11.627.669.901 99,16\nTotal 11.726.575.201 100,00\n"
+             "Modal saham diperoleh kembali 98.905.300 0,84\n")
+    j = F(total_share=11_726_575_201, saham_beredar=11_627_669_901, saham_treasuri=98_905_300)
+    derive_fields(j)
+    scores = score_extraction(j, text2, [])
+    assert "total_share" not in apply_abstention(j, scores)
+    assert j.total_share == 11_627_669_901
+
+
+def test_the_shareholder_table_is_found_and_the_eps_note_is_not():
+    """Outstanding and treasury counts live in the shareholder table, not the statements.
+
+    JPFA's balance sheet prints its treasury count beside its cost, and page 112 is the
+    only page printing 11.627.669.901 outstanding. An EPS note's weighted "shares
+    outstanding" is an average over the period and has no 100% row, so it is never taken
+    for the table. An issuer without treasury shares is found the same way: its total is
+    what is outstanding.
+    """
+    from page_select import find_shareholder_table_pages as find_tables
+    jpfa = {
+        4: "Modal saham diperoleh kembali 98.905.300 saham (147.851) Treasury shares",
+        111: "Susunan pemegang saham Perusahaan adalah sebagai berikut:",
+        112: "Masyarakat 5.001.234.567 42,65 1.000.247\n"
+             "Total saham beredar 11.627.669.901 99,16 1.731.610 Total outstanding shares\n"
+             "Modal saham diperoleh kembali 98.905.300 0,84 147.851 Treasury shares\n"
+             "Total 11.726.575.201 100,00 1.879.461 Total",
+        129: "11.627.669.901 Weighted average number of shares outstanding",
+    }
+    assert find_tables(jpfa) == [112]
+
+    emas = {71: "Pemegang saham/Shareholders",
+            72: "Saham treasuri/Treasury stock 1,448,866,615 8.95% 13,741,835\n"
+                "Jumlah/Total 16,180,232,675 100.00% 152,891,444",
+            80: "saham biasa yang beredar 14,314,810,852 13,447,820,577 outstanding common stocks"}
+    assert find_tables(emas) == [72]
+
+    arci = {77: "Pemegang saham", 78: "Total 24.835.000.000 100,00% 20.350.482 Total"}
+    assert find_tables(arci) == [78], "no treasury shares: the total is outstanding"
+
+
+def test_treasury_shares_from_another_date_are_not_subtracted():
+    """A shareholder note shows two dates; the balance sheet says which one has treasury.
+
+    ITMG Q2 2022, as it ran: the note's 31 December 2021 column listed 33,369,100 treasury
+    shares, all sold by April 2022, and the model subtracted them -- 1,096,555,900
+    outstanding instead of 1,129,925,000, with both inputs printed, so nothing objected.
+    The balance sheet's current column is nil for treasury shares, printed as a dash, and
+    that is decisive. Each line below is copied from a real filing.
+    """
+    from extract import treasury_current_on_balance_sheet as current
+    assert current("Saham treasuri 20 - (19,211) Treasury shares") is False            # ITMG Q2 2022
+    assert current("Saham treasuri 2y - ( 13,741,835 ) Treasury stock") is False        # EMAS Q1 2026
+    assert current("Saham treasuri 2z, 21 ( 13,741,835 ) - Treasury stock") is True     # EMAS Q4 2025
+    assert current("Saham treasuri 24 (12,521) (12,521) Treasury shares") is True       # PTBA Q2 2025
+    # JPFA: the label is a heading line, its figures below, the count is not the amount.
+    assert current("Saham treasuri - Treasury shares -\n"
+                   "98.905.300 saham (147.851) 2,24 (147.851) 98,905,300 shares") is True
+    assert current("Modal saham 1.234.567") is None
+
+    from extract import _apply_treasury_date_guard, derive_fields
+    itmg = F(total_share=1_129_925_000, saham_treasuri=33_369_100, saham_beredar=1_096_555_900)
+    _apply_treasury_date_guard(itmg, {7: "Saham treasuri 20 - (19,211) Treasury shares"},
+                               {"balance_sheet": [7]})
+    derive_fields(itmg)
+    assert itmg.total_share == 1_129_925_000 and itmg.saham_treasuri is None
+
+
+def test_a_total_from_the_comparative_table_is_replaced_by_the_current_one():
+    """EMAS Q1 2026: 14.731.366.060 at the current date; the note's December 2025 table
+    says 16.180.232.675. A total equal to a LATER 100% row was read from the comparative
+    table, so the first row -- current by position -- replaces it. A total matching no
+    row is left alone, for grounding to judge."""
+    from extract import _apply_current_table_guard, group_pages
+    texts = {63: "Jumlah/Total 14,731,366,060 100.00% 139,149,609\n"
+                 "Saham treasuri/Treasury stock 1,448,866,615 8.95% 13,741,835\n"
+                 "Jumlah/Total 16,180,232,675 100.00% 152,891,444"}
+    groups = group_pages({4: "LAPORAN POSISI KEUANGAN", 63: "notes"}, [63])
+    assert groups["share_capital"] == [63]
+
+    e = F(total_share=16_180_232_675)
+    _apply_current_table_guard(e, texts, groups)
+    assert e.total_share == 14_731_366_060
+
+    unknown = F(total_share=1_234_567_890)
+    _apply_current_table_guard(unknown, texts, groups)
+    assert unknown.total_share == 1_234_567_890
 
 
 if __name__ == "__main__":

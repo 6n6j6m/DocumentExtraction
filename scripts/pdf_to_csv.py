@@ -65,9 +65,13 @@ FIELD_COLUMNS = list(EXCEL_ROWS)
 COLUMNS = (
     ["file", "ticker", "period_end_date", "currency", "reporting_scale", "unit"]
     + FIELD_COLUMNS
+    # total_share above is OUTSTANDING; the issued count and treasury shares it was
+    # derived from are kept beside it so the adjustment can be seen, not just trusted.
+    + ["saham_ditempatkan", "saham_treasuri"]
     + ["status", "fields_filled", "abstained", "issues", "notes",
        "fx_rate", "fx_source", "fx_page",
-       "pages_selected", "llm_calls", "tokens_in", "tokens_out", "seconds", "error"]
+       "pages_selected", "model", "llm_calls", "tokens_in", "tokens_out", "seconds",
+       "error"]
 )
 
 # <Quarter>_<Year>_<TICKER>.pdf, the convention the rest of the repo already discovers
@@ -162,6 +166,11 @@ def extract_row(pdf: Path, as_printed: bool = False) -> dict:
         # computed them and then dropped them on the floor.
         notes="; ".join(notes),
         pages_selected=" ".join(str(p) for p in getattr(result, "pages_selected", [])),
+        # Which model answered. With a fallback chain, rows in one CSV can come from
+        # different models; a column that does not say so makes them look like one run.
+        model=getattr(result, "model", ""),
+        saham_ditempatkan="" if getattr(result, "saham_ditempatkan", None) is None else result.saham_ditempatkan,
+        saham_treasuri="" if getattr(result, "saham_treasuri", None) is None else result.saham_treasuri,
         llm_calls=usage.llm_calls,
         tokens_in=usage.input_tokens if usage.input_tokens is not None else "",
         tokens_out=usage.output_tokens if usage.output_tokens is not None else "",

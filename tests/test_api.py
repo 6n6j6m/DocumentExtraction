@@ -71,7 +71,7 @@ class StubProvider:
 def client(monkeypatch):
     """A TestClient whose pipeline talks to the stub instead of a real provider."""
     provider = StubProvider()
-    monkeypatch.setattr("extract.get_provider_with_fallback", lambda: (provider, None))
+    monkeypatch.setattr("extract.get_provider_chain", lambda: [provider])
     api.app.dependency_overrides[api.get_llm_provider] = lambda: provider
     with TestClient(api.app) as c:
         c.provider = provider
@@ -211,3 +211,26 @@ def test_uploads_are_not_kept(client):
     client.post("/extract", files={"file": ("f.pdf", _pdf_bytes(), "application/pdf")})
     after = set(Path(tempfile.gettempdir()).glob("extract-*"))
     assert after <= before
+
+
+def test_a_throttled_model_hands_the_document_to_the_next(monkeypatch):
+    """A rate-limited first model must not cost the document.
+
+    The next provider in the chain takes the WHOLE document, and the result names it.
+    Without that record, a CSV built during a throttled batch would mix two models'
+    answers under nothing more than a filename.
+    """
+    import extract
+    if not REAL_PDF.exists():
+        pytest.skip(f"{REAL_PDF.name} not present")
+
+    throttled = StubProvider(raises=LLMUnavailable("429 per-minute limit"))
+    throttled.name = "stub:first-model"
+    spare = StubProvider()
+    spare.name = "stub:second-model"
+    monkeypatch.setattr("extract.get_provider_chain", lambda: [throttled, spare])
+
+    result = extract.extract_from_pdf(str(REAL_PDF))
+    assert throttled.calls == 1, "the throttled model should be abandoned after one call"
+    assert spare.calls >= 1
+    assert result.model == "stub:second-model"

@@ -113,7 +113,9 @@ def validate(e) -> list:
 # dikurangi bagian lancar" (a NON-CURRENT heading) contains "bagian lancar". Whichever
 # regex is tried first steals the other's line. Spelling the precedence out keeps it
 # readable and makes the two exceptions explicit.
-_RE_BAGIAN = re.compile(r"bagian\s+lancar|jatuh\s+tempo", re.I)
+# "Bagian jangka pendek dari liabilitas jangka panjang" is PTBA's wording for the same
+# heading others call "Bagian lancar" -- the current portion by another name.
+_RE_BAGIAN = re.compile(r"bagian\s+lancar|bagian\s+jangka\s+pendek|jatuh\s+tempo", re.I)
 _RE_NETTING = re.compile(r"dikurangi|setelah", re.I)
 _RE_PANJANG = re.compile(r"(liabilitas|kewajiban)\s+jangka\s+panjang", re.I)
 _RE_PENDEK = re.compile(r"(liabilitas|kewajiban)\s+jangka\s+pendek", re.I)
@@ -256,9 +258,28 @@ def validate_against_document(e, document_text: str) -> list:
             continue
 
         if not any(abs(value - c) < 1 for c in candidates):
-            issues.append(ValidationIssue(
-                "wrong_section", ERROR,
-                f"{field} is {value:,.0f} but the rows under its section read "
-                f"{', '.join(f'{c:,.0f}' for c in candidates)}",
-                (field, "utang_bank")))
+            # An ERROR here claims the figure was copied from the WRONG row, and that is
+            # only proven when the figure actually sits under another heading. A figure
+            # found under no heading at all proves nothing about position: PTBA prints
+            # its current portion as "Pinjaman bank 100", which has no thousands
+            # separator and so never enters the section map. The model read 100
+            # correctly and the old rule withdrew it as wrong_section anyway.
+            elsewhere = [section_name for section_name, amounts in rows.items()
+                         if section_name != section
+                         and any(abs(value - c) < 1 for c in amounts)]
+            if elsewhere:
+                issues.append(ValidationIssue(
+                    "wrong_section", ERROR,
+                    f"{field} is {value:,.0f}, which is printed under the "
+                    f"{', '.join(elsewhere)} section, not {section}; the rows under "
+                    f"{section} read {', '.join(f'{c:,.0f}' for c in candidates)}",
+                    (field, "utang_bank")))
+            else:
+                issues.append(ValidationIssue(
+                    "section_map_incomplete", WARNING,
+                    f"{field} is {value:,.0f}, found under no bank-debt heading in the "
+                    f"text (rows under {section} read "
+                    f"{', '.join(f'{c:,.0f}' for c in candidates)}); its position could "
+                    f"not be checked",
+                    (field, "utang_bank")))
     return issues

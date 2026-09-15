@@ -85,7 +85,7 @@ COLUMNS = (
     + FIELD_COLUMNS
     + ["harga_saham", "price_date"]
     + RATIO_COLUMNS
-    + ["status", "fields_filled", "abstained", "issues", "notes",
+    + ["status", "fields_filled", "abstained", "issues", "notes", "model",
        "price_note", "ratios_blank"]
 )
 

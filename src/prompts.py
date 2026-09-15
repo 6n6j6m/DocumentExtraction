@@ -140,6 +140,27 @@ Example amounts are placeholders built from repeating digits (111.111.111,
    TRAP         A separate line for restricted cash ("Kas yang dibatasi
                 penggunaannya" / restricted cash) is NOT part of this figure -- it is
                 not freely available. Take only the unrestricted line.
+   TRAP 2       The cash flow statement prints "Kas dan setara kas" several times, and
+                its labels often wrap so those words stand alone on a line. Only the
+                CLOSING balance ("... akhir periode/tahun" / "at end of period") equals
+                kas. The others are movements during the period: "Kenaikan (penurunan)
+                neto kas dan setara kas" (net increase) and "Dampak perubahan kurs atas
+                kas dan setara kas" (exchange-rate effect). Never report a movement as
+                kas, and never add movements together to build it.
+   TRAP 3       Some balance sheets print NO total on the cash line. "Kas dan setara
+                kas" stands alone as a heading, and the amounts sit on the lines
+                directly under it, split by counterparty -- "Pihak berelasi" (related
+                parties) and "Pihak ketiga" (third parties). Then report each of those
+                sub-line amounts in "kas_components", in printed order, and leave kas
+                null: the total is computed downstream. Do not add them up yourself --
+                a total you compute is printed nowhere and cannot be checked. Stop at
+                the next heading: the "Pihak berelasi" / "Pihak ketiga" lines under
+                "Piutang usaha" (receivables) are NOT cash. When the cash line carries
+                its own figure, report it in kas and omit kas_components.
+                  Kas dan setara kas
+                    Pihak berelasi      111.111      -> kas_components [111111, 222222]
+                    Pihak ketiga        222.222
+                  Piutang usaha                          -> stop here
    EXAMPLE      Kas dan setara kas  333.333.333
 
 --------------------------------------------------------------------------------
@@ -293,36 +314,56 @@ Example amounts are placeholders built from repeating digits (111.111.111,
 --------------------------------------------------------------------------------
 12. total_share  and  total_share_components
 
-   MEANING      The NUMBER OF SHARES issued and fully paid at the reporting date --
-                a count of shares, not an amount of money.
-   POSITION     In the equity section, on or under the share-capital line, usually
-                written as narrative text rather than in a numeric column.
-   DISAMBIGUATE Three numbers commonly sit close together here. Take only the issued
-                and fully paid count:
-                  - authorised capital ("Modal dasar") -- the maximum the company MAY
-                    issue. Always larger. NOT this field.
-                  - issued and fully paid ("Ditempatkan dan disetor penuh") -- THIS.
-                  - par value per share ("nilai nominal Rp10 per saham") -- a price,
-                    not a count.
-   TRAP 1       The line often carries counts for MORE THAN ONE DATE, with older
-                dates in parentheses. Take the count belonging to the CURRENT
-                reporting date.
-                  "Ditempatkan dan disetor penuh -
-                     30 Juni 2026 dan 31 Desember 2025: 25.235.000.000 saham
-                     (31 Desember 2024: 24.835.000.000 saham)"
-                Here the current figure is 25.235.000.000; the parenthesised
-                24.835.000.000 is an earlier count and must not be taken.
-   TRAP 2       Some issuers split share capital into CLASSES (Seri A, Seri B) and
-                print a count for each, never their total. When that happens put each
-                class's count in "total_share_components" as a list, in printed
-                order, and leave total_share null -- the sum is computed downstream.
-                When there is a single class, report it in total_share and omit
+   MEANING      Everything about the number of shares OUTSTANDING at the reporting
+                date -- the shares held by shareholders other than the company itself.
+                Counts of shares, never amounts of money.
+   POSITION     The SHAREHOLDER TABLE in the notes ("Susunan pemegang saham", "Komposisi
+                pemegang saham", "The composition of the Company's shareholders"): one
+                row per shareholder, a percentage column, and a total row beside 100%.
+                Read these fields from that table ONLY. Never from the balance sheet or
+                the statement of changes in equity: their share-capital line ("Modal
+                saham - Modal dasar ... Ditempatkan dan disetor penuh ... saham") is not
+                a source for these fields, even when it prints a count.
+   REPORT       From the table for the CURRENT reporting date:
+                  "total_share" -- the count on the total row, beside 100%.
+                  "saham_beredar" -- the outstanding count when the table prints it as
+                     a row of its own: "Jumlah saham beredar", "Total saham beredar",
+                     "Total shares outstanding", with a percentage just below 100, above
+                     a treasury row. Some tables print it as an unlabelled subtotal of
+                     the shareholder rows directly above the treasury row; that subtotal
+                     is saham_beredar too. null when it is not printed. Never compute it.
+                  "saham_treasuri" -- the count on a treasury row ("Saham treasuri",
+                     "Modal saham diperoleh kembali", "Treasury stock/shares"). A count,
+                     never its cost. null when the current table has no such row.
+                A table with no treasury row means every share is outstanding: report
+                the total row in total_share and leave the other two null. Any
+                subtraction is done downstream.
+   TRAP 1       The note usually prints the table TWICE, once per date -- the current
+                date first, the comparative date below it or on the next page. Use only
+                the table headed by the CURRENT reporting date. A treasury row that
+                appears only in the comparative table does not exist at the current date.
+   TRAP 2       Not the weighted average number of shares ("rata-rata tertimbang saham
+                beredar", "weighted average number of shares outstanding") in the
+                earnings-per-share note. That is an average over the period, not the
+                count at the reporting date.
+   TRAP 3       Not authorised capital ("Modal dasar"), not a par value ("nilai nominal
+                Rp100 per saham"), and not a count quoted in narrative text about the
+                listing or a past stock split.
+   TRAP 4       Some tables split the rows into CLASSES (Seri A, Seri B) with a total per
+                class and no grand total. Then put each class's total in
+                "total_share_components", in printed order, and leave total_share null.
+                When there is a grand total row, report it in total_share and omit
                 total_share_components.
-   TRAP 3       Treasury shares ("saham treasuri" / shares bought back) are reported
-                separately. Do not deduct them: the issued and fully paid count is
-                reported before treasury shares are taken out.
-   EXAMPLE      Modal dasar - 999.999.999.999 saham            -> NOT this field
-                Ditempatkan dan disetor penuh - 456.789.123 saham  -> total_share
+   TRAP 5       Never compute a count from share capital divided by par value, or by any
+                other arithmetic. If no shareholder table is on the pages you were
+                given, return null for all of these fields.
+   EXAMPLE      31 Desember 2025
+                  PT Induk                    6.000.000.000   51,72
+                  Masyarakat                  5.500.000.000   47,41
+                  Total saham beredar        11.500.000.000   99,14  -> saham_beredar
+                  Saham treasuri                100.000.000    0,86  -> saham_treasuri
+                  Total                      11.600.000.000  100,00  -> total_share
+                31 Desember 2024                                     -> ignore this table
 
 --------------------------------------------------------------------------------
 13. currency
@@ -350,6 +391,7 @@ Valid JSON, null for anything not found on these pages.
   "aset": 111111111,
   "total_aset_lancar": 222222222,
   "kas": 333333333,
+  "kas_components": null,
   "liabilitas": null,
   "utang_bank_jangka_pendek": 555555555,
   "utang_bank_bagian_lancar": 666666666,
@@ -361,6 +403,8 @@ Valid JSON, null for anything not found on these pages.
   "laba_bersih": null,
   "kas_dari_aktivitas_operasi": null,
   "total_share": null,
+  "saham_beredar": null,
+  "saham_treasuri": null,
   "currency": "IDR",
   "reporting_scale": "FULL",
   "statement_scope": "CONSOLIDATED",

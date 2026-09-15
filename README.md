@@ -59,7 +59,7 @@ the extractor occasionally cannot read the hardest period, and when that happens
 so instead of guessing. **One period out of four is where the variance lives**, and one
 more clean run is not evidence that it has gone away.
 
-**66 tests**, of which 35 break one specific thing each and assert the right guard fires.
+**89 tests**, of which 51 break one specific thing each and assert the right guard fires.
 
 **What is still not scored.** CPIN and EMAS are extracted and checked against what each
 filing says about itself, but they have no labels. The distinction is kept sharp
@@ -73,7 +73,7 @@ and what more time would buy. In order:
 
 | | |
 |---|---|
-| Run commands | [Start here](#start-here) · [Reading the output](#reading-the-output) |
+| Run commands | [Start here](#start-here) · [Batch a folder into one CSV](#3-batch-a-folder-into-one-csv) · [Reading the output](#reading-the-output) |
 | Why the problem | [Why this exists](#why-this-exists) |
 | Dataset, and why | [Dataset, and why this one](#dataset-and-why-this-one) |
 | Schema, and why | [Schema, and why these ten fields](#schema-and-why-these-ten-fields) |
@@ -96,19 +96,21 @@ none of it has to be taken on trust.
 |---|---|---|---|
 | **1. Run the tests** | Python only — **no API key** | ~90 s | That the guards, the confidence layer and the abstention logic do what this README says |
 | **2. Extract one filing** | A free Gemini key | ~25 s | The system reading a real 122-page filing end to end |
-| **3. Score it** | The key | ~4 min | Both issuers re-scored from scratch |
-| **4. Docker** | Docker + the key | ~6 min | `compose up` serving the API, then **one command** that scores both issuers **against that API** |
+| **3. Batch a folder into one CSV** | The key | ~30 s per filing | The thing this project exists for: a directory of PDFs becomes a spreadsheet |
+| **4. Score it** | The key | ~4 min | Both issuers re-scored from scratch |
+| **5. Docker** | Docker + the key | ~6 min | `compose up` serving the API, then **one command** that scores both issuers **against that API** |
 
 ### 1. Run the tests — no key required
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
+python scripts/pdf_to_csv.py --dir /Users/muhammadnajmirahmani/FinancialReport/TAPG -o /Users/muhammadnajmirahmani/FinancialReport/TAPG/tapg.csv
 pip install -r requirements.txt
 python -m pytest tests/ -q
 ```
 
 ```
-66 passed
+89 passed
 ```
 
 Nothing here touches the network: `tests/test_api.py` stubs the provider, and
@@ -150,49 +152,6 @@ kurs: 14,347.20 IDR/USD  (disclosed_rate_table, hal. 29)
   aset                          9,966,590,200,861
 ```
 
-**Or straight to a spreadsheet.** One filing becomes one CSV row; a batch becomes one
-row per filing in the same file, in the order given:
-
-```bash
-python scripts/pdf_to_csv.py data/raw/Q1_2022_ARCI.pdf -o output/extractions.csv
-python scripts/pdf_to_csv.py --dir data/raw --ticker JPFA -o output/jpfa.csv
-```
-
-Figures are converted to full Rupiah by default so a column can mix issuers reporting in
-different currencies and scales; `--as-printed` turns that off. An empty cell means "not
-asserted" and never zero, `abstained` names the fields withdrawn on purpose, and a
-document that fails still gets a row saying why.
-
-Two columns exist so the row cannot hide its own assumptions. `reporting_scale` is the
-scale that was actually **applied**, which is not always the one the model reported —
-labelling a converted row with a multiplier that was never used is how a thousandfold
-error travels unnoticed. `notes` carries the sentences explaining why, verbatim:
-
-```
-model said scale THOUSANDS, header says FULL - using FULL
-Rate row also carried 15,408, 15,015 IDR/USD (comparative periods); took the first column, 16,420.
-```
-
-**The one figure that is not in the filing.** `Harga saham rupiah` feeds PBV and PE, and
-no balance sheet contains it — it is what the market paid. A quarter is priced on the date
-by which its report is public, not on the period end (Q1 → 17 June, Q2 → 17 August, Q3 →
-17 November, Q4 → 17 May of the *following* year, because the annual report is audited):
-
-```bash
-python scripts/fetch_share_prices.py --ticker ARCI            # show what it would write
-python scripts/fetch_share_prices.py --ticker ARCI --write-xlsx   # fill the row
-```
-
-The workbooks head their annual column `TAHUNAN 2024` rather than `Q4 2024` — every year
-but 2025 — so both spellings are read as the same period. Without that, the fourth quarter
-of five years was silently never priced: no error, just empty cells.
-
-The 17th is frequently closed — 17 August is Independence Day every year, so Q2 never
-lands on an open market — so the last close **on or before** it is used and the date
-actually taken is printed on every row. A period with no session in the lookback window
-stays blank and says why, and one whose pricing date has not arrived yet says that
-instead.
-
 Try the other issuers too — they are the more interesting documents:
 
 ```bash
@@ -200,7 +159,183 @@ python src/extract.py data/raw/Q1_2022_JPFA.pdf     # Rupiah, millions, two shar
 python src/extract.py data/raw/Q3_2025_EMAS.pdf     # no usable text layer; OCR path, slow first run
 ```
 
-### 3. Score it — the full evaluation
+### 3. Batch a folder into one CSV
+
+This is the step the project exists for. The manual workflow it replaces produced a
+spreadsheet — one column per period, ten figures down it — and every other entry point
+stops one short of that: the CLI prints, the API returns JSON, the harness writes a
+scorecard. `scripts/pdf_to_csv.py` closes the gap. **One filing becomes one row. A folder
+becomes one row per filing, in the same file, in the order given.**
+
+```bash
+# one file
+python scripts/pdf_to_csv.py data/raw/Q1_2022_ARCI.pdf -o output/arci.csv
+
+# several files
+python scripts/pdf_to_csv.py data/raw/Q1_2022_ARCI.pdf data/raw/Q1_2022_JPFA.pdf -o output/two.csv
+
+# an entire folder
+python scripts/pdf_to_csv.py --dir data/raw -o output/all.csv
+
+# a folder, one issuer only — matches *_<TICKER>.pdf
+python scripts/pdf_to_csv.py --dir data/raw --ticker JPFA -o output/jpfa.csv
+```
+
+It reports as it goes, and flushes after every row, so a long batch is readable — and
+usable — while it is still running:
+
+```
+[2/2] Q1_2022_JPFA.pdf
+
+📄 Selecting pages from Q1_2022_JPFA.pdf...
+  Pages: [4, 5, 6, 7, 8] (1-indexed)
+  Reduction: 5/171 pages (97.1% reduction)
+
+🔍 gemini:gemini-3.5-flash-lite [image]...
+    +13 field(s)   +2 field(s)   +1 field(s)   +1 field(s)
+    ⚠ model said total_share=11,717,366,360, 2 share class(es) sum to 11,726,575,201 - using classes
+  ✓ 19/19 fields
+  -> ok: 10/10 fields
+
+2 row(s) -> output/two.csv
+  ok 2 | partial 0 | error 0
+```
+
+| Flag | What it does |
+|---|---|
+| `--dir DIR` | take every PDF in `DIR` as well as any paths given |
+| `--ticker XXXX` | with `--dir`, only files named `*_XXXX.pdf` |
+| `-o`, `--out` | where the CSV goes (default `output/extractions.csv`) |
+| `--append` | add to an existing CSV instead of replacing it — a batch split across several runs still reads as one table |
+| `--as-printed` | keep the filing's own currency and scale; no conversion to Rupiah |
+
+Exit code **0** when every row is complete, **1** when any row is partial or failed. A
+caller scripting this should not have to parse the CSV to find out.
+
+#### What a row actually contains
+
+Thirty-one columns: identity, then the ten figures, then everything needed to judge them. A
+reader who trusts the row can stop after the figures; a reader who does not has the
+grounds for their doubt on the same line.
+
+```
+file             Q1_2022_JPFA.pdf      status           ok
+ticker           JPFA                  fields_filled    10/10
+period_end_date  2022-03-31            abstained
+currency         IDR                   issues
+reporting_scale  MILLIONS              notes
+unit             IDR full              fx_rate / fx_source / fx_page
+aset             30134349000000        pages_selected   4 5 6 7 8
+...                                    model            gemini:gemini-3.5-flash-lite
+                                       llm_calls        4
+total_share      11726575201.0         tokens_in/out    25734 / 1083
+                                       seconds          38.8
+                                       error
+```
+
+Four conventions, because a CSV hides its own assumptions:
+
+- **Figures are in full Rupiah by default.** The filings arrive in whatever currency and
+  scale the issuer chose — ARCI in US Dollars at full units, JPFA in Rupiah at millions —
+  and a column mixing those is worse than no column. `--as-printed` turns it off when the
+  question is what the page said.
+- **An empty cell means "not asserted", never zero.** A field can be blank because the
+  filing does not report it, or because the system read something and refused to trust
+  it. Those are different facts, so `abstained` names the fields withdrawn on purpose and
+  `status` separates a clean row from a partial one.
+- **A failed document still gets a row.** Fifty filings with one unreadable PDF produce
+  forty-nine rows of figures and one row saying what went wrong — not a traceback and no
+  file. Verified on a batch whose middle file was not a PDF: two rows of figures, one
+  carrying `No /Root object! - Is this really a PDF?`, exit code 1, the other two
+  documents unaffected.
+- **`reporting_scale` is the scale that was actually applied**, which is not always the
+  one the model reported, and `notes` says why in words:
+
+  ```
+  model said scale THOUSANDS, header says FULL - using FULL
+  Rate row also carried 15,408, 15,015 IDR/USD (comparative periods); took the first column, 16,420.
+  ```
+
+  Labelling a converted row with a multiplier that was never used is how a thousandfold
+  error travels unnoticed — see
+  [*The scale field was the one the guards could not see*](#the-scale-field-was-the-one-the-guards-could-not-see).
+
+#### The one figure that is not in the filing
+
+`Harga saham rupiah` feeds PBV and PE, and no balance sheet contains it — it is what the
+market paid. `scripts/fetch_share_prices.py` reads the close from Yahoo Finance's chart
+endpoint (`CPIN.JK`; no key, no account), pricing a quarter on the date by which its
+report is public rather than on the period end:
+
+| | | | |
+|---|---|---|---|
+| Q1 → 17 June | Q2 → 17 August | Q3 → 17 November | Q4 → 17 May of the *following* year |
+
+Q4 moves forward because the annual report is audited and reaches the market in spring,
+not in December. `--q4-same-year` if your convention differs.
+
+```bash
+python scripts/fetch_share_prices.py --ticker ARCI                 # show what it would write
+python scripts/fetch_share_prices.py --ticker ARCI --write-xlsx    # fill the row (close Excel first)
+python scripts/fetch_share_prices.py --ticker ARCI -o output/prices.csv
+```
+
+The 17th is frequently closed — 17 August is Independence Day every year, so Q2 never
+lands on an open market — so the last close **on or before** it is used, and the date
+actually taken is printed on every row. A period with no session in the lookback window
+stays blank and says why; one whose pricing date has not arrived yet says that instead.
+
+Two details that were silent bugs until they were not. The workbooks head their annual
+column `TAHUNAN 2024` rather than `Q4 2024` — every year but 2025 — so both spellings are
+read as the same period; without that, the fourth quarter of five years was never priced,
+with no error, just empty cells. And the **close** is used rather than Yahoo's
+`adjclose`: adjusted prices are restated for later splits and dividends, and this price is
+divided by a book value taken from the filing as it stood at the time, so an adjusted
+numerator would silently mismatch its own denominator.
+
+#### The whole sheet, including the ratios
+
+`scripts/build_dataset.py` joins the two above and adds the eight derived rows, so the
+output is what the manual workflow was actually producing rather than an intermediate
+that still needs a spreadsheet wrapped around it:
+
+```bash
+# end to end: extract, price, compute
+python scripts/build_dataset.py --dir data/raw --ticker ARCI -o output/arci_dataset.csv
+
+# reuse an extraction you already paid for — no API calls
+python scripts/build_dataset.py --from-csv output/arci.csv -o output/arci_dataset.csv
+
+# skip the network; price, PBV and PE stay blank
+python scripts/build_dataset.py --dir data/raw --ticker GTRA --no-prices
+```
+
+```
+  period        harga       BVPS       EPS     PBV      PE      ROE
+  Q1 2022      5025.0    1605.47    72.647 3.12992 69.1701 0.0452496
+  Q2 2022      5700.0    1571.98   147.395 3.62601 38.6715 0.0937643
+  Q3 2022      5750.0    1618.74    194.28 3.55215 29.5965  0.120019
+```
+
+The ratios are transcribed from the workbook, not reinvented — `ekuitas/total_share`,
+`total_aset_lancar - liabilitas`, `laba_bersih/aset`, `laba_bersih/ekuitas`,
+`harga/BVPS`, `harga/EPS`, `laba_bersih/total_share`, `liabilitas/ekuitas` — and checked
+against the labelled ARCI Q1 2022 column, which they match to the rupiah. No extraction
+or pricing logic lives in this file; `extract_row` and `collect` are imported from the
+two scripts that own them, so there is no second copy to drift.
+
+**A ratio is blank unless every input is present.** A field the extractor abstained on is
+not zero, so a ratio built on it is not a number — it is a guess wearing a decimal point.
+Blanking propagates: a missing share count takes BVPS and EPS, and through them PBV and
+PE. `ratios_blank` names each one and why, so an empty cell traces back to the field that
+caused it instead of looking like a bug. `test_a_ratio_is_blank_when_any_input_is` holds
+that line.
+
+Interim quarters are **not** annualised, exactly as the workbook does it: a Q1 ROE is
+roughly a quarter of the annual figure. Annualising is a modelling decision, and this
+file does not make those.
+
+### 4. Score it — the full evaluation
 
 **Without an API key**, from the predictions committed in this repository:
 
@@ -244,7 +379,7 @@ Exit codes are meant for CI: **0** if nothing is wrong, **1** if any field is `w
 **2** if the run could not be performed at all (no provider, no filings, a ground-truth
 sheet labelled for a different issuer).
 
-### 4. Docker, exactly as the brief describes
+### 5. Docker, exactly as the brief describes
 
 ```bash
 docker compose up -d
@@ -267,7 +402,7 @@ it the scorecard cannot name the commit that produced it.
 | `run_eval` says "only CACHED predictions can be scored" | You have no key configured. That is a working path, not an error: it re-scores the committed predictions. `--no-cache` is what needs a provider. |
 | The cache-only run took minutes and billed you | Predictions are cached per **model**. If `GEMINI_MODEL` in your `.env` is not `gemini-3.1-flash-lite`, every lookup misses and the run silently calls the API instead. Pin the model, or accept that you are doing a fresh extraction. |
 | `503 ... high demand` | Gemini capacity spike. One retry is automatic; if it persists, wait a minute. The run continues and reports the field as `missed`, never as a guess. |
-| `429 rate limit` | Per-minute quota: waited out and retried automatically (`LLM_RATE_LIMIT_WAIT_S`, default 75s). A per-**day** quota is not waited out — sleeping cannot clear it — so it fails fast; wait, or set `LLM_FALLBACK_PROVIDER=ollama`. |
+| `429 rate limit` | Gemini has three limits behind one code: requests per minute (RPM), tokens per minute (TPM), requests per day (RPD). A per-minute limit cools down and retries automatically (`LLM_RATE_LIMIT_WAIT_S`, default 70s). A per-**day** quota is not waited out — sleeping cannot clear it — so it fails fast. Limits are counted per model, so `GEMINI_FALLBACK_MODELS` hands a throttled document to another Gemini model at once, and `LLM_FALLBACK_PROVIDER=ollama` takes over only when every Gemini model is out. |
 | `OCR unavailable` on EMAS | `brew install tesseract tesseract-lang`. Without it EMAS still extracts, but page selection, grounding and the FX rate degrade — and the run says so. |
 | Docker healthcheck never passes | `docker compose logs api`. Usually a missing `.env`, which makes `env_file` fail the whole project. |
 
@@ -834,7 +969,7 @@ clean path already scores 40/40, and a build with all three deleted would score
 identically. Safety machinery is only observable when something goes wrong.
 
 `tests/test_guards.py` therefore breaks one specific thing per test and asserts that
-the right guard fires — 35 tests, runnable with or without pytest:
+the right guard fires — 51 tests, runnable with or without pytest:
 
 ```
 PASS  test_correct_extraction_passes_cleanly            no false positives
@@ -872,7 +1007,23 @@ PASS  test_ground_truth_sheet_must_match_the_ticker
 PASS  test_failure_kinds_are_distinguished
 PASS  test_a_derived_field_cannot_outlive_an_abstained_component
 PASS  test_an_annual_column_is_recognised_as_q4        "TAHUNAN 2024" is Q4
-35/35 passed
+PASS  test_a_ratio_is_blank_when_any_input_is          abstention survives arithmetic
+PASS  test_a_header_without_the_verb_is_still_a_header     "(Dalam jutaan Rupiah"
+PASS  test_a_rate_quoted_directly_as_rupiah_per_dollar_is_read ITMG's rate format
+PASS  test_share_count_search_reads_only_the_shareholder_table DSNG, EMAS, ADMR pages
+PASS  test_only_the_shareholder_table_group_supplies_share_counts statements give no count
+PASS  test_a_title_behind_the_translation_notice_is_still_found LSIP's titles
+PASS  test_a_title_split_across_bilingual_columns_is_still_found TLDN's balance sheet
+PASS  test_a_note_mentioning_a_statement_is_not_a_title    why widening was rejected
+PASS  test_a_figure_found_under_no_heading_is_unverified_not_wrong PTBA's "Pinjaman bank 100"
+PASS  test_cash_printed_as_sub_lines_is_summed_and_each_line_is_checked LSIP's cash parts
+PASS  test_total_share_is_the_outstanding_count
+PASS  test_a_computed_outstanding_count_is_graded_on_what_it_was_computed_from
+PASS  test_a_computed_outstanding_figure_does_not_sink_a_total_its_inputs_support
+PASS  test_the_shareholder_table_is_found_and_the_eps_note_is_not
+PASS  test_treasury_shares_from_another_date_are_not_subtracted
+PASS  test_a_total_from_the_comparative_table_is_replaced_by_the_current_one
+51/51 passed
 ```
 
 The first two are a pair, and both are needed. One proves the guard fires when the
@@ -1076,11 +1227,29 @@ much input, a low generate rate means the model is too big for available RAM.
   service is briefly oversubscribed — its own message invites a retry — so one more
   attempt follows after a short backoff. A `429` needs reading further: a **per-minute**
   limit refills on a clock, so it is waited out and retried (`LLM_RATE_LIMIT_WAIT_S`,
-  default 75 s, or the provider's own `retryDelay` plus a margin, because sleeping to the
-  exact boundary races the reset); a **per-day** quota cannot be cleared by sleeping, so
+  default 70 s, lengthened by the provider's own `retryDelay` plus a margin but never
+  shortened by it, because sleeping to the exact boundary races the reset); a
+  **per-day** quota cannot be cleared by sleeping, so
   it abandons the provider immediately. Waiting out a per-minute limit costs a minute;
   failing on one costs the whole batch. The `503`/`429` distinction was not theoretical:
   see below.
+- **A throttled or overloaded model hands over, and the rotation is remembered.** Gemini
+  counts RPM, TPM and RPD per model, so each has its own allowance. The chain is
+  `GEMINI_MODEL` → each of `GEMINI_FALLBACK_MODELS` → `LLM_FALLBACK_PROVIDER`. Every
+  Gemini model but the last hands over at once on a `429` — or on a `503` or a read
+  timeout that outlived its retry, which used to be swallowed per statement group and silently cost that
+  group's fields — and only the last one cools down before the local fallback. A model
+  that handed over rests for the cooldown, and since the chain is rebuilt per document,
+  later documents start at the first model that is not resting instead of paying a
+  wasted call to rediscover the same limit. The cheap models at the front of the queue can be made **patient**
+  (`GEMINI_PATIENT_MODELS`): instead of handing over at once they wait out a per-minute
+  limit and retry a `503`, `500` or timeout a few more times with a growing backoff, because
+  what follows them costs three times as much and answers several times slower. A daily
+  quota still hands over immediately. A document is extracted by one provider from
+  start to finish, and the CSV's `model` column says which. Probed on this key:
+  `gemini-3.6-flash` answered in 13.5 s against 2.4 s for `gemini-3.1-flash-lite`, and
+  `gemini-3.7-flash` and `gemini-3.8-flash` each returned `503 high demand` before
+  answering on a second attempt — which is the case the handover exists for.
 - **Known limit:** type checking at the JSON boundary. `from_dict` accepts any type,
   so a hand-edited or stale cache file can raise inside `validate()` rather than being
   rejected with a clear message. Listed under *Not built yet*.
@@ -1391,6 +1560,272 @@ The warning is correct. `pytesseract.image_to_data` returns per-word coordinates
 would rebuild those rows — the OCR path currently asks only for `image_to_string` and
 throws the geometry away.
 
+### Nine more issuers, and what their gaps actually were
+
+The next round came from real use rather than from an audit: TOTL, LSIP, TLDN, TAPG,
+DSNG, AADI, PTBA, ITMG and ADMR, 150 filings, with a backlog of what came back empty.
+Every claim in that backlog was tested before anything was changed, and the finding
+that shaped the rest was this: **almost none of the gaps were the model misreading a
+page. The model was sent the wrong pages, or never asked the question.**
+
+| Reported | Verified cause | Fixed by |
+|---|---|---|
+| ITMG never converts | The rate is on every one of its 18 reports, quoted directly — `Rupiah per AS$ 16,782` — and the reader only knew the `1.000 Rupiah = 0,0697` table form | A direct-quote reader |
+| DSNG never has `total_share` | Authorised capital sits on the line beside the issued-capital phrase, so the page search stopped there; the count in issue is in a shareholder table 70 pages later | The share-page search (below) |
+| PTBA `total_share` mostly empty | Counts printed English-style (`11,520,659,250`) — the share-count pattern only accepted dots | Either separator |
+| PTBA "full error" | Not the documents: 10 of 11 errors were `429` rate limits from before cooldown and fallback existed | Already fixed; re-run 10/10 |
+| TOTL scattered abstentions | Run-to-run variance caught by the guards; the same filing re-ran 10/10 | Nothing to fix |
+| LSIP, TAPG, TLDN, PTBA Q4 gaps | Statement titles pushed past the title region by a translation notice, or split across bilingual columns | Title rules (below) |
+
+**A direct rate quote is still the filing's own rate.** `_rate_from_direct_quote()` reads
+`Rupiah per AS$`, `Rupiah per Dolar AS` and `US$1 = Rp…`, taking the first numeric column
+as the current period and the rest as comparatives. It is anchored on the Rupiah side of
+the phrase, so the `AS$ per Euro` row printed directly underneath is never mistaken for
+it. All 18 ITMG filings now resolve — `14,349` for Q1 2022 through `17,856` for Q2 2026 —
+and ITMG Q2 2026 extracts 10/10 in Rupiah. ADMR, AADI and ARCI read exactly the rates
+they read before.
+
+Those same dates are an independent check on ADMR and AADI, which only print a rounded
+table (`Rupiah 10.000 = 0,56`). Across eighteen quarters their converted rate never differs
+from ITMG's exact quotation by more than **0.7%**, inside the rounding the row's `notes`
+already reports.
+
+**The share count is looked for where it is unambiguous first.** Every one of the 14
+issuers in the archive ends its shareholder table with a total row: the issued count
+beside 100% of ownership. That row is the count in issue by construction, so it outranks
+the older phrase search, which reaches a company's history first — DSNG's notes state
+`1,844,700,000` shares at its listing, a figure that would misstate EPS and book value per
+share fivefold while looking perfectly sourced. Three details each broke it once during
+development and are now tested:
+
+- **A percentage needs a mark.** `100,00`, `100%` or `100,000`, never a bare `100` — DSNG's
+  history reads "Rp 100 (Rupiah penuh) per saham … 1,844,700,000 shares", a par value.
+- **The table's heading may be on the page before its total**, as DSNG's is (77 and 78).
+- **Authorised capital is recognised on its own line or under its label.** DSNG and five
+  others print "Modal dasar:" above the count; ARCI prints the issued phrase above its
+  count. The label line only disqualifies a count when neither line names issued capital.
+
+Result: all 18 DSNG filings now reach `10.599.842.400`, and DSNG Q2 2025 extracts
+10/10. PTBA Q1 2022 finds its count on page 114 and extracts 10/10.
+
+**The note that was fetched for the count now decides the count.** That DSNG run first
+came back 9/10 with the right page attached. The balance-sheet group had answered
+`10.599.850.000` — issued capital divided by par value, printed nowhere, with a quoted
+"evidence" line that does not exist — and because statements merge first, it beat the
+`10.599.842.400` the note group read correctly. Grounding rejected the invention and the
+correct answer went with it. `merge_group()` now lets the share-capital group override:
+that page is only added when the statements were searched and found to print no count,
+so a statement group's count is by construction not read. The prompt also forbids
+computing a count from capital and par value. (Since superseded: statement groups are no
+longer asked for any share count — see *total_share is the count outstanding*.)
+
+**A scale header does not always start with a verb.** DSNG heads every statement
+`(Dalam jutaan Rupiah, …)`, so the header reader found nothing and the model's scale went
+unchecked. `(Dalam` and `(In` are now accepted — but only when the parenthesis names a
+currency, because `(in accordance with PSAK 1)` read as a unit-less header would assert
+full units over a correct `THOUSANDS`.
+
+**LSIP prints no cash total at all.** Its balance sheet has "Kas dan setara kas" as a
+heading over two amounts — related parties and third parties — and nothing on the heading
+line itself:
+
+```
+Kas dan setara kas        5          Cash and cash equivalents
+  Pihak berelasi      877.632   29   518.756    Related party
+  Pihak ketiga      2.582.760      2.849.111    Third parties
+```
+
+Asked for `kas`, the model added them in its head and got it wrong on six of eighteen
+filings — 3.460.442 for 3.460.392, off by between 2 and 128 — and grounding withdrew each
+one, correctly, since that sum is printed nowhere. A higher image resolution (220 dpi)
+fixed four of the six and left two wrong, which is what a symptom fix looks like. The
+cause was asking for a conclusion, so the fix is the one `utang_bank`, `ekuitas` and
+`total_share` already use: the model reports `kas_components`, the code adds them, and
+each part is grounded on its own. Summed across all eighteen filings, the parts equal the
+cash-flow closing balance exactly in all seventeen that print them.
+
+Re-extracted at the default 150 dpi, checked against that closing balance:
+
+| Filing | Before | After |
+|---|---|---|
+| LSIP Q1 2022, Q4 2022, Q1 2023, Q3 2023, Q4 2024, Q1 2025 | withdrawn | **correct, all six** |
+| LSIP Q2 2022 (worked before) | correct | correct, now from parts |
+| LSIP Q2 2026 (prints its own total) | correct | correct, read directly |
+| TLDN Q1 2025 (receivable sub-lines directly under cash) | correct | correct, no parts taken |
+| CPIN Q1 2025 | correct | correct |
+
+The last two were the regression risk: a model that took the "Pihak berelasi / Pihak
+ketiga" lines under *receivables* as cash would produce a total built from printed
+numbers, and grounding would pass it. The prompt tells it to stop at the next heading,
+and on both it did.
+
+**The cash-flow statement repeats "Kas dan setara kas" too**, for different reasons. Its
+labels wrap, so the net increase and the exchange-rate effect each leave the phrase alone
+on a line beside a number. Those are movements and must not be taken or added; the prompt
+names them as a trap, separately from the balance-sheet parts above, which must be.
+
+#### Statement titles the page selector could not see
+
+The remaining gaps were all one mechanism: the page selector recognises a statement by
+its title in the first 250 characters of the page, and two layouts defeat that.
+
+**A translation notice pushes the title out.** Many issuers open every page with "The
+original consolidated financial statements included herein are in the Indonesian
+language." and a bilingual company name. LSIP's titles then start at character 240–253,
+TAPG's income statement at 236 — cut off mid-word. Every one of LSIP's 18 filings fell
+back to its first ten pages, and for an annual report those are the cover, the directors'
+statement and seven pages of auditor's report: Q4 extracted 1 field of 10. TAPG's income
+statement was grouped as more balance sheet, a group that never asks for revenue.
+
+**A two-column layout splits the title.** TLDN and PTBA print `LAPORAN POSISI` and
+`KEUANGAN` on consecutive lines with the English column between them, so the phrase never
+appears whole. TLDN's first balance-sheet page — the one carrying cash and current assets —
+was left out; PTBA Q4 2025's balance sheet was never selected at all.
+
+The obvious fix was measured and rejected. Widening the region to 300 characters repaired
+LSIP and TAPG but moved the page span of ADMR, ITMG and PTBA filings that were already
+correct, because note pages also mention the statements near their top. So eight
+candidate rules were replayed against the saved title strips of all 215 filings, through
+a harness first checked to reproduce the real selector with zero mismatches. The rule
+adopted — remove the translation notice before measuring the region, and accept a title
+split across lines — changed **only** the filings that were wrong (LSIP 18, TLDN 10,
+TAPG 6, PTBA 2), plus two ARCI filings that gained a cash-flow continuation page they had
+been missing. No filing in the archive falls back to its first pages any more, and none
+is missing a balance sheet, income statement or cash flow.
+
+Re-extracted on real filings:
+
+| Filing | Before | After |
+|---|---|---|
+| LSIP Q4 2025 | 1/10 — cover and auditor's report | **10/10** |
+| TAPG Q1 2024 | 8/10 — no revenue | **10/10** |
+| TLDN Q1 2025 | 8/10 — no cash, no current assets | **10/10**, cash 821.851.671 as printed on page 5 |
+| PTBA Q4 2025 | balance sheet never selected | **10/10** — after the bank-debt check below |
+| ARCI Q1 2025 | 10/10 | 10/10 |
+
+#### A position check must prove the wrong position
+
+Once PTBA's balance sheet was selected, it came back 9/10 with `utang_bank` withdrawn by
+`wrong_section`. The page prints its current portion of long-term bank borrowings as
+
+```
+Bagian jangka pendek dari
+liabilitas jangka panjang:
+Pinjaman bank  100  20  -
+```
+
+and the model reported 100 — correctly. The check disagreed for two reasons. `100` has no
+thousands separator, so that row never entered the section map; and PTBA's heading says
+"Bagian jangka pendek" where the pattern only knew "Bagian lancar". Unable to find 100
+under the current-portion heading, the rule concluded the value had been copied from the
+wrong row.
+
+That conclusion was never supported. `wrong_section` asserts a figure was taken from
+**another** heading's row, and that is only proven when the figure is found there. A
+figure found under no heading at all is unverifiable, not misplaced. The rule now raises
+its error only in the first case and a `section_map_incomplete` warning in the second, and
+the heading pattern accepts PTBA's wording. The case the rule exists for — a long-term
+figure reported as current — is still an error, in the same test. PTBA Q4 2025 now
+extracts 10/10, with `utang_bank` 1.950.100 (short-term 1.950.000 plus current portion
+100, in millions), exactly as printed.
+
+#### total_share is the count outstanding
+
+EPS, book value per share and PBV divide by the shares **outstanding**, not the shares
+issued. Treasury shares — bought back and held by the issuer — share in neither profit nor
+equity, and IAS 33 leaves them out of the EPS denominator. Three issuers in the archive
+hold treasury shares, and each prints it differently:
+
+| Issuer | As printed | Outstanding |
+|---|---|---:|
+| JPFA Q2 2025 | "Total saham beredar 11.627.669.901 (99,16%)" beside "Total 11.726.575.201 (100,00%)", page 112 | 11.627.669.901 |
+| PTBA Q2 2025 | "Jumlah saham beredar 11,514,357,250 (99.95%)" beside issued 11,520,659,250, page 104 | 11.514.357.250 |
+| EMAS Q4 2025 | treasury 1,448,866,615 (8.95%) and issued 16,180,232,675, **no outstanding total**, page 72 | 14.731.366.060 |
+
+**The counts are read from one place only: the shareholder table in the notes.** The
+share-capital line on the balance sheet and in the statement of changes in equity prints
+the issued count and says nothing about what is outstanding, so it is no longer asked. The
+equity statement, which was asked for nothing else, is no longer sent at all, and a count a
+statement group volunteers anyway is dropped rather than merged. The table answers every
+case:
+
+| The table prints | `total_share` |
+|---|---|
+| a "Jumlah saham beredar" row (JPFA, PTBA) | that row |
+| a treasury row and no outstanding row (EMAS Q4 2025) | the total less treasury |
+| no treasury row (ARCI, CPIN, DSNG and most issuers) | the total — every share is outstanding |
+
+The model reports the total row, `saham_beredar` and `saham_treasuri`; the code decides, and
+keeps the total as `saham_ditempatkan` so the adjustment appears in the CSV. When an
+outstanding figure agrees with the total less treasury, `total_share` is graded on those two
+printed rows — EMAS's model once subtracted by itself and reported a `saham_beredar` printed
+nowhere, which grounding rightly withdrew, and the total must not go with it.
+
+**Why the table and not the phrase "saham beredar".** Every filing in the archive was searched
+for the phrase and its English forms beside a share count. A figure outstanding *at the
+reporting date* is printed only by JPFA and PTBA, and there it is a row of the shareholder
+table. Everywhere else — TAPG, TLDN, TOTL, ARCI, CPIN, ITMG, EMAS — the phrase appears in the
+EPS note as *weighted-average* shares outstanding: an average over the period, not the count
+on the date, and the prompt names it as a trap. The shareholder table, by contrast, is printed
+by every issuer, and it is where treasury shares are shown.
+
+**Finding the table.** `find_shareholder_table_pages()` reads the text layer of every filing for
+a total row — a share count beside 100% of ownership, on a page about shareholders — and takes
+the first: the current date's table is printed before the comparative one. EMAS Q1 2026 prints
+March 2026 on page 64 and December 2025, with its since-cancelled treasury shares, on page 65,
+so only page 64 is sent. Details, each found by sweeping all 215 filings:
+
+- **The count comes before the 100%.** ADMR Q2 and Q3 2025 list their subsidiaries as
+  "100.00% 100.00% 1,069,356,077" — ownership, then total assets in dollars — on a page naming
+  those subsidiaries' shareholders, and that page was found as the share table.
+- **`100,0000` and a bare `100` are totals too** — TAPG Q3 2023, and ADMR Q1 2023's
+  "Total 40,882,331,500 100 303,919,662". A bare 100 counts only on a line that opens with
+  Total/Jumlah, so DSNG's "Rp 100 (Rupiah penuh) per saham" still does not.
+- **A table split across pages brings its heading page along**, because the outstanding and
+  treasury rows sit above the total.
+
+Across the archive the table is found in the text layer of 203 filings, and each issuer's
+total is stable from period to period. Twelve print it on an unreadable page; OCR'ing those
+pages finds nine more (EMAS Q3 2025, GTRA Q1 2026, all five JPFA, TOTL Q3 2022 and Q3 2023),
+at 44–63 s the first time and cached after. Three remain without: GTRA Q1 2024 and Q3 2025
+print the table rotated, which neither the text layer nor page OCR can read, and TOTL Q1 2022.
+Their `total_share` is empty rather than taken from the statements.
+
+**The table prints two dates, so two guards remain**, both deterministic:
+
+- **A total equal to a later 100% row is the comparative one** and is replaced by the first.
+- **The balance sheet decides which date has treasury shares.** ITMG sold all its treasury
+  shares in March and April 2022, but its Q2 2022 note still lists 33,369,100 of them under
+  31 December 2021, on the same page as the current table. The balance sheet's current column
+  prints a dash — `Saham treasuri 20  -  (19,211)` — and treasury and outstanding counts read
+  from the note are then discarded. On the run below the model took that December row again,
+  and this guard is what kept 1.129.925.000 right.
+
+Re-extracted with the table as the only source:
+
+| Filing | `total_share` | From |
+|---|---:|---|
+| ITMG Q2 2022 | 1.129.925.000 | total; December 2021 treasury discarded by the guard |
+| EMAS Q1 2026 | 14.731.366.060 | total, page 64 only |
+| EMAS Q4 2025 | 14.731.366.060 | 16.180.232.675 less 1.448.866.615 treasury |
+| JPFA Q2 2025 | 11.627.669.901 | printed outstanding row |
+| PTBA Q2 2025 | 11.514.357.250 | printed outstanding row |
+| ADMR Q2 2025 | 40.882.331.500 | total, page 77 (was the subsidiary table) |
+| CPIN Q4 2025 | 16.398.000.000 | total, no treasury |
+| DSNG Q2 2025 | 10.599.842.400 | total, no treasury |
+| TAPG Q3 2023 | 19.852.540.000 | total printed as `100,0000` |
+
+All nine at confidence 1.0, on `gemini-3.5-flash-lite` (ITMG was handed over from a
+rate-limited `gemini-3.1-flash-lite`). The call count per filing is unchanged for a filing
+whose selection includes an equity statement — that call is gone and the table's call
+replaces it — but every filing now reads its text layer to find the table.
+
+**This changes what the ground truth should say.** `JPFA.xlsx` labels `total share` as
+11.726.575.201 in every period — the issued count — so JPFA's `total_share` will now score
+as a miss until those labels are corrected per period. `EMAS.xlsx` has a separate problem:
+its Q4 2025 label, 20.006.577.715, matches neither the issued count, the outstanding count
+nor authorised capital printed in that filing.
+
 ### Honest confidence
 
 | Case | Confidence | Why |
@@ -1482,13 +1917,14 @@ src/
 scripts/
   pdf_to_csv.py    unstructured PDF -> one structured CSV row per filing
   fetch_share_prices.py  market close per quarter; the one sheet input not in the filing
+  build_dataset.py the three joined: figures + price + the eight ratios, one CSV
   run_eval.py      scorecard generation, failure classification
   compare_runs.py  regression gate between two scorecards
 tests/
   test_guards.py   fault injection; proves each guard fires (and stays quiet)
 data/
   raw/             ARCI, JPFA, CPIN (Q1-Q4 2022) and EMAS (Q3 2025)
-  ground_truth/    ARCI.xlsx (the only labelled issuer), TLDN.xlsx, JSON template
+  ground_truth/    six issuer workbooks; ARCI and JPFA are the two the eval scores
                    CORRECTIONS.md — every label changed after entry, with evidence
 config/
   pricing.json     token rates, empty of cloud prices by design

@@ -25,7 +25,7 @@ from schema import FinancialStatementExtraction
 from prompts import SYSTEM_PROMPT, EXTRACTION_PROMPT
 from page_select import select_statement_pages, classify_pages
 from normalize import to_idr
-from llm import get_provider_with_fallback, parse_json, LLMError, LLMUnavailable
+from llm import get_provider_chain, parse_json, LLMError, LLMUnavailable
 from validate import validate, validate_against_document
 from confidence import score_extraction, apply_abstention
 
@@ -168,17 +168,19 @@ from numfmt import parse_grouped_number as _parse_indonesian_number
 
 def _coerce_numbers(data: dict) -> dict:
     """Turn numeric strings into floats; leave anything unparseable as None."""
+    list_fields = ("total_share_components", "kas_components")
     numeric = [f for f in FIELDS if f not in
-               ("period_end_date", "currency", "reporting_scale", "statement_scope",
-                "total_share_components")]
-    components = data.get("total_share_components")
-    if isinstance(components, list):
-        parsed = [_parse_indonesian_number(c) if isinstance(c, str) else c
-                  for c in components]
-        parsed = [float(c) for c in parsed if isinstance(c, (int, float))]
-        data["total_share_components"] = parsed or None
-    elif components is not None:
-        data["total_share_components"] = None
+               ("period_end_date", "currency", "reporting_scale", "statement_scope")
+               + list_fields]
+    for list_field in list_fields:
+        components = data.get(list_field)
+        if isinstance(components, list):
+            parsed = [_parse_indonesian_number(c) if isinstance(c, str) else c
+                      for c in components]
+            parsed = [float(c) for c in parsed if isinstance(c, (int, float))]
+            data[list_field] = parsed or None
+        elif components is not None:
+            data[list_field] = None
     for key in numeric:
         value = data.get(key)
         if value in (None, ""):
@@ -202,16 +204,19 @@ def _coerce_numbers(data: dict) -> dict:
 # which is the right trade when the local model is free and the hosted one is
 # billed per request anyway.
 GROUP_FIELDS = {
-    "balance_sheet": ["aset", "total_aset_lancar", "kas", "liabilitas",
+    "balance_sheet": ["aset", "total_aset_lancar", "kas", "kas_components", "liabilitas",
                       "utang_bank_jangka_pendek", "utang_bank_bagian_lancar",
-                      "total_ekuitas", "kepentingan_non_pengendali", "total_share"],
+                      "total_ekuitas", "kepentingan_non_pengendali"],
     "income":        ["pendapatan", "laba_bersih"],
     "cash_flow":     ["kas_dari_aktivitas_operasi"],
-    "equity":        ["total_share"],
-    # A note page located by page_select.find_share_capital_pages, used only when the
-    # share count is not printed within the primary statements.
-    "share_capital": ["total_share"],
+    # The statement of changes in equity answered only total_share, and the share count
+    # is no longer read from any statement. Its pages stay selected; no call is made.
+    "equity":        [],
+    # The shareholder table located by page_select.find_shareholder_table_pages -- the
+    # only source of the share counts.
+    "share_capital": ["total_share", "total_share_components", "saham_beredar", "saham_treasuri"],
 }
+SHARE_FIELDS = ("total_share", "total_share_components", "saham_beredar", "saham_treasuri")
 ALWAYS = ["period_end_date", "currency", "reporting_scale", "statement_scope"]
 
 
@@ -285,6 +290,20 @@ def derive_fields(extraction) -> list:
                 f"computed {computed:,.0f} - using computed")
         extraction.ekuitas = computed
 
+    # LSIP prints no cash total: "Kas dan setara kas" is a heading over two amounts, one
+    # for related parties and one for third parties. Asked for kas, the model added them
+    # in its head and missed by 2 to 128 (thousand rupiah) on six filings out of
+    # eighteen -- a sum printed nowhere, so grounding withdrew every one. The sub-lines
+    # are printed and checkable; the arithmetic belongs here.
+    cash_parts = extraction.kas_components
+    if cash_parts:
+        computed = sum(cash_parts)
+        if extraction.kas is not None and abs(extraction.kas - computed) > 1:
+            warnings.append(
+                f"model said kas={extraction.kas:,.0f}, {len(cash_parts)} cash "
+                f"sub-line(s) sum to {computed:,.0f} - using sub-lines")
+        extraction.kas = computed
+
     parts = extraction.total_share_components
     if parts:
         computed = sum(parts)
@@ -295,6 +314,31 @@ def derive_fields(extraction) -> list:
                 f"model said total_share={extraction.total_share:,.0f}, "
                 f"{len(parts)} share class(es) sum to {computed:,.0f} - using classes")
         extraction.total_share = computed
+
+    # total_share is the count OUTSTANDING. The model reports the issued count it can
+    # read (total_share, or per-class components summed above) plus whatever the filing
+    # prints about the rest: an outstanding total (JPFA, PTBA) or a treasury count (EMAS).
+    # The subtraction happens here, once, and the issued figure is kept beside it.
+    issued = extraction.total_share
+    extraction.saham_ditempatkan = issued
+    beredar, treasuri = extraction.saham_beredar, extraction.saham_treasuri
+    if beredar is not None and issued is not None and beredar > issued + 1:
+        warnings.append(f"saham_beredar {beredar:,.0f} is more than the {issued:,.0f} "
+                        f"shares issued - ignored")
+        extraction.saham_beredar = beredar = None
+    if treasuri is not None and issued is not None and treasuri >= issued:
+        warnings.append(f"saham_treasuri {treasuri:,.0f} is not less than the "
+                        f"{issued:,.0f} shares issued - ignored")
+        extraction.saham_treasuri = treasuri = None
+    if beredar is not None:
+        if issued is not None and treasuri is not None and abs(issued - treasuri - beredar) > 1:
+            warnings.append(
+                f"issued {issued:,.0f} less treasury {treasuri:,.0f} is "
+                f"{issued - treasuri:,.0f}, but {beredar:,.0f} is printed as outstanding - "
+                f"using the printed figure")
+        extraction.total_share = beredar
+    elif treasuri and issued is not None:
+        extraction.total_share = issued - treasuri
 
     # The identity holds on TOTAL equity, so it can only be checked when the printed
     # total is present. Falling back to the parent-attributable figure would fail by
@@ -330,6 +374,7 @@ FIELDS = [
     # calls -- leaving derived utang_bank and ekuitas with nothing to work from.
     "utang_bank_jangka_pendek", "utang_bank_bagian_lancar",
     "total_ekuitas", "kepentingan_non_pengendali", "total_share_components",
+    "kas_components", "saham_beredar", "saham_treasuri",
     "currency", "reporting_scale", "statement_scope",
 ]
 
@@ -351,6 +396,115 @@ def merge_extractions(base, new):
         if getattr(base, f, None) in (None, "") and getattr(new, f, None) not in (None, ""):
             setattr(base, f, getattr(new, f))
     return base
+
+
+# The date guard for treasury shares. A shareholder note prints two dates side by side,
+# and the model does not always take the current one: shown ITMG's Q2 2022 note, it took
+# 33,369,100 treasury shares from the 31 December 2021 column -- all of them were sold in
+# March and April 2022 -- and reported 1,096,555,900 outstanding instead of 1,129,925,000.
+# Both figures are printed, so grounding passed a wrong number.
+#
+# The balance sheet settles which date is which, because its current column comes first
+# and a nil there is printed as a dash:
+#     ITMG Q2 2022   Saham treasuri 20  -  (19,211)          -> none at the current date
+#     EMAS Q1 2026   Saham treasuri 2y  -  ( 13,741,835 )    -> none (cancelled Feb 2026)
+#     EMAS Q4 2025   Saham treasuri 2z, 21  ( 13,741,835 )  -
+#     PTBA Q2 2025   Saham treasuri 24  (12,521)  (12,521)
+#     JPFA          "Saham treasuri - Treasury shares -" / "98.905.300 saham (147.851) ..."
+_TREASURY_LABEL = re.compile(
+    r"saham\s+treasuri|treasury\s+(?:shares|stock)|saham\s+(?:yang\s+)?diperoleh\s+kembali", re.I)
+_PAREN_AMOUNT = re.compile(r"\(\s*\d[\d.,]*\s*\)")
+# An unbracketed amount that is not a share count ("98.905.300 saham" is a count).
+_PLAIN_AMOUNT = re.compile(
+    r"(?<![\d.,])\d{1,3}(?:[.,]\d{3})+(?![.,]?\d)(?!\s*(?:saham|shares|lembar))", re.I)
+_NIL_MARK = re.compile(r"(?<![\w(])[-\u2013\u2014](?![\w)])")
+
+
+def treasury_current_on_balance_sheet(text: str):
+    """True if the balance sheet shows treasury shares at the current date, False if its
+    current column is nil, None if it prints no treasury line at all."""
+    lines = (text or "").split("\n")
+    for i, line in enumerate(lines):
+        label = _TREASURY_LABEL.search(line)
+        if not label:
+            continue
+        segment = line[label.end():]
+        if not (_PAREN_AMOUNT.search(segment) or _PLAIN_AMOUNT.search(segment)):
+            # A label with no amount on its line is a heading; the figures are below it.
+            segment = lines[i + 1] if i + 1 < len(lines) else ""
+        tokens = sorted([(m.start(), "amount") for m in _PAREN_AMOUNT.finditer(segment)]
+                        + [(m.start(), "amount") for m in _PLAIN_AMOUNT.finditer(segment)]
+                        + [(m.start(), "nil") for m in _NIL_MARK.finditer(segment)])
+        if tokens:
+            return tokens[0][1] == "amount"
+    return None
+
+
+def _apply_treasury_date_guard(merged, page_texts, groups) -> None:
+    """Drop outstanding / treasury counts that cannot belong to the current date."""
+    pages = (groups or {}).get("balance_sheet") or []
+    if not pages or not page_texts:
+        return
+    text = "\n".join(page_texts.get(n, "") for n in pages)
+    if treasury_current_on_balance_sheet(text) is False and (
+            merged.saham_treasuri or merged.saham_beredar is not None):
+        print("    \u26a0 balance sheet shows no treasury shares at the current date; "
+              f"discarding treasury {merged.saham_treasuri} / outstanding "
+              f"{merged.saham_beredar} read from another date")
+        merged.saham_treasuri = None
+        merged.saham_beredar = None
+
+
+def table_totals(text: str) -> list:
+    """Share counts on 100%-of-ownership rows, in printed order."""
+    from page_select import total_row_count
+    totals = []
+    for line in (text or "").split("\n"):
+        count = total_row_count(line)
+        if count:
+            totals.append(float(re.sub(r"[.,]", "", count)))
+    return totals
+
+
+def _apply_current_table_guard(merged, page_texts, groups) -> None:
+    """Replace a table total taken from the comparative date with the current one.
+
+    The note prints the current date's table first. A total that differs from the first
+    100% row but equals a later one was read from the comparative table, so the first
+    row -- printed, and current by position -- wins. Anything else is left to grounding.
+    """
+    pages = (groups or {}).get("share_capital") or []
+    if not pages or not page_texts:
+        return
+    totals = table_totals("\n".join(page_texts.get(n, "") for n in pages))
+    components = merged.total_share_components
+    issued = sum(components) if components else merged.total_share
+    if issued is None or not totals or abs(issued - totals[0]) <= 1:
+        return
+    if any(abs(issued - later) <= 1 for later in totals[1:]):
+        print(f"    ⚠ share count {issued:,.0f} is the comparative table's total; "
+              f"using the current table's {totals[0]:,.0f}")
+        merged.total_share = totals[0]
+        merged.total_share_components = None
+
+
+def merge_group(merged, part, group: str):
+    """Merge one statement group's answer; share counts come only from the shareholder table.
+
+    total_share is the count outstanding, and only the shareholder table says what is
+    outstanding. A count a statement group volunteers anyway -- the issued count on the
+    share-capital line, or worse, DSNG's 10.599.850.000, issued capital divided by par
+    value and printed nowhere -- is dropped rather than merged, so it can neither beat
+    the table's answer nor stand in for a missing one.
+
+    Everything else keeps the first-non-null rule.
+    """
+    if part is None:
+        return merged
+    if group != "share_capital":
+        for name in SHARE_FIELDS:
+            setattr(part, name, None)
+    return merge_extractions(merged, part)
 
 
 def assess(extraction, page_texts: dict) -> dict:
@@ -422,14 +576,15 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None,
         print(f"  Method: {selection.method}")
         print(f"  Pages: {[p+1 for p in page_numbers]} (1-indexed)")
         if share_pages:
-            print(f"  Share-capital note: {[p+1 for p in share_pages]} "
-                  f"(outside the statements; added for total_share)")
+            print(f"  Shareholder table: {[p+1 for p in share_pages]} (the source of total_share)")
+        else:
+            print("  ⚠ no shareholder table found; total_share will be empty")
         print(f"  Reduction: {len(page_numbers)}/{selection.total_pages} pages "
               f"({100*(1-len(page_numbers)/selection.total_pages):.1f}% reduction)")
 
     pages_1indexed = [p + 1 for p in page_numbers]
 
-    primary, fallback = get_provider_with_fallback()
+    chain = get_provider_chain()
     page_texts = None      # read lazily, only if some provider wants text
     split = os.getenv("SPLIT_BY_STATEMENT", "true").lower() in ("1", "true", "yes")
 
@@ -439,8 +594,13 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None,
     # actually needed to do was wait.
     unavailable = []
 
-    for provider in [p for p in (primary, fallback) if p]:
+    for index, provider in enumerate(chain):
         mode = getattr(provider, "input_mode", "text")
+        if index:
+            # Said out loud: the row this document becomes will carry a different model
+            # from its neighbours, and whoever reads the CSV should be able to see why.
+            print(f"\n\u21aa {chain[index - 1].name} unavailable; "
+                  f"handing this document to {provider.name}")
         print(f"\n\U0001F50D {provider.name} [{mode}]...")
 
         if mode == "image":
@@ -458,6 +618,7 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None,
             if result is not None and _filled(result):
                 result.usage = usage
                 result.pages_selected = pages_1indexed
+                result.model = provider.name
                 return result
             continue
 
@@ -477,6 +638,8 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None,
         started = time.time()
         failed = False
         for group, pages in groups.items():
+            if GROUP_FIELDS.get(group) == []:
+                continue
             text = build_document_text({n: page_texts[n] for n in pages})
             if not text:
                 continue
@@ -494,12 +657,14 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None,
                 print(f"    \u2717 {type(e).__name__}: {e}")
                 continue
             before = _filled(merged)
-            merge_extractions(merged, part)
+            merge_group(merged, part, group)
             print(f"    +{_filled(merged)-before} field(s)")
 
         if failed:
             continue
 
+        _apply_current_table_guard(merged, page_texts, groups)
+        _apply_treasury_date_guard(merged, page_texts, groups)
         for warning in derive_fields(merged):
             print(f"    \u26a0 {warning}")
 
@@ -507,6 +672,7 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None,
             merged.field_confidence = assess(merged, page_texts)
         merged.usage = usage
         merged.pages_selected = pages_1indexed
+        merged.model = provider.name
 
         if _filled(merged):
             print(f"  \u2713 {_filled(merged)}/{len(FIELDS)} fields in {time.time()-started:.0f}s\n")
@@ -566,6 +732,8 @@ def _extract_from_images(pdf_path, page_numbers, config, provider, page_texts=No
 
     merged = FinancialStatementExtraction()
     for group, pages in groups.items():
+        if GROUP_FIELDS.get(group) == []:
+            continue
         images = []
         for n in pages:
             try:
@@ -598,9 +766,11 @@ def _extract_from_images(pdf_path, page_numbers, config, provider, page_texts=No
             continue
 
         before = _filled(merged)
-        merge_extractions(merged, part)
+        merge_group(merged, part, group)
         print(f"    +{_filled(merged) - before} field(s)")
 
+    _apply_current_table_guard(merged, page_texts, groups)
+    _apply_treasury_date_guard(merged, page_texts, groups)
     for warning in derive_fields(merged):
         print(f"    \u26a0 {warning}")
 

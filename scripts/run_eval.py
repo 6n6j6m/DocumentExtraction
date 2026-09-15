@@ -316,6 +316,14 @@ def main():
             input_mode = health["input_mode"]
         _p = _Remote()
     else:
+        # A scorecard is labelled with ONE model, so it must contain only that model's
+        # answers. With a fallback chain, a throttled run would otherwise hand some
+        # documents to another Gemini model or to Ollama and still be filed under the
+        # primary's name -- a score that measured two systems and names one.
+        for key in ("GEMINI_FALLBACK_MODELS", "LLM_FALLBACK_PROVIDER"):
+            if os.environ.get(key):
+                print(f"  {key} ignored for evaluation: a scorecard measures one model")
+                os.environ[key] = ""
         try:
             _p = get_provider_with_fallback()[0]
         except LLMUnavailable as exc:
