@@ -22,9 +22,11 @@ convention differs.
 
 **The 17th is often not a trading day.** It falls on a weekend roughly two times in
 seven, and Indonesian market holidays take more -- 17 August is Independence Day every
-year, so Q2 never lands on an open market. The price used is therefore the last close
-**on or before** the 17th, and the date actually used is reported on every row. A
-silently substituted date is how a price ends up describing a different week.
+year, so Q2 never lands on an open market. The price used is therefore the close of the
+**nearest** trading day, before or after the 17th -- the earlier one when two are equally
+near, and never a day that has not happened yet -- and the date actually used is reported
+on every row. A silently substituted date is how a price ends up describing a different
+week.
 
 **Nothing is invented.** If no trading day is found within the lookback window, the row
 is left empty and says so, the same way an abstained field does elsewhere in this repo.
@@ -46,6 +48,9 @@ Usage:
 
     # actually fill the "Harga saham rupiah" row (close Excel first)
     python scripts/fetch_share_prices.py --ticker ARCI --write-xlsx
+
+    # every workbook in data/ground_truth at once; one that fails is skipped, not fatal
+    python scripts/fetch_share_prices.py --all --write-xlsx
 
     # merge into data/share_prices.json instead
     python scripts/fetch_share_prices.py --ticker ARCI --write-json
@@ -195,13 +200,21 @@ def fetch_daily_closes(ticker: str, start: date, end: date) -> dict:
     return series
 
 
-def close_on_or_before(series: dict, target: date, lookback: int = LOOKBACK_DAYS):
-    """(date, close) for the last open session at or before `target`."""
-    for back in range(lookback + 1):
-        day = target - timedelta(days=back)
-        if day in series:
-            return day, series[day]
-    raise PriceUnavailable(f"market closed for {lookback}+ days before {target}")
+def close_nearest(series: dict, target: date, window: int = LOOKBACK_DAYS,
+                  today: date = None):
+    """(date, close) for the open session nearest `target`, either side of it.
+
+    The 17th is a convention, not a hard date, so a session two days after it prices the
+    period as well as one two days before. At equal distance the earlier one wins -- it is
+    the price the market set without the extra days of news. A session after `today` does
+    not exist yet and is never used.
+    """
+    today = today or date.today()
+    for distance in range(window + 1):
+        for day in (target - timedelta(days=distance), target + timedelta(days=distance)):
+            if day <= today and day in series:
+                return day, series[day]
+    raise PriceUnavailable(f"market closed for {window}+ days either side of {target}")
 
 
 def periods_from_workbook(ticker: str) -> list:
@@ -252,12 +265,15 @@ def collect(ticker: str, periods: list, q4_same_year: bool = False) -> list:
             continue
         try:
             series = fetch_daily_closes(ticker, target - timedelta(days=LOOKBACK_DAYS),
-                                        target)
-            used, close = close_on_or_before(series, target)
+                                        min(target + timedelta(days=LOOKBACK_DAYS),
+                                            date.today()))
+            used, close = close_nearest(series, target)
+            # Positive: the session was before the 17th; negative: after it.
             row.update(price_date=used.isoformat(), price=close,
                        days_back=(target - used).days)
             if used != target:
-                row["note"] = f"market closed on {target}; used the previous session"
+                side = "previous" if used < target else "next"
+                row["note"] = f"market closed on {target}; used the nearest ({side}) session"
         except PriceUnavailable as exc:
             row["note"] = str(exc)
         rows.append(row)
@@ -283,8 +299,13 @@ def write_json(rows: list, path: Path = SHARE_PRICES) -> int:
     return written
 
 
-def write_xlsx(ticker: str, rows: list) -> int:
+def write_xlsx(ticker: str, rows: list, overwrite: bool = False) -> int:
     """Fill the "Harga saham rupiah" row, and nothing else.
+
+    Only empty cells are filled unless `overwrite` is set. A price already in the sheet
+    was put there by someone, and it can disagree with Yahoo: TLDN's sheet has 472 for
+    Q1 2026 where Yahoo closes 530. Which one is right is a decision about ground truth,
+    so the disagreement is printed and the cell is left alone.
 
     Located by label and by header text rather than by row and column number, so a sheet
     with an inserted row still lands the value in the right cell. Refuses rather than
@@ -325,16 +346,35 @@ def write_xlsx(ticker: str, rows: list) -> int:
         parsed = parse_period(row["period"])
         if row["price"] == "" or parsed not in columns:
             continue
-        worksheet.cell(row=price_row, column=columns[parsed]).value = row["price"]
+        cell = worksheet.cell(row=price_row, column=columns[parsed])
+        existing = cell.value
+        if existing not in (None, ""):
+            try:
+                agrees = abs(float(existing) - float(row["price"])) < 0.5
+            except (TypeError, ValueError):
+                agrees = False
+            if agrees:
+                continue
+            if not overwrite:
+                print(f"    ≠ {row['period']}: sheet has {existing}, Yahoo closed "
+                      f"{row['price']:,.0f} on {row['price_date']} - left as is "
+                      f"(--overwrite to replace)")
+                continue
+            print(f"    ↺ {row['period']}: {existing} replaced by {row['price']:,.0f}")
+        cell.value = row["price"]
         written += 1
-    workbook.save(path)
+    if written:
+        workbook.save(path)
     return written
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(
         description="Fetch the closing share price that prices each quarter.")
-    ap.add_argument("--ticker", nargs="+", required=True, help="one or more IDX tickers")
+    who = ap.add_mutually_exclusive_group(required=True)
+    who.add_argument("--ticker", nargs="+", help="one or more IDX tickers")
+    who.add_argument("--all", action="store_true",
+                     help="every workbook in data/ground_truth (one ticker per <TICKER>.xlsx)")
     ap.add_argument("--periods", nargs="+",
                     help="explicit periods (Q1_2024 ...); default: read the workbook")
     ap.add_argument("--from-filings", metavar="DIR",
@@ -346,16 +386,25 @@ def main() -> int:
                     help=f"merge prices into {SHARE_PRICES.relative_to(ROOT)}")
     ap.add_argument("--write-xlsx", action="store_true",
                     help="fill the 'Harga saham rupiah' row in the ground-truth workbook")
+    ap.add_argument("--overwrite", action="store_true",
+                    help="with --write-xlsx, also replace prices already in the sheet "
+                         "that differ from Yahoo (default: fill empty cells only)")
     args = ap.parse_args()
 
-    all_rows = []
-    for ticker in args.ticker:
+    tickers = args.ticker or sorted(
+        p.stem for p in GROUND_TRUTH.glob("*.xlsx") if not p.name.startswith(("~$", "_")))
+    if args.periods and any(not parse_period(x) for x in args.periods):
+        bad = [x for x in args.periods if not parse_period(x)]
+        print(f"not periods: {', '.join(bad)} (expected Q1_2024)")
+        return 2
+
+    # One workbook that cannot be read or written (open in Excel, no price row) is
+    # reported and skipped. Stopping there would leave every ticker after it unpriced,
+    # which is the opposite of what a batch over all workbooks is for.
+    all_rows, failed = [], []
+    for ticker in tickers:
         if args.periods:
-            periods = [p for p in (parse_period(x) for x in args.periods) if p]
-            bad = [x for x in args.periods if not parse_period(x)]
-            if bad:
-                print(f"not periods: {', '.join(bad)} (expected Q1_2024)")
-                return 2
+            periods = [parse_period(x) for x in args.periods]
         elif args.from_filings:
             periods = periods_from_filings(Path(args.from_filings), ticker)
         else:
@@ -364,11 +413,13 @@ def main() -> int:
             except (FileNotFoundError, ValueError) as exc:
                 print(f"✗ {ticker}: {exc}")
                 print("  pass --periods Q1_2024 ... or --from-filings DIR")
-                return 2
+                failed.append(ticker)
+                continue
 
         if not periods:
             print(f"✗ {ticker}: no periods found")
-            return 2
+            failed.append(ticker)
+            continue
 
         print(f"\n{ticker.upper()} — {len(periods)} period(s)")
         rows = collect(ticker, periods, args.q4_same_year)
@@ -382,11 +433,11 @@ def main() -> int:
 
         if args.write_xlsx:
             try:
-                print(f"  → {write_xlsx(ticker, rows)} cell(s) written to "
+                print(f"  → {write_xlsx(ticker, rows, args.overwrite)} cell(s) written to "
                       f"{ticker.upper()}.xlsx")
             except RuntimeError as exc:
                 print(f"  ✗ {exc}")
-                return 1
+                failed.append(ticker)
 
     if args.out:
         out = Path(args.out)
@@ -406,9 +457,11 @@ def main() -> int:
         print(f"\n{len(missing)} period(s) have no price:")
         for row in missing:
             print(f"  {row['ticker']} {row['period']}: {row['note']}")
-    # 0 every period priced, 1 some blank. A blank is a fact, not a crash, but a caller
-    # scripting this needs to know without parsing the output.
-    return 0 if not missing else 1
+    if failed:
+        print(f"\n{len(failed)} workbook(s) skipped: {', '.join(failed)}")
+    # 0 every period priced, 1 some blank or a workbook skipped. A blank is a fact, not a
+    # crash, but a caller scripting this needs to know without parsing the output.
+    return 0 if not missing and not failed else 1
 
 
 if __name__ == "__main__":

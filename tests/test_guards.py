@@ -574,6 +574,34 @@ def test_an_annual_column_is_recognised_as_q4():
     assert prices.parse_period("Harga saham rupiah") is None
     assert prices.parse_period("2024") is None
 
+
+def test_the_nearest_session_to_the_17th_prices_the_period():
+    """Either side of the 17th, whichever is nearer; the earlier one on a tie; never a
+    session that has not happened yet."""
+    import importlib.util
+    from datetime import date
+    spec = importlib.util.spec_from_file_location(
+        "fetch_share_prices", ROOT / "scripts" / "fetch_share_prices.py")
+    prices = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(prices)
+    near = prices.close_nearest
+    today = date(2030, 1, 1)
+
+    # 17 August 2024 was a Saturday and a holiday: Friday the 16th, not Monday the 19th.
+    series = {date(2024, 8, 16): 100.0, date(2024, 8, 19): 200.0}
+    assert near(series, date(2024, 8, 17), today=today) == (date(2024, 8, 16), 100.0)
+    # Only a later session near the 17th: it is used rather than one a week before.
+    series = {date(2024, 8, 9): 90.0, date(2024, 8, 18): 110.0}
+    assert near(series, date(2024, 8, 17), today=today) == (date(2024, 8, 18), 110.0)
+    # Equal distance: the earlier session.
+    series = {date(2024, 8, 15): 1.0, date(2024, 8, 19): 2.0}
+    assert near(series, date(2024, 8, 17), today=today)[0] == date(2024, 8, 15)
+    # A session after today is not available.
+    series = {date(2024, 8, 18): 5.0, date(2024, 8, 10): 4.0}
+    assert near(series, date(2024, 8, 17), today=date(2024, 8, 17))[0] == date(2024, 8, 10)
+    with pytest.raises(prices.PriceUnavailable):
+        near({date(2024, 9, 30): 1.0}, date(2024, 8, 17), today=today)
+
     # Q4 prices on 17 May of the FOLLOWING year: the annual report is audited and does
     # not reach the market in December. The other three quarters stay in their own year.
     from datetime import date
@@ -896,6 +924,11 @@ def test_treasury_shares_from_another_date_are_not_subtracted():
     # JPFA: the label is a heading line, its figures below, the count is not the amount.
     assert current("Saham treasuri - Treasury shares -\n"
                    "98.905.300 saham (147.851) 2,24 (147.851) 98,905,300 shares") is True
+    # JPFA from Q4 2024: the dash separates label and count; the amount beside it is current.
+    assert current("Saham treasuri - 98.905.300 saham (147.851) 2,24 (147.851) "
+                   "Treasury shares - 98,905,300 shares") is True                       # JPFA Q4 2024
+    assert current("Saham treasuri - 21.704.500 saham Treasury shares - 21,704,500 shares\n"
+                   "(2025: 98.905.300 saham) (41.152) 2aa,28 (147.851)") is True         # JPFA Q2 2026
     assert current("Modal saham 1.234.567") is None
 
     from extract import _apply_treasury_date_guard, derive_fields

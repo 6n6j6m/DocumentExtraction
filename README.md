@@ -59,7 +59,7 @@ the extractor occasionally cannot read the hardest period, and when that happens
 so instead of guessing. **One period out of four is where the variance lives**, and one
 more clean run is not evidence that it has gone away.
 
-**89 tests**, of which 51 break one specific thing each and assert the right guard fires.
+**90 tests**, of which 52 break one specific thing each and assert the right guard fires.
 
 **What is still not scored.** CPIN and EMAS are extracted and checked against what each
 filing says about itself, but they have no labels. The distinction is kept sharp
@@ -110,7 +110,7 @@ python -m pytest tests/ -q
 ```
 
 ```
-89 passed
+90 passed
 ```
 
 Nothing here touches the network: `tests/test_api.py` stubs the provider, and
@@ -281,9 +281,11 @@ python scripts/fetch_share_prices.py --ticker ARCI -o output/prices.csv
 ```
 
 The 17th is frequently closed — 17 August is Independence Day every year, so Q2 never
-lands on an open market — so the last close **on or before** it is used, and the date
-actually taken is printed on every row. A period with no session in the lookback window
-stays blank and says why; one whose pricing date has not arrived yet says that instead.
+lands on an open market — so the close of the **nearest** trading day is used, before or
+after the 17th (the earlier one at equal distance, never a day that has not happened yet),
+and the date actually taken is printed on every row. A period with no session within 12
+days either side stays blank and says why; one whose pricing date has not arrived yet says
+that instead.
 
 Two details that were silent bugs until they were not. The workbooks head their annual
 column `TAHUNAN 2024` rather than `Q4 2024` — every year but 2025 — so both spellings are
@@ -969,7 +971,7 @@ clean path already scores 40/40, and a build with all three deleted would score
 identically. Safety machinery is only observable when something goes wrong.
 
 `tests/test_guards.py` therefore breaks one specific thing per test and asserts that
-the right guard fires — 51 tests, runnable with or without pytest:
+the right guard fires — 52 tests, runnable with or without pytest:
 
 ```
 PASS  test_correct_extraction_passes_cleanly            no false positives
@@ -1007,6 +1009,7 @@ PASS  test_ground_truth_sheet_must_match_the_ticker
 PASS  test_failure_kinds_are_distinguished
 PASS  test_a_derived_field_cannot_outlive_an_abstained_component
 PASS  test_an_annual_column_is_recognised_as_q4        "TAHUNAN 2024" is Q4
+PASS  test_the_nearest_session_to_the_17th_prices_the_period  either side of the 17th
 PASS  test_a_ratio_is_blank_when_any_input_is          abstention survives arithmetic
 PASS  test_a_header_without_the_verb_is_still_a_header     "(Dalam jutaan Rupiah"
 PASS  test_a_rate_quoted_directly_as_rupiah_per_dollar_is_read ITMG's rate format
@@ -1023,7 +1026,7 @@ PASS  test_a_computed_outstanding_figure_does_not_sink_a_total_its_inputs_suppor
 PASS  test_the_shareholder_table_is_found_and_the_eps_note_is_not
 PASS  test_treasury_shares_from_another_date_are_not_subtracted
 PASS  test_a_total_from_the_comparative_table_is_replaced_by_the_current_one
-51/51 passed
+52/52 passed
 ```
 
 The first two are a pair, and both are needed. One proves the guard fires when the
@@ -1800,6 +1803,16 @@ Their `total_share` is empty rather than taken from the statements.
   prints a dash — `Saham treasuri 20  -  (19,211)` — and treasury and outstanding counts read
   from the note are then discarded. On the run below the model took that December row again,
   and this guard is what kept 1.129.925.000 right.
+  A dash is only a nil in the amount column. From Q4 2024 JPFA prints
+  `Saham treasuri - 98.905.300 saham (147.851) 2,24 (147.851)`, the dash separating label
+  from count; read as a nil, it discarded a correct outstanding figure, leaving Q4 2024 and
+  Q1 2026 empty and Q4 2025 at the issued 11.726.575.201. A dash followed by "N saham" is
+  now punctuation. Replayed on the balance sheets of all 215 filings, that changed the
+  verdict on exactly those three.
+
+Re-extracted, all 14 JPFA filings now match their shareholder tables: 11.620.308.701 through
+Q2 2023 (106.266.500 treasury), 11.627.669.901 from Q3 2023 to Q1 2026 (98.905.300), and
+11.704.870.701 at Q2 2026 (21.704.500), four calls each.
 
 Re-extracted with the table as the only source:
 

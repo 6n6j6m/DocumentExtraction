@@ -146,9 +146,8 @@ def extract_row(pdf: Path, as_printed: bool = False) -> dict:
         notes.append(f"model said scale {result.reporting_scale}, header says {scale}")
 
     for field in FIELD_COLUMNS:
-        value = values.get(field)
         # Blank, never 0: a zero here would be read as "the filing reports nothing owed".
-        row[field] = "" if value is None else value
+        row[field] = _cell(values.get(field))
 
     filled = sum(1 for field in FIELD_COLUMNS if row[field] != "")
     row.update(
@@ -169,14 +168,28 @@ def extract_row(pdf: Path, as_printed: bool = False) -> dict:
         # Which model answered. With a fallback chain, rows in one CSV can come from
         # different models; a column that does not say so makes them look like one run.
         model=getattr(result, "model", ""),
-        saham_ditempatkan="" if getattr(result, "saham_ditempatkan", None) is None else result.saham_ditempatkan,
-        saham_treasuri="" if getattr(result, "saham_treasuri", None) is None else result.saham_treasuri,
+        saham_ditempatkan=_cell(getattr(result, "saham_ditempatkan", None)),
+        saham_treasuri=_cell(getattr(result, "saham_treasuri", None)),
         llm_calls=usage.llm_calls,
         tokens_in=usage.input_tokens if usage.input_tokens is not None else "",
         tokens_out=usage.output_tokens if usage.output_tokens is not None else "",
         seconds=round(time.time() - started, 1),
     )
     return row
+
+
+def _cell(value):
+    """A CSV cell: blank for None, and a whole number without a trailing ".0".
+
+    Share counts arrive as floats, so they were written "11627669901.0". A spreadsheet in
+    an Indonesian locale reads "." as a thousands separator and kept that cell as text,
+    while the integer money columns beside it were numbers.
+    """
+    if value is None:
+        return ""
+    if isinstance(value, float) and value.is_integer():
+        return int(value)
+    return value
 
 
 def collect(paths, directory, ticker):

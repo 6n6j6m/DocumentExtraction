@@ -418,6 +418,10 @@ _PAREN_AMOUNT = re.compile(r"\(\s*\d[\d.,]*\s*\)")
 _PLAIN_AMOUNT = re.compile(
     r"(?<![\d.,])\d{1,3}(?:[.,]\d{3})+(?![.,]?\d)(?!\s*(?:saham|shares|lembar))", re.I)
 _NIL_MARK = re.compile(r"(?<![\w(])[-\u2013\u2014](?![\w)])")
+# A dash between the label and a share count is punctuation, not a nil: JPFA from Q4 2024
+# prints "Saham treasuri - 98.905.300 saham (147.851) 2,24 (147.851)". Read as a nil, it
+# discarded a correct 11.627.669.901 outstanding on three filings.
+_LABEL_DASH = re.compile(r"^\s*[-\u2013\u2014]\s*(?=\d[\d.,]*\s*(?:saham|shares|lembar)\b)", re.I)
 
 
 def treasury_current_on_balance_sheet(text: str):
@@ -428,7 +432,7 @@ def treasury_current_on_balance_sheet(text: str):
         label = _TREASURY_LABEL.search(line)
         if not label:
             continue
-        segment = line[label.end():]
+        segment = _LABEL_DASH.sub("", line[label.end():], count=1)
         if not (_PAREN_AMOUNT.search(segment) or _PLAIN_AMOUNT.search(segment)):
             # A label with no amount on its line is a heading; the figures are below it.
             segment = lines[i + 1] if i + 1 < len(lines) else ""
