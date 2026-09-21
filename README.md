@@ -104,7 +104,6 @@ none of it has to be taken on trust.
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
-python scripts/pdf_to_csv.py --dir /Users/muhammadnajmirahmani/FinancialReport/TAPG -o /Users/muhammadnajmirahmani/FinancialReport/TAPG/tapg.csv
 pip install -r requirements.txt
 python -m pytest tests/ -q
 ```
@@ -181,6 +180,25 @@ python scripts/pdf_to_csv.py --dir data/raw -o output/all.csv
 python scripts/pdf_to_csv.py --dir data/raw --ticker JPFA -o output/jpfa.csv
 ```
 
+`--dir` reads one directory, not a tree. An archive kept as one folder per issuer
+(`~/FinancialReport/ADMR`, `.../AADI`, …) is either flattened by the shell into a single
+CSV, or walked issuer by issuer so that each one lands in its own file and a batch
+interrupted halfway keeps everything already finished:
+
+```bash
+# every filing in every issuer folder -> one CSV
+python scripts/pdf_to_csv.py ~/FinancialReport/*/*.pdf -o ~/FinancialReport/all.csv
+
+# one CSV per issuer, named after the folder (zsh; ${t:l} lowercases it)
+caffeinate -i -w $$ & for d in ~/FinancialReport/*/; do t=$(basename "$d"); \
+  python scripts/pdf_to_csv.py --dir "$d" --ticker "$t" -o "${d}${t:l}.csv"; done
+```
+
+`caffeinate -i -w $$` keeps the Mac awake for as long as that shell lives; it cannot
+prefix a `for` loop directly, which is why it is backgrounded rather than wrapped around
+it. Measured on the 215-filing archive: roughly **40–60 s and 4–5 calls per filing** —
+about three hours, and around 36k input / 1.5k output tokens each.
+
 It reports as it goes, and flushes after every row, so a long batch is readable — and
 usable — while it is still running:
 
@@ -214,7 +232,7 @@ caller scripting this should not have to parse the CSV to find out.
 
 #### What a row actually contains
 
-Thirty-one columns: identity, then the ten figures, then everything needed to judge them. A
+Thirty-three columns: identity, then the ten figures, then everything needed to judge them. A
 reader who trusts the row can stop after the figures; a reader who does not has the
 grounds for their doubt on the same line.
 
@@ -228,7 +246,7 @@ unit             IDR full              fx_rate / fx_source / fx_page
 aset             30134349000000        pages_selected   4 5 6 7 8
 ...                                    model            gemini:gemini-3.5-flash-lite
                                        llm_calls        4
-total_share      11726575201.0         tokens_in/out    25734 / 1083
+total_share      11726575201           tokens_in/out    25734 / 1083
                                        seconds          38.8
                                        error
 ```
@@ -248,6 +266,11 @@ Four conventions, because a CSV hides its own assumptions:
   file. Verified on a batch whose middle file was not a PDF: two rows of figures, one
   carrying `No /Root object! - Is this really a PDF?`, exit code 1, the other two
   documents unaffected.
+- **Whole numbers are written without a trailing `.0`.** Share counts are carried as
+  floats internally, so `total_share` used to reach the CSV as `11627669901.0`. A
+  spreadsheet set to an Indonesian locale reads `.` as a thousands separator and keeps
+  that cell as *text*, while the integer money columns beside it stay numbers — the one
+  column the ratios divide by, silently not a number.
 - **`reporting_scale` is the scale that was actually applied**, which is not always the
   one the model reported, and `notes` says why in words:
 
@@ -278,7 +301,22 @@ not in December. `--q4-same-year` if your convention differs.
 python scripts/fetch_share_prices.py --ticker ARCI                 # show what it would write
 python scripts/fetch_share_prices.py --ticker ARCI --write-xlsx    # fill the row (close Excel first)
 python scripts/fetch_share_prices.py --ticker ARCI -o output/prices.csv
+python scripts/fetch_share_prices.py --all --write-xlsx            # every workbook in data/ground_truth
 ```
+
+`--all` takes one ticker per `<TICKER>.xlsx`, so every workbook is priced in one
+command. A workbook that cannot be read or written is **skipped and named at the end**
+rather than ending the run: the most common reason is a file still open in Excel, which
+leaves a `~$NAME.xlsx` lock beside it, and stopping there would leave every issuer after
+it unpriced.
+
+**A price already in the sheet is left alone.** Only empty cells are filled, and a cell
+whose value disagrees with Yahoo is printed instead of replaced — TLDN's sheet holds 472
+for Q1 2026 where Yahoo closed at 530, and ten of its cells disagree like that. Which is
+right is a decision about ground truth, not something a fetch script should settle, so
+`--overwrite` is the way to say it. Across the other thirteen workbooks every value
+already entered matched Yahoo exactly (CPIN 26, JPFA 26, ARCI 21, GTRA 15, EMAS 4), and
+the cells Yahoo cannot price — periods before an issuer listed — stay as they are.
 
 The 17th is frequently closed — 17 August is Independence Day every year, so Q2 never
 lands on an open market — so the close of the **nearest** trading day is used, before or
