@@ -1,0 +1,243 @@
+{
+  "period_end_date": "2026-06-30",
+  "aset": 2416716.0,
+  "total_aset_lancar": 1186737.0,
+  "kas": 737575.0,
+  "liabilitas": 506228.0,
+  "utang_bank": 3926.0,
+  "ekuitas": 1900449.0,
+  "pendapatan": 1000491.0,
+  "laba_bersih": 105998.0,
+  "kas_dari_aktivitas_operasi": 62376.0,
+  "total_share": 1102700300.0,
+  "utang_bank_jangka_pendek": 0.0,
+  "utang_bank_bagian_lancar": 3926.0,
+  "total_ekuitas": 1910488.0,
+  "kepentingan_non_pengendali": 10039.0,
+  "total_share_components": null,
+  "kas_components": null,
+  "saham_beredar": 1102700300.0,
+  "saham_treasuri": 27224700.0,
+  "saham_ditempatkan": 1129925000.0,
+  "currency": "USD",
+  "reporting_scale": "THOUSANDS",
+  "statement_scope": "CONSOLIDATED",
+  "_confidence": {
+    "period_end_date": {
+      "confidence": 0.85,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "not verifiable verbatim"
+      ],
+      "withheld_value": null
+    },
+    "aset": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "total_aset_lancar": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "kas": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "liabilitas": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "utang_bank": {
+      "confidence": 0.856,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "derived from utang_bank_jangka_pendek, utang_bank_bagian_lancar; graded on those rows"
+      ],
+      "withheld_value": null
+    },
+    "ekuitas": {
+      "confidence": 1.0,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "derived from total_ekuitas, kepentingan_non_pengendali; graded on those rows"
+      ],
+      "withheld_value": null
+    },
+    "pendapatan": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "laba_bersih": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "kas_dari_aktivitas_operasi": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "total_share": {
+      "confidence": 1.0,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "derived from saham_ditempatkan, saham_treasuri; graded on those rows"
+      ],
+      "withheld_value": null
+    },
+    "utang_bank_jangka_pendek": {
+      "confidence": 0.875,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [
+        "implicated in a validation warning"
+      ],
+      "withheld_value": null
+    },
+    "utang_bank_bagian_lancar": {
+      "confidence": 0.875,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [
+        "implicated in a validation warning"
+      ],
+      "withheld_value": null
+    },
+    "total_ekuitas": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "kepentingan_non_pengendali": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "saham_beredar": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "saham_treasuri": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "saham_ditempatkan": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "currency": {
+      "confidence": 0.85,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "not verifiable verbatim"
+      ],
+      "withheld_value": null
+    },
+    "reporting_scale": {
+      "confidence": 0.85,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "not verifiable verbatim"
+      ],
+      "withheld_value": null
+    },
+    "statement_scope": {
+      "confidence": 0.85,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "not verifiable verbatim"
+      ],
+      "withheld_value": null
+    }
+  },
+  "_elapsed_s": 32.0,
+  "_usage": {
+    "llm_calls": 4,
+    "tokens": {
+      "input": 33459,
+      "output": 1169
+    },
+    "latency_ms": {
+      "select_pages": 14445,
+      "read_text": 969,
+      "assess": 2
+    },
+    "cost": {
+      "amount": null,
+      "currency": "USD",
+      "per_model": [
+        {
+          "model": "gemini-3.1-flash-lite",
+          "input_tokens": 33459,
+          "output_tokens": 1169,
+          "amount": null
+        }
+      ],
+      "reason": "no price configured for gemini-3.1-flash-lite - add it to /Users/muhammadnajmirahmani/Belajar/ProjectDatasaur/config/pricing.json"
+    },
+    "notes": []
+  },
+  "_model": "gemini:gemini-3.1-flash-lite",
+  "_agent": null,
+  "_derived": {
+    "idr_values": {
+      "aset": 43152880896000,
+      "total_aset_lancar": 21190375872000,
+      "kas": 13170139200000,
+      "liabilitas": 9039207168000,
+      "utang_bank": 70102656000,
+      "ekuitas": 33934417344000,
+      "pendapatan": 17864767296000,
+      "laba_bersih": 1892700288000,
+      "kas_dari_aktivitas_operasi": 1113785856000,
+      "total_share": 1102700300.0,
+      "period_end_date": "2026-06-30"
+    },
+    "withheld_idr": {},
+    "fx_rate": 17856.0,
+    "currency": "USD",
+    "reporting_scale": "THOUSANDS",
+    "text_layer": "clean",
+    "model": "gemini:gemini-3.1-flash-lite",
+    "sha": "dfc84b42807a"
+  }
+}

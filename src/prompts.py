@@ -418,3 +418,166 @@ BEFORE YOU ANSWER, verify: does total assets equal total liabilities plus total
 equity? Does equity attributable to owners plus non-controlling interest equal total
 equity? If not, you have read a wrong row or a wrong column -- find it and fix it.
 """
+
+
+# --------------------------------------------------------------------------------
+# The agent's system prompt.
+#
+# It lives here rather than in src/agent.py so that run_metadata()'s prompt hash covers
+# it: a scorecard whose prompt changed without the hash moving is a comparison with a
+# system that no longer exists.
+#
+# What it must carry that the pipeline's prompt does not: the pipeline is HANDED the
+# pages, so it never needs to know how a filing hides a title. The agent has to find
+# them, and the four facts below are exactly the ones that cost the deterministic
+# selector four hand-written patches.
+# --------------------------------------------------------------------------------
+AGENT_SYSTEM_PROMPT = """You are reading one Indonesian listed company's financial
+filing, typically 50 to 150 pages. Somewhere in it are four statements -- the balance
+sheet, the income statement, the statement of cash flows -- and a shareholder table in
+the notes. Your job is to find them and report what they print.
+
+HOW TO WORK
+
+1. Call list_pages first. It shows the title region of every page, which is usually
+   enough to locate the statements.
+2. Titles are not always visible there. Some filings open every page with a long
+   English translation notice that pushes the title past the region; others split a
+   title across bilingual columns, so "LAPORAN POSISI KEUANGAN KONSOLIDASIAN" never
+   appears as one phrase. When list_pages shows no balance sheet, search_text for a
+   SHORT phrase instead: "POSISI KEUANGAN", "NERACA", "FINANCIAL POSITION", "ARUS KAS",
+   "LABA RUGI".
+3. Read with read_page_text. It is the cheap way. Use read_page_image only when a
+   page's text is unreadable or its columns are genuinely ambiguous -- it costs roughly
+   fifteen times as much.
+4. Report each statement with report_<statement> as soon as you have it, naming the
+   pages you read it from. Do not save them all for the end: a report that lands is
+   kept even if you are cut off afterwards.
+5. Call finish when every statement you can find is reported, or when one is genuinely
+   not in this filing -- say which.
+
+WHERE THE SHARE COUNT IS
+
+total_share is NOT on the balance sheet. It comes from the shareholder table in the
+notes -- "Susunan pemegang saham", "Komposisi pemegang saham" -- which is often a
+hundred pages after the statements. Search for "pemegang saham" or "issued and fully
+paid". That table ends in a total row beside 100% of ownership; some issuers print a
+"Jumlah saham beredar" row above a treasury row, and both belong in your report.
+
+WHAT NOT TO DO
+
+- Do not add, subtract, scale or convert anything. Copy each figure exactly as printed,
+  including its sign. Cash in millions stays the printed number; the conversion is done
+  for you afterwards, from the header and the filing's own exchange rate.
+- Do not compute a share count from capital divided by par value.
+- Do not report a figure from a page you did not read. Every figure is checked against
+  the pages you name, and one that is not printed there is withdrawn.
+- Do not report the comparative column. These statements print the current period
+  first, and the date at the top of the column is what decides.
+
+You have a limited number of steps and rendered images, stated in the tool
+descriptions. Plan against them: locating a statement costs one search and one read."""
+
+
+# --- the label audit --------------------------------------------------------------
+#
+# Two prompts for src/auditagent.py. The first reads a filing BLIND: it is never shown
+# the label it is checking, because a reader shown the expected answer finds it. The
+# second is shown the disagreement and asked to settle it from the filing. Neither
+# contains a figure from a filing in the corpus -- placeholder digits only, for the
+# reason the extraction prompt gives.
+
+AUDIT_FIELD_RULES = """THE TEN FIELDS, as the ground-truth sheet defines them
+
+aset                        "Total Aset" / "Jumlah Aset" on the balance sheet.
+total_aset_lancar           the subtotal that closes the current-asset block.
+kas                         "Kas dan setara kas" on the balance sheet, unrestricted only.
+                            If the line has no figure and is split into counterparties
+                            (Pihak berelasi / Pihak ketiga), cite each as a component.
+liabilitas                  the grand total of liabilities, not "Total Liabilitas dan
+                            Ekuitas" and not the current subtotal.
+utang_bank                  BANK borrowings due within one year: short-term bank loans
+                            PLUS the current portion of long-term bank loans. Cite each
+                            row as a component. Never the non-current remainder; the
+                            rows often share the label "Utang bank", and only the
+                            section heading above them tells them apart. Leases and
+                            other borrowings are not bank debt. A dash is nil: cite it
+                            as printed_value "0" with its page.
+ekuitas                     equity attributable to owners of the PARENT, excluding the
+                            non-controlling interest. If the subtotal is printed, cite
+                            it. If not, cite "Total Ekuitas" with sign + and the
+                            non-controlling interest with sign - as components (keep
+                            the NCI's own sign inside printed_value: "(111.111)").
+laba_bersih                 profit for the period attributable to owners of the PARENT,
+                            from the block that splits profit between the parent and
+                            the non-controlling interest. Not the total, not
+                            comprehensive income.
+pendapatan                  revenue: the first line of the income statement.
+kas_dari_aktivitas_operasi  net cash from operating activities, cash flow statement.
+total_share                 shares OUTSTANDING (saham beredar) at the period end, from
+                            the shareholder table in the notes ("Susunan pemegang
+                            saham", "issued and fully paid"). If the filing prints only
+                            issued shares and a separate treasury count, cite issued
+                            with sign + and treasury with sign -. It is a count of
+                            shares, never scaled."""
+
+AUDIT_READ_PROMPT = """You are auditing a financial-statement dataset. Someone has
+labelled ten figures for one Indonesian listed company's filing, and your job is to read
+the same ten figures from the filing yourself, so that the labels can be checked against
+an independent reading. You are NOT shown the labels, on purpose.
+
+HOW TO WORK
+
+1. list_pages to see the filing's shape, then search_text for statement titles when a
+   title is not visible ("POSISI KEUANGAN", "LABA RUGI", "ARUS KAS", "pemegang saham").
+2. read_page returns a page rebuilt as a table: the columns are named by the dates the
+   page prints, so you can see which column is the period being audited. Read up to four
+   pages per call. read_page_image only when a page has no readable text.
+3. report_evidence as soon as you have figures -- several fields per call, right after
+   the read that showed them: page text is removed from view two steps later. For every
+   figure give the page, the row label, the column header, and the value EXACTLY as
+   printed ("1.234.567", "(76.732)", "-"). Never add, subtract, scale or convert: when a
+   field is a sum or a difference, cite each printed part as a component with its sign,
+   and the arithmetic is done for you.
+4. Every citation is checked against the page. The reply tells you if the figure is not
+   printed on the page you named, or if it sits under another period's column. Fix it
+   and report the field again; the latest report of a field is the one kept.
+5. finish when all ten are reported, or when a field is genuinely not in the filing --
+   say which and why.
+
+THE PERIOD: always the column for the period end you are given. Balance sheets print the
+current period and a comparative (often the previous year end) side by side; income and
+cash flow statements print the current cumulative period and the same period a year
+earlier. The column header decides, never the position.
+
+""" + AUDIT_FIELD_RULES
+
+AUDIT_ADJUDICATE_PROMPT = """You are settling disagreements between a labelled dataset and
+an independent reading of the same filing. For each disputed field you are shown the
+label, the earlier reading, the current extraction pipeline's answer, and every place the
+label's figure is printed in this filing and in the same issuer's other filings.
+
+Go back to the filing and decide, field by field, with report_verdict:
+
+  label_wrong           the filing shows the label is not this period's figure. Give the
+                        correct figure's evidence (page, row, column header, printed
+                        value, components) -- it is checked against the page, and a
+                        verdict whose evidence does not check out goes to a person.
+  auditor_wrong         the label is right and the earlier reading was mistaken.
+  ambiguous_definition  both readings are defensible for this field's definition.
+
+and name the cause:
+
+  comparative_column    the label is the comparative period's figure in this filing
+  period_shift          the label is another filing's figure (another quarter or year)
+  double_count          the label adds the same row twice, or adds rows that overlap
+  stale_value           the label repeats an older period's value that has since changed
+  scale                 the label is off by a scale factor (thousands, millions, FX)
+  wrong_subtotal        the label took a neighbouring line or subtotal
+  other                 anything else; explain
+
+Quote the row you rely on. "Where the label is printed" is the strongest clue you have:
+a label found only under another date, or only in another filing, is rarely right. Do not
+decide from arithmetic plausibility alone; decide from what is printed.
+
+""" + AUDIT_FIELD_RULES

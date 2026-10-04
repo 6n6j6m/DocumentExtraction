@@ -59,7 +59,6 @@ Usage:
 import argparse
 import csv
 import json
-import re
 import sys
 import time
 from datetime import date, datetime, timedelta, timezone
@@ -68,6 +67,10 @@ from pathlib import Path
 import requests
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "src"))
+
+from periods import parse_period  # noqa: E402
+
 GROUND_TRUTH = ROOT / "data" / "ground_truth"
 SHARE_PRICES = ROOT / "data" / "share_prices.json"
 
@@ -92,32 +95,9 @@ SUFFIX = ".JK"
 HEADERS = {"User-Agent": "Mozilla/5.0"}
 TIMEOUT = 20
 
-_PERIOD = re.compile(r"^(Q[1-4])[ _-]?(\d{4})$", re.I)
-# The workbooks label the annual column "TAHUNAN 2024", not "Q4 2024" -- every sheet in
-# data/ground_truth does, for every year except 2025. Read literally, this script found
-# no Q4 column at all for 2020-2024 and silently priced three quarters a year instead of
-# four. An annual column IS Q4: same balance-sheet date, same pricing date.
-_ANNUAL = re.compile(r"^(?:tahunan|annual|fy)[ _-]?(\d{4})$", re.I)
-
 
 class PriceUnavailable(Exception):
     """No usable quote. Carries the reason so the row can say what happened."""
-
-
-def parse_period(text: str):
-    """A period header -> ("Q1", 2024). None if it is not one.
-
-    Accepts "Q1_2024" / "Q1 2024" / "q1-2024", and "TAHUNAN 2024" as Q4 2024. Both
-    spellings collapse to the same tuple on purpose: the sheet uses one for 2025 and the
-    other for every earlier year, and a lookup that told them apart would write the price
-    into a column it had not found.
-    """
-    raw = str(text).strip()
-    match = _PERIOD.match(raw)
-    if match:
-        return (match.group(1).upper(), int(match.group(2)))
-    annual = _ANNUAL.match(raw)
-    return ("Q4", int(annual.group(1))) if annual else None
 
 
 def price_date(quarter: str, year: int, q4_same_year: bool = False) -> date:

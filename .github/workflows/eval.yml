@@ -1,0 +1,76 @@
+name: eval
+
+# Two jobs, neither of which needs a secret.
+#
+#   tests      the fault-injection suite: every guard, broken on purpose.
+#   eval-gate  the corpus scored from COMMITTED predictions and compared with the
+#              committed baseline. No API key is configured for this workflow, and
+#              `--cached-only` makes that a guarantee rather than a hope: a filing with
+#              no cached prediction is reported as uncached, never extracted.
+#
+# The gate needs no poppler and no tesseract because the conversion to full Rupiah is
+# cached beside each prediction (`_derived`), so no PDF is opened here.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python -m pytest tests/ -q
+
+  eval-gate:
+    runs-on: ubuntu-latest
+    env:
+      # Pinned so the run finds the committed cache. The baseline is the deployed
+      # chain -- 3.1-flash-lite answering first, 3.5-flash-lite behind it -- and every
+      # cell records which model actually answered.
+      LLM_PROVIDER: gemini
+      GEMINI_MODEL: gemini-3.1-flash-lite
+      GEMINI_INPUT_MODE: image
+      PRICING_CONFIG: config/pricing.json
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Score the corpus from cached predictions
+        run: |
+          mkdir -p output_ci
+          cp -r output/predictions output_ci/predictions
+          python scripts/run_eval.py --corpus --cached-only --out output_ci
+
+      - name: Render the report
+        run: |
+          python scripts/report_eval.py \
+            output_ci/corpus_scorecard_gemini_gemini-3.1-flash-lite_image.json
+
+      - name: Compare with the baseline
+        run: |
+          BASELINE=evals/baselines/gemini_gemini-3.1-flash-lite_image/corpus_scorecard.json
+          if [ ! -f "$BASELINE" ]; then
+            echo "::warning::no baseline yet at $BASELINE - nothing to compare against."
+            echo "Promote one with: python scripts/promote_baseline.py <scorecard> --reason '...'"
+            exit 0
+          fi
+          python scripts/compare_runs.py "$BASELINE" \
+            output_ci/corpus_scorecard_gemini_gemini-3.1-flash-lite_image.json \
+            --max-tokens-increase 0.10 --max-latency-increase 0.20
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eval-report
+          path: output_ci/*

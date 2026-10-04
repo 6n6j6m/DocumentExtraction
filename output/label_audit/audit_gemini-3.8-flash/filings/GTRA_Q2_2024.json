@@ -1,0 +1,129 @@
+{
+ "schema": 1,
+ "ticker": "GTRA",
+ "quarter": "Q2",
+ "year": 2024,
+ "pdf": "/Users/muhammadnajmirahmani/FinancialReport/GTRA/Q2_2024_GTRA.pdf",
+ "auditor": "audit_gemini-3.8-flash",
+ "read": {
+  "status": "partial",
+  "stop_reason": "no_provider",
+  "fields_verified": 0,
+  "evidence": {},
+  "fx_rate": null,
+  "trajectory": {
+   "steps_used": 4,
+   "tool_counts": {
+    "list_pages": 1,
+    "read_page": 2,
+    "search_text": 1
+   },
+   "tool_errors": 0,
+   "stop_reason": "no_provider",
+   "call_tokens_estimated": [
+    2165,
+    2165,
+    2165,
+    4967,
+    7880,
+    6392,
+    3973
+   ],
+   "max_call_tokens_estimated": 7880,
+   "compactions": 2,
+   "handovers": [
+    {
+     "phase": "read",
+     "provider": "gemini:gemini-3.8-flash",
+     "step": 0,
+     "reason": "Gemini 503 (capacity) on gemini-3.8-flash after 4 retry; handing over to the next model"
+    },
+    {
+     "phase": "read",
+     "provider": "gemini:gemini-3.7-flash",
+     "step": 0,
+     "reason": "Gemini 503 (capacity) on gemini-3.7-flash after 4 retry; handing over to the next model"
+    },
+    {
+     "phase": "read",
+     "provider": "gemini:gemini-3.6-flash",
+     "step": 4,
+     "reason": "Gemini rate limit (429) on gemini-3.6-flash: daily quota (RPD) used up; waiting cannot clear it"
+    }
+   ],
+   "providers": [
+    "gemini:gemini-3.8-flash",
+    "gemini:gemini-3.7-flash",
+    "gemini:gemini-3.6-flash"
+   ],
+   "not_found": [],
+   "pages_opened": [
+    4,
+    5,
+    6,
+    7,
+    9
+   ],
+   "pages_rendered": [],
+   "steps": [
+    {
+     "i": 1,
+     "tool": "list_pages",
+     "ok": true,
+     "args": {}
+    },
+    {
+     "i": 2,
+     "tool": "read_page",
+     "ok": true,
+     "args": {
+      "pages": [
+       4,
+       5,
+       6,
+       7
+      ]
+     }
+    },
+    {
+     "i": 3,
+     "tool": "read_page",
+     "ok": true,
+     "args": {
+      "page": 9
+     }
+    },
+    {
+     "i": 4,
+     "tool": "search_text",
+     "ok": true,
+     "args": {
+      "query": "pemegang saham"
+     }
+    }
+   ]
+  },
+  "usage": {
+   "llm_calls": 4,
+   "tokens": {
+    "input": 28523,
+    "output": 62
+   },
+   "latency_ms": {},
+   "cost": {
+    "amount": null,
+    "currency": "USD",
+    "per_model": [
+     {
+      "model": "gemini-3.6-flash",
+      "input_tokens": 28523,
+      "output_tokens": 62,
+      "amount": null
+     }
+    ],
+    "reason": "no price configured for gemini-3.6-flash - add it to /Users/muhammadnajmirahmani/Belajar/ProjectDatasaur/config/pricing.json"
+   },
+   "notes": []
+  }
+ }
+}

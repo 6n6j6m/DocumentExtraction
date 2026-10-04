@@ -28,6 +28,7 @@ import argparse
 import hashlib
 import json
 import os
+import random
 import subprocess
 import time
 from datetime import datetime, timezone
@@ -45,6 +46,15 @@ from normalize import to_idr, extract_fx_rate
 from extract import extract_from_pdf
 from llm import get_provider_with_fallback, LLMError, LLMUnavailable
 from usage import Usage
+from periods import QUARTER_END, parse_period, period_label
+# Scoring lives in src/evalkit.py so the metrics can be exercised without a model, a
+# key or a PDF; this script is the driver. compare() and classify_failure() are
+# imported rather than redefined -- two copies of the status vocabulary is how a
+# scorecard and its comparison tool drift apart.
+from evalkit import (Cell, DerivedInputs, PeriodRef, cache_path_for, classify_failure,
+                     compare, conversion_sha, derive, derive_from_cache, discover_corpus,
+                     legacy_cache_path, load_truth_sheet, score_period)
+from evalmetrics import bootstrap_delta, summarise
 
 HEADER_ROW = 3
 
@@ -55,6 +65,10 @@ TRACKED_CONFIG = [
     "GEMINI_INPUT_MODE", "OLLAMA_INPUT_MODE",
     "SPLIT_BY_STATEMENT", "CONDENSE_TEXT", "IMAGE_DPI",
     "CONFIDENCE_ABSTAIN_THRESHOLD", "MAX_PDF_PAGES",
+    # Which implementation answered, and what it was allowed to spend. Without these in
+    # the run's config, compare_runs would diff a pipeline scorecard against an agent
+    # one and report the difference as a regression in the extractor.
+    "EXTRACTOR", "AGENT_MAX_STEPS", "AGENT_MAX_IMAGES", "AGENT_MAX_TEXT_PAGES",
 ]
 
 
@@ -91,8 +105,6 @@ def run_metadata(tolerance: float) -> dict:
         "tolerance": tolerance,
         "config": {k: os.getenv(k) for k in TRACKED_CONFIG if os.getenv(k) is not None},
     }
-
-QUARTER_END = {"Q1": "03-31", "Q2": "06-30", "Q3": "09-30", "Q4": "12-31"}
 
 
 def discover_periods(ticker: str) -> dict:
@@ -196,13 +208,19 @@ def extract_via_api(pdf_path: Path, api_url: str, timeout: int = 600):
 
 
 def predict(pdf_path: Path, cache_path: Path, use_cache: bool,
-            api_url: Optional[str] = None):
+            api_url: Optional[str] = None, legacy_path: Optional[Path] = None,
+            extractor: str = "pipeline"):
     """Extract from a filing, caching the raw (as-printed) result.
 
     `api_url` chooses WHERE extraction runs, not how it is scored.
+
+    Returns (result, cached, payload). The payload is the cache dict itself, so the
+    caller can read and backfill the conversion cached beside the prediction.
     """
-    if use_cache and cache_path.exists():
-        data = json.loads(cache_path.read_text())
+    source = cache_path if (use_cache and cache_path.exists()) else (
+        legacy_path if use_cache else None)
+    if source is not None and source.exists():
+        data = json.loads(source.read_text())
         # Cached payloads are read back through the same type checks as a live model
         # response: a hand-edited or stale cache is exactly the kind of input that used
         # to raise deep inside a validation rule instead of being rejected here.
@@ -213,66 +231,283 @@ def predict(pdf_path: Path, cache_path: Path, use_cache: bool,
         result.field_confidence = data.get("_confidence", {})
         result.elapsed_s = data.get("_elapsed_s")
         result.usage_dict = data.get("_usage")
-        return result, True
+        result.model = data.get("_model")
+        # Without this, a re-scored agent run silently loses every agent metric -- the
+        # same failure _confidence already carries a comment about.
+        result.agent_trajectory = data.get("_agent")
+        return result, True, data
 
     started = time.time()
     if api_url:
         result = extract_via_api(pdf_path, api_url)
     else:
         usage = Usage()
-        result = extract_from_pdf(str(pdf_path), usage=usage)
+        if extractor == "agentic":
+            # Imported here, not at module scope: a syntax error in new agent code must
+            # not cost the committed baseline its ability to re-score.
+            from agent import extract_agentic
+            result = extract_agentic(str(pdf_path), usage=usage)
+        else:
+            result = extract_from_pdf(str(pdf_path), usage=usage)
         if result is not None:
             result.usage_dict = usage.to_dict()
     if result is None:
-        return None, False
+        return None, False, {}
     result.elapsed_s = round(time.time() - started, 1)
 
     payload = result.to_dict()
     payload["_confidence"] = getattr(result, "field_confidence", {})
     payload["_elapsed_s"] = result.elapsed_s
     payload["_usage"] = getattr(result, "usage_dict", None)
+    # Which model actually answered. With a fallback chain a throttled filing is handed
+    # to another model, and a run that does not record that reports one number for two
+    # systems -- so `model` is a slice in the metrics, not a footnote.
+    payload["_model"] = getattr(result, "model", None)
+    payload["_agent"] = getattr(result, "agent_trajectory", None)
     cache_path.parent.mkdir(parents=True, exist_ok=True)
     cache_path.write_text(json.dumps(payload, indent=2))
-    return result, False
+    return result, False, payload
 
 
-# Counting failures is not the same as understanding them. A scale bug, a
-# comparative-column read and an invented number all show up as "wrong", but they
-# have different causes and different fixes, so each wrong answer is classified.
-def classify_failure(pred, truth, grounded) -> str:
-    """Name the KIND of wrong answer, from its relationship to the truth."""
-    if truth == 0:
-        return "wrong_value"
-    ratio = pred / truth
+def derived_for(pred, pdf: Path, cache_path: Path, payload: dict) -> DerivedInputs:
+    """The conversion to full Rupiah, from cache when it is still valid.
 
-    for factor, name in ((1000, "scale_1e3"), (1e6, "scale_1e6"), (1e9, "scale_1e9")):
-        if abs(ratio - factor) < 0.01 or abs(ratio - 1 / factor) < 1e-9:
-            return f"wrong_{name}"
-    # An FX rate applied when it should not have been, or omitted when it should.
-    if 8_000 < ratio < 25_000 or 8_000 < 1 / ratio < 25_000:
-        return "wrong_currency_conversion"
-    if abs(ratio + 1) < 0.01:
-        return "wrong_sign"
-    if grounded is False:
-        return "hallucinated"          # value is not printed anywhere in the filing
-    if abs(ratio - 1) < 0.05:
-        return "wrong_near_miss"       # neighbouring row, or comparative column
-    return "wrong_value"
+    Scoring used to re-open the filing every time -- page selection, text, FX rate --
+    even when the prediction came from cache. On EMAS, whose text layer is glyph ids,
+    that is minutes of OCR to re-derive an answer nobody re-asked the model for. The
+    result is cached beside the prediction and backfilled here, which is what lets CI
+    score the corpus with no PDFs, no poppler and no key.
+    """
+    cached = derive_from_cache(payload)
+    if cached is not None:
+        return cached
+    derived = derive(pred, pdf)
+    if payload:
+        payload["_derived"] = derived.to_dict()
+        try:
+            cache_path.parent.mkdir(parents=True, exist_ok=True)
+            cache_path.write_text(json.dumps(payload, indent=2, default=str))
+        except OSError:
+            pass          # a read-only cache is not a reason to lose the run
+    return derived
 
 
-def compare(pred, truth, rel_tol, grounded=None):
-    """Compare one field. Returns (status, rel_error, failure_kind)."""
-    if truth is None and pred is None:
-        return "both_absent", None, None
-    if truth is None:
-        return "no_truth", None, None
-    if pred is None:
-        return "missed", None, None
-    denominator = max(abs(truth), 1.0)
-    error = abs(pred - truth) / denominator
-    if error <= rel_tol:
-        return "correct", error, None
-    return "wrong", error, classify_failure(pred, truth, grounded)
+def provider_tag_for(provider, api_url=None, extractor: str = "pipeline") -> str:
+    """The name a run is filed under: model, input mode, target, implementation.
+
+    Every element is here because leaving it out made two different experiments share a
+    scorecard and a prediction cache -- and a comparison that is supposed to settle a
+    question quietly became a run compared with itself.
+
+      input mode   the model is shown different things; that is a different experiment
+      _api         the service and the library are two systems, same model or not
+      _agentic     a tool-calling loop is a different system again, on the same model
+    """
+    tag = (f"{provider.name}_{getattr(provider, 'input_mode', 'text')}"
+           .replace(":", "_").replace("/", "_"))
+    if api_url:
+        tag += "_api"
+    if extractor and extractor != "pipeline":
+        tag += f"_{extractor}"
+    return tag
+
+
+GROUND_TRUTH = ROOT / "data" / "ground_truth"
+FLUSH_EVERY = 10        # a killed three-hour run still leaves a readable scorecard
+
+
+def corpus_roots(explicit) -> list:
+    """Where filings are looked for.
+
+    `data/raw` is the default and the only one a reviewer needs: it is in the repo, so
+    CI and a fresh checkout score the same filings. A personal archive
+    (~/FinancialReport/<TICKER>/...) is opted into with --corpus-root or by setting
+    EVAL_CORPUS_ROOT, never assumed, because a scorecard that silently depends on files
+    nobody else has is not a shared measurement.
+    """
+    if explicit:
+        return [Path(r).expanduser() for r in explicit]
+    roots = [ROOT / "data" / "raw"]
+    extra = os.getenv("EVAL_CORPUS_ROOT", "")
+    roots += [Path(r).expanduser() for r in extra.split(os.pathsep) if r.strip()]
+    return roots
+
+
+def corpus_pairs(roots, tickers, limit=None, seed=0):
+    """Every (ticker, period) with BOTH a filing and a labelled column.
+
+    Returns (pairs, sheets, skipped). A workbook that cannot be trusted for its ticker
+    is named in `skipped` and its filings are not scored -- a corpus run reports the
+    problem and carries on, where a single-ticker run still raises.
+    """
+    found = discover_corpus(roots, tickers)
+    pairs, sheets, skipped = [], {}, []
+    for ticker in sorted(found):
+        sheet = load_truth_sheet(GROUND_TRUTH / f"{ticker}.xlsx", ticker)
+        if sheet.problem:
+            skipped.append({"ticker": ticker, "reason": sheet.problem,
+                            "filings": len(found[ticker])})
+            continue
+        sheets[ticker] = sheet
+        for (quarter, year), pdf in found[ticker].items():
+            column = sheet.columns.get((quarter, year))
+            if not column or all(v is None for v in column.values()):
+                continue            # a filing nobody has labelled yet is not a miss
+            pairs.append(PeriodRef(ticker=ticker, quarter=quarter, year=year, pdf=pdf))
+    pairs.sort(key=lambda ref: ref.order)
+    if limit and limit < len(pairs):
+        # A sampled pass is for checking the machinery cheaply, so the sample is
+        # reproducible: the same seed scores the same filings.
+        pairs = sorted(random.Random(seed).sample(pairs, limit), key=lambda r: r.order)
+    return pairs, sheets, skipped
+
+
+def run_corpus(args, provider_tag, out_dir, scorecard_name) -> int:
+    """Score every labelled filing, not one issuer's four quarters.
+
+    The prediction cache is the resume mechanism: a re-run skips what is already
+    extracted, so a pass interrupted after two hours costs two hours less the second
+    time. Every failure is recorded and stepped over, because in a 223-filing run the
+    alternative is one broken PDF ending the measurement.
+    """
+    roots = corpus_roots(args.corpus_root)
+    pairs, sheets, skipped = corpus_pairs(roots, args.tickers, args.limit, args.sample_seed)
+    labelled_cells = sum(sheets[r.ticker].columns[(r.quarter, r.year)] is not None
+                         and sum(1 for v in sheets[r.ticker].columns[(r.quarter, r.year)].values()
+                                 if v is not None)
+                         for r in pairs)
+
+    print(f"corpus: {len(pairs)} filing(s), {labelled_cells} labelled cell(s), "
+          f"from {', '.join(str(r) for r in roots)}")
+    for entry in skipped:
+        print(f"  ! {entry['ticker']} skipped: {entry['reason']}")
+    if not pairs:
+        print("nothing to score -- no filing has a labelled column")
+        return 2
+
+    report = {"ticker": "CORPUS", "tolerance": args.tolerance,
+              "run": run_metadata(args.tolerance), "periods": {}}
+    tally = {"correct": 0, "wrong": 0, "missed": 0, "no_truth": 0, "both_absent": 0}
+    failure_kinds, errors, all_cells, filings = {}, [], [], []
+    trajectories = []
+    uncached = []
+
+    def flush():
+        report["summary"] = tally
+        report["failure_kinds"] = failure_kinds
+        report["provider"] = provider_tag
+        report["target"] = args.api_url or "in-process"
+        report["schema_version"] = 2
+        report["cells"] = [c.to_dict() for c in all_cells]
+        report["metrics"] = summarise(all_cells, filings, trajectories)
+        report["conversion_sha"] = conversion_sha()
+        report["usage"] = report["metrics"]["cost_latency"]
+        report["corpus"] = {
+            "roots": [str(r) for r in roots],
+            "tickers": sorted({r.ticker for r in pairs}),
+            "pairs": len(pairs), "cells_labelled": labelled_cells,
+            "scored_pairs": len({c.key for c in all_cells}),
+            "skipped": skipped, "uncached": uncached,
+            "models_used": dict(sorted(
+                {m: sum(1 for c in all_cells if c.model == m and c.field == "aset")
+                 for m in {c.model for c in all_cells}}.items(), key=lambda kv: -kv[1])),
+        }
+        report["errors"] = errors
+        out_dir.mkdir(parents=True, exist_ok=True)
+        (out_dir / scorecard_name).write_text(json.dumps(report, indent=2, default=str))
+
+    for index, ref in enumerate(pairs, 1):
+        cache_path = cache_path_for(ref, out_dir, provider_tag)
+        legacy = legacy_cache_path(ref, out_dir, provider_tag)
+        if args.cached_only and not cache_path.exists() and legacy is None:
+            uncached.append(ref.key)
+            continue
+
+        truth = sheets[ref.ticker].columns[(ref.quarter, ref.year)]
+        try:
+            pred, cached, payload = predict(ref.pdf, cache_path, not args.no_cache,
+                                            api_url=args.api_url, legacy_path=legacy,
+                                            extractor=args.extractor)
+            if pred is None:
+                raise LLMError("extraction returned no fields")
+            derived = derived_for(pred, ref.pdf, cache_path, payload)
+            cells = score_period(ref, pred, truth, derived, args.tolerance)
+        except Exception as exc:              # one filing, not the corpus
+            print(f"[{index}/{len(pairs)}] {ref.key:20} FAILED  {type(exc).__name__}: {exc}")
+            errors.append({"key": ref.key, "error": f"{type(exc).__name__}: {exc}"})
+            report["periods"][ref.key] = {"error": str(exc)}
+            if args.fail_fast:
+                flush()
+                return 1
+            continue
+
+        rows = {}
+        for cell in cells:
+            tally[cell.status] += 1
+            if cell.failure_kind:
+                failure_kinds[cell.failure_kind] = failure_kinds.get(cell.failure_kind, 0) + 1
+            rows[cell.field] = {"status": cell.status, "rel_error": cell.rel_error,
+                                "failure_kind": cell.failure_kind,
+                                "pred_idr": cell.pred_idr, "truth_idr": cell.truth_idr,
+                                "pred_raw": cell.pred_raw, "confidence": cell.confidence,
+                                "grounded": cell.grounded, "abstained": cell.abstained}
+        all_cells += cells
+        filings.append({"elapsed_s": getattr(pred, "elapsed_s", None),
+                        "usage": getattr(pred, "usage_dict", None)})
+        trajectory = getattr(pred, "agent_trajectory", None)
+        if trajectory is not None:
+            # The filing key travels with the trajectory: page_selection_agreement names
+            # the filings whose pages differ, and a list of page numbers with no filing
+            # attached cannot be looked at afterwards.
+            trajectory.setdefault("key", ref.key)
+        trajectories.append(trajectory)
+        report["periods"][ref.key] = {
+            "fx_rate": derived.fx_rate, "fields": rows,
+            "elapsed_s": getattr(pred, "elapsed_s", None),
+            "usage": getattr(pred, "usage_dict", None),
+            "abstained": [f for f, r in rows.items() if r.get("abstained")]}
+
+        scored = [c for c in cells if c.labelled]
+        right = sum(1 for c in scored if c.status == "correct")
+        print(f"[{index}/{len(pairs)}] {ref.key:20} {right}/{len(scored)}"
+              f"{'  (cached)' if cached else ''}"
+              f"{'  ' + derived.model if derived.model else ''}")
+        if index % FLUSH_EVERY == 0:
+            flush()
+
+    flush()
+    metrics = report["metrics"]
+    accuracy = metrics["accuracy"]
+    coverage = metrics["coverage"]
+    print(f"\n{'='*78}\nCORPUS SUMMARY")
+    print(f"  filings scored     {report['corpus']['scored_pairs']}/{len(pairs)}")
+    if uncached:
+        print(f"  not cached         {len(uncached)}  (--cached-only; run without it to extract)")
+    if errors:
+        print(f"  failed             {len(errors)}")
+    print(f"  cells labelled     {coverage['labelled']}")
+    print(f"  correct            {accuracy['correct']}")
+    print(f"  wrong              {accuracy['wrong']}")
+    print(f"  missed             {accuracy['missed']}  "
+          f"(of which withheld deliberately: {coverage['abstained_on_labelled']})")
+    if accuracy["accuracy"] is not None:
+        print(f"  accuracy           {accuracy['accuracy']:.1%}"
+              f"   answered {coverage['answer_rate']:.1%}"
+              f"   accuracy when answered {accuracy['accuracy_on_answered']:.1%}")
+    withdrawal = metrics["abstention"]
+    if withdrawal["withdrawn"]:
+        precision = withdrawal["precision"]
+        print(f"  abstention         {withdrawal['withdrawn']} withdrawn, "
+              f"precision {f'{precision:.0%}' if precision is not None else '-'}"
+              f" ({withdrawal['caught']} caught, {withdrawal['thrown_away']} thrown away,"
+              f" {withdrawal['unknown_withheld']} unknown)")
+    if failure_kinds:
+        print("\n  failures by kind:")
+        for kind, count in sorted(failure_kinds.items(), key=lambda kv: -kv[1]):
+            print(f"    {kind:28}{count:>4}")
+    print(f"\n  written to {out_dir / scorecard_name}")
+    print(f"  report:  python scripts/report_eval.py {out_dir / scorecard_name}")
+    return 1 if tally["wrong"] else 0
 
 
 def main():
@@ -288,13 +523,43 @@ def main():
                     help="score a running service instead of the library "
                          "(e.g. http://localhost:8000). Defaults to $EVAL_TARGET; "
                          "empty means in-process, so the tests need no container.")
+    ap.add_argument("--extractor", choices=["pipeline", "agentic"],
+                    default=os.getenv("EXTRACTOR", "pipeline"),
+                    help="which implementation to measure: the deterministic pipeline, "
+                         "or the tool-calling agent over the same filings, scored by the "
+                         "same code")
+    ap.add_argument("--corpus", action="store_true",
+                    help="score every (ticker, period) that has a filing AND a label, "
+                         "instead of one ticker")
+    ap.add_argument("--tickers", nargs="+", help="restrict --corpus to these issuers")
+    ap.add_argument("--corpus-root", nargs="+",
+                    help="where filings live (default: data/raw, plus $EVAL_CORPUS_ROOT)")
+    ap.add_argument("--cached-only", action="store_true",
+                    help="never call a provider: filings with no cached prediction are "
+                         "reported as uncached and skipped. This is what makes a CI run "
+                         "keyless by construction rather than by hope.")
+    ap.add_argument("--limit", type=int, help="score a random sample of this many filings")
+    ap.add_argument("--sample-seed", type=int, default=0,
+                    help="seed for --limit, so a sampled pass is reproducible")
+    ap.add_argument("--fail-fast", action="store_true",
+                    help="stop at the first failing filing instead of recording it")
+    ap.add_argument("--allow-fallback", action=argparse.BooleanOptionalAction, default=None,
+                    help="keep the provider's fallback chain. Default: on for --corpus "
+                         "(it measures the system as deployed, and every cell records "
+                         "which model answered), off otherwise (one scorecard, one model)")
     args = ap.parse_args()
+    # Back into the env before run_metadata() reads it, so the scorecard records which
+    # implementation produced it.
+    os.environ["EXTRACTOR"] = args.extractor
+    if args.allow_fallback is None:
+        args.allow_fallback = bool(args.corpus)
 
-    PERIODS = discover_periods(args.ticker)
-    if not PERIODS:
-        print(f"No filings found matching data/raw/*_{args.ticker}.pdf")
-        return 2
-    args.periods = args.periods or sorted(PERIODS)
+    PERIODS = {} if args.corpus else discover_periods(args.ticker)
+    if not args.corpus:
+        if not PERIODS:
+            print(f"No filings found matching data/raw/*_{args.ticker}.pdf")
+            return 2
+        args.periods = args.periods or sorted(PERIODS)
 
     if args.provider:
         os.environ["LLM_PROVIDER"] = args.provider
@@ -320,10 +585,17 @@ def main():
         # answers. With a fallback chain, a throttled run would otherwise hand some
         # documents to another Gemini model or to Ollama and still be filed under the
         # primary's name -- a score that measured two systems and names one.
-        for key in ("GEMINI_FALLBACK_MODELS", "LLM_FALLBACK_PROVIDER"):
-            if os.environ.get(key):
-                print(f"  {key} ignored for evaluation: a scorecard measures one model")
-                os.environ[key] = ""
+        if not args.allow_fallback:
+            for key in ("GEMINI_FALLBACK_MODELS", "LLM_FALLBACK_PROVIDER"):
+                if os.environ.get(key):
+                    print(f"  {key} ignored for evaluation: a scorecard measures one model")
+                    os.environ[key] = ""
+        else:
+            # A corpus pass is long enough that the primary model WILL be throttled, and
+            # refusing to fall back would measure the rate limiter rather than the
+            # extractor. Every cell records the model that answered it, so the mixture
+            # is visible as a slice instead of hidden behind the primary's name.
+            print("  fallback chain kept; each cell records which model answered")
         try:
             _p = get_provider_with_fallback()[0]
         except LLMUnavailable as exc:
@@ -350,27 +622,31 @@ def main():
             if args.no_cache:
                 print("  --no-cache needs a working provider; nothing to extract with.")
                 return 2
-    # The input mode changes what the model is shown, so two runs of the same model
-    # are different experiments. Without it in the tag they overwrite each other and
-    # the comparison silently becomes a comparison of a run with itself.
-    provider_tag = (f"{_p.name}_{getattr(_p, 'input_mode', 'text')}"
-                    .replace(":", "_").replace("/", "_"))
-    # Scoring the service and scoring the library are two experiments, even when the
-    # model behind them is the same one. Without this the API run overwrites the local
-    # run's scorecard and its cached predictions, and the comparison that is supposed to
-    # prove the two paths agree quietly becomes a run compared with itself -- the exact
-    # failure the input mode is already in this name to prevent.
-    if args.api_url:
-        provider_tag += "_api"
+    provider_tag = provider_tag_for(_p, api_url=args.api_url, extractor=args.extractor)
     # A subset run gets its own filename. Otherwise `--periods Q1` overwrites the
     # full four-period scorecard with a one-period one, and the committed artifact
     # quietly stops meaning what its name says -- which happened once already.
-    subset = "" if set(args.periods) == set(PERIODS) else "_" + "".join(sorted(args.periods))
+    subset = "" if (args.corpus or set(args.periods) == set(PERIODS)) \
+        else "_" + "".join(sorted(args.periods))
     # The ticker names the scorecard too. It was missing for the same reason it was
     # missing from the cache -- one issuer was the only issuer -- and the second one
     # silently overwrote the first one's committed result on its very first run.
-    scorecard_name = f"scorecard_{args.ticker}_{provider_tag}{subset}.json"
+    if args.corpus:
+        # A subset run gets its own filename, for the reason the single-ticker path
+        # already carries one: `--tickers LSIP TAPG` otherwise overwrites the full
+        # corpus scorecard with a thirty-five filing one, and the committed artifact
+        # quietly stops meaning what its name says. (Done once, in this repo, to the
+        # 223-filing scorecard.)
+        marks = "".join(sorted(t.upper() for t in (args.tickers or [])))
+        if args.limit:
+            marks += f"_n{args.limit}s{args.sample_seed}"
+        scorecard_name = f"corpus_scorecard_{provider_tag}{'_' + marks if marks else ''}.json"
+    else:
+        scorecard_name = f"scorecard_{args.ticker}_{provider_tag}{subset}.json"
     print(f"provider: {provider_tag}")
+
+    if args.corpus:
+        return run_corpus(args, provider_tag, ROOT / args.out, scorecard_name)
 
     xlsx = ROOT / "data" / "ground_truth" / f"{args.ticker}.xlsx"
     out_dir = ROOT / args.out
@@ -378,6 +654,7 @@ def main():
               "run": run_metadata(args.tolerance), "periods": {}}
     tally = {"correct": 0, "wrong": 0, "missed": 0, "no_truth": 0, "both_absent": 0}
     failure_kinds = {}
+    all_cells, filings, trajectories = [], [], []
 
     for key in args.periods:
         if key not in PERIODS:
@@ -391,18 +668,21 @@ def main():
 
         print(f"\n{'='*78}\n{key}  ({label})  {pdf.name}\n{'='*78}")
         truth = load_ground_truth(xlsx, label, ticker=args.ticker)
+        ref = PeriodRef(ticker=args.ticker, quarter=key,
+                        year=int(expected_date[:4]), pdf=pdf)
+        cache_path = cache_path_for(ref, out_dir, provider_tag)
 
         # One period failing must not abandon the others: a scorecard covering three
         # of four periods with the fourth recorded as failed is still usable, and the
         # recorded failure is itself a result worth keeping.
         try:
-            pred, cached = predict(
-                # The ticker belongs in the cache name. Without it "Q1" means one
-                # thing for ARCI and another for JPFA, and a second issuer silently
-                # scores the FIRST issuer's cached prediction against its own labels --
-                # every field wrong, for a reason that appears nowhere in the output.
-                pdf, out_dir / "predictions" / provider_tag / f"{args.ticker}_{key}.json",
-                not args.no_cache, api_url=args.api_url)
+            pred, cached, payload = predict(
+                pdf, cache_path, not args.no_cache, api_url=args.api_url,
+                # The old cache key carried no year, so ARCI Q1 2022 and ARCI Q1 2023
+                # were the same file. Entries written under it are still read, but only
+                # when the payload's own period_end_date proves which period it holds.
+                legacy_path=legacy_cache_path(ref, out_dir, provider_tag),
+                extractor=args.extractor)
         except LLMError as exc:
             print(f"  extraction failed: {exc}")
             report["periods"][key] = {"error": str(exc)}
@@ -415,49 +695,51 @@ def main():
         if cached:
             print("  (cached prediction; --no-cache to re-extract)")
 
-        fx = extract_fx_rate(str(pdf))
-        rate = fx.idr_per_usd if fx else None
-        from extract import read_page_texts, build_document_text
-        from page_select import select_statement_pages
-        doc_text = build_document_text(
-            read_page_texts(str(pdf), select_statement_pages(str(pdf)).pages))
-        converted = to_idr(pred, pdf_path=str(pdf), document_text=doc_text)["values"]
+        derived = derived_for(pred, pdf, cache_path, payload)
+        rate = derived.fx_rate
+        cells = score_period(ref, pred, truth, derived, args.tolerance)
+        all_cells += cells
+        filings.append({"elapsed_s": getattr(pred, "elapsed_s", None),
+                        "usage": getattr(pred, "usage_dict", None)})
+        trajectory = getattr(pred, "agent_trajectory", None)
+        if trajectory is not None:
+            # The filing key travels with the trajectory: page_selection_agreement names
+            # the filings whose pages differ, and a list of page numbers with no filing
+            # attached cannot be looked at afterwards.
+            trajectory.setdefault("key", ref.key)
+        trajectories.append(trajectory)
 
         if pred.period_end_date != expected_date:
-            print(f"  ⚠ period_end_date {pred.period_end_date!r}, expected {expected_date!r}")
+            print(f"  \u26a0 period_end_date {pred.period_end_date!r}, expected {expected_date!r}")
         if rate:
-            print(f"  kurs {rate:,.2f} IDR/USD  (hal. {fx.page}, {fx.source})")
+            print(f"  kurs {rate:,.2f} IDR/USD")
 
         print(f"\n  {'field':28}{'as printed':>16}{'truth (USD)':>16}{'IDR err':>10}  status")
         rows = {}
-        for field in EXCEL_ROWS:
-            truth_idr = truth[field]
-            pred_idr = converted.get(field)
-            conf = (getattr(pred, "field_confidence", {}) or {}).get(field, {})
-            status, err, kind = compare(pred_idr, truth_idr, args.tolerance,
-                                        conf.get("grounded"))
-            tally[status] += 1
-            if kind:
-                failure_kinds[kind] = failure_kinds.get(kind, 0) + 1
-            if status == "missed" and conf.get("abstained"):
+        for cell in cells:
+            tally[cell.status] += 1
+            if cell.failure_kind:
+                failure_kinds[cell.failure_kind] = failure_kinds.get(cell.failure_kind, 0) + 1
+            if cell.status == "missed" and cell.abstained:
                 tally["missed_abstained"] = tally.get("missed_abstained", 0) + 1
 
-            raw = getattr(pred, field, None)
-            truth_usd = (truth_idr / rate) if (truth_idr and rate and field != "total_share") else truth_idr
-            rows[field] = {"status": status, "rel_error": err, "failure_kind": kind,
-                           "pred_idr": pred_idr, "truth_idr": truth_idr, "pred_raw": raw,
-                           "confidence": conf.get("confidence"),
-                           "grounded": conf.get("grounded"),
-                           "abstained": conf.get("abstained")}
+            truth_usd = (cell.truth_idr / rate) if (
+                cell.truth_idr and rate and cell.field != "total_share") else cell.truth_idr
+            rows[cell.field] = {"status": cell.status, "rel_error": cell.rel_error,
+                                "failure_kind": cell.failure_kind,
+                                "pred_idr": cell.pred_idr, "truth_idr": cell.truth_idr,
+                                "pred_raw": cell.pred_raw, "confidence": cell.confidence,
+                                "grounded": cell.grounded, "abstained": cell.abstained}
 
-            mark = {"correct": "OK", "wrong": f"<<< {kind}", "missed": "-- missed",
-                    "no_truth": "(no truth)", "both_absent": "(both empty)"}[status]
-            if status == "missed" and conf.get("abstained"):
+            mark = {"correct": "OK", "wrong": f"<<< {cell.failure_kind}",
+                    "missed": "-- missed", "no_truth": "(no truth)",
+                    "both_absent": "(both empty)"}[cell.status]
+            if cell.status == "missed" and cell.abstained:
                 mark = "-- abstained"
-            print(f"  {field:28}"
-                  f"{raw if raw is not None else '-':>16}"
+            print(f"  {cell.field:28}"
+                  f"{cell.pred_raw if cell.pred_raw is not None else '-':>16}"
                   f"{f'{truth_usd:,.0f}' if truth_usd else '-':>16}"
-                  f"{f'{err:.2%}' if err is not None else '-':>10}  {mark}")
+                  f"{f'{cell.rel_error:.2%}' if cell.rel_error is not None else '-':>10}  {mark}")
 
         abstained = [f for f, r in rows.items() if r.get("abstained")]
         report["periods"][key] = {"fx_rate": rate, "fields": rows,
@@ -524,6 +806,14 @@ def main():
     report["failure_kinds"] = failure_kinds
     report["provider"] = provider_tag
     report["target"] = args.api_url or "in-process"
+    # Added beside the old keys, never instead of them: `periods` is what the README
+    # documents and what compare_runs has always read, while `cells` is the flat,
+    # sliceable form every metric is computed from -- and can be recomputed from, later,
+    # by anyone holding the scorecard alone.
+    report["schema_version"] = 2
+    report["cells"] = [c.to_dict() for c in all_cells]
+    report["metrics"] = summarise(all_cells, filings, trajectories)
+    report["conversion_sha"] = conversion_sha()
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / scorecard_name).write_text(json.dumps(report, indent=2, default=str))
     print(f"\n  written to {out_dir / scorecard_name}")

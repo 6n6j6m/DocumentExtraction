@@ -32,6 +32,9 @@ class FieldConfidence(BaseModel):
     abstained: bool = Field(False, description="Value was removed for being below "
                                                "the confidence threshold")
     reasons: List[str] = []
+    withheld_value: Optional[Any] = Field(None, description="The figure abstention "
+                                                            "removed, so the withdrawal "
+                                                            "can be judged later")
 
 
 class ValidationIssueModel(BaseModel):

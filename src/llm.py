@@ -28,6 +28,7 @@ import json
 import os
 import re
 import time
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
 
@@ -165,6 +166,38 @@ def parse_json(text: str) -> dict:
         return json.loads(match.group(0))
 
 
+# --- tool calling ----------------------------------------------------------------
+#
+# A second conversation shape, added beside complete() rather than inside it. complete()
+# is one request and one JSON string, which is all the pipeline ever needs; an agent
+# needs a transcript it can append to, and a model turn that may be a tool call rather
+# than an answer. Keeping them apart means the pipeline's contract -- relied on by
+# extract.py twice and by the API's stub provider -- cannot be broken by work on the
+# loop.
+
+@dataclass
+class ToolCall:
+    """One tool the model asked for, with the arguments it supplied."""
+    name: str
+    args: dict = field(default_factory=dict)
+
+
+@dataclass
+class AssistantTurn:
+    """What the model did on one turn: tool calls, prose, or neither."""
+    tool_calls: list = field(default_factory=list)
+    text: Optional[str] = None
+    # The provider-native content block, appended back to the transcript verbatim. A
+    # part shape we did not anticipate -- a second functionCall, a thought part --
+    # round-trips instead of being silently dropped on re-serialisation.
+    raw: dict = field(default_factory=dict)
+    finish_reason: Optional[str] = None
+
+
+class ToolsUnsupported(LLMUnavailable):
+    """This provider cannot drive a tool loop. Skip it, do not fail the document."""
+
+
 class GeminiProvider:
     """Google Gemini via REST (no SDK dependency)."""
 
@@ -174,8 +207,12 @@ class GeminiProvider:
         # the fallback chain -- see get_provider_chain.
         self.model = model or os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
         self.timeout = int(os.getenv("GEMINI_TIMEOUT", os.getenv("LLM_TIMEOUT", "120")))
-        # "image" sends rendered pages to the VLM; "text" sends the text layer.
-        self.input_mode = os.getenv("GEMINI_INPUT_MODE", "image").lower()
+        # "markdown" rebuilds each page as a table from its word geometry and sends that;
+        # "image" sends rendered pages to the VLM; "text" sends the flattened text layer.
+        # Markdown is the default because it is the only one of the three that states
+        # which column is the current period -- see src/pagemd.py. A filing whose text
+        # layer is unreadable falls back to images per document, in extract.py.
+        self.input_mode = os.getenv("GEMINI_INPUT_MODE", "markdown").lower()
         # One retry by default: enough to ride out a capacity spike, few enough that a
         # genuinely down provider is discovered quickly rather than after a long stall.
         self.max_retries = int(os.getenv("LLM_MAX_RETRIES", "1"))
@@ -191,6 +228,8 @@ class GeminiProvider:
         # Set by get_provider_chain when another Gemini model follows this one: a 429
         # then hands the document over instead of cooling down.
         self.hands_over = False
+        # Gemini's REST API supports functionDeclarations on every current model.
+        self.supports_tools = True
         if not self.api_key:
             raise LLMUnavailable("GEMINI_API_KEY not set")
 
@@ -218,19 +257,82 @@ class GeminiProvider:
 
     def complete(self, system: str, user: str, images: Optional[list] = None,
                  usage=None) -> str:
+        """One request, one JSON string back. The contract three call sites rely on."""
         parts = [{"text": f"{system}\n\n{user}"}]
         for image_b64 in images or []:
             parts.append({"inline_data": {"mime_type": "image/png", "data": image_b64}})
 
-        started = time.time()
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent"
-        body = {
+        data = self._request({
             "contents": [{"parts": parts}],
             "generationConfig": {
                 "temperature": 0,
                 "responseMimeType": "application/json",
             },
+        }, usage=usage)
+        if not data.get("candidates"):
+            raise LLMError(f"Gemini returned no candidates: {str(data)[:200]}")
+        return data["candidates"][0]["content"]["parts"][0]["text"]
+
+    def complete_with_tools(self, system: str, contents: list, tools: list,
+                            usage=None) -> AssistantTurn:
+        """One turn of a tool-calling conversation.
+
+        `contents` is the running transcript in Gemini's own wire shape and is owned by
+        the caller -- appending the model's turn and the tool results is the loop's job,
+        because only the loop knows whether a tool was allowed to run.
+
+        Three differences from complete(), each of which breaks the request if missed:
+
+          * no responseMimeType. "application/json" and tools are mutually exclusive on
+            generateContent, and sending both returns a 400 that reads like a schema
+            error rather than a conflict;
+          * every contents entry carries a role. One turn without one is legal; a
+            transcript without them is not;
+          * the system prompt goes in systemInstruction. Concatenated into turn one it
+            becomes a user message the model can argue with three turns later.
+        """
+        body = {
+            "systemInstruction": {"parts": [{"text": system}]},
+            "contents": contents,
+            "tools": [{"functionDeclarations": tools}],
+            "toolConfig": {"functionCallingConfig": {"mode": "AUTO"}},
+            "generationConfig": {"temperature": 0},
         }
+        data = self._request(body, usage=usage)
+        if not data.get("candidates"):
+            raise LLMError(f"Gemini returned no candidates: {str(data)[:200]}")
+
+        candidate = data["candidates"][0]
+        content = candidate.get("content") or {}
+        calls, texts = [], []
+        # Every part, not parts[0]. The old reader indexed straight into ["text"], which
+        # is a KeyError the moment a model answers with a functionCall -- and parts is
+        # absent entirely when finishReason is MAX_TOKENS or SAFETY, which the loop
+        # handles as a turn that said nothing rather than as a crash.
+        for part in content.get("parts") or []:
+            if "functionCall" in part:
+                call = part["functionCall"] or {}
+                calls.append(ToolCall(name=call.get("name") or "",
+                                      args=call.get("args") or {}))
+            elif "text" in part:
+                texts.append(part["text"])
+        return AssistantTurn(
+            tool_calls=calls,
+            text="\n".join(texts) or None,
+            raw={"role": "model", "parts": content.get("parts") or []},
+            finish_reason=candidate.get("finishReason"))
+
+    def _request(self, body: dict, usage=None) -> dict:
+        """POST one generateContent body under the retry, 429 and hand-over policy.
+
+        Extracted from complete() unchanged, because it is the only reason a
+        three-hour corpus pass survives a throttled afternoon -- and a second entry
+        point (the tool-calling loop below) that reimplemented any of it would drift
+        from this one silently. Everything here is transport: what the body says and
+        what the parts mean belong to the caller.
+        """
+        started = time.time()
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent"
 
         # One bounded retry, for CAPACITY errors only.
         #
@@ -342,14 +444,12 @@ class GeminiProvider:
             raise LLMError(f"Gemini HTTP {response.status_code}: {response.text[:200]}")
 
         data = response.json()
-        if not data.get("candidates"):
-            raise LLMError(f"Gemini returned no candidates: {str(data)[:200]}")
 
         # Token counts come from the API's own accounting, never from our estimate.
         # Image parts are billed as tokens too, and only Gemini knows how many.
         _record(usage, "gemini", self.model, data.get("usageMetadata"), started,
                 in_key="promptTokenCount", out_key="candidatesTokenCount")
-        return data["candidates"][0]["content"]["parts"][0]["text"]
+        return data
 
 
 class OllamaProvider:
@@ -370,6 +470,13 @@ class OllamaProvider:
         # Text by default: a local vision model of comparable quality costs far more
         # RAM and time than a text model reading the same page as characters.
         self.input_mode = os.getenv("OLLAMA_INPUT_MODE", "text").lower()
+        # Ollama's /api/chat does carry tools, but a 7B local model driving a
+        # fourteen-turn loop with eight tool schemas produces far more malformed calls
+        # than useful ones -- and a silent stream of them costs more than it buys. Off
+        # by default for the same reason a text-only model refuses images below: a
+        # refusal that names the reason beats an expensive stream of garbage.
+        self._tools_enabled = os.getenv("AGENT_ALLOW_OLLAMA", "false").lower() in (
+            "1", "true", "yes")
         # Checked once, lazily: a text model silently ignoring images is worse than
         # a loud failure, because the answer still looks well-formed.
         self._vision_checked = self.supports_vision() if self.input_mode == "image" else None
@@ -377,6 +484,23 @@ class OllamaProvider:
     @property
     def name(self) -> str:
         return f"ollama:{self.model}"
+
+    @property
+    def supports_tools(self) -> bool:
+        return self._tools_enabled
+
+    def complete_with_tools(self, system: str, contents: list, tools: list,
+                            usage=None) -> "AssistantTurn":
+        """Refuse clearly rather than stream malformed tool calls.
+
+        The chain skips a provider that says it cannot do this, so
+        LLM_FALLBACK_PROVIDER=ollama degrades at step zero with a reason instead of
+        exploding at step five.
+        """
+        raise ToolsUnsupported(
+            f"{self.name} is not enabled for the agent loop: a local 7B model driving a "
+            f"tool loop produces malformed calls far more often than useful ones. "
+            f"Set AGENT_ALLOW_OLLAMA=true to measure that claim rather than take it.")
 
     @staticmethod
     def _report_timings(body: dict) -> None:

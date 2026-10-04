@@ -59,7 +59,7 @@ the extractor occasionally cannot read the hardest period, and when that happens
 so instead of guessing. **One period out of four is where the variance lives**, and one
 more clean run is not evidence that it has gone away.
 
-**90 tests**, of which 52 break one specific thing each and assert the right guard fires.
+**184 tests**, of which 146 break one specific thing each and assert that the right guard fires: 52 on the extractor, 21 on the harness that measures it, 37 on the agent and its tools, 7 on the markdown renderer, and 29 on the label audit.
 
 **What is still not scored.** CPIN and EMAS are extracted and checked against what each
 filing says about itself, but they have no labels. The distinction is kept sharp
@@ -109,7 +109,7 @@ python -m pytest tests/ -q
 ```
 
 ```
-90 passed
+184 passed
 ```
 
 Nothing here touches the network: `tests/test_api.py` stubs the provider, and
@@ -624,10 +624,17 @@ PDF (97-171 pages)
    │                    → grouped: balance_sheet / income / cash_flow
    │                    → + the share-capital note, only if no page carries it
    │
+   ├─ pagemd.py        each page rebuilt as a markdown table from its word
+   │                    geometry: amounts are right-aligned, so the columns are
+   │                    found once and the current period becomes a NAMED column
+   │
    ├─ extract.py        one call PER STATEMENT, asking only for that
    │                    statement's fields
-   │      ├─ image mode → render pages, send all of a group's images together
-   │      └─ text mode  → text layer, condensed, page markers preserved
+   │      ├─ markdown mode → the tables above  [the default]
+   │      ├─ image mode    → render pages, send a group's images together
+   │      │                  (also the automatic fallback when the text layer
+   │      │                   is glyph ids or a scan)
+   │      └─ text mode     → text layer, condensed, page markers preserved
    │
    ├─ llm.py            provider layer: Gemini (REST) | Ollama (local)
    │                    JSON forced at the API level, not just requested
@@ -655,6 +662,200 @@ is one flat JSON object. There is nothing for an agent to decide at runtime, so 
 planning loop would add latency and failure modes to buy nothing. What the problem
 actually needed was **narrower calls**, not smarter control flow — see the measured
 effect below.
+
+#### And then I built the agent it dismisses, to find out
+
+That paragraph stays as written, because it was the reasoning at the time and it is
+half right. But it argues from the architecture rather than from data, and its first
+clause — *the pages are known before any model runs* — is a claim about the
+deterministic page selector, which needed **four hand-written patches** to become true:
+LSIP's 18 filings fell back to "the first ten pages" because a translation notice pushed
+every title past the 250-character region; TAPG's income statement was misgrouped; TLDN's
+and PTBA's balance sheets were missed because their titles split across bilingual columns.
+
+Each patch was a rule a person had to notice and write. A model with a search tool needs
+none of them, and `tests/test_agenttools.py` checks that on the real filing before any
+token is spent:
+
+```
+unpatched title region on LSIP Q4 2025 :  0 statement pages found
+patched title region                   :  pages 14-19
+search_text("POSISI KEUANGAN")         :  pages 14, 15   ← the balance sheet
+```
+
+So `src/agent.py` is a second extractor behind the same entry point: a tool-calling loop
+with `list_pages`, `search_text`, `read_page_text`, `read_page_image`, four
+`report_<statement>` tools generated from `GROUP_FIELDS`, and `finish`. **What it decides
+is which pages to open and in which modality — nothing else.** `merge_group`, the two
+date guards, `derive_fields` and `assess` are the same functions on the same object
+afterwards, so a difference in score is a difference in control flow, because nothing
+else was allowed to differ. The narrow-call insight survives too: the agent reports one
+statement at a time, not nineteen fields at once.
+
+It is scored by the same harness, and cannot be confused with the pipeline:
+
+```bash
+python scripts/run_eval.py --corpus --limit 30 --sample-seed 0 --extractor agentic
+python scripts/page_agreement.py output/predictions/<agent_tag>     # offline backfill
+python scripts/compare_runs.py <pipeline scorecard> <agent scorecard> --bootstrap
+```
+
+`--extractor agentic` appends to the provider tag, so the agent's predictions and its
+scorecard live beside the pipeline's rather than on top of them — the same mechanism the
+`_api` suffix already uses, for the same reason. Every cell records which model answered,
+so `EXTRACTOR` and the `model` slice separate the two systems in the metrics with no
+change to the metrics themselves.
+
+**What the trajectories showed on the first real pass.** Three filings, read for behaviour
+rather than for score:
+
+```
+ITMG Q1 2022   list_pages → read 6,7,8 → report_balance_sheet → read 9,10 →
+               report_income → read 13 → report_cash_flow →
+               search_text("pemegang saham") → read 102 → report_share_capital
+TLDN Q4 2023   list_pages → search_text("LAPORAN POSISI KEUANGAN") → read 14,13,15 → …
+```
+
+That is the behaviour the branch was built to test: TLDN's titles are the split-column
+case, and the agent searched rather than failing. Two defects were visible immediately,
+and both are fixed:
+
+- **`reporting_scale` came back as `1000`**, which `validate.py` rejects, so the field was
+  withdrawn on both filings. The report tools now carry `enum` constraints for
+  `reporting_scale`, `currency` and `statement_scope`, and a test asserts the enum is
+  exactly what the validator accepts — a schema that teaches a wrong answer fails one
+  layer later, which is how this was noticed rather than prevented.
+- **Reading pages one per turn spent four of thirteen steps**, and the filing that ran out
+  of budget ran out while still hunting the shareholder table. `read_page_text` now takes
+  up to four pages in one call.
+
+**What is not claimed yet.** No accuracy comparison. Three filings is a smoke test, and
+that pass ran into an exhausted daily quota on `gemini-3.1-flash-lite` and 503s on
+`gemini-3.5-flash-lite`, so two of the three were lost to provider availability rather
+than to the loop. The experiment that settles it is designed and written down —
+pipeline in image mode, pipeline in text mode, agent with a generous image budget, all
+on one model, compared with a filing-clustered and an issuer-clustered bootstrap
+interval — and these are the results that would make the agent the wrong answer:
+
+| Verdict | The number that says so |
+|---|---|
+| bought nothing generalisable | the issuer-clustered accuracy interval contains zero |
+| strictly worse | tokens or seconds per filing up, accuracy delta ≤ 0 |
+| cannot drive its own tools | a high `tool_error_rate` — money spent on syntax |
+| **rediscovered the selector at several times the cost** | `page_agreement.jaccard ≈ 1.0` with no accuracy gain. The most likely outcome, and it becomes the headline if it happens |
+
+The one result that would justify it: **on the filings that needed the four patches,
+accuracy up and the patches made unnecessary.** Written down before the run, because a
+prediction made afterwards is not a prediction.
+
+### Markdown, not pixels: what the model is shown
+
+Image mode was the default for a year, on the reasoning that a VLM reads a statement's
+columns and indentation directly while a flattened text layer destroys both. The second
+half of that is true. The first half was never tested against a third option: giving the
+model the **structure itself**, rebuilt from the PDF's own geometry.
+
+The text layer prints a row like this, and loses two things:
+
+```
+Pinjaman bank 13 18.672.839.545 1 7.149.123.737 Bank loans
+```
+
+**Which column is the current period** is nowhere in that line. The prompt spends its
+longest warning on it ("read the column header dates … never assume the leftmost"), and a
+comparative-column read is still the most common error in the archive. **Where one number
+ends**: `1 7.149.123.737` is 17.149.123.737, split because the PDF puts a space inside the
+number — the pathology `numfmt.repair_digit_gaps` exists to undo downstream.
+
+Both are recoverable from geometry rather than from language, and `src/pagemd.py` does:
+
+- **Amounts are right-aligned.** Every figure in one column shares a right edge to within
+  a point or two, so the page's columns are found once and every row assigned to them. The
+  first numeric column is then the current period *on every row*, and the header names it:
+  `| Keterangan | 30 Juni 2024 | 31 Desember 2023 | English |`.
+- **A split number's boxes touch.** Measured on GTRA Q2 2024: the gap between `1` and
+  `7.149.123.737` is **−0.02 points**, while a note reference sits 46–96 points from the
+  amount beside it and two adjacent columns are 32 points apart. Merging on a sub-point gap
+  cannot swallow a note number.
+- **Indentation is kept**, as `·` per level, because in these statements indentation *is*
+  the section. TLDN Q4 2023 prints two rows labelled `Utang bank 12` on one page — one
+  under short-term liabilities, one under long-term — and nothing in the words separates
+  them.
+
+Same page, three renderings:
+
+| | |
+|---|---|
+| text layer | `Pinjaman bank 13 18.672.839.545 1 7.149.123.737 Bank loans` |
+| MarkItDown | `Pinjaman bank 13 18.672.839.545 1 7.149.123.737 Bank loans` |
+| `pagemd.py` | `\| · Pinjaman bank 13 \| 18.672.839.545 \| 17.149.123.737 \| Bank loans \|` |
+
+**MarkItDown was tried and does not fit.** For PDFs it runs pdfminer text extraction, so it
+inherits the flattening: on four balance-sheet pages our converter leaves **0 rows with two
+amounts in one cell** where the raw text layer has 16–24, and MarkItDown produces **419 and
+465 such rows** per document. It also wraps label-only rows in table syntax
+(`| Utang usaha | 11 | | | Trade payables |` with a separator under it), which asserts a
+structure that is not there. It is a good general-purpose converter; these are borderless
+financial tables, and their structure is in the coordinates.
+
+#### Measured, image against markdown
+
+Twelve filings, same model (`gemini-3.1-flash-lite`), same prompts, same seed, scored by the
+same harness. The image arm came free from the committed cache:
+
+| | image | markdown |
+|---|---:|---:|
+| correct | 117/120 | **118/120** |
+| wrong | 1 | **0** |
+| accuracy delta | — | **+0.83pp**, 95% CI [0.00, +2.50] (filing-clustered) |
+| input tokens per filing | 30,310 | 32,436 (+7.0%) |
+| seconds per filing (p50) | 30.5 | 32.1 (+5.2%) |
+
+`compare_runs` reports **no regressions**, and the one cell that changed hands is the kind
+this was built for: LSIP Q4 2024 `total_share`, where image mode read the issued count and
+markdown read the outstanding one.
+
+Two things the first version got wrong, both found by reading the tables it produced rather
+than by reading its score:
+
+- **It dropped indentation**, and on TLDN Q4 2023 the model then took the same `Utang bank`
+  row as both halves of `utang_bank` and returned exactly twice the right figure — the same
+  arithmetic mistake a human labeller made on GTRA.
+- **Note references voted on where a column was.** TLDN prints `3,10` beside a third of its
+  rows, which invented a column of note numbers between the current period and the
+  comparative. Only fully grouped figures vote now.
+
+#### Where markdown must not be used, and how that is decided
+
+A filing whose characters are glyph ids has word boxes but no words. `pdfplumber` still
+returns a full set, so every page "rebuilds" into a table and every cell is mojibake — the
+first version reported `6/6 pages rebuilt` for EMAS Q3 2025 while sending nonsense, and the
+confidence layer withheld all ten fields (abstention precision 100%: every withdrawal would
+have been wrong, but ten fields were lost where image mode scored 10/10).
+
+So the choice is made per filing, on the **readability of the raw text layer** — the same
+judgement `pdftext` already makes for the OCR decision — not on whether a table came out:
+
+```
+markdown: 6/6 page(s) rebuilt as tables, 0/6 with a readable text layer
+too little of this filing has a usable text layer; reading the pages as images instead
+✓ 19/22 fields          model: gemini:gemini-3.1-flash-lite+image_fallback
+```
+
+With that, all four EMAS filings score **40/40 in markdown mode** — the one unreadable
+filing routed to images automatically, and the row's `model` says so.
+
+**Markdown is now the default** (`GEMINI_INPUT_MODE=markdown`). The honest caveat: the
+comparison above is 16 filings, and its interval touches zero. The full-corpus run that
+would settle it is one command and directly comparable to the committed baseline:
+
+```bash
+GEMINI_INPUT_MODE=markdown python scripts/run_eval.py --corpus \
+    --corpus-root data/raw ~/FinancialReport
+python scripts/compare_runs.py \
+    evals/baselines/gemini_gemini-3.1-flash-lite_image/corpus_scorecard.json \
+    output/corpus_scorecard_gemini_gemini-3.1-flash-lite_markdown.json --bootstrap
+```
 
 ---
 
@@ -878,6 +1079,103 @@ Design points that matter:
 - **Tolerance is 0.01% by default.** Loose enough for float residue, tight enough to
   catch a wrong-but-similar row. At 1% the equity error described below survives
   undetected.
+
+### Measuring, not demonstrating: the whole labelled corpus
+
+One ticker and four quarters is 40 cells, and every committed scorecard over them reads
+100%. That is a demonstration. Scoring everything that has both a filing and a label is
+a measurement, and it is a different command:
+
+```bash
+# every issuer, every labelled period, from the archive
+python scripts/run_eval.py --corpus --corpus-root data/raw ~/FinancialReport
+
+# a cheap, reproducible sample first — same seed, same five filings
+python scripts/run_eval.py --corpus --limit 5 --sample-seed 0 --corpus-root ~/FinancialReport
+
+# score only what is already cached: no key, no network, no PDF opened
+python scripts/run_eval.py --corpus --cached-only
+
+# then read it
+python scripts/report_eval.py output/corpus_scorecard_<tag>.json
+```
+
+Four things had to change before that command could exist, and each was a live defect:
+
+- **A period is matched as a tuple, not a string.** The workbooks head 2020–2024
+  `TAHUNAN 2024` and 2025 `Q4 2025`. Code that *builds* a label to search for finds no
+  annual column at all for whichever spelling it did not build — five years of fourth
+  quarters scored as nothing, with no error. `src/periods.py` parses both to `("Q4", y)`.
+- **The prediction cache key carries the year.** It was `<TICKER>_<Qn>`, so ARCI Q1 2022
+  and ARCI Q1 2023 were the same file. With one year of filings that is invisible; with
+  five it silently scores one year's prediction against another's labels. Old entries are
+  still read, but only when the payload's own `period_end_date` proves which period it
+  holds — the migration cannot repeat the collision it fixes.
+- **A bad workbook is a result, not an exception.** `ADMR.xlsx` was labelled `ITMG` in
+  D1 and `PTBA.xlsx` `AADI` — copies never re-titled. The ticker guard was right to
+  refuse them, but refusing *fatally* would cost every issuer after them in a 223-filing
+  pass. A corpus run names them and carries on. (Both were then verified against the
+  filings and corrected; see `data/ground_truth/CORRECTIONS.md`.)
+- **The conversion to Rupiah is cached beside the prediction.** Scoring used to re-open
+  the filing every time — page selection, text, FX rate — even on a cache hit. On EMAS,
+  whose text layer is glyph ids, that is minutes of OCR to re-derive an answer nobody
+  re-asked the model for. `_derived` is what lets CI score the corpus with no PDFs, no
+  poppler and no key. It is cached *arithmetic over the model's own output*, not a second
+  source of truth, and it is invalidated by a hash of `src/normalize.py`.
+
+#### The metrics that accuracy was hiding
+
+`src/evalmetrics.py` computes these from the cells; `scripts/report_eval.py` renders them.
+
+| Metric | The question it answers |
+|---|---|
+| **coverage** | How much did it answer at all? Every labelled cell lands in exactly one bucket — including the abstention on an unlabelled cell that used to vanish into `both_absent`, counted in neither numerator nor denominator |
+| **accuracy** *and* **accuracy when answered** | A system that withholds half its fields can post a high second number and a poor first one. Both are printed, always |
+| **abstention precision / recall** | Of the figures withdrawn, how many *would* have been wrong — the only number that justifies the confidence layer. It needs the withheld figure, so `assess()` now records it; a withdrawal whose figure was never recorded is counted as **unknown**, never assumed |
+| **calibration + ECE** | Does a stated 0.9 mean nine times in ten? Bucketed from the abstain threshold up, with the signed gap so overconfidence is visible |
+| **slices** | ticker, field, year, quarter, currency, reporting scale, text-layer quality, and **which model answered** — each with its n, so a four-cell slice cannot be quoted as a result |
+| **cost and latency** | Tokens, calls and seconds per filing, p50 and p95. Cost stays `—` with the reason while `config/pricing.json` is empty; a `$0.00` would read as free |
+
+The scorecard keeps every key it had — `periods`, `summary`, `usage`, `run`, `provider`,
+`target` — and adds `cells`, `metrics`, `corpus` and `errors` beside them. A single-ticker
+run is byte-identical in its old keys, which `tests/test_eval_corpus.py` pins as a frozen
+contract.
+
+#### Measured on the archive
+
+A sampled pass over five filings drawn from four issuers the harness had never scored
+(`--limit 5 --sample-seed 0`) came back **50/50 cells correct** at 4.0 calls and 31,936
+input tokens per filing — ADMR Q4 2022, ITMG Q1 2022, ITMG Q2 2024, TLDN Q4 2023 and
+TOTL Q4 2024, one of them through a `ReadTimeout` and a retry. Scoring the committed
+cache with `--cached-only` reports 77/80 with three cells withheld, all three JPFA
+`total_share` — where the old scorecard reported 36/36 by letting them fall into
+`both_absent`. Same predictions, same code: one report counts what was withheld and the
+other silently did not.
+
+#### The gate that runs on every push
+
+`.github/workflows/eval.yml` runs the fault-injection suite, then scores the corpus from
+committed predictions with `--cached-only` and compares it with the committed baseline.
+No API key is configured for the workflow, and `--cached-only` makes that a guarantee
+rather than a hope: a filing with no cached prediction is reported as uncached, never
+extracted.
+
+The baseline lives in `evals/baselines/<provider_tag>/`, not in `output/` which every run
+overwrites, and moves only by a deliberate act:
+
+```bash
+python scripts/promote_baseline.py output/corpus_scorecard_<tag>.json \
+    --reason "first full-corpus pass after the shareholder-table rewrite"
+```
+
+It refuses a run made from a dirty tree or with no commit recorded — a baseline that
+cannot be reproduced from the repository turns the gate into a comparison with a number
+nobody can recreate — and every promotion appends to `evals/baselines/CHANGELOG.md`.
+
+The baseline is the chain as deployed: `gemini-3.1-flash-lite` first, `gemini-3.5-flash-lite`
+behind it. A corpus pass is long enough that the primary model *will* be throttled, and
+suppressing the fallback would measure the rate limiter rather than the extractor — so
+every cell records which model answered it and `model` is one of the slices.
 - **Statuses are distinct:** `correct` / `wrong` / `missed` / `no_truth`, and a
   `missed` caused by deliberate abstention is counted separately from one where the
   model simply returned nothing.
@@ -970,8 +1268,11 @@ Stated plainly, because a clean scorecard is the easiest thing in this repo to o
 - **The converted leg is not independent** for ARCI, for the reason given above. JPFA
   reports in Rupiah and has no conversion step, so its labels do not share this problem.
 
-The highest-value addition is not another guard: it is labels for a third issuer, and
-EMAS is the one that would exercise the most untested code.
+Most of that is what `--corpus` exists to fix, and it is fixed by running it rather than
+by describing it: the machinery now scores every labelled filing, but the numbers above
+still come from the two issuers whose predictions are committed. The full pass is the
+author's to run — roughly three hours and a thousand calls — after which the baseline and
+the CI gate cover 223 filings instead of eight.
 
 ### Catching a regression before it ships
 
@@ -1092,6 +1393,73 @@ easy to make and easy to miss. Both cells were corrected before the run above.
 
 This is the argument for the tight tolerance: a 0.03% discrepancy is invisible at
 any looser setting, and it was a real error.
+
+### Auditing the ground truth with an agent
+
+Every label error found so far — ARCI's equity subtotal, GTRA's two-column shift, GTRA
+`J8` counted twice, JPFA's stale share count, the wrong issuer in ADMR's and PTBA's `D1` —
+was found by a person reading one disagreement at a time. And there is a structural reason
+to expect more: the free screen below finds that **2,188 of the 2,229 labelled cells
+(98.2%) are identical to the old `pdf_to_csv.py` output**. A 98.9% score against those
+labels is largely the system agreeing with an earlier version of itself.
+
+`scripts/audit_labels.py` re-reads the filings to check the labels, in three stages:
+
+| Stage | Who | What it does |
+|---|---|---|
+| screen | code, free | duplicated columns, x2 / x1000 jumps, a subtotal above its total, disagreement with today's extractor, identity with the old CSV. Priorities, not verdicts. |
+| read | agent (`src/auditagent.py`), **blind** | finds the ten figures without being shown the labels, citing page, row, column header and the value exactly as printed. Sums and differences are cited as signed components; arithmetic, scale and FX are code. |
+| adjudicate | agent, informed | only where a verified reading disagrees with a label: shown the label, its own reading, the pipeline's answer, and every place the label's figure is printed across the issuer's filings; rules `label_wrong` / `auditor_wrong` / `ambiguous_definition` and names a cause. |
+
+A citation is evidence only if `labelaudit.verify_evidence` accepts it: the figure must be
+printed on the page named, and the page's own geometry (`pagemd.page_table`) must put it
+under this period's column. On GTRA Q2 2024 page 5, a citation of `17.149.123.737` labelled
+"30 Juni 2024" is rejected because the word boxes put that figure under 31 December 2023 —
+the agent's claim about the column is checked, not trusted. A failed check is sent back to
+the agent on its next turn, so it can correct the citation. A `label_wrong` ruling counts
+only if the corrected figure passes the same checks; otherwise it goes to a person.
+
+`find_number` is the deterministic search that proved the GTRA shift, now a tool: the
+figure the committed sheet held for Q4 2025, 1.740.079.004.309, is printed only in the Q2
+2026 filing (pages 6, 8, 78), and the true Q4 2025 total, 1.242.804.936.571, on pages 11,
+13 and 85 of its own filing.
+
+**Independence.** The auditor refuses to start if `AUDIT_MODEL` or any of its fallbacks is
+the model being evaluated — the rule in `.claude/skills/label-groundtruth`. Nothing writes a
+workbook: the output is `audit_report.md` and `PROPOSED_CORRECTIONS.md`, in the
+`CORRECTIONS.md` format, for a person to accept or reject.
+
+**The auditor is scored too.** The reading does not depend on the labels, so one cached
+reading is compared for free against the working tree, against `HEAD` — whose workbooks
+still hold the errors fixed since, a real answer key — and against a copy with errors of
+known kinds planted in it (`scripts/audit_benchmark.py`). Written before any run, the
+results that would make it not worth using: recall below 80% on the `HEAD` key, alarms on
+more than 5% of untouched cells, more than 20% of cells it cannot judge, or GTRA's errors
+not named a period shift.
+
+**Keeping a long conversation affordable.** Every step re-sends the whole transcript, so
+cost grows with what has been read. Page text older than two tool turns is replaced by a
+note (findings are kept in `report_evidence`, not in history); a call estimated above
+`AUDIT_MAX_CALL_TOKENS` is compacted harder; `AUDIT_TPM_LIMIT` makes the run wait rather
+than exceed a per-minute quota; and when every audit model has hit its daily quota the run
+stops and the same command resumes it the next day. It does not switch accounts.
+
+**Where it stands.** The screen has run on both versions of the labels. On `HEAD` it flags
+GTRA's four copied columns (nine identical fields each) and both `D1` problems; on the
+working tree, neither. The agent stages have not produced a result yet. The first pilot,
+on GTRA Q2 2024, met a sustained 503 on `gemini-3.8-flash` and `gemini-3.7-flash` and a
+spent daily quota on `gemini-3.6-flash`. It also exposed two defects, both fixed: token
+counts read from the wrong key, and the agent re-reading pages that compaction had
+removed before it reported from them. No recall, error rate or cost per filing is claimed
+here until a run produces one.
+
+```bash
+python scripts/audit_labels.py --corpus --phase screen            # free
+python scripts/audit_labels.py --filings GTRA_Q2_2024 JPFA_Q3_2023 ARCI_Q1_2022
+python scripts/audit_labels.py --corpus --estimate                # projection, no calls
+python scripts/audit_benchmark.py --tickers GTRA JPFA ADMR PTBA
+python scripts/audit_labels.py --corpus                           # resumable
+```
 
 ---
 
@@ -1965,12 +2333,27 @@ src/
   confidence.py    grounding/validation/derivation → per-field score, abstention
   schema.py        field definitions, EXCEL_ROWS mapping
   prompts.py       system + extraction prompts, per-field keyword rules
+  pagemd.py        a page as a markdown table, from where the ink actually is
+  periods.py       one parser for "Q1 2022", "TAHUNAN 2022" and Q1_2022_ARCI.pdf
+  evalkit.py       corpus discovery, ground-truth loading, one scored cell
+  evalmetrics.py   coverage, abstention precision, calibration, slices, bootstrap
+  agent.py         the tool-calling loop: budget, trajectory, hand-over
+  agenttools.py    what the agent may do: list, search, read, render, report, finish
+  labelaudit.py    label audit, deterministic half: screen, citation checks, injection
+  auditagent.py    label audit, agent half: blind reading, adjudication, compaction, pacer
+evals/
+  baselines/       what CI compares against, and the changelog of every promotion
 scripts/
   pdf_to_csv.py    unstructured PDF -> one structured CSV row per filing
   fetch_share_prices.py  market close per quarter; the one sheet input not in the filing
   build_dataset.py the three joined: figures + price + the eight ratios, one CSV
-  run_eval.py      scorecard generation, failure classification
-  compare_runs.py  regression gate between two scorecards
+  run_eval.py      scorecard generation, single ticker or the whole corpus
+  report_eval.py   a scorecard rendered as markdown + one CSV row per cell
+  compare_runs.py  regression gate: per-cell diff, bootstrap interval, cost budget
+  promote_baseline.py  makes a scorecard the thing CI compares against
+  page_agreement.py    offline: what the selector would have chosen, for comparison
+  audit_labels.py  re-read the filings to check the labels; proposes, never writes
+  audit_benchmark.py   scores the auditor on known (HEAD) and planted errors
 tests/
   test_guards.py   fault injection; proves each guard fires (and stays quiet)
 data/

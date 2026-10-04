@@ -1,0 +1,414 @@
+{
+  "period_end_date": "2023-12-31",
+  "aset": 5423799394.0,
+  "total_aset_lancar": 1613998990.0,
+  "kas": 583295262.0,
+  "liabilitas": 2965522409.0,
+  "utang_bank": 443624000.0,
+  "ekuitas": 2458241414.0,
+  "pendapatan": 4007082262.0,
+  "laba_bersih": 451793733.0,
+  "kas_dari_aktivitas_operasi": 1313645740.0,
+  "total_share": null,
+  "utang_bank_jangka_pendek": null,
+  "utang_bank_bagian_lancar": 443624000.0,
+  "total_ekuitas": 2458276985.0,
+  "kepentingan_non_pengendali": 35571.0,
+  "total_share_components": null,
+  "kas_components": null,
+  "saham_beredar": null,
+  "saham_treasuri": null,
+  "saham_ditempatkan": null,
+  "currency": "IDR",
+  "reporting_scale": null,
+  "statement_scope": "konsolidasian",
+  "_confidence": {
+    "period_end_date": {
+      "confidence": 0.85,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "not verifiable verbatim"
+      ],
+      "withheld_value": null
+    },
+    "aset": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "total_aset_lancar": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "kas": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "liabilitas": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "utang_bank": {
+      "confidence": 1.0,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "derived from utang_bank_jangka_pendek, utang_bank_bagian_lancar; graded on those rows"
+      ],
+      "withheld_value": null
+    },
+    "ekuitas": {
+      "confidence": 1.0,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "derived from total_ekuitas, kepentingan_non_pengendali; graded on those rows"
+      ],
+      "withheld_value": null
+    },
+    "pendapatan": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "laba_bersih": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "kas_dari_aktivitas_operasi": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "utang_bank_bagian_lancar": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "total_ekuitas": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "kepentingan_non_pengendali": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "currency": {
+      "confidence": 0.85,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "not verifiable verbatim"
+      ],
+      "withheld_value": null
+    },
+    "reporting_scale": {
+      "confidence": 0.5,
+      "grounded": null,
+      "abstained": true,
+      "reasons": [
+        "not verifiable verbatim",
+        "implicated in a failing validation rule"
+      ],
+      "withheld_value": 1000
+    },
+    "statement_scope": {
+      "confidence": 0.85,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "not verifiable verbatim"
+      ],
+      "withheld_value": null
+    }
+  },
+  "_elapsed_s": 96.7,
+  "_usage": {
+    "llm_calls": 14,
+    "tokens": {
+      "input": 111069,
+      "output": 554
+    },
+    "latency_ms": {
+      "select_pages": 12,
+      "step_1": 1106,
+      "step_2": 1427,
+      "step_3": 1140,
+      "step_4": 1089,
+      "step_5": 1181,
+      "step_6": 1417,
+      "step_7": 1201,
+      "step_8": 1279,
+      "step_9": 1399,
+      "step_10": 1111,
+      "step_11": 1103,
+      "step_12": 1960,
+      "step_13": 1157,
+      "step_14": 71720,
+      "read_text": 150,
+      "assess": 0
+    },
+    "cost": {
+      "amount": null,
+      "currency": "USD",
+      "per_model": [
+        {
+          "model": "gemini-3.5-flash-lite",
+          "input_tokens": 111069,
+          "output_tokens": 554,
+          "amount": null
+        }
+      ],
+      "reason": "no price configured for gemini-3.5-flash-lite - add it to /Users/muhammadnajmirahmani/Belajar/ProjectDatasaur/config/pricing.json"
+    },
+    "notes": []
+  },
+  "_model": "agent:gemini:gemini-3.5-flash-lite",
+  "_agent": {
+    "schema": 1,
+    "steps_used": 14,
+    "tool_calls": 14,
+    "stop_reason": "step_budget",
+    "budget_exhausted": true,
+    "budget": {
+      "max_steps": 14,
+      "max_images": 8,
+      "max_text_pages": 25,
+      "max_input_tokens": 200000,
+      "max_seconds": 240
+    },
+    "steps": [
+      {
+        "i": 1,
+        "tool": "list_pages",
+        "args": {},
+        "ok": true,
+        "chars": 10890,
+        "ms": 4355
+      },
+      {
+        "i": 2,
+        "tool": "search_text",
+        "args": {
+          "query": "LAPORAN POSISI KEUANGAN"
+        },
+        "ok": true,
+        "hits": 10,
+        "ms": 3877
+      },
+      {
+        "i": 3,
+        "tool": "read_page_text",
+        "args": {
+          "page": 14
+        },
+        "ok": true,
+        "chars": 2024,
+        "ms": 0
+      },
+      {
+        "i": 4,
+        "tool": "read_page_text",
+        "args": {
+          "page": 13
+        },
+        "ok": true,
+        "chars": 1971,
+        "ms": 0
+      },
+      {
+        "i": 5,
+        "tool": "read_page_text",
+        "args": {
+          "page": 15
+        },
+        "ok": true,
+        "chars": 1407,
+        "ms": 0
+      },
+      {
+        "i": 6,
+        "tool": "report_balance_sheet",
+        "args": {
+          "pages": [
+            13,
+            14,
+            15
+          ]
+        },
+        "ok": true
+      },
+      {
+        "i": 7,
+        "tool": "search_text",
+        "args": {
+          "query": "LAPORAN LABA RUGI"
+        },
+        "ok": true,
+        "hits": 9,
+        "ms": 3
+      },
+      {
+        "i": 8,
+        "tool": "read_page_text",
+        "args": {
+          "page": 16
+        },
+        "ok": true,
+        "chars": 2177,
+        "ms": 0
+      },
+      {
+        "i": 9,
+        "tool": "report_income",
+        "args": {
+          "pages": [
+            16
+          ]
+        },
+        "ok": true
+      },
+      {
+        "i": 10,
+        "tool": "search_text",
+        "args": {
+          "query": "ARUS KAS"
+        },
+        "ok": true,
+        "hits": 10,
+        "ms": 2
+      },
+      {
+        "i": 11,
+        "tool": "read_page_text",
+        "args": {
+          "page": 19
+        },
+        "ok": true,
+        "chars": 3163,
+        "ms": 0
+      },
+      {
+        "i": 12,
+        "tool": "report_cash_flow",
+        "args": {
+          "pages": [
+            19
+          ]
+        },
+        "ok": true
+      },
+      {
+        "i": 13,
+        "tool": "search_text",
+        "args": {
+          "query": "Modal ditempatkan dan disetor penuh"
+        },
+        "ok": true,
+        "hits": 0,
+        "ms": 5
+      },
+      {
+        "i": 14,
+        "tool": "search_text",
+        "args": {
+          "query": "pemegang saham"
+        },
+        "ok": true,
+        "hits": 3,
+        "ms": 3
+      }
+    ],
+    "tool_errors": [],
+    "tool_counts": {
+      "list_pages": 1,
+      "search_text": 5,
+      "read_page_text": 5,
+      "report_balance_sheet": 1,
+      "report_income": 1,
+      "report_cash_flow": 1
+    },
+    "pages_opened_text": [
+      13,
+      14,
+      15,
+      16,
+      19
+    ],
+    "pages_rendered_image": [],
+    "pages_reported": {
+      "balance_sheet": [
+        13,
+        14,
+        15
+      ],
+      "income": [
+        16
+      ],
+      "cash_flow": [
+        19
+      ]
+    },
+    "groups_reported": [
+      "balance_sheet",
+      "cash_flow",
+      "income"
+    ],
+    "no_tool_call_turns": 0,
+    "handovers": [],
+    "providers": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "not_found": [],
+    "deterministic_pages": null
+  },
+  "_derived": {
+    "idr_values": {
+      "aset": 5423799394000,
+      "total_aset_lancar": 1613998990000,
+      "kas": 583295262000,
+      "liabilitas": 2965522409000,
+      "utang_bank": 443624000000,
+      "ekuitas": 2458241414000,
+      "pendapatan": 4007082262000,
+      "laba_bersih": 451793733000,
+      "kas_dari_aktivitas_operasi": 1313645740000,
+      "total_share": null,
+      "period_end_date": "2023-12-31"
+    },
+    "withheld_idr": {},
+    "fx_rate": null,
+    "currency": "IDR",
+    "reporting_scale": null,
+    "text_layer": "clean",
+    "model": "agent:gemini:gemini-3.5-flash-lite",
+    "sha": "dfc84b42807a"
+  }
+}

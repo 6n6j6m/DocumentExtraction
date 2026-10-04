@@ -1,0 +1,193 @@
+{
+  "period_end_date": "2022-09-30",
+  "aset": 723462894.0,
+  "total_aset_lancar": 74923367.0,
+  "kas": 9586906.0,
+  "liabilitas": 475480467.0,
+  "utang_bank": 80157017.0,
+  "ekuitas": 248127613.0,
+  "pendapatan": 165645314.0,
+  "laba_bersih": 15206789.0,
+  "kas_dari_aktivitas_operasi": 36780985.0,
+  "total_share": 24835000000.0,
+  "utang_bank_jangka_pendek": 61657211.0,
+  "utang_bank_bagian_lancar": 18499806.0,
+  "total_ekuitas": 247982427.0,
+  "kepentingan_non_pengendali": -145186.0,
+  "total_share_components": null,
+  "currency": "USD",
+  "reporting_scale": "FULL",
+  "statement_scope": "CONSOLIDATED",
+  "_confidence": {
+    "period_end_date": {
+      "confidence": 0.85,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "not verifiable verbatim"
+      ]
+    },
+    "aset": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": []
+    },
+    "total_aset_lancar": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": []
+    },
+    "kas": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": []
+    },
+    "liabilitas": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": []
+    },
+    "utang_bank": {
+      "confidence": 1.0,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "derived from utang_bank_jangka_pendek, utang_bank_bagian_lancar; graded on those rows"
+      ]
+    },
+    "ekuitas": {
+      "confidence": 1.0,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "derived from total_ekuitas, kepentingan_non_pengendali; graded on those rows"
+      ]
+    },
+    "pendapatan": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": []
+    },
+    "laba_bersih": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": []
+    },
+    "kas_dari_aktivitas_operasi": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": []
+    },
+    "total_share": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": []
+    },
+    "utang_bank_jangka_pendek": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": []
+    },
+    "utang_bank_bagian_lancar": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": []
+    },
+    "total_ekuitas": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": []
+    },
+    "kepentingan_non_pengendali": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": []
+    },
+    "currency": {
+      "confidence": 0.85,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "not verifiable verbatim"
+      ]
+    },
+    "reporting_scale": {
+      "confidence": 0.85,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "not verifiable verbatim"
+      ]
+    },
+    "statement_scope": {
+      "confidence": 0.85,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "not verifiable verbatim"
+      ]
+    }
+  },
+  "_elapsed_s": 20.7,
+  "_usage": {
+    "llm_calls": 3,
+    "tokens": {
+      "input": 23956,
+      "output": 889
+    },
+    "latency_ms": {
+      "select_pages": 7575,
+      "read_text": 274,
+      "assess": 6,
+      "extract": 12836
+    },
+    "cost": {
+      "amount": null,
+      "currency": "USD",
+      "per_model": [
+        {
+          "model": "gemini-3.1-flash-lite",
+          "input_tokens": 23956,
+          "output_tokens": 889,
+          "amount": null
+        }
+      ],
+      "reason": "no price configured for gemini-3.1-flash-lite - add it to /Users/muhammadnajmirahmani/Belajar/ProjectDatasaur/config/pricing.json"
+    },
+    "notes": []
+  },
+  "_derived": {
+    "idr_values": {
+      "aset": 11028397774390,
+      "total_aset_lancar": 1142124496951,
+      "kas": 146141859756,
+      "liabilitas": 7248177850610,
+      "utang_bank": 1221905746951,
+      "ekuitas": 3782433125000,
+      "pendapatan": 2525081006098,
+      "laba_bersih": 231810807927,
+      "kas_dari_aktivitas_operasi": 560685746951,
+      "total_share": 24835000000.0,
+      "period_end_date": "2022-09-30"
+    },
+    "withheld_idr": {},
+    "fx_rate": 15243.902439024389,
+    "currency": "USD",
+    "reporting_scale": "FULL",
+    "text_layer": "clean",
+    "model": null,
+    "sha": "dfc84b42807a"
+  }
+}

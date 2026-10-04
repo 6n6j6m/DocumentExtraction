@@ -75,6 +75,21 @@ Any change to a label after it was first entered goes in
 
 The existing ARCI `ekuitas` entry is the worked example to follow.
 
+## Auditing with the agent
+
+`scripts/audit_labels.py` re-reads the filings to check the labels (see the README section
+"Auditing the ground truth with an agent"). Its rules follow from this skill's:
+
+- **The auditor is never the evaluated model.** It refuses to start if `AUDIT_MODEL` or a
+  fallback equals `GEMINI_MODEL`.
+- **The reading is blind.** The first conversation is never shown a label.
+- **A proposal is a form, not a label.** `PROPOSED_CORRECTIONS.md` is written in the
+  format below; nothing edits a workbook. Check each entry against the filing, edit the
+  workbook by hand, and move the entry into `CORRECTIONS.md` with "Found by: agentic label
+  audit".
+- **Score the auditor before trusting it**: `scripts/audit_benchmark.py` measures it on
+  the errors `HEAD` still carries and on planted ones.
+
 ## Invariants to preserve
 
 - The sheet names its own issuer in `D1`, and it matches the filename.

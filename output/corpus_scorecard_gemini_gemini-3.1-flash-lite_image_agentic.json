@@ -1,0 +1,982 @@
+{
+  "ticker": "CORPUS",
+  "tolerance": 0.0001,
+  "run": {
+    "timestamp": "2026-09-22T15:30:36+00:00",
+    "git_commit": "e02530d",
+    "git_dirty": true,
+    "prompt_sha256": "db09b37780b3",
+    "tolerance": 0.0001,
+    "config": {
+      "LLM_PROVIDER": "gemini",
+      "GEMINI_MODEL": "gemini-3.1-flash-lite",
+      "OLLAMA_MODEL": "qwen3-vl:8b",
+      "GEMINI_INPUT_MODE": "image",
+      "OLLAMA_INPUT_MODE": "image",
+      "SPLIT_BY_STATEMENT": "true",
+      "IMAGE_DPI": "150",
+      "MAX_PDF_PAGES": "20",
+      "EXTRACTOR": "agentic"
+    }
+  },
+  "periods": {
+    "ITMG Q1 2022": {
+      "error": "no provider was available - gemini:gemini-3.1-flash-lite: Gemini rate limit (429) on gemini-3.1-flash-lite: daily quota (RPD) used up; waiting cannot clear it; gemini:gemini-3.5-flash-lite: Gemini 503 (capacity) on gemini-3.5-flash-lite after 3 retry; handing over to the next model"
+    },
+    "TLDN Q4 2023": {
+      "error": "no provider was available - gemini:gemini-3.5-flash-lite: Gemini 503 (capacity) on gemini-3.5-flash-lite after 3 retry; handing over to the next model"
+    },
+    "TOTL Q4 2024": {
+      "fx_rate": null,
+      "fields": {
+        "aset": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 3495248379000,
+          "truth_idr": 3495248379000.0,
+          "pred_raw": 3495248379.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "total_aset_lancar": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 2714645759000,
+          "truth_idr": 2714645759000.0,
+          "pred_raw": 2714645759.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "kas": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 1033988878000,
+          "truth_idr": 1033988878000.0,
+          "pred_raw": 1033988878.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "liabilitas": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 2307888171000,
+          "truth_idr": 2307888171000.0,
+          "pred_raw": 2307888171.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "utang_bank": {
+          "status": "missed",
+          "rel_error": null,
+          "failure_kind": null,
+          "pred_idr": null,
+          "truth_idr": 0.0,
+          "pred_raw": null,
+          "confidence": null,
+          "grounded": null,
+          "abstained": false
+        },
+        "ekuitas": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 1189801449000,
+          "truth_idr": 1189801449000.0,
+          "pred_raw": 1189801449.0,
+          "confidence": 1.0,
+          "grounded": null,
+          "abstained": false
+        },
+        "laba_bersih": {
+          "status": "wrong",
+          "rel_error": 0.0002902359829860085,
+          "failure_kind": "wrong_near_miss",
+          "pred_idr": 265505876000,
+          "truth_idr": 265428839000.0,
+          "pred_raw": 265505876.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "pendapatan": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 3087653570000,
+          "truth_idr": 3087653570000.0,
+          "pred_raw": 3087653570.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "kas_dari_aktivitas_operasi": {
+          "status": "correct",
+          "rel_error": 0.0,
+          "failure_kind": null,
+          "pred_idr": 650221275000,
+          "truth_idr": 650221275000.0,
+          "pred_raw": 650221275.0,
+          "confidence": 1.0,
+          "grounded": true,
+          "abstained": false
+        },
+        "total_share": {
+          "status": "missed",
+          "rel_error": null,
+          "failure_kind": null,
+          "pred_idr": null,
+          "truth_idr": 3410000000.0,
+          "pred_raw": null,
+          "confidence": null,
+          "grounded": null,
+          "abstained": false
+        }
+      },
+      "elapsed_s": 241.4,
+      "usage": {
+        "llm_calls": 12,
+        "tokens": {
+          "input": 118170,
+          "output": 511
+        },
+        "latency_ms": {
+          "select_pages": 38,
+          "step_1": 8994,
+          "step_2": 5614,
+          "step_3": 31886,
+          "step_4": 17405,
+          "step_5": 67686,
+          "step_6": 14132,
+          "step_7": 14689,
+          "step_8": 13453,
+          "step_9": 20875,
+          "step_10": 13317,
+          "step_11": 12051,
+          "step_12": 6942,
+          "read_text": 323,
+          "assess": 1
+        },
+        "cost": {
+          "amount": null,
+          "currency": "USD",
+          "per_model": [
+            {
+              "model": "gemini-3.6-flash",
+              "input_tokens": 118170,
+              "output_tokens": 511,
+              "amount": null
+            }
+          ],
+          "reason": "no price configured for gemini-3.6-flash - add it to /Users/muhammadnajmirahmani/Belajar/ProjectDatasaur/config/pricing.json"
+        },
+        "notes": []
+      },
+      "abstained": []
+    }
+  },
+  "summary": {
+    "correct": 7,
+    "wrong": 1,
+    "missed": 2,
+    "no_truth": 0,
+    "both_absent": 0
+  },
+  "failure_kinds": {
+    "wrong_near_miss": 1
+  },
+  "provider": "gemini_gemini-3.1-flash-lite_image_agentic",
+  "target": "in-process",
+  "schema_version": 2,
+  "cells": [
+    {
+      "key": "TOTL Q4 2024",
+      "ticker": "TOTL",
+      "quarter": "Q4",
+      "year": 2024,
+      "field": "aset",
+      "status": "correct",
+      "rel_error": 0.0,
+      "failure_kind": null,
+      "pred_idr": 3495248379000,
+      "truth_idr": 3495248379000.0,
+      "pred_raw": 3495248379.0,
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_idr": null,
+      "would_have_been": null,
+      "currency": "IDR",
+      "reporting_scale": "THOUSANDS",
+      "text_layer": "clean",
+      "model": "agent:gemini:gemini-3.6-flash",
+      "fx_rate": null
+    },
+    {
+      "key": "TOTL Q4 2024",
+      "ticker": "TOTL",
+      "quarter": "Q4",
+      "year": 2024,
+      "field": "total_aset_lancar",
+      "status": "correct",
+      "rel_error": 0.0,
+      "failure_kind": null,
+      "pred_idr": 2714645759000,
+      "truth_idr": 2714645759000.0,
+      "pred_raw": 2714645759.0,
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_idr": null,
+      "would_have_been": null,
+      "currency": "IDR",
+      "reporting_scale": "THOUSANDS",
+      "text_layer": "clean",
+      "model": "agent:gemini:gemini-3.6-flash",
+      "fx_rate": null
+    },
+    {
+      "key": "TOTL Q4 2024",
+      "ticker": "TOTL",
+      "quarter": "Q4",
+      "year": 2024,
+      "field": "kas",
+      "status": "correct",
+      "rel_error": 0.0,
+      "failure_kind": null,
+      "pred_idr": 1033988878000,
+      "truth_idr": 1033988878000.0,
+      "pred_raw": 1033988878.0,
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_idr": null,
+      "would_have_been": null,
+      "currency": "IDR",
+      "reporting_scale": "THOUSANDS",
+      "text_layer": "clean",
+      "model": "agent:gemini:gemini-3.6-flash",
+      "fx_rate": null
+    },
+    {
+      "key": "TOTL Q4 2024",
+      "ticker": "TOTL",
+      "quarter": "Q4",
+      "year": 2024,
+      "field": "liabilitas",
+      "status": "correct",
+      "rel_error": 0.0,
+      "failure_kind": null,
+      "pred_idr": 2307888171000,
+      "truth_idr": 2307888171000.0,
+      "pred_raw": 2307888171.0,
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_idr": null,
+      "would_have_been": null,
+      "currency": "IDR",
+      "reporting_scale": "THOUSANDS",
+      "text_layer": "clean",
+      "model": "agent:gemini:gemini-3.6-flash",
+      "fx_rate": null
+    },
+    {
+      "key": "TOTL Q4 2024",
+      "ticker": "TOTL",
+      "quarter": "Q4",
+      "year": 2024,
+      "field": "utang_bank",
+      "status": "missed",
+      "rel_error": null,
+      "failure_kind": null,
+      "pred_idr": null,
+      "truth_idr": 0.0,
+      "pred_raw": null,
+      "confidence": null,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [],
+      "withheld_idr": null,
+      "would_have_been": null,
+      "currency": "IDR",
+      "reporting_scale": "THOUSANDS",
+      "text_layer": "clean",
+      "model": "agent:gemini:gemini-3.6-flash",
+      "fx_rate": null
+    },
+    {
+      "key": "TOTL Q4 2024",
+      "ticker": "TOTL",
+      "quarter": "Q4",
+      "year": 2024,
+      "field": "ekuitas",
+      "status": "correct",
+      "rel_error": 0.0,
+      "failure_kind": null,
+      "pred_idr": 1189801449000,
+      "truth_idr": 1189801449000.0,
+      "pred_raw": 1189801449.0,
+      "confidence": 1.0,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "derived from total_ekuitas, kepentingan_non_pengendali; graded on those rows"
+      ],
+      "withheld_idr": null,
+      "would_have_been": null,
+      "currency": "IDR",
+      "reporting_scale": "THOUSANDS",
+      "text_layer": "clean",
+      "model": "agent:gemini:gemini-3.6-flash",
+      "fx_rate": null
+    },
+    {
+      "key": "TOTL Q4 2024",
+      "ticker": "TOTL",
+      "quarter": "Q4",
+      "year": 2024,
+      "field": "laba_bersih",
+      "status": "wrong",
+      "rel_error": 0.0002902359829860085,
+      "failure_kind": "wrong_near_miss",
+      "pred_idr": 265505876000,
+      "truth_idr": 265428839000.0,
+      "pred_raw": 265505876.0,
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_idr": null,
+      "would_have_been": null,
+      "currency": "IDR",
+      "reporting_scale": "THOUSANDS",
+      "text_layer": "clean",
+      "model": "agent:gemini:gemini-3.6-flash",
+      "fx_rate": null
+    },
+    {
+      "key": "TOTL Q4 2024",
+      "ticker": "TOTL",
+      "quarter": "Q4",
+      "year": 2024,
+      "field": "pendapatan",
+      "status": "correct",
+      "rel_error": 0.0,
+      "failure_kind": null,
+      "pred_idr": 3087653570000,
+      "truth_idr": 3087653570000.0,
+      "pred_raw": 3087653570.0,
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_idr": null,
+      "would_have_been": null,
+      "currency": "IDR",
+      "reporting_scale": "THOUSANDS",
+      "text_layer": "clean",
+      "model": "agent:gemini:gemini-3.6-flash",
+      "fx_rate": null
+    },
+    {
+      "key": "TOTL Q4 2024",
+      "ticker": "TOTL",
+      "quarter": "Q4",
+      "year": 2024,
+      "field": "kas_dari_aktivitas_operasi",
+      "status": "correct",
+      "rel_error": 0.0,
+      "failure_kind": null,
+      "pred_idr": 650221275000,
+      "truth_idr": 650221275000.0,
+      "pred_raw": 650221275.0,
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_idr": null,
+      "would_have_been": null,
+      "currency": "IDR",
+      "reporting_scale": "THOUSANDS",
+      "text_layer": "clean",
+      "model": "agent:gemini:gemini-3.6-flash",
+      "fx_rate": null
+    },
+    {
+      "key": "TOTL Q4 2024",
+      "ticker": "TOTL",
+      "quarter": "Q4",
+      "year": 2024,
+      "field": "total_share",
+      "status": "missed",
+      "rel_error": null,
+      "failure_kind": null,
+      "pred_idr": null,
+      "truth_idr": 3410000000.0,
+      "pred_raw": null,
+      "confidence": null,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [],
+      "withheld_idr": null,
+      "would_have_been": null,
+      "currency": "IDR",
+      "reporting_scale": "THOUSANDS",
+      "text_layer": "clean",
+      "model": "agent:gemini:gemini-3.6-flash",
+      "fx_rate": null
+    }
+  ],
+  "metrics": {
+    "coverage": {
+      "cells": 10,
+      "labelled": 10,
+      "answered": 8,
+      "correct": 7,
+      "wrong": 1,
+      "abstained_on_labelled": 0,
+      "missed_not_abstained": 2,
+      "unlabelled_answered": 0,
+      "unlabelled_abstained": 0,
+      "unlabelled_silent": 0,
+      "answer_rate": 0.8
+    },
+    "accuracy": {
+      "scored": 10,
+      "correct": 7,
+      "wrong": 1,
+      "missed": 2,
+      "accuracy": 0.7,
+      "accuracy_on_answered": 0.875
+    },
+    "abstention": {
+      "withdrawn": 0,
+      "withdrawn_known": 0,
+      "unknown_withheld": 0,
+      "caught": 0,
+      "thrown_away": 0,
+      "silent_errors": 1,
+      "precision": null,
+      "recall": 0.0
+    },
+    "calibration": {
+      "buckets": [
+        {
+          "range": [
+            0.0,
+            0.55
+          ],
+          "n": 0,
+          "mean_confidence": null,
+          "accuracy": null,
+          "gap": null
+        },
+        {
+          "range": [
+            0.55,
+            0.65
+          ],
+          "n": 0,
+          "mean_confidence": null,
+          "accuracy": null,
+          "gap": null
+        },
+        {
+          "range": [
+            0.65,
+            0.75
+          ],
+          "n": 0,
+          "mean_confidence": null,
+          "accuracy": null,
+          "gap": null
+        },
+        {
+          "range": [
+            0.75,
+            0.85
+          ],
+          "n": 0,
+          "mean_confidence": null,
+          "accuracy": null,
+          "gap": null
+        },
+        {
+          "range": [
+            0.85,
+            0.95
+          ],
+          "n": 0,
+          "mean_confidence": null,
+          "accuracy": null,
+          "gap": null
+        },
+        {
+          "range": [
+            0.95,
+            1.0
+          ],
+          "n": 8,
+          "mean_confidence": 1.0,
+          "accuracy": 0.875,
+          "gap": -0.125
+        }
+      ],
+      "n": 8,
+      "ece": 0.125
+    },
+    "failure_kinds": {
+      "wrong_near_miss": 1
+    },
+    "cost_latency": {
+      "documents": 1,
+      "llm_calls": 12,
+      "tokens": {
+        "input": 118170,
+        "output": 511
+      },
+      "tokens_per_filing": {
+        "input": 118170.0,
+        "output": 511.0
+      },
+      "calls_per_filing": 12.0,
+      "cost": {
+        "amount": null,
+        "currency": "USD",
+        "reason": "no price configured for gemini-3.6-flash - add it to /Users/muhammadnajmirahmani/Belajar/ProjectDatasaur/config/pricing.json"
+      },
+      "seconds_per_filing": {
+        "min": 241.4,
+        "p50": 241.4,
+        "mean": 241.4,
+        "p95": 241.4,
+        "max": 241.4
+      },
+      "stage_ms": {
+        "assess": {
+          "total": 1,
+          "mean": 1.0
+        },
+        "read_text": {
+          "total": 323,
+          "mean": 323.0
+        },
+        "select_pages": {
+          "total": 38,
+          "mean": 38.0
+        },
+        "step_1": {
+          "total": 8994,
+          "mean": 8994.0
+        },
+        "step_10": {
+          "total": 13317,
+          "mean": 13317.0
+        },
+        "step_11": {
+          "total": 12051,
+          "mean": 12051.0
+        },
+        "step_12": {
+          "total": 6942,
+          "mean": 6942.0
+        },
+        "step_2": {
+          "total": 5614,
+          "mean": 5614.0
+        },
+        "step_3": {
+          "total": 31886,
+          "mean": 31886.0
+        },
+        "step_4": {
+          "total": 17405,
+          "mean": 17405.0
+        },
+        "step_5": {
+          "total": 67686,
+          "mean": 67686.0
+        },
+        "step_6": {
+          "total": 14132,
+          "mean": 14132.0
+        },
+        "step_7": {
+          "total": 14689,
+          "mean": 14689.0
+        },
+        "step_8": {
+          "total": 13453,
+          "mean": 13453.0
+        },
+        "step_9": {
+          "total": 20875,
+          "mean": 20875.0
+        }
+      }
+    },
+    "slices": {
+      "ticker": {
+        "TOTL": {
+          "scored": 10,
+          "correct": 7,
+          "wrong": 1,
+          "missed": 2,
+          "accuracy": 0.7,
+          "accuracy_on_answered": 0.875,
+          "answer_rate": 0.8,
+          "filings": 1
+        }
+      },
+      "field": {
+        "aset": {
+          "scored": 1,
+          "correct": 1,
+          "wrong": 0,
+          "missed": 0,
+          "accuracy": 1.0,
+          "accuracy_on_answered": 1.0,
+          "answer_rate": 1.0,
+          "filings": 1
+        },
+        "ekuitas": {
+          "scored": 1,
+          "correct": 1,
+          "wrong": 0,
+          "missed": 0,
+          "accuracy": 1.0,
+          "accuracy_on_answered": 1.0,
+          "answer_rate": 1.0,
+          "filings": 1
+        },
+        "kas": {
+          "scored": 1,
+          "correct": 1,
+          "wrong": 0,
+          "missed": 0,
+          "accuracy": 1.0,
+          "accuracy_on_answered": 1.0,
+          "answer_rate": 1.0,
+          "filings": 1
+        },
+        "kas_dari_aktivitas_operasi": {
+          "scored": 1,
+          "correct": 1,
+          "wrong": 0,
+          "missed": 0,
+          "accuracy": 1.0,
+          "accuracy_on_answered": 1.0,
+          "answer_rate": 1.0,
+          "filings": 1
+        },
+        "laba_bersih": {
+          "scored": 1,
+          "correct": 0,
+          "wrong": 1,
+          "missed": 0,
+          "accuracy": 0.0,
+          "accuracy_on_answered": 0.0,
+          "answer_rate": 1.0,
+          "filings": 1
+        },
+        "liabilitas": {
+          "scored": 1,
+          "correct": 1,
+          "wrong": 0,
+          "missed": 0,
+          "accuracy": 1.0,
+          "accuracy_on_answered": 1.0,
+          "answer_rate": 1.0,
+          "filings": 1
+        },
+        "pendapatan": {
+          "scored": 1,
+          "correct": 1,
+          "wrong": 0,
+          "missed": 0,
+          "accuracy": 1.0,
+          "accuracy_on_answered": 1.0,
+          "answer_rate": 1.0,
+          "filings": 1
+        },
+        "total_aset_lancar": {
+          "scored": 1,
+          "correct": 1,
+          "wrong": 0,
+          "missed": 0,
+          "accuracy": 1.0,
+          "accuracy_on_answered": 1.0,
+          "answer_rate": 1.0,
+          "filings": 1
+        },
+        "total_share": {
+          "scored": 1,
+          "correct": 0,
+          "wrong": 0,
+          "missed": 1,
+          "accuracy": 0.0,
+          "accuracy_on_answered": null,
+          "answer_rate": 0.0,
+          "filings": 1
+        },
+        "utang_bank": {
+          "scored": 1,
+          "correct": 0,
+          "wrong": 0,
+          "missed": 1,
+          "accuracy": 0.0,
+          "accuracy_on_answered": null,
+          "answer_rate": 0.0,
+          "filings": 1
+        }
+      },
+      "year": {
+        "2024": {
+          "scored": 10,
+          "correct": 7,
+          "wrong": 1,
+          "missed": 2,
+          "accuracy": 0.7,
+          "accuracy_on_answered": 0.875,
+          "answer_rate": 0.8,
+          "filings": 1
+        }
+      },
+      "quarter": {
+        "Q4": {
+          "scored": 10,
+          "correct": 7,
+          "wrong": 1,
+          "missed": 2,
+          "accuracy": 0.7,
+          "accuracy_on_answered": 0.875,
+          "answer_rate": 0.8,
+          "filings": 1
+        }
+      },
+      "currency": {
+        "IDR": {
+          "scored": 10,
+          "correct": 7,
+          "wrong": 1,
+          "missed": 2,
+          "accuracy": 0.7,
+          "accuracy_on_answered": 0.875,
+          "answer_rate": 0.8,
+          "filings": 1
+        }
+      },
+      "reporting_scale": {
+        "THOUSANDS": {
+          "scored": 10,
+          "correct": 7,
+          "wrong": 1,
+          "missed": 2,
+          "accuracy": 0.7,
+          "accuracy_on_answered": 0.875,
+          "answer_rate": 0.8,
+          "filings": 1
+        }
+      },
+      "text_layer": {
+        "clean": {
+          "scored": 10,
+          "correct": 7,
+          "wrong": 1,
+          "missed": 2,
+          "accuracy": 0.7,
+          "accuracy_on_answered": 0.875,
+          "answer_rate": 0.8,
+          "filings": 1
+        }
+      },
+      "model": {
+        "agent:gemini:gemini-3.6-flash": {
+          "scored": 10,
+          "correct": 7,
+          "wrong": 1,
+          "missed": 2,
+          "accuracy": 0.7,
+          "accuracy_on_answered": 0.875,
+          "answer_rate": 0.8,
+          "filings": 1
+        }
+      }
+    },
+    "agent": {
+      "filings": 1,
+      "steps_per_filing": {
+        "mean": 12.0,
+        "p50": 12,
+        "p95": 12,
+        "max": 12
+      },
+      "tool_calls": 12,
+      "tool_calls_per_filing": {
+        "mean": 12.0,
+        "p50": 12,
+        "p95": 12,
+        "max": 12
+      },
+      "tool_errors": 0,
+      "tool_error_rate": 0.0,
+      "tool_errors_by_kind": {},
+      "tool_counts": {
+        "search_text": 4,
+        "read_page_text": 4,
+        "list_pages": 1,
+        "report_balance_sheet": 1,
+        "report_income": 1,
+        "report_cash_flow": 1
+      },
+      "text_pages_per_filing": {
+        "mean": 9.0,
+        "p50": 9,
+        "p95": 9,
+        "max": 9
+      },
+      "images_per_filing": {
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "max": 0
+      },
+      "groups_reported_per_filing": 3.0,
+      "budget_exhausted_rate": 1.0,
+      "stop_reasons": {
+        "time_budget": 1
+      },
+      "handovers_per_filing": 0.0,
+      "no_tool_call_rate": 0.0
+    }
+  },
+  "conversion_sha": "dfc84b42807a",
+  "usage": {
+    "documents": 1,
+    "llm_calls": 12,
+    "tokens": {
+      "input": 118170,
+      "output": 511
+    },
+    "tokens_per_filing": {
+      "input": 118170.0,
+      "output": 511.0
+    },
+    "calls_per_filing": 12.0,
+    "cost": {
+      "amount": null,
+      "currency": "USD",
+      "reason": "no price configured for gemini-3.6-flash - add it to /Users/muhammadnajmirahmani/Belajar/ProjectDatasaur/config/pricing.json"
+    },
+    "seconds_per_filing": {
+      "min": 241.4,
+      "p50": 241.4,
+      "mean": 241.4,
+      "p95": 241.4,
+      "max": 241.4
+    },
+    "stage_ms": {
+      "assess": {
+        "total": 1,
+        "mean": 1.0
+      },
+      "read_text": {
+        "total": 323,
+        "mean": 323.0
+      },
+      "select_pages": {
+        "total": 38,
+        "mean": 38.0
+      },
+      "step_1": {
+        "total": 8994,
+        "mean": 8994.0
+      },
+      "step_10": {
+        "total": 13317,
+        "mean": 13317.0
+      },
+      "step_11": {
+        "total": 12051,
+        "mean": 12051.0
+      },
+      "step_12": {
+        "total": 6942,
+        "mean": 6942.0
+      },
+      "step_2": {
+        "total": 5614,
+        "mean": 5614.0
+      },
+      "step_3": {
+        "total": 31886,
+        "mean": 31886.0
+      },
+      "step_4": {
+        "total": 17405,
+        "mean": 17405.0
+      },
+      "step_5": {
+        "total": 67686,
+        "mean": 67686.0
+      },
+      "step_6": {
+        "total": 14132,
+        "mean": 14132.0
+      },
+      "step_7": {
+        "total": 14689,
+        "mean": 14689.0
+      },
+      "step_8": {
+        "total": 13453,
+        "mean": 13453.0
+      },
+      "step_9": {
+        "total": 20875,
+        "mean": 20875.0
+      }
+    }
+  },
+  "corpus": {
+    "roots": [
+      "data/raw",
+      "/Users/muhammadnajmirahmani/FinancialReport"
+    ],
+    "tickers": [
+      "ITMG",
+      "TLDN",
+      "TOTL"
+    ],
+    "pairs": 3,
+    "cells_labelled": 30,
+    "scored_pairs": 1,
+    "skipped": [],
+    "uncached": [],
+    "models_used": {
+      "agent:gemini:gemini-3.6-flash": 1
+    }
+  },
+  "errors": [
+    {
+      "key": "ITMG Q1 2022",
+      "error": "LLMUnavailable: no provider was available - gemini:gemini-3.1-flash-lite: Gemini rate limit (429) on gemini-3.1-flash-lite: daily quota (RPD) used up; waiting cannot clear it; gemini:gemini-3.5-flash-lite: Gemini 503 (capacity) on gemini-3.5-flash-lite after 3 retry; handing over to the next model"
+    },
+    {
+      "key": "TLDN Q4 2023",
+      "error": "LLMUnavailable: no provider was available - gemini:gemini-3.5-flash-lite: Gemini 503 (capacity) on gemini-3.5-flash-lite after 3 retry; handing over to the next model"
+    }
+  ]
+}

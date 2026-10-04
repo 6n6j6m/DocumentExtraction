@@ -70,6 +70,9 @@ def render_pdf_page_to_image(pdf_path: str, page_num: int, dpi: int = 150) -> by
 from contextlib import nullcontext as _nullcontext
 
 MIN_TEXT_CHARS = 200   # below this a page is treated as having no usable text layer
+# Below this share of pages rebuilt as real tables, markdown mode is not markdown at all --
+# it is OCR'd text wearing a table's name, and the page image is the better input.
+MARKDOWN_MIN_REBUILT = float(os.getenv("MARKDOWN_MIN_REBUILT", "0.6"))
 
 
 def read_page_texts(pdf_path: str, page_numbers: list) -> dict:
@@ -139,7 +142,7 @@ def condense_page_text(text: str) -> str:
     return "\n".join(lines[i] for i in sorted(keep) if 0 <= i < len(lines))
 
 
-def build_document_text(page_texts: dict) -> str:
+def build_document_text(page_texts: dict, condense: Optional[bool] = None) -> str:
     """Concatenate pages with markers so the model can tell them apart.
 
     All the selected pages go in ONE request. With images that was too expensive,
@@ -147,7 +150,8 @@ def build_document_text(page_texts: dict) -> str:
     little, and the model seeing the balance sheet, income statement and cash flow
     together is what lets it fill every field in a single pass.
     """
-    condense = os.getenv("CONDENSE_TEXT", "true").lower() in ("1", "true", "yes")
+    if condense is None:
+        condense = os.getenv("CONDENSE_TEXT", "true").lower() in ("1", "true", "yes")
     blocks = []
     for n in sorted(page_texts):
         text = page_texts[n]
@@ -519,8 +523,14 @@ def assess(extraction, page_texts: dict) -> dict:
     verifier reads characters, so agreement is real evidence rather than the same
     read twice.
 
-    Returns {field: {confidence, grounded, abstained, reasons}} and mutates
-    `extraction` in place, removing abstained values.
+    Returns {field: {confidence, grounded, abstained, reasons, withheld_value}} and
+    mutates `extraction` in place, removing abstained values.
+
+    `withheld_value` keeps the figure abstention removed. Without it the decision to
+    withdraw can never be judged: an evaluation can see THAT a field was withheld but
+    not whether doing so avoided a wrong answer or threw away a right one, and a
+    confidence layer whose usefulness cannot be measured is a confidence layer that
+    rots unnoticed. It is None for every field that was asserted.
     """
     document_text = build_document_text(page_texts) if page_texts else ""
     issues = validate(extraction) + validate_against_document(extraction, document_text)
@@ -543,7 +553,10 @@ def assess(extraction, page_texts: dict) -> dict:
         print(f"    not found in document text: {', '.join(ungrounded)}")
 
     return {n: {"confidence": s.confidence, "grounded": s.grounded,
-                "abstained": s.abstained, "reasons": s.reasons}
+                "abstained": s.abstained, "reasons": s.reasons,
+                # FieldScore.value was captured before apply_abstention blanked the
+                # field, so this is the figure that was withheld, not a re-read.
+                "withheld_value": s.value if s.abstained else None}
             for n, s in scores.items()}
 
 
@@ -635,6 +648,52 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None,
         if not groups:
             groups = {"all": sorted(page_texts)}
 
+        # What the model is shown, which is not necessarily what grounding checks. In
+        # markdown mode the pages are rebuilt as tables from their word geometry, so the
+        # current period is a named column rather than "the first number on the line";
+        # grounding keeps reading the raw text layer, which keeps it an independent
+        # channel rather than a second look at the same rendering.
+        for_model = page_texts
+        if mode == "markdown":
+            from pagemd import page_markdown
+            with usage.stage("read_text"):
+                for_model = page_markdown(pdf_path, sorted(page_texts), fallback=page_texts)
+            rebuilt = sum(1 for n, text in for_model.items()
+                          if text and text != page_texts.get(n))
+            # Whether a page HAS word boxes says nothing about whether they are words. A
+            # filing with subset fonts and no ToUnicode map yields a full set of boxes
+            # containing glyph ids, so "6/6 pages rebuilt" was reported for EMAS while
+            # every cell of every table was mojibake. The raw layer's readability is the
+            # signal; pdftext already owns that judgement for the OCR decision.
+            from pdftext import page_texts as raw_pages, text_layer_usable
+            raw = raw_pages(pdf_path, sorted(page_texts), use_ocr=False)
+            legible = sum(1 for text in raw.values() if text_layer_usable(text or ""))
+            print(f"   markdown: {rebuilt}/{len(for_model)} page(s) rebuilt as tables, "
+                  f"{legible}/{len(raw)} with a readable text layer")
+            if raw and legible / len(raw) < MARKDOWN_MIN_REBUILT:
+                # Markdown is rebuilt from word boxes, so a filing whose characters are
+                # glyph ids has none to rebuild from and falls back to OCR'd text -- which
+                # is a worse input than the page image, not a better one. Measured on the
+                # four EMAS filings: markdown withheld 10 of 40 fields (every withdrawal
+                # correct, but ten fields lost) where image mode scored 40/40. So the
+                # choice is made per filing, from what the filing actually carries.
+                print(f"   too little of this filing has a usable text layer; "
+                      f"reading the pages as images instead")
+                try:
+                    with usage.stage("extract"):
+                        result = _extract_from_images(pdf_path, page_numbers, config,
+                                                      provider, page_texts, share_pages,
+                                                      usage=usage)
+                except LLMUnavailable as exc:
+                    unavailable.append(f"{provider.name}: {exc}")
+                    continue
+                if result is not None and _filled(result):
+                    result.usage = usage
+                    result.pages_selected = pages_1indexed
+                    result.model = f"{provider.name}+image_fallback"
+                    return result
+                continue
+
         if provider.name.startswith("ollama"):
             print("   (local model; first call also loads the weights - be patient)")
 
@@ -644,7 +703,11 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None,
         for group, pages in groups.items():
             if GROUP_FIELDS.get(group) == []:
                 continue
-            text = build_document_text({n: page_texts[n] for n in pages})
+            # Markdown is never condensed: dropping lines that carry no figure would
+            # take the header row with them, and a table without its header is exactly
+            # the ambiguity this mode exists to remove.
+            text = build_document_text({n: for_model[n] for n in pages},
+                                       condense=mode != "markdown")
             if not text:
                 continue
             fields = GROUP_FIELDS.get(group)
