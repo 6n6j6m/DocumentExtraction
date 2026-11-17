@@ -26,7 +26,10 @@ from prompts import SYSTEM_PROMPT, EXTRACTION_PROMPT
 from page_select import select_statement_pages, classify_pages
 from normalize import to_idr
 from llm import get_provider_chain, parse_json, LLMError, LLMUnavailable
-from validate import validate, validate_against_document
+from claudecode import raise_if_pending
+from validate import (ValidationIssue, WARNING, repair_misclassified_short_term_debt,
+                      repair_current_maturity_from_long_term, repair_non_bank_component,
+                      validate, validate_against_document, filing_prints_unbalanced)
 from confidence import score_extraction, apply_abstention
 
 
@@ -172,7 +175,8 @@ from numfmt import parse_grouped_number as _parse_indonesian_number
 
 def _coerce_numbers(data: dict) -> dict:
     """Turn numeric strings into floats; leave anything unparseable as None."""
-    list_fields = ("total_share_components", "kas_components")
+    list_fields = ("total_share_components", "kas_components",
+                   "utang_bank_bagian_lancar_components")
     numeric = [f for f in FIELDS if f not in
                ("period_end_date", "currency", "reporting_scale", "statement_scope")
                + list_fields]
@@ -220,11 +224,25 @@ GROUP_FIELDS = {
     # only source of the share counts.
     "share_capital": ["total_share", "total_share_components", "saham_beredar", "saham_treasuri"],
 }
+# Internal pipeline-only slice. It is deliberately separate from GROUP_FIELDS because
+# the agentic extractor exposes that mapping as its report-tool contract; the bank note
+# is selected deterministically and is not an agent statement group.
+PIPELINE_GROUP_FIELDS = {
+    **GROUP_FIELDS,
+    "bank_note": ["utang_bank_bagian_lancar_components"],
+}
 SHARE_FIELDS = ("total_share", "total_share_components", "saham_beredar", "saham_treasuri")
+BANK_COMPONENT_FIELDS = ("utang_bank_bagian_lancar_components",)
 ALWAYS = ["period_end_date", "currency", "reporting_scale", "statement_scope"]
+# Fields read straight off a statement line, where null means the model missed the line
+# rather than that the filing has none. Components, derived fields and share counts are
+# left out: their nulls are often the right answer.
+TEXT_RETRY_FIELDS = ("aset", "total_aset_lancar", "kas", "liabilitas", "pendapatan",
+                     "laba_bersih", "kas_dari_aktivitas_operasi")
 
 
-def group_pages(page_texts: dict, share_pages: list = None) -> dict:
+def group_pages(page_texts: dict, share_pages: list = None,
+                bank_pages: list = None) -> dict:
     """Group the selected pages by the statement each one carries.
 
     A share-capital note is pulled out of whatever group it fell into and asked its
@@ -241,18 +259,37 @@ def group_pages(page_texts: dict, share_pages: list = None) -> dict:
                     del groups[name]
     if share_pages:
         groups["share_capital"] = sorted(share_pages)
+    for page in bank_pages or []:
+        for name in list(groups):
+            if page in groups[name]:
+                groups[name] = [p for p in groups[name] if p != page]
+                if not groups[name]:
+                    del groups[name]
+    if bank_pages:
+        groups["bank_note"] = sorted(bank_pages)
     return groups
 
 
-def _focus_prompt(fields: list) -> str:
+def _focus_prompt(fields: list, group: str = "") -> str:
     """Restrict one request to a named subset of fields."""
     wanted = ", ".join(fields + ALWAYS)
-    return (f"{EXTRACTION_PROMPT}\n\n"
+    prompt = (f"{EXTRACTION_PROMPT}\n\n"
             f"=== THIS REQUEST ONLY ===\n"
             f"These pages contain ONLY part of the statements. Extract EXACTLY these "
-            f"fields and nothing else: {wanted}.\n"
-            f"Every one of them is present on these pages -- find all of them before "
-            f"answering. Omit all other fields from your JSON.")
+            f"fields and nothing else: {wanted}. Include every requested key in the "
+            f"JSON. Return null when a requested field is not supported by these pages; "
+            f"never fill it from another period or an unrelated row. Omit all other "
+            f"fields from your JSON.")
+    if group == "bank_note":
+        prompt += ("\n\nFor utang_bank_bagian_lancar_components, read the "
+                   "current-period amounts owed to banks AND non-bank financial "
+                   "institutions, including finance companies. Include each financial "
+                   "institution lender once; exclude leases, non-financial lenders, "
+                   "subtotals, prior-period amounts, and long-term portions. For current "
+                   "maturities, use amounts under 'Dikurangi bagian lancar' / 'Less "
+                   "current portion'. Preserve signs exactly as printed; code sums "
+                   "the components. Return null if the note does not disclose them.")
+    return prompt
 
 
 def derive_fields(extraction) -> list:
@@ -264,6 +301,26 @@ def derive_fields(extraction) -> list:
     cross-checked and the computed value wins.
     """
     warnings = []
+
+    # A combined bank/non-bank financial-institution balance-sheet row belongs in
+    # utang_bank. The note can expose the components; sum all financial-institution
+    # lenders after confidence checks each component against the filing.
+    components = extraction.utang_bank_bagian_lancar_components
+    if components:
+        computed = sum(abs(float(value)) for value in components)
+        existing = extraction.utang_bank_bagian_lancar
+        if existing is not None and abs(existing - computed) > 1:
+            warnings.append("utang_bank_bagian_lancar disagrees with financial-institution note "
+                            f"components summing to {computed:,.0f}; keeping statement total")
+        # The balance-sheet subtotal includes all qualifying lenders and is the
+        # authoritative total. Note components are a fallback only when that row is
+        # absent; incomplete lender extraction must not replace a printed subtotal.
+        # A nil is not a printed subtotal: TRIN Q2 2022 answered 0 for the balance
+        # sheet while its note listed four lenders summing to exactly the printed
+        # 590.740.287, and the 0 won.
+        if existing is None or (existing == 0 and computed > 0):
+            extraction.utang_bank_bagian_lancar = computed
+            extraction._utang_bank_current_from_components = True
 
     short = extraction.utang_bank_jangka_pendek
     current = extraction.utang_bank_bagian_lancar
@@ -357,6 +414,27 @@ def derive_fields(extraction) -> list:
     return warnings
 
 
+def extract_group_from_images(pdf_path: str, pages: list, provider, prompt: str,
+                              usage=None) -> Optional[FinancialStatementExtraction]:
+    """One statement group read from its rendered pages instead of from text.
+
+    For a group whose every page needed OCR, in markdown/text mode. OFF by default
+    (GROUP_IMAGE_FALLBACK=true to enable), because it was measured and lost: on the
+    24 filings it touches it was neutral for GTRA and JPFA, and on PURA seven share
+    counts that the OCR'd text answered correctly came back from the image as the
+    paid-up amount column (315.096.545.100 for 6.301.930.902 shares), one more went
+    unanswered, and PURA Q2 2025 -- the case it was built for -- was not fixed.
+    """
+    import base64
+    dpi = int(os.getenv("IMAGE_DPI", "150"))
+    images = [base64.standard_b64encode(render_pdf_page_to_image(pdf_path, n, dpi=dpi)).decode()
+              for n in pages]
+    raw = provider.complete(SYSTEM_PROMPT, prompt, images=images, usage=usage)
+    data = parse_json(raw)
+    data.pop("evidence", None)
+    return FinancialStatementExtraction.from_dict(_coerce_numbers(data))
+
+
 def extract_from_text(document_text: str, provider,
                       prompt: Optional[str] = None,
                       usage=None) -> Optional[FinancialStatementExtraction]:
@@ -377,6 +455,7 @@ FIELDS = [
     # FIELDS, so anything missing is silently dropped between the per-statement
     # calls -- leaving derived utang_bank and ekuitas with nothing to work from.
     "utang_bank_jangka_pendek", "utang_bank_bagian_lancar",
+    *BANK_COMPONENT_FIELDS,
     "total_ekuitas", "kepentingan_non_pengendali", "total_share_components",
     "kas_components", "saham_beredar", "saham_treasuri",
     "currency", "reporting_scale", "statement_scope",
@@ -496,6 +575,37 @@ def _apply_current_table_guard(merged, page_texts, groups) -> None:
         merged.total_share_components = None
 
 
+def _apply_comparative_column_guard(merged, page_texts, pdf_path) -> None:
+    """Take the current column where a figure was read from the comparative one.
+
+    The period's year comes from the filing's name (<Q>_<YYYY>_<TICKER>.pdf), the
+    repo's own convention, rather than from the model's period_end_date -- a model that
+    read the wrong column may have read the wrong date with it.
+    """
+    from periods import parse_filing_stem
+    from validate import (repair_comparative_columns, repair_components_across_columns,
+                          repair_printed_signs, repair_separated_lead_digits,
+                          repair_share_amount_column, repair_revenue_block_total,
+                          repair_share_count_scale)
+    parsed = parse_filing_stem(Path(pdf_path).stem) if pdf_path else None
+    year = parsed[2] if parsed else None
+    if year is None and getattr(merged, "period_end_date", None):
+        try:
+            year = int(str(merged.period_end_date)[:4])
+        except ValueError:
+            year = None
+    messages = repair_separated_lead_digits(merged, page_texts or {})
+    messages += repair_comparative_columns(merged, page_texts or {}, year)
+    messages += repair_revenue_block_total(merged, page_texts or {})
+    messages += repair_printed_signs(merged, page_texts or {}, year)
+    messages += repair_components_across_columns(merged, page_texts or {}, year)
+    messages += repair_share_amount_column(merged, page_texts or {})
+    messages += repair_share_count_scale(merged, page_texts or {})
+    for message in messages:
+        print(f"    ⚠ {message}")
+    merged._comparative_repairs = messages
+
+
 def merge_group(merged, part, group: str):
     """Merge one statement group's answer; share counts come only from the shareholder table.
 
@@ -533,7 +643,46 @@ def assess(extraction, page_texts: dict) -> dict:
     rots unnoticed. It is None for every field that was asserted.
     """
     document_text = build_document_text(page_texts) if page_texts else ""
-    issues = validate(extraction) + validate_against_document(extraction, document_text)
+    # Grounding also accepts a figure printed in the alternate OCR reading of a page
+    # (see pdftext.OCR_ALTERNATE): two readings of the same pixels, either of which
+    # may have misread a digit the model read correctly from the image.
+    alternates = "\n".join(getattr(t, "alternate", "") for t in (page_texts or {}).values()
+                           if getattr(t, "alternate", ""))
+    if alternates:
+        document_text += "\n--- PAGE OCR-ALTERNATE ---\n" + alternates
+    # Structural row checks need the uncondensed text: condensation can remove a
+    # split heading such as "Liabilitas jangka panjang / dikurangi bagian jatuh / tempo"
+    # and leave only the amount rows, disabling bank-debt maturity validation.
+    structural_text = (build_document_text(page_texts, condense=False)
+                       if page_texts else "")
+    bank_repair = repair_misclassified_short_term_debt(extraction, structural_text)
+    maturity_repair = repair_current_maturity_from_long_term(extraction, structural_text)
+    non_bank_repairs = repair_non_bank_component(extraction, structural_text)
+    issues = validate(extraction) + validate_against_document(extraction, structural_text)
+    unbalanced = filing_prints_unbalanced(extraction, structural_text)
+    if unbalanced:
+        issues = [i for i in issues if i.rule != "balance_sheet_identity"]
+        issues.append(ValidationIssue("filing_unbalanced", WARNING, unbalanced,
+                                      ("aset", "liabilitas", "total_ekuitas")))
+    if bank_repair:
+        issues.append(ValidationIssue("bank_component_repaired", WARNING, bank_repair,
+                                      ("utang_bank_jangka_pendek",)))
+    if maturity_repair:
+        issues.append(ValidationIssue("bank_component_repaired", WARNING, maturity_repair,
+                                      ("utang_bank_bagian_lancar",)))
+    for message in non_bank_repairs:
+        issues.append(ValidationIssue("non_bank_component_removed", WARNING, message,
+                                      (message.split("=")[0],)))
+    for message in getattr(extraction, "_comparative_repairs", None) or []:
+        rule = ("sign_repaired" if "other sign" in message
+                else "components_across_columns" if "one row's" in message
+                else "separated_digit_repaired" if "separate digit" in message
+                else "revenue_block_total" if "revenue block" in message
+                else "share_amount_column_repaired" if "AMOUNT column" in message
+                     or "amount column" in message
+                else "comparative_column_repaired")
+        issues.append(ValidationIssue(rule, WARNING, message,
+                                      (message.split("=")[0],)))
     for issue in issues:
         print(f"    \u26a0 [{issue.severity}] {issue.rule}: {issue.message}")
     # Kept on the extraction rather than only printed: the API has to report which
@@ -584,18 +733,22 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None,
     usage = Usage() if usage is None else usage
 
     share_pages = []
+    bank_pages = []
     if page_numbers is None:
         print(f"\n\U0001F4C4 Selecting pages from {Path(pdf_path).name}...")
         with usage.stage("select_pages"):
             selection = select_statement_pages(pdf_path, max_pages=config.max_pdf_pages)
         page_numbers = selection.pages
         share_pages = selection.share_capital_pages
+        bank_pages = selection.bank_loan_pages
         print(f"  Method: {selection.method}")
         print(f"  Pages: {[p+1 for p in page_numbers]} (1-indexed)")
         if share_pages:
             print(f"  Shareholder table: {[p+1 for p in share_pages]} (the source of total_share)")
         else:
             print("  ⚠ no shareholder table found; total_share will be empty")
+        if bank_pages:
+            print(f"  Financial-institution loan note: {[p+1 for p in bank_pages]}")
         print(f"  Reduction: {len(page_numbers)}/{selection.total_pages} pages "
               f"({100*(1-len(page_numbers)/selection.total_pages):.1f}% reduction)")
 
@@ -627,11 +780,12 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None,
             try:
                 with usage.stage("extract"):
                     result = _extract_from_images(pdf_path, page_numbers, config,
-                                                  provider, page_texts, share_pages,
+                                                  provider, page_texts, share_pages, bank_pages,
                                                   usage=usage)
             except LLMUnavailable as exc:
                 unavailable.append(f"{provider.name}: {exc}")
                 continue
+            raise_if_pending(provider)
             if result is not None and _filled(result):
                 result.usage = usage
                 result.pages_selected = pages_1indexed
@@ -644,7 +798,7 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None,
             if not any(len(t.strip()) >= MIN_TEXT_CHARS for t in page_texts.values()):
                 page_texts = ocr_pages(pdf_path, page_numbers)
 
-        groups = group_pages(page_texts, share_pages) if split else {}
+        groups = group_pages(page_texts, share_pages, bank_pages) if split else {}
         if not groups:
             groups = {"all": sorted(page_texts)}
 
@@ -654,6 +808,7 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None,
         # grounding keeps reading the raw text layer, which keeps it an independent
         # channel rather than a second look at the same rendering.
         for_model = page_texts
+        ocr_pages = set()
         if mode == "markdown":
             from pagemd import page_markdown
             with usage.stage("read_text"):
@@ -665,9 +820,17 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None,
             # containing glyph ids, so "6/6 pages rebuilt" was reported for EMAS while
             # every cell of every table was mojibake. The raw layer's readability is the
             # signal; pdftext already owns that judgement for the OCR decision.
-            from pdftext import page_texts as raw_pages, text_layer_usable
-            raw = raw_pages(pdf_path, sorted(page_texts), use_ocr=False)
-            legible = sum(1 for text in raw.values() if text_layer_usable(text or ""))
+            from pdftext import page_needs_ocr
+            import pdfplumber
+            with pdfplumber.open(pdf_path) as document:
+                raw = {n: document.pages[n].extract_text() or "" for n in sorted(page_texts)
+                       if 0 <= n < len(document.pages)}
+                # Per page, by the same rule that decides OCR: a page whose figures are a
+                # scanned image under a text header is not legible text, however many
+                # letters its header has.
+                ocr_pages = {n for n, text in raw.items()
+                             if page_needs_ocr(document.pages[n], text)}
+                legible = len(raw) - len(ocr_pages)
             print(f"   markdown: {rebuilt}/{len(for_model)} page(s) rebuilt as tables, "
                   f"{legible}/{len(raw)} with a readable text layer")
             if raw and legible / len(raw) < MARKDOWN_MIN_REBUILT:
@@ -682,11 +845,12 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None,
                 try:
                     with usage.stage("extract"):
                         result = _extract_from_images(pdf_path, page_numbers, config,
-                                                      provider, page_texts, share_pages,
+                                                      provider, page_texts, share_pages, bank_pages,
                                                       usage=usage)
                 except LLMUnavailable as exc:
                     unavailable.append(f"{provider.name}: {exc}")
                     continue
+                raise_if_pending(provider)
                 if result is not None and _filled(result):
                     result.usage = usage
                     result.pages_selected = pages_1indexed
@@ -700,8 +864,9 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None,
         merged = FinancialStatementExtraction()
         started = time.time()
         failed = False
+        group_failures = []
         for group, pages in groups.items():
-            if GROUP_FIELDS.get(group) == []:
+            if PIPELINE_GROUP_FIELDS.get(group) == []:
                 continue
             # Markdown is never condensed: dropping lines that carry no figure would
             # take the header row with them, and a table without its header is exactly
@@ -710,33 +875,66 @@ def extract_from_pdf(pdf_path: str, page_numbers: Optional[list] = None,
                                        condense=mode != "markdown")
             if not text:
                 continue
-            fields = GROUP_FIELDS.get(group)
-            prompt = _focus_prompt(fields) if fields else EXTRACTION_PROMPT
+            fields = PIPELINE_GROUP_FIELDS.get(group)
+            prompt = _focus_prompt(fields, group) if fields else EXTRACTION_PROMPT
             print(f"  [{group}] pages {[p+1 for p in pages]}, {len(text):,} chars")
-            try:
-                part = extract_from_text(text, provider, prompt=prompt, usage=usage)
-            except LLMUnavailable as e:
-                print(f"    \u2717 {e}")
-                unavailable.append(f"{provider.name}: {e}")
-                failed = True
+            # One failed call used to cost its whole statement silently: RCCC Q2 2023 lost
+            # the balance sheet, cash flow and share groups -- eight fields -- on a
+            # fallback model, kept the income statement, and reached the CSV as an
+            # ordinary "partial" row with nothing saying a call had failed. The call is
+            # retried once, and a group that still fails is recorded as such.
+            part, error = None, None
+            from_images = bool(pages) and mode == "markdown" and \
+                all(n in ocr_pages for n in pages) and \
+                os.getenv("GROUP_IMAGE_FALLBACK", "false").lower() in ("1", "true", "yes")
+            if from_images:
+                print(f"    every page of this group needed OCR; reading its images")
+            for attempt in range(2):
+                try:
+                    part = (extract_group_from_images(pdf_path, pages, provider, prompt,
+                                                      usage=usage) if from_images else
+                            extract_from_text(text, provider, prompt=prompt, usage=usage))
+                    break
+                except LLMUnavailable as e:
+                    # The provider itself is gone: hand the whole document over, as
+                    # before. Retrying here would only spend the next model's time.
+                    print(f"    \u2717 {e}")
+                    unavailable.append(f"{provider.name}: {e}")
+                    failed = True
+                    break
+                except Exception as e:
+                    error = f"{type(e).__name__}: {e}"
+                    print(f"    \u2717 {error}" + ("; retrying once" if attempt == 0 else ""))
+            if failed:
                 break
-            except Exception as e:
-                print(f"    \u2717 {type(e).__name__}: {e}")
+            if part is None:
+                group_failures.append({"rule": "group_call_failed", "severity": "warning",
+                                       "message": f"{group}: {error}"[:300],
+                                       "fields": list(PIPELINE_GROUP_FIELDS.get(group) or [])})
                 continue
             before = _filled(merged)
             merge_group(merged, part, group)
             print(f"    +{_filled(merged)-before} field(s)")
+            if mode == "markdown" and not from_images:
+                _retry_missing_from_text(merged, fields, pages, page_texts, provider, group,
+                                         "the markdown", usage)
 
         if failed:
             continue
+        # A Claude Code provider records every prompt it has no answer for and the group
+        # loop carries on, so one round asks for every group at once; the filing then
+        # stops here rather than becoming a partial row.
+        raise_if_pending(provider)
 
         _apply_current_table_guard(merged, page_texts, groups)
         _apply_treasury_date_guard(merged, page_texts, groups)
+        _apply_comparative_column_guard(merged, page_texts, pdf_path)
         for warning in derive_fields(merged):
             print(f"    \u26a0 {warning}")
 
         with usage.stage("assess"):
             merged.field_confidence = assess(merged, page_texts)
+        merged.issues = list(getattr(merged, "issues", []) or []) + group_failures
         merged.usage = usage
         merged.pages_selected = pages_1indexed
         merged.model = provider.name
@@ -779,8 +977,43 @@ def ocr_pages(pdf_path: str, page_numbers: list) -> dict:
     return texts
 
 
+def _retry_missing_from_text(merged, fields, pages, page_texts, provider, group, source,
+                             usage=None) -> None:
+    """Ask the plain page text for the headline fields another reading left null.
+
+    APEX Q2 2024 prints "LABA BERSIH PERIODE BERJALAN 335.380" with no attribution
+    block; read as an image, the model called the statement consolidated and returned
+    laba_bersih null on five of five calls, with or without a sharper NO SPLIT rule,
+    while the same page as text gave 335.380 on three of three. MEDC Q2 2023's cash flow
+    rebuilt as markdown gave kas_dari_aktivitas_operasi null twice; as text, 179.060.347
+    twice. Only the empty fields are asked and only empty fields are filled, so the
+    first reading's answers are never overruled. Best effort: a failed retry leaves
+    the field as it was.
+    """
+    missing = [f for f in fields or [] if f in TEXT_RETRY_FIELDS
+               and getattr(merged, f, None) in (None, "")]
+    text = build_document_text({n: page_texts[n] for n in pages if n in page_texts}) \
+        if missing and page_texts else ""
+    if not text:
+        return
+    print(f"    {', '.join(missing)} null from {source}; asking the page text")
+    try:
+        retry = extract_from_text(text, provider, prompt=_focus_prompt(missing, group),
+                                  usage=usage)
+    except Exception as exc:
+        print(f"    \u2717 {type(exc).__name__}: {exc}")
+        return
+    if retry is None:
+        return
+    for name in set(FIELDS) - set(missing):
+        setattr(retry, name, None)
+    before = _filled(merged)
+    merge_group(merged, retry, group)
+    print(f"    +{_filled(merged) - before} field(s) from text")
+
+
 def _extract_from_images(pdf_path, page_numbers, config, provider, page_texts=None,
-                         share_pages=None, usage=None):
+                         share_pages=None, bank_pages=None, usage=None):
     """Vision path: one call per statement, showing all of that statement's pages.
 
     Sending pages one at a time was necessary when every page cost a separate
@@ -793,13 +1026,13 @@ def _extract_from_images(pdf_path, page_numbers, config, provider, page_texts=No
     dpi = int(os.getenv("IMAGE_DPI", "150"))
     split = os.getenv("SPLIT_BY_STATEMENT", "true").lower() in ("1", "true", "yes")
 
-    groups = group_pages(page_texts, share_pages) if (split and page_texts) else {}
+    groups = group_pages(page_texts, share_pages, bank_pages) if (split and page_texts) else {}
     if not groups:
         groups = {"all": list(page_numbers)}
 
     merged = FinancialStatementExtraction()
     for group, pages in groups.items():
-        if GROUP_FIELDS.get(group) == []:
+        if PIPELINE_GROUP_FIELDS.get(group) == []:
             continue
         images = []
         for n in pages:
@@ -811,7 +1044,7 @@ def _extract_from_images(pdf_path, page_numbers, config, provider, page_texts=No
         if not images:
             continue
 
-        fields = GROUP_FIELDS.get(group)
+        fields = PIPELINE_GROUP_FIELDS.get(group)
         prompt = _focus_prompt(fields) if fields else EXTRACTION_PROMPT
         kb = sum(len(i) for i in images) / 1024
         print(f"  [{group}] pages {[p+1 for p in pages]}, {len(images)} image(s), {kb:,.0f} KB")
@@ -836,8 +1069,12 @@ def _extract_from_images(pdf_path, page_numbers, config, provider, page_texts=No
         merge_group(merged, part, group)
         print(f"    +{_filled(merged) - before} field(s)")
 
+        _retry_missing_from_text(merged, fields, pages, page_texts, provider, group,
+                                 "the image", usage)
+
     _apply_current_table_guard(merged, page_texts, groups)
     _apply_treasury_date_guard(merged, page_texts, groups)
+    _apply_comparative_column_guard(merged, page_texts, pdf_path)
     for warning in derive_fields(merged):
         print(f"    \u26a0 {warning}")
 

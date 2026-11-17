@@ -39,6 +39,7 @@ FIELD_TYPES = {
     "total_share": NUMBER,
     "utang_bank_jangka_pendek": NUMBER,
     "utang_bank_bagian_lancar": NUMBER,
+    "utang_bank_bagian_lancar_components": NUMBER_LIST,
     "total_ekuitas": NUMBER,
     "kepentingan_non_pengendali": NUMBER,
     "total_share_components": NUMBER_LIST,
@@ -63,7 +64,7 @@ class FinancialStatementExtraction:
     - total_aset_lancar: "Total Aset Lancar"
     - kas: "Kas dan Setara Kas"
     - liabilitas: "Total Liabilitas"
-    - utang_bank: "Utang Bank Jangka Pendek" + "Utang Bank Saja" (sum, exclude long-term)
+    - utang_bank: short-term and current-maturity loans from banks and non-bank financial institutions
     - ekuitas: "Ekuitas yang Diatribusikan kepada Pemilik Induk" (EXCLUDE Kepentingan Non Pengendali)
     - laba_bersih: "Laba ... Tahun Berjalan yang Diatribusikan kepada Pemilik Induk" (EXCLUDE Kepentingan Non Pengendali)
     - pendapatan: "Pendapatan dari Kontrak dengan Pelanggan"
@@ -78,7 +79,7 @@ class FinancialStatementExtraction:
     total_aset_lancar: Optional[float] = None
     kas: Optional[float] = None
     liabilitas: Optional[float] = None
-    utang_bank: Optional[float] = None            # DERIVED = jangka_pendek + bagian_lancar  # Utang Bank Jangka Pendek + Utang Bank Saja
+    utang_bank: Optional[float] = None            # DERIVED: short-term + current-maturity financial-institution loans
     ekuitas: Optional[float] = None               # DERIVED = total_ekuitas - kepentingan_non_pengendali          # Ekuitas yang Diatribusikan (exclude non-controlling)
     
     # Income statement items
@@ -99,6 +100,7 @@ class FinancialStatementExtraction:
     # into "copy the number beside this label", and the combination becomes code.
     utang_bank_jangka_pendek: Optional[float] = None      # under "Liabilitas Jangka Pendek"
     utang_bank_bagian_lancar: Optional[float] = None      # under "Bagian lancar atas liabilitas jangka panjang"
+    utang_bank_bagian_lancar_components: Optional[list] = None  # current portions by financial-institution lender
     total_ekuitas: Optional[float] = None                 # "Total Ekuitas" (includes NCI)
     kepentingan_non_pengendali: Optional[float] = None    # "Kepentingan Non-Pengendali", often negative
 
@@ -144,6 +146,7 @@ class FinancialStatementExtraction:
             "total_share": self.total_share,
             "utang_bank_jangka_pendek": self.utang_bank_jangka_pendek,
             "utang_bank_bagian_lancar": self.utang_bank_bagian_lancar,
+            "utang_bank_bagian_lancar_components": self.utang_bank_bagian_lancar_components,
             "total_ekuitas": self.total_ekuitas,
             "kepentingan_non_pengendali": self.kepentingan_non_pengendali,
             "total_share_components": self.total_share_components,
@@ -224,6 +227,8 @@ EXCEL_ROWS = {
     "total_aset_lancar":          (5,  "total aset lancar"),
     "kas":                        (6,  "KAS"),
     "liabilitas":                 (7,  "liabilitas"),
+    # Workbook label is preserved verbatim; user clarifies this also includes
+    # non-bank financial-institution loans such as finance-company borrowing.
     "utang_bank":                 (8,  "Utang Bank SAJA Jangka Pendek + Panjang jatuh tempo"),
     "ekuitas":                    (9,  "ekuitas"),
     "laba_bersih":                (10, "laba bersih"),

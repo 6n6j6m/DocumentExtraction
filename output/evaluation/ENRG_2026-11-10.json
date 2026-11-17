@@ -1,0 +1,5629 @@
+{
+ "ticker": "ENRG",
+ "date": "2026-11-10",
+ "has_labels": true,
+ "filings": [
+  {
+   "period": "Q1 2022",
+   "file": "Q1_2022_ENRG.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "Rate row also carried 14,269 IDR/USD (comparative periods); took the first column, 14,418.",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9 10 11 12 81",
+   "pdf_found": true
+  },
+  {
+   "period": "Q1 2023",
+   "file": "Q1_2023_ENRG.pdf",
+   "status": "ok",
+   "issues": "filing_unbalanced section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 15,062.00 (Bank Indonesia kurs tengah 2023-03-31 (beli 14,986.69, jual 15,137.31) for period end 2023-03-31)",
+   "error": "",
+   "pages_selected": "3 4 5 6 7 8 9 10 11 12 82",
+   "pdf_found": true
+  },
+  {
+   "period": "Q1 2024",
+   "file": "Q1_2024_ENRG.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "Rate row also carried 15,416 IDR/USD (comparative periods); took the first column, 15,853.",
+   "error": "",
+   "pages_selected": "3 4 5 6 7 8 9 10 11 12 13 87",
+   "pdf_found": true
+  },
+  {
+   "period": "Q1 2025",
+   "file": "Q1_2025_ENRG.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "Rate row also carried 16,162 IDR/USD (comparative periods); took the first column, 16,588.",
+   "error": "",
+   "pages_selected": "3 4 5 6 7 8 9 10 11 12 13 88",
+   "pdf_found": true
+  },
+  {
+   "period": "Q1 2026",
+   "file": "Q1_2026_ENRG.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 16,993.00 (Bank Indonesia kurs tengah 2026-03-31 (beli 16,908.03, jual 17,077.97) for period end 2026-03-31)",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 98",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2022",
+   "file": "Q2_2022_ENRG.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "Rate row also carried 14,269 IDR/USD (comparative periods); took the first column, 14,848.",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9 10 11 12 82",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2023",
+   "file": "Q2_2023_ENRG.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "Rate row also carried 15,731 IDR/USD (comparative periods); took the first column, 15,026.",
+   "error": "",
+   "pages_selected": "3 4 5 6 7 8 9 10 11 12 82",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2024",
+   "file": "Q2_2024_ENRG.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 16,421.00 (Bank Indonesia kurs tengah 2024-06-28 (beli 16,338.90, jual 16,503.10) for period end 2024-06-30)",
+   "error": "",
+   "pages_selected": "3 4 5 6 7 8 9 10 11 12 13 92",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2025",
+   "file": "Q2_2025_ENRG.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "Rate row also carried 16,162 IDR/USD (comparative periods); took the first column, 16,233.",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 93",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2026",
+   "file": "Q2_2026_ENRG.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 17,856.00 (Bank Indonesia kurs tengah 2026-06-30 (beli 17,766.72, jual 17,945.28) for period end 2026-06-30)",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9 10 11 12 13 14 93",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2022",
+   "file": "Q3_2022_ENRG.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 15,247.00 (Bank Indonesia kurs tengah 2022-09-30 (beli 15,170.76, jual 15,323.24) for period end 2022-09-30)",
+   "error": "",
+   "pages_selected": "3 4 5 6 7 8 9 10 11 12 13 82",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2023",
+   "file": "Q3_2023_ENRG.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "Rate row also carried 15,731 IDR/USD (comparative periods); took the first column, 15,526.",
+   "error": "",
+   "pages_selected": "4 5 6 7 8 9 10 11 12 82",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2024",
+   "file": "Q3_2024_ENRG.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 15,138.00 (Bank Indonesia kurs tengah 2024-09-30 (beli 15,062.31, jual 15,213.69) for period end 2024-09-30)",
+   "error": "",
+   "pages_selected": "3 4 5 6 7 8 9 10 11 12 13 92",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2025",
+   "file": "Q3_2025_ENRG.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "Rate row also carried 16,162 IDR/USD (comparative periods); took the first column, 16,680.",
+   "error": "",
+   "pages_selected": "3 4 5 6 7 8 9 10 11 12 13 92",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2026",
+   "file": "Q3_2026_ENRG.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 17,998.00 (Bank Indonesia kurs tengah 2026-09-30 (beli 17,908.01, jual 18,087.99) for period end 2026-09-30)",
+   "error": "",
+   "pages_selected": "3 4 5 6 7 8 9 10 11 12 95",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2022",
+   "file": "Q4_2022_ENRG.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "Rate row also carried 14,269 IDR/USD (comparative periods); took the first column, 15,731.",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 89",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2023",
+   "file": "Q4_2023_ENRG.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "Rate row also carried 15,731 IDR/USD (comparative periods); took the first column, 15,416.",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 94",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2024",
+   "file": "Q4_2024_ENRG.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "Rate row also carried 15,416 IDR/USD (comparative periods); took the first column, 16,162.",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 94",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2025",
+   "file": "Q4_2025_ENRG.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 16,782.00 (Bank Indonesia kurs tengah 2025-12-31 (beli 16,698.09, jual 16,865.91) for period end 2025-12-31)",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 96",
+   "pdf_found": true
+  }
+ ],
+ "cells": [
+  {
+   "period": "Q1 2022",
+   "field": "aset",
+   "pred": 17537812746912,
+   "label": 17537812746912,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 1.216.383.184 1.063.575.849 TOTAL ASSETS"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "DAN EKUITAS 1.216.383.184 1.063.575.849 AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "total_aset_lancar",
+   "pred": 2965292214984,
+   "label": 2965292214984,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 205.665.988 162.958.319 Total Current Assets"
+    },
+    {
+     "page": 7,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Penggantian biaya overhead 5 02.897 205.278 Overhead cost recovery"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "kas",
+   "pred": 687955807170,
+   "label": 687955807170,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 3d,3y,5,25 4 7.715.065 32.785.788 Cash and cash equivalent"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS AKHIR PERIODE 47.715.065 3 5.067.700 CASH AT END OF PERIOD"
+    },
+    {
+     "page": 53,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 47.715.065 32.785.788 Total"
+    },
+    {
+     "page": 80,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Dikurangi kas 47.715.065 32.785.788 Less cash"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "liabilitas",
+   "pred": 10918594921446,
+   "label": 10918594921446,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 757.289.147 614.608.871 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "utang_bank",
+   "pred": 161519130054,
+   "label": 161519130054,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman 3y,23,25 11.202.603 1 0.934.502 Loans"
+    },
+    {
+     "page": 70,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 11.202.603 10.934.502 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "ekuitas",
+   "pred": 7673124258234,
+   "label": 7673124258234,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 532.190.613 522.056.931 Net"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo 31 Maret 2022 6 38.086.082 3 15.315.641 ( 7.521.497) 134.090.077 2 7.888.891 ( 575.668.581) 532.190.613 (73.096.577) 4 59.094.037 March 31, 2022"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "laba_bersih",
+   "pred": 148308680808,
+   "label": 148308680808,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA NETO 1 0.279.733 5.656.784 NET PROFIT"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 10.286.356 6.159.519 Owners of the parent"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 10.279.733 5.656.783 Net"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "berjalan - - - - - 10.286.356 1 0.286.356 (6.624) 1 0.279.733 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "pendapatan",
+   "pred": 1623150512334,
+   "label": 1623150512334,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENJUALAN NETO 3s,31 112.578.063 80.229.452 NET SALES"
+    },
+    {
+     "page": 84,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 112.578.063 80.229.452 Total"
+    },
+    {
+     "page": 96,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Penjualan neto 30.474.732 44.946.694 - (351.837) 32.279.437 5.229.038 112.578.063 Net sales"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 814091204376,
+   "label": 814091204376,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 5 6.463.532 4 3.921.938 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "total_share",
+   "pred": 24821230250,
+   "label": 24821230250,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 81,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.821.230.250 100 Total"
+    },
+    {
+     "page": 81,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.821.230.250 100,00 Total"
+    },
+    {
+     "page": 90,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "saham 2 4.821.230.250 1 0.342.179.272 share"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "aset",
+   "pred": 18098807172714,
+   "label": 18098807172714,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "1.201.620.447"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "DAN EKUITAS 1.200.439.171 1.194.330.408 AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "total_aset_lancar",
+   "pred": 2881746428192,
+   "label": 2881746428192,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "191.325.616 179.989.573 Total Current Assets"
+    },
+    {
+     "page": 94,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Biaya bunga 191.641 171.706 Interest cost"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "kas",
+   "pred": 683651618292,
+   "label": 683651618292,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "3d,3y,6,26 45.389.166 46.288.330 Cash and cash eguivalent"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS AKHIR PERIODE 45.389.166 47.715.065 CASH AT END OF PERIOD"
+    },
+    {
+     "page": 56,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 45.389.166"
+    },
+    {
+     "page": 81,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Total 369.749.264 369.471.659 261.132.023 62.991.509 45.348.128 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "liabilitas",
+   "pred": 10064737547550,
+   "label": 10064737547550,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 668.220.525 679.404.122 Total Liabilities"
+    },
+    {
+     "page": 66,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 667.216.112 - - 667.216.112 Total"
+    },
+    {
+     "page": 66,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Total 647.496.666 19.719.446 - 667.216.112 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "utang_bank",
+   "pred": 325249189488,
+   "label": 325249189488,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman 3y,25,26 21.594.024 18.760.524 Loans"
+    },
+    {
+     "page": 73,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 21.594.024 18.760.524 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "ekuitas",
+   "pred": 9117154473134,
+   "label": 9117154473134,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 605.308.357 588.009.186 Net"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo 31 Maret 2023 638.086.082 356.853.209 (8.343.659) 134.090.077 (13.648.677) (501.728.675) 605.308.357 (73.089.711) 532.218.646 March 31, 2023"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "laba_bersih",
+   "pred": 263584969876,
+   "label": 263584969876,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA NETO 17.493.187 10.279.733 NET PROFIT"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 17.499.998 10.286.356 Owners of the parent"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 17.493.187 10.279.733 Net"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "berjalan - - - - - 17.499.998 17.499.998 (6.811) 17.493.187 Net profit for the year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "pendapatan",
+   "pred": 1544521192260,
+   "label": 1544521192260,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENJUALAN NETO 3s,32 102.544.230 112.578.063 NET SALES"
+    },
+    {
+     "page": 86,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 102.544.230 112.578.063 Total"
+    },
+    {
+     "page": 98,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Liabilitas segmen (473.888.405) \u2014 (188.882.474) (39.337.984) (23.416.510) (218.087.086) (55.354.095) (102.395.632) (1.101.362.136) Segment liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 431072195762,
+   "label": 431072195762,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 2 8.619.851 56.463.532 Operating Activities"
+    },
+    {
+     "page": 72,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Pengeboran 25.742.169 28.592.861 Drilling"
+    },
+    {
+     "page": 98,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "penjualan (21.805.031) (28.565.355) (416.369) \u2014 (14.053.707) (3.813.747) (68.654.209) Cost of goods sold"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "total_share",
+   "pred": 24821230250,
+   "label": 24821230250,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 82,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.821.230.250 100,00 Total"
+    },
+    {
+     "page": 83,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.821.230.250 100,00 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "aset",
+   "pred": 22560730792535,
+   "label": 22560730792535,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 1.423.120.595 1.368.757.121 TOTAL ASSETS"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "DAN EKUITAS 1.423.120.595 1.368.757.121 AND EQUITY"
+    },
+    {
+     "page": 59,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "PT Petrokimia Gresik (Persero) 1 .422.189 1 .571.994 PT Petrokimia Gresik (Persero)"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "total_aset_lancar",
+   "pred": 3876295597468,
+   "label": 3876295597468,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 244.514.956 242.372.954 Total Current Assets"
+    },
+    {
+     "page": 68,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "EPCC Buzi 2 44.271.035 7 62.368 2 45.033.403 Buzi EPCC"
+    },
+    {
+     "page": 69,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "EPCC Buzi 240.107.854 4.163.181 244.271.035 Buzi EPCC"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "kas",
+   "pred": 1111090146327,
+   "label": 1111090146327,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 3d,3y,6,28 7 0.087.059 8 2.440.574 Cash and cash equivalent"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS AKHIR PERIODE 70.087.059"
+    },
+    {
+     "page": 58,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "70.087.059 82.440.574 Total"
+    },
+    {
+     "page": 91,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Gas Bumi 70.063.552"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "liabilitas",
+   "pred": 13008315961390,
+   "label": 13008315961390,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 820.558.630 783.652.104 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "utang_bank",
+   "pred": 526520441657,
+   "label": 526520441657,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA BRUTO 33.184.633 40.355.516 GROSS PROFIT"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "ekuitas",
+   "pred": 10671672284542,
+   "label": 10671672284542,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 673.164.214 655.722.351 Net"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo 31 Maret 2024 638.086.082 356.853.209 (9.093.300) 134.090.077 (13.648.677) (433.123.177) 673.164.214 (70.602.249) 602.561.965"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "laba_bersih",
+   "pred": 280117817512,
+   "label": 280117817512,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA NETO 17.684.789 17.493.187 NET PROFIT"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 17.669.704 17.499.998 Owners of the parent"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 17.684.789 17.493.187 Net"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "berjalan 17.669.704 17.669.704 15.085 17.684.789"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "pendapatan",
+   "pred": 1542175353601,
+   "label": 1542175353601,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENJUALAN NETO 38,34 97.279.717 103.310.614 NET SALES"
+    },
+    {
+     "page": 85,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Total 509.086.624 558.692.011 258.077.099 97.126.207 2 03.488.705 Total"
+    },
+    {
+     "page": 91,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 97.279.717"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 374209399174,
+   "label": 374209399174,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 23.604.958 33.619.851 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "total_share",
+   "pred": 24821230250,
+   "label": 24821230250,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 87,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.821.230.250 100,00 Total"
+    },
+    {
+     "page": 88,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.821.230.250 100,00 Total"
+    },
+    {
+     "page": 97,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "saham 2 4.821.230.250 24.821.230.250 share"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "aset",
+   "pred": 26274198211404,
+   "label": 26274198211404,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 1.583.928.033 1.583.258.785 TOTAL ASSETS"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "DAN EKUITAS 1.583.928.033 1.583.258.785 AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "total_aset_lancar",
+   "pred": 4217134064000,
+   "label": 4217134064000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 254.228.000 255.644.409 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "kas",
+   "pred": 882041420832,
+   "label": 882041420832,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 3d,3y,6,28 53.173.464 5 3.606.326 Cash and cash equivalent"
+    },
+    {
+     "page": 58,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 53.173.464 53.606.326 Total"
+    },
+    {
+     "page": 80,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas di bank dan setara kas 53.073.378 53.073.378 Cash in bank and cash equivalents"
+    },
+    {
+     "page": 84,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 53.073.377 53.495.358 Cash and cash equivalents"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "liabilitas",
+   "pred": 15079298342680,
+   "label": 15079298342680,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 909.048.610 926.118.167 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "utang_bank",
+   "pred": 1156777782160,
+   "label": 1156777782160,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "ekuitas",
+   "pred": 12406293060304,
+   "label": 12406293060304,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 7 47.907.708 730.189.566 Net"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo 31 Maret 2025 6 38.086.082 3 56.853.209 ( 10.032.776) 1 34.090.077 ( 13.648.677) (357.440.207) 747.907.708 (73.028.285) 6 74.879.423 March 31, 2025"
+    },
+    {
+     "page": 75,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Proyek 746.539 10.680.754 Project"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "laba_bersih",
+   "pred": 297887337176,
+   "label": 297887337176,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA NETO 17.978.664 17.684.789 NET PROFIT"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 1 7.958.002 17.669.704 Owners of the parent"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 1 7.978.664 17.684.789 Net"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "berjalan - - - - - 17.958.002 17.958.002 20.663 17.978.665 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "pendapatan",
+   "pred": 1941546009832,
+   "label": 1941546009832,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENJUALAN NETO 3s,34 117.045.214 97.279.717 NET SALES"
+    },
+    {
+     "page": 76,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total pembayaran sewa minimum 116.970.857 129.076.912 Total minimum payment"
+    },
+    {
+     "page": 86,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Liabilitas sewa 105.611.814 116.970.857 35.306.466 32.437.310 49.227.082 Lease liabilities"
+    },
+    {
+     "page": 92,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 117.045.214 97.279.717 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 1078426321544,
+   "label": 1078426321544,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Sewa 3o,3y,25,28 64.910.547 75.083.794 Lease"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 65.012.438 23.604.958 Operating Activities"
+    },
+    {
+     "page": 74,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Lebih dari 60 hari 64.962.144 53.650.626 Over 60 days"
+    },
+    {
+     "page": 76,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Bagian Jangka Panjang 64.910.547 75.083.794 Long-term Portion"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "total_share",
+   "pred": 24821230250,
+   "label": 24821230250,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 88,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.821.230.250 100,00 Total"
+    },
+    {
+     "page": 88,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.821.230.250 100,00 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "aset",
+   "pred": 31693165233344,
+   "label": 31693165233344,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Beban dibayar dimuka 3f,10 1 .863.546 2 .134.267 Prepaid expenses"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 1.865.071.808 1.822.321.133 TOTAL ASSETS"
+    },
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "1.865.071.808"
+    },
+    {
+     "page": 69,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "1.863.546 2.134.267 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "total_aset_lancar",
+   "pred": 4451338287963,
+   "label": 4451338287963,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 261.951.291 206.368.479 Total Current Assets"
+    },
+    {
+     "page": 77,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PSC Malacca Strait 262.090.576 90.229.808 (19.888.974, - 332.431.410 Malacca Strait PSC"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "kas",
+   "pred": 1523766813145,
+   "label": 1523766813145,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 3d,3y,6,29 8 9.670.265 6 2.248.969 Cash and cash equivalents"
+    },
+    {
+     "page": 21,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "89.670.265 53.173.464"
+    },
+    {
+     "page": 31,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Blok Bentu 89.708 906 45.622 44.086"
+    },
+    {
+     "page": 65,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "89.670.265 62.248.969"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "liabilitas",
+   "pred": 17396923593007,
+   "label": 17396923593007,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 1.023.769.999 999.581.022 Total Liabilities"
+    },
+    {
+     "page": 130,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "PSC Kangean 40.959.132 1.023.979 41.983.110 Kangean PSC"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "utang_bank",
+   "pred": 1034953499128,
+   "label": 1034953499128,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pihak ketiga 3y,7,29 60.811.251 3 8.075.506 Third parties"
+    },
+    {
+     "page": 66,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 6 0.811.251 3 8.075.506 Net"
+    },
+    {
+     "page": 67,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 60.811.251 38.075.506 Net"
+    },
+    {
+     "page": 91,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Piutang usaha - neto 60.811.251 60.811.251 Trade receivables - net"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "ekuitas",
+   "pred": 15536414502565,
+   "label": 15536414502565,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 914.283.205 895.709.269 Net"
+    },
+    {
+     "page": 20,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo 31 Maret 2026 6 47.422.128 5 56.514.487 ( 10.446.759) ( 13.648.677) ( 15.809) ( 265.542.165) 9 14.283.205 ( 72.981.396) 8 41.301.809 March 31, 2026"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "laba_bersih",
+   "pred": 311363911517,
+   "label": 311363911517,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA NETO 1 8.310.831 1 7.978.664 NET PROFIT"
+    },
+    {
+     "page": 18,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 18.323.069 17.958.002 Owners of the parent"
+    },
+    {
+     "page": 18,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 18.310.831 17.978.664 Net"
+    },
+    {
+     "page": 20,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "berjalan - - - - - 1 8.323.069 1 8.323.069 ( 12.238) 1 8.310.831 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "pendapatan",
+   "pred": 2326977255193,
+   "label": 2326977255193,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENJUALAN NETO 3s,34, 41 1 36.937.401 1 17.045.214 NET SALES"
+    },
+    {
+     "page": 102,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 136.937.401 117.045.214 Total"
+    },
+    {
+     "page": 112,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 136.937.401 (78.479.811) 58.457.590 2.140.770.484 (1.270.981.159)"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 951370964643,
+   "label": 951370964643,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 21,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "55.986.051 65.012.438"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "total_share",
+   "pred": 26346230250,
+   "label": 26346230250,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 25,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "disetor penuh Perusahaan menjadi 26.346.230.250 26,346,230,250 shares."
+    },
+    {
+     "page": 98,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 26.346.230.250 100,00"
+    },
+    {
+     "page": 98,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "26.346.230.250 100,00"
+    },
+    {
+     "page": 107,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "saham 2 6.346.230.250 24.821.230.248 share"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "aset",
+   "pred": 17821463924736,
+   "label": 17821463924736,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "1.200.260.232"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "DAN EKUITAS 1.200.260.232 1.063.575.849 AND EQUITY"
+    },
+    {
+     "page": 69,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Geologi dan geofisik 2.263.992 1.199.753 Geological and geophysical"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "total_aset_lancar",
+   "pred": 2965337896448,
+   "label": 2965337896448,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 199.712.951 162.958.319 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "kas",
+   "pred": 570109479936,
+   "label": 570109479936,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 3d,3y,5,25 38.396.382 32.785.788 Cash and cash eguivalent"
+    },
+    {
+     "page": 7,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Rugi penurunan nilai 6,7,8,12b,18 (38.417) (186.212) Impairement loss"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS AKHIR PERIODE 38.396.382 22.432.090 CASH AT END OF PERIOD"
+    },
+    {
+     "page": 53,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 38.396.382 32.785.788 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "liabilitas",
+   "pred": 10776159076352,
+   "label": 10776159076352,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 725.765.024 614.608.871 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "utang_bank",
+   "pred": 765332587520,
+   "label": 765332587520,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 70,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 51.544.490 53.866.484 Total"
+    },
+    {
+     "page": 74,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman jangka panjang 51.544.490 51.544.490 Long-term loans"
+    },
+    {
+     "page": 80,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "panjang 51.544.490 52.745.151 15.337.553 23.834.866 13.572.732 Long-term loans"
+    },
+    {
+     "page": 81,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman jangka panjang 51.544.490 53.866.484 Long-term loans"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "ekuitas",
+   "pred": 8130747620864,
+   "label": 8130747620864,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 547.598.843 522.056.931 Net"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "547.598.843"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "laba_bersih",
+   "pred": 383646825984,
+   "label": 383646825984,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA NETO 25.824.601 11.804.438 NET PROFIT"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 2 5.838.283 1 2.852.563 Owners of the parent"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 2 5.824.601 1 1.804.438 Net"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "25.838.283"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "pendapatan",
+   "pred": 3417853354496,
+   "label": 3417853354496,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENJUALAN NETO 3s,31 230.189.477 166.311.392 NET SALES"
+    },
+    {
+     "page": 97,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Penjualan neto 67.948.689 82.235.241 - (1.192.266) 68.904.198 12.293.614 230.189.476 Net sales"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 1283096393728,
+   "label": 1283096393728,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "86.415.436 71.382.047"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "total_share",
+   "pred": 24821230250,
+   "label": 24821230250,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 82,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.821.230.250 100 Total"
+    },
+    {
+     "page": 82,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.821.230.250"
+    },
+    {
+     "page": 91,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "saham 24.821.230.250"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "aset",
+   "pred": 18226466896968,
+   "label": 18226466896968,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 1.212.995.268 1.194.330.408 TOTAL ASSETS"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "DAN EKUITAS 1.212.995.268 1.194.330.408 AND EQUITY"
+    },
+    {
+     "page": 57,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "1.210.690 PT Petrokimia Gresik (Persero)"
+    },
+    {
+     "page": 67,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "EPCC Buzi 241.321.563 (1.213.709) 240.107.854 Buzi EPCC"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "total_aset_lancar",
+   "pred": 2912556039998,
+   "label": 2912556039998,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 193.834.423 179.989.573 Total Current Assets"
+    },
+    {
+     "page": 20,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "99,99 193.759.354 194.036.691"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "kas",
+   "pred": 767470184822,
+   "label": 767470184822,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 3d,3y,6,26 51.076.147 46.288.330 Cash and cash eguivalent"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS AKHIR PERIODE 5 1.076.147 3 8.396.382 CASH AT END OF PERIOD"
+    },
+    {
+     "page": 56,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 51.076.147 46.288.330 Total"
+    },
+    {
+     "page": 82,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Dikurangi kas 51.076.147 46.288.330 Less cash"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "liabilitas",
+   "pred": 10101010457714,
+   "label": 10101010457714,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 672.235.489 679.404.122 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "utang_bank",
+   "pred": 339961627192,
+   "label": 339961627192,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman 3y,25,26 22.624.892 1 8.760.524 Loans"
+    },
+    {
+     "page": 73,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 22.624.892 18.760.524 Total"
+    },
+    {
+     "page": 96,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Liabilitas segmen (412.728.153) \u2014 (147.307.062) (47.000.820) (22.665.322) (185.244.855) (63.760.827) (125.630.722) (1.004.337.761) Segment liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "ekuitas",
+   "pred": 9228679889396,
+   "label": 9228679889396,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 6 14.180.746 5 88.009.186 Net"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo 30 Juni 2023 638.086.082 356.853.209 (8.545.448) 134.090.077 (13.648.677) (492.654.497) 614.180.746 (73.420.967) 540.759.779 June 30, 2023"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "laba_bersih",
+   "pred": 399303568576,
+   "label": 399303568576,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 26.574.176 25.838.284 Owners of the parent"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "berjalan - - - - - 26.574.176 26.574.176 (338.067) 26.236.109 Net profit for the period"
+    },
+    {
+     "page": 57,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "26.606.983 Total"
+    },
+    {
+     "page": 58,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Total 37.897.075 26.606.983 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "pendapatan",
+   "pred": 2877055447112,
+   "label": 2877055447112,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENJUALAN NETO 3s,32 191.471.812 230.189.477 NET SALES"
+    },
+    {
+     "page": 85,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 191.471.812 230.189.477 Total"
+    },
+    {
+     "page": 96,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Penjualan neto 62.982.978 62.222.668 892.971 59.443.631 5.929.564 191.471.812 Net sales"
+    },
+    {
+     "page": 110,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "PSC Malacca Strait 2 2.219.231 1 91.328 2 2.410.559 Malacca Strait PSC"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 1648873842616,
+   "label": 1648873842616,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 1 09.734.716 9 1.685.838 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "total_share",
+   "pred": 24821230250,
+   "label": 24821230250,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 82,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.821.230.250 100,00 Total"
+    },
+    {
+     "page": 82,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "24.821.230.250"
+    },
+    {
+     "page": 91,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "saham 24.821.230.250"
+    },
+    {
+     "page": 91,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "24.821.230.250 share"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "aset",
+   "pred": 24931609046530,
+   "label": 24931609046530,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 1.518.275.930 1.368.757.121 TOTAL ASSETS"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "DAN EKUITAS 1.518.275.930 1.368.757.121 AND EQUITY"
+    },
+    {
+     "page": 93,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "4.203.831.300 saham 1.530.597 11.077 1.519.520"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "total_aset_lancar",
+   "pred": 5273773532615,
+   "label": 5273773532615,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 321.160.315 302.328.330 Total Current Assets"
+    },
+    {
+     "page": 20,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "EMP ONWJ Ltd. (ONWJ) 51,00 51,00 321.285.905 321.285.905"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "kas",
+   "pred": 1240764454336,
+   "label": 1240764454336,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 3d,3y,6,29 7 5.559.616 8 2.440.574 Cash and cash equivalent"
+    },
+    {
+     "page": 59,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 75.559.616 82.440.574 Total"
+    },
+    {
+     "page": 83,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas di bank dan setara kas 75.478.437 75.478.437 Cash in bank and cash equivalents"
+    },
+    {
+     "page": 88,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas di bank dan setara kas 75.478.438 82.250.370 Cash in bank and cash equivalents"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "liabilitas",
+   "pred": 14781027373392,
+   "label": 14781027373392,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 900.129.552 783.652.104 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "utang_bank",
+   "pred": 1001245203081,
+   "label": 1001245203081,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "ekuitas",
+   "pred": 11310901142785,
+   "label": 11310901142785,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 6 88.807.085 6 55.722.351 Net"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "(13.648.677) (417.258.517) 688.807.085 (70.660.707) 618.146.378 June 30, 2024"
+    },
+    {
+     "page": 125,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "PSC Tonga 668.950 21.130 690.080 Tonga PSC"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "laba_bersih",
+   "pred": 550667791244,
+   "label": 550667791244,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA NETO 3 3.490.991 2 6.236.109 NET PROFIT"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 33.534.364 26.574.176 Owners of the parent"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 33.490.991 26.236.109 Net"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "33.534.364 33.534.364 (43.373) 33.490.991 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "pendapatan",
+   "pred": 3315352229837,
+   "label": 3315352229837,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENJUALAN NETO 3s,35 2 01.897.097 1 91.471.812 NET SALES"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "201.958.474 180.181.720"
+    },
+    {
+     "page": 96,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 201.897.097"
+    },
+    {
+     "page": 108,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 201.897.097 (137.260.569) 64.636.528 1.486.928.044 \u2014 (1.248.121.267) Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 1690749544282,
+   "label": 1690749544282,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "102.962.642"
+    },
+    {
+     "page": 100,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Liabilitas imbalan kerja 8.173.295 (102.784) 524.694 8.595.205 Employee benefits liability"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "total_share",
+   "pred": 24821230248,
+   "label": 24821230248,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 102,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "saham 2 4.821.230.248 24.821.230.250 share"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "aset",
+   "pred": 26283780012609,
+   "label": 26283780012609,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "1.619.157.273"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "DAN EKUITAS 1.619.157.273 1.583.258.785 AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "total_aset_lancar",
+   "pred": 4242999785892,
+   "label": 4242999785892,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 261.381.124 255.644.409 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "kas",
+   "pred": 843143042679,
+   "label": 843143042679,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 3d,3y,6,29 51.940.063 53.606.326 Cash and cash eguivalents"
+    },
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 51.940.063 75.559.616 AT END OF PERIOD"
+    },
+    {
+     "page": 62,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 51.940.063 53.606.326 Total"
+    },
+    {
+     "page": 70,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Ekuitas 60.214.100 52.024.604 Equity"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "liabilitas",
+   "pred": 15039567744999,
+   "label": 15039567744999,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 9 26.481.103 926.118.167 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "utang_bank",
+   "pred": 1182869506833,
+   "label": 1182869506833,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "nonpengendali - neto 3b,34 (72.988.025) (73.048.948) interests - net"
+    },
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo 30 Juni 2025 6 38.086.082 3 56.853.209 ( 9.904.046) 1 34.090.077 ( 13.648.677) ( 139.398) ( 339.673.052) 7 65.664.195 ( 72.988.025) 6 92.676.170 June 30, 2025"
+    },
+    {
+     "page": 96,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Neto (73.048.948) 60.923 ( 72.988.025) Net"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "ekuitas",
+   "pred": 12429026877435,
+   "label": 12429026877435,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 765.664.195 730.189.566 Net"
+    },
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo 30 Juni 2025 6 38.086.082 3 56.853.209 ( 9.904.046) 1 34.090.077 ( 13.648.677) ( 139.398) ( 339.673.052) 7 65.664.195 ( 72.988.025) 6 92.676.170 June 30, 2025"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "laba_bersih",
+   "pred": 579926473581,
+   "label": 579926473581,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA NETO 3 5.786.080 3 3.490.991 NET PROFIT"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "35.725.157 33.534.364 Owners of the parent"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "35.786.080 33.490.991 Net"
+    },
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba neto periode berjalan - - - - - - 3 5.725.157 3 5.725.157 6 0.923 3 5.786.080 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "pendapatan",
+   "pred": 3881475909066,
+   "label": 3881475909066,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENJUALAN NETO 3s,35 2 39.110.202 2 01.897.097 NET SALES"
+    },
+    {
+     "page": 13,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "selisih kurs - neto 2 38.643 3 40.393 exchange - net"
+    },
+    {
+     "page": 97,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 239.110.202 201.897.097 Total"
+    },
+    {
+     "page": 109,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 239.110.202 (158.843.540) 80.266.662 1.866.827.524 (1.223.082.574) Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 1603527118389,
+   "label": 1603527118389,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 9 8.781.933 1 02.962.642 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "total_share",
+   "pred": 24821230250,
+   "label": 24821230250,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 93,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.821.230.250 100,00 Total"
+    },
+    {
+     "page": 94,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.821.230.250 100,00 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "aset",
+   "pred": 35156390114880,
+   "label": 35156390114880,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 1.968.883.855 1.822.321.133 TOTAL ASSETS"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "DAN EKUITAS 1.968.883.855 1.822.321.133 AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "total_aset_lancar",
+   "pred": 5027950369152,
+   "label": 5027950369152,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 281.583.242 206.368.479 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "kas",
+   "pred": 2048774709312,
+   "label": 2048774709312,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 3d,3y,6,29 114.738.727 62.248.969 Cash and cash eguivalents"
+    },
+    {
+     "page": 59,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 114.738.727 62.248.969 Total"
+    },
+    {
+     "page": 71,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "PSC Kangean 120.576.249 320.862 (6.012.542) 114.884.569 Kangean PSC"
+    },
+    {
+     "page": 86,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas di bank dan setara kas 114.616.365 114.616.365 Cash in bank and cash eguivalents"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "liabilitas",
+   "pred": 19308444162624,
+   "label": 19308444162624,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "1.081.342.079 999.581.022 Total Liabilities"
+    },
+    {
+     "page": 99,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "1.082.996 Company"
+    },
+    {
+     "page": 102,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "1.082.996 to the Company"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "utang_bank",
+   "pred": 1029944204352,
+   "label": 1029944204352,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "ekuitas",
+   "pred": 17151046530624,
+   "label": 17151046530624,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 960.520.079 895.709.269 Net"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo 30 Juni 2026 648.642.914 574.215.912 (10.278.374) (13.648.677) 219.405 (238.631.101) 960.520.079 (72.978.303) 887.541.776"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "laba_bersih",
+   "pred": 807700678848,
+   "label": 807700678848,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA NETO 45.224.987 35.786.080 NET PROFIT"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 45.234.133 35.725.157 Owners of the parent"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 45.224.987 35.786.080 Net"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "berjalan - - - - - 45.234.133 45.234.133 (9.146) 45.224.987"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "pendapatan",
+   "pred": 5059926251136,
+   "label": 5059926251136,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Defisit (238.631.101) (283.865.234) Deficit"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENJUALAN NETO 38,34, 41 283.374.006 239.110.202 NET SALES"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo 1 Januari 2026 647.422.128 556.514.487 (10.621.211) (13.648.677) (92.224) (283.865.234) 895.709.269 (72.969.157) 822.740.111"
+    },
+    {
+     "page": 97,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 283.374.006 239.110.202 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 2163297093696,
+   "label": 2163297093696,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 121.152.391 98.781.933 Operating Activities"
+    },
+    {
+     "page": 23,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PT EMP Energi Gandewa (EMP EG) 99,99 99,99 120.965.652 90.706.810"
+    },
+    {
+     "page": 65,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Sub Total 121.273.949"
+    },
+    {
+     "page": 108,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Siak 28.948.892 (4.852.994) 24.095.898 120.965.652 (63.827.745) Siak"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "total_share",
+   "pred": 26564543750,
+   "label": 26564543750,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 18,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "meningkatkan jumlah modal ditempatkan dan 26,564,543,750 shares."
+    },
+    {
+     "page": 18,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "disetor penuh Perusahaan menjadi 26.564.543.750"
+    },
+    {
+     "page": 93,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 26.564.543.750 100,00 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "aset",
+   "pred": 18722719811806,
+   "label": 18722719811806,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "1.227.960.898"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "1.227.960.898"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "total_aset_lancar",
+   "pred": 3182889680568,
+   "label": 3182889680568,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 208.755.144 162.958.319 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "kas",
+   "pred": 806661578503,
+   "label": 806661578503,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 3d,3y,5,24 52.906.249 32.785.788 Cash and cash eguivalent"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS AKHIR PERIODE 5 2.906.248 2 5.770.237 CASH AT END OF PERIOD"
+    },
+    {
+     "page": 54,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "52.906.249 32.785.788 Total"
+    },
+    {
+     "page": 75,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas di bank 52.848.771 52.848.771 Cash in banks"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "liabilitas",
+   "pred": 11211715425417,
+   "label": 11211715425417,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 7 35.339.111 614.608.870 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "utang_bank",
+   "pred": 303728625850,
+   "label": 303728625850,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman 3y,23,24 1 9.920.550 1 0.934.502 Loans"
+    },
+    {
+     "page": 71,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 19.920.550"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "ekuitas",
+   "pred": 8626219549633,
+   "label": 8626219549633,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 565.765.039 522.056.931 Net"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo 30 September 2022 638.086.082 315.315.641 (7.801.747) 134.090.077 27.888.891 (541.813.905) 565.765.039 (73.143.252) 492.621.787 September 30, 2022"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "laba_bersih",
+   "pred": 673018314904,
+   "label": 673018314904,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA NETO 44.087.733 17.968.160 NET PROFIT"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "44.141.032 18.517.383 Owners of the parent"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "44.087.733 17.968.160 Net"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "berjalan - - - - - 4 4.141.032 4 4.141.032 ( 53.299) 4 4.087.733 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "pendapatan",
+   "pred": 5245079440323,
+   "label": 5245079440323,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENJUALAN NETO 3s,31 344.007.309 295.585.427 NET SALES"
+    },
+    {
+     "page": 23,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Blok Kangean 355.109 5.853 343.568 11.541"
+    },
+    {
+     "page": 86,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 344.007.309"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 2508258217817,
+   "label": 2508258217817,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 164.508.311 101.464.123 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "total_share",
+   "pred": 24821230250,
+   "label": 24821230250,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 83,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "24,821,230,250"
+    },
+    {
+     "page": 92,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "saham 2 4.821.230.250 10.342.179.272 share"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "aset",
+   "pred": 19047792389920,
+   "label": 19047792389920,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 1.226.831.920 1.194.330.408 TOTAL ASSETS"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "DAN EKUITAS 1.226.831.920 1.194.330.408 AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "total_aset_lancar",
+   "pred": 3032717490040,
+   "label": 3032717490040,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 195.331.540 179.989.573 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "kas",
+   "pred": 599242163618,
+   "label": 599242163618,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 3d,3y,6,26 38.596.043 16.288.330 Cash and cash eguivalent"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "38.596.043"
+    },
+    {
+     "page": 56,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 38.596.043 46.288.330 Total"
+    },
+    {
+     "page": 82,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Dikurangi kas 38.596.043 46.288.330 Less cash"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "liabilitas",
+   "pred": 10355527086142,
+   "label": 10355527086142,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 666.979.717 679.404.122 Total Liabilities"
+    },
+    {
+     "page": 66,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 667.216.112 3.149.337 670.365.449 Total"
+    },
+    {
+     "page": 66,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Total 647.496.666 19.719.446 667.216.112 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "utang_bank",
+   "pred": 367279345286,
+   "label": 367279345286,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman 3y,25,26 23.655.761 18.760.524 Loans"
+    },
+    {
+     "page": 73,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 23.655.761"
+    },
+    {
+     "page": 82,
+     "reading": "USD MILLIONS",
+     "first_on_line": false,
+     "line": "Gearing Ratio 0,011 0,024 Gearing Ratio"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "ekuitas",
+   "pred": 9829820343700,
+   "label": 9829820343700,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 633.119.950 588.009.186 Net"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo 30 September 2023 638.086.082 356.853.209 (8.727.306) 134.090.077 (13.648.677) (473.533.435) 633.119.950 (73.267.747) 559.852.203 September 30, 2023"
+    },
+    {
+     "page": 96,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "(Persero) 633.100 1.116.798 22.091.502 23.841.400 (Persero)"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "laba_bersih",
+   "pred": 709464265188,
+   "label": 709464265188,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 45.695.238 44.141.032 Owners of the parent"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "berjalan 45.695.238 45.695.238 (184.847) 45.510.391 Net profit for the period"
+    },
+    {
+     "page": 91,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik entitas induk 45.695.238"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "pendapatan",
+   "pred": 4601844358104,
+   "label": 4601844358104,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENJUALAN NETO 3s,32 2 96.396.004 3 44.007.309 NET SALES"
+    },
+    {
+     "page": 85,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 296.396.004 344.007.309 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 2262141258622,
+   "label": 2262141258622,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "145.700.197"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "total_share",
+   "pred": 24821230250,
+   "label": 24821230250,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 91,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "saham 24.821.230.250"
+    },
+    {
+     "page": 91,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "24.821.230.250 share"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "aset",
+   "pred": 22417807947192,
+   "label": 22417807947192,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 1.480.896.284 1.368.757.121 TOTAL ASSETS"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "DAN EKUITAS 1.480.896.284 1.368.757.121 AND EQUITY"
+    },
+    {
+     "page": 21,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "(EMPREJ) 85,00 85,00 1.480.246 1.535.669"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "total_aset_lancar",
+   "pred": 6698175060258,
+   "label": 6698175060258,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 442.474.241 302.328.330 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "kas",
+   "pred": 1248520749444,
+   "label": 1248520749444,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 3d,3y,6,29 8 2.475.938 8 2.440.574 Cash and cash equivalent"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "3u,39c 82.532.614 72.114.290 Taxes payable"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AWAL PERIODE 82.440.574 46.288.330 AT BEGINNING PERIOD"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "82.475.938 38.596.043 CASH AND CASH EQUIVALENT"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "liabilitas",
+   "pred": 12791482825662,
+   "label": 12791482825662,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "844.991.599 783.652.104 Total Liabilities"
+    },
+    {
+     "page": 8,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Keuntungan selisih kurs - neto 3x ( 119.505) 8 45.256 Gain on foreign exchange - net"
+    },
+    {
+     "page": 86,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Rp meningkat 5% 953.976 843.800 Rp increased by 5%"
+    },
+    {
+     "page": 86,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Rp menurun 5% (953.976) (843.800) Rp decreased by 5%"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "utang_bank",
+   "pred": 823750815834,
+   "label": 823750815834,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "ekuitas",
+   "pred": 10695848134050,
+   "label": 10695848134050,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 7 06.556.225 6 55.722.351 Net"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo 30 September 2024 638.086.082 - 356.853.209 (9.304.643) 134.090.077 (13.648.677) (399.519.823) 706.556.225 (70.651.540) 635.904.685 September 30, 2024"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "laba_bersih",
+   "pred": 776171552004,
+   "label": 776171552004,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pihak berelasi 3i,3y,14c,29 51.272.486 - Related parties"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA NETO 5 1.238.852 4 5.510.391 NET PROFIT"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 51.273.058 45.695.238 Owners of the parent"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 51.238.852 45.510.391 Net"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "pendapatan",
+   "pred": 4839022571526,
+   "label": 4839022571526,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENJUALAN NETO 3s,35 3 19.660.627 2 96.396.004 NET SALES"
+    },
+    {
+     "page": 95,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 319.660.627"
+    },
+    {
+     "page": 104,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "339.080 319.418"
+    },
+    {
+     "page": 107,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 319.660.627 (229.756.820) 89.903.807 1.499.654.303 (1.300.388.391) Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 1195965519048,
+   "label": 1195965519048,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 79.004.196 147.723.537 Operating Activities"
+    },
+    {
+     "page": 21,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "EMP Exploration (Kangean) Ltd. (EEKL) 75,00 75,00 79.066.205 90.530.875"
+    },
+    {
+     "page": 107,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Malacca Strait 94.440.236 (78.967.488) 15.472.748 91.831.646 (505.742.624) Malacca Strait"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "total_share",
+   "pred": 24821230250,
+   "label": 24821230250,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 92,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Subtotal 24.821.230.250 100,00 Subtotal"
+    },
+    {
+     "page": 92,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Subtotal 2 4.821.230.250 100,00 Subtotal"
+    },
+    {
+     "page": 101,
+     "reading": "COUNT",
+     "first_on_line": false,
+     "line": "saham 2 4.821.230.248 24.821.230.250 share"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "aset",
+   "pred": 28036571778360,
+   "label": 28036571778360,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 1.680.849.627 1.583.258.785 TOTAL ASSETS"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "1.680.849.627"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "total_aset_lancar",
+   "pred": 4269857655600,
+   "label": 4269857655600,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 255.986.670 255.644.409 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "kas",
+   "pred": 981935804040,
+   "label": 981935804040,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 3d,3y,6,29 5 8.869.053 5 3.606.326 Cash and cash equivalent"
+    },
+    {
+     "page": 59,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 58.869.053 53.606.326 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "liabilitas",
+   "pred": 15803553036240,
+   "label": 15803553036240,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 947.455.218 926.118.167 Total Liabilities"
+    },
+    {
+     "page": 126,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "PSC Korinci Baru 8 79.764 6 5.982 9 45.746 Korinci Baru PSC"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "utang_bank",
+   "pred": 1475813440320,
+   "label": 1475813440320,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 21,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "EMP Malacca Strait S.A. (EMP MS) 100,00 100,00 89.481.134 88.351.909"
+    },
+    {
+     "page": 67,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Sub-total 88.157.807 437.730 (59.243) 88.536.294 Sub-total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "ekuitas",
+   "pred": 13450427924280,
+   "label": 13450427924280,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "806.380.571"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo 30 September 2025 645.325.316 370.435.551 (9.954.756) 134.090.077 (13.648.677) (121.592) (319.745.348) 806.380.571 (72.986.162) 733.394.409 September30, 2025"
+    },
+    {
+     "page": 71,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "PSC Tonga 51.800.466 807.692 (378.491) 52.229.667 Tonga PSC"
+    },
+    {
+     "page": 100,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Persediaan nonkapital (806.743) - (72.510) - (879.253) Non-capital inventory"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "laba_bersih",
+   "pred": 928289721480,
+   "label": 928289721480,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA NETO 55.715.647 51.238.852 NET PROFIT"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 55.652.861 51.273.058 Owners of the parent"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 55.715.647 51.238.852 Net"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "berjalan - - - - - - 55.652.861 55.652.861 62.786 55.715.647 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "pendapatan",
+   "pred": 6027830543040,
+   "label": 6027830543040,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENJUALAN NETO 38,35 361.380.728 319.660.627 NET SALES"
+    },
+    {
+     "page": 96,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 361.380.728 319.660.627 Total"
+    },
+    {
+     "page": 99,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Imbalan kerja 361.038"
+    },
+    {
+     "page": 107,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 361.380.729 (236.326.709) 125.054.020 2.148.700.745 (1.286.444.265) Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 2821126730640,
+   "label": 2821126730640,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 169.132.298 79.004.196 Operating Activities"
+    },
+    {
+     "page": 21,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "PT Visi Multi Artha (VMA) 70,00 70,00 166.863 168.892"
+    },
+    {
+     "page": 116,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "jumlah total pasokan 169.248 BBTU. 169,248 BBTU."
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "total_share",
+   "pred": 25996230250,
+   "label": 25996230250,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 92,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 25.996.230.250 100,00 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2026",
+   "field": "aset",
+   "pred": 36100002018936,
+   "label": 36100002018936,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "2.005.778.532"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "DAN EKUITAS 2.005.778.532 1.822.321.133 AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2026",
+   "field": "total_aset_lancar",
+   "pred": 5439322623660,
+   "label": 5439322623660,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 302.218.170 206.368.479 Total Current Assets"
+    },
+    {
+     "page": 60,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "(Persero) Tbk 301.700 - (Persero) Tbk"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2026",
+   "field": "kas",
+   "pred": 2239919780368,
+   "label": 2239919780368,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 3d,3y,6,29 124.453.816 62.248.969 Cash and cash eguivalents"
+    },
+    {
+     "page": 9,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Kepentingan nonpengendali 3b,33 (124.278) 62.786"
+    },
+    {
+     "page": 9,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Kepentingan nonpengendali 3b,33 (124.278) 62.786"
+    },
+    {
+     "page": 11,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "berjalan - - - - - 7 2.813.889 7 2.813.889 ( 124.278) 7 2.689.611 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2026",
+   "field": "liabilitas",
+   "pred": 19621395824642,
+   "label": 19621395824642,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 1.090.198.679 999.581.022 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2026",
+   "field": "utang_bank",
+   "pred": 1198814113630,
+   "label": 1198814113630,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman 3y,27,29 66.608.185 7 0.683.292 Loans"
+    },
+    {
+     "page": 21,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Buzi Hydrocarbons Pte., Ltd. (Buzi) 100,00 100,00 66.678.474 61.552.442"
+    },
+    {
+     "page": 78,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 66.608.185 70.683.292 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2026",
+   "field": "ekuitas",
+   "pred": 17794141837424,
+   "label": 17794141837424,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 9 88.673.288 8 95.709.269 Net"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo 30 September 2026 6 48.642.914 5 74.215.912 ( 10.128.323) ( 13.648.677) 6 42.807 ( 211.051.345) 9 88.673.288 ( 73.093.435) 9 15.579.853 September 30, 2026"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2026",
+   "field": "laba_bersih",
+   "pred": 1310504374222,
+   "label": 1310504374222,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA NETO 72.689.611 55.715.647"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 72.813.889 55.652.861"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 72.689.611 55.715.647"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "berjalan - - - - - 7 2.813.889 7 2.813.889 ( 124.278) 7 2.689.611 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2026",
+   "field": "pendapatan",
+   "pred": 7668209396054,
+   "label": 7668209396054,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENJUALAN NETO 35,34, 41 426.058.973 361.380.728"
+    },
+    {
+     "page": 98,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 426.058.973"
+    },
+    {
+     "page": 109,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 426.058.973 (252.945.897) 173.113.076 2.326.088.386 (1.395.431.744) Total"
+    },
+    {
+     "page": 133,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "MZN 27.325.817 425.763"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2026",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 4384650082520,
+   "label": 4384650082520,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 243.618.740 169.132.298"
+    },
+    {
+     "page": 99,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Subtotal 243.521.957"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q3 2026",
+   "field": "total_share",
+   "pred": 26564543750,
+   "label": 26564543750,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 16,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "PMT-HMETD tersebut juga meningkatkan jumlah paid-up share capital to 26,564,543,750 shares."
+    },
+    {
+     "page": 16,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "menjadi 26.564.543.750 saham."
+    },
+    {
+     "page": 95,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 26.564.543.750 100,00"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2026_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "aset",
+   "pred": 18788011648248,
+   "label": 18788011648248,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 1.194.330.408 1.064.042.571 844.618.008 TOTAL ASSETS"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 1.194.330.408 1.064.042.571 844.618.008 TOTAL LIABILITIES AND EQUITY"
+    },
+    {
+     "page": 73,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "nilai rendah 4 .103.118 1.196.322 low value lease liabilites"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "total_aset_lancar",
+   "pred": 2831415972863,
+   "label": 2831415972863,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 179.989.573 163.173.481 132.649.477 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "kas",
+   "pred": 728161719230,
+   "label": 728161719230,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 3d,3y,6,26 4 6.288.330 32.920.473 24.428.263 Cash and cash equivalents"
+    },
+    {
+     "page": 19,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS DAN SETARA KAS AKHIR TAHUN 46.288.330 32.920.473 AT END OF YEAR"
+    },
+    {
+     "page": 63,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 46.288.330 32.920.473 Total"
+    },
+    {
+     "page": 75,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "PSC Kangean 1 24.136.433 - (54.053.597) 46.273.239 116.356.075 Kangean PSC"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "liabilitas",
+   "pred": 10687706243182,
+   "label": 10687706243182,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 6 79.404.122 615.078.799 632.443.542 Total Liabilities"
+    },
+    {
+     "page": 93,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Under (Over) lifting dan DMO (6.435.952) 6 79.869 Under (Over) lifting and DMO"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "utang_bank",
+   "pred": 295121803044,
+   "label": 295121803044,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pihak ketiga - - 1 8.780.111 Third parties"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman 3y,25,26 18.760.524 10.934.502 20.031.899 Loans"
+    },
+    {
+     "page": 19,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pembayaran - ( 18.780.111) Payments"
+    },
+    {
+     "page": 79,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 18.760.524 10.934.502 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "ekuitas",
+   "pred": 9249972504966,
+   "label": 9249972504966,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 588.009.186 522.030.968 316.601.992 Net"
+    },
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo 31 Desember 2022 6 38.086.082 3 56.853.209 (8.142.832) 134.090.077 ( 13.648.677) ( 519.228.673) 588.009.186 ( 73.082.900) 514.926.286 December 31, 2022"
+    },
+    {
+     "page": 97,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Persediaan nonkapital (968.266) - 587.502 - (380.764) Non-capital inventory"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "laba_bersih",
+   "pred": 1050079282937,
+   "label": 1050079282937,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA NETO 66.736.523 39.683.839 NET PROFIT"
+    },
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 6 6.752.227 4 0.238.652 Owners of the parent"
+    },
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 66.736.523 39.683.839 Net"
+    },
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba neto tahun berjalan - - - - - 66.752.227 66.752.227 ( 15.704) 66.736.523 Net profit for the year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "pendapatan",
+   "pred": 7109464899414,
+   "label": 7109464899414,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENJUALAN NETO 3s,32 4 51.939.794 4 06.096.363 NET SALES"
+    },
+    {
+     "page": 93,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 4 51.939.794 406.096.363 Total"
+    },
+    {
+     "page": 103,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Penjualan neto 136.806.215 151.452.790 - 2.983.383 143.872.809 - 16.710.581 451.825.779 Net sales"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 2482122992605,
+   "label": 2482122992605,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 18,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 1 57.785.455 168.408.833 Operating Activities"
+    },
+    {
+     "page": 74,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "PSC Malacca Strait 1 04.336.137 62.405.852 (9.242.548) - 157.499.441 Malacca Strait PSC"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "total_share",
+   "pred": 24821230250,
+   "label": 24821230250,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 89,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.821.230.250 100 Total"
+    },
+    {
+     "page": 90,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 2 4.821.230.250 100,00 Total"
+    },
+    {
+     "page": 98,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "saham 2 4.821.230.250 17.581.704.761 share"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "aset",
+   "pred": 21100759777336,
+   "label": 21100759777336,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 1.368.757.121 1.194.330.408 TOTAL ASSETS"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "DAN EKUITAS 1 .368.757.121 1.194.330.408 AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "total_aset_lancar",
+   "pred": 3736421458864,
+   "label": 3736421458864,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 2 42.372.954 179.989.573 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "kas",
+   "pred": 1270903888784,
+   "label": 1270903888784,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 3d,3y,6,28 8 2.440.574 46.288.330 Cash and cash equivalents"
+    },
+    {
+     "page": 19,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR TAHUN 82.440.574 46.288.330 AT END OF YEAR"
+    },
+    {
+     "page": 65,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 82.440.574 46.288.330 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "liabilitas",
+   "pred": 12080780835264,
+   "label": 12080780835264,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 7 83.652.104 6 79.404.122 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "utang_bank",
+   "pred": 475285778296,
+   "label": 475285778296,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 108,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PT Pertagas Niaga (Persero) 30.808.199 - - - 82.754.696 113.562.895 PT Pertagas Niaga (Persero)"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "ekuitas",
+   "pred": 10108615763016,
+   "label": 10108615763016,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 6 55.722.351 588.009.186 Net"
+    },
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo 31 Desember 2023 6 38.086.082 356.853.209 ( 8.865.459) 134.090.077 ( 13.648.677) (450.792.881) 655.722.351 ( 70.617.334) 585.105.017 December 31, 2023"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "laba_bersih",
+   "pred": 1055006169472,
+   "label": 1055006169472,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 6 8.435.792 66.752.227 Owners of the parent"
+    },
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba neto tahun berjalan - - - - - 68.435.792 68.435.792 ( 260.335) 68.175.457 Net profit for the year"
+    },
+    {
+     "page": 103,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik entitas induk 6 8.435.792 66.752.227 owners of the parent"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "pendapatan",
+   "pred": 6486670853184,
+   "label": 6486670853184,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas Jangka Panjang 4 20.107.415 341.750.369 Total Non-Current Liabilities"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENJUALAN NETO 3s,34 4 20.775.224 451.939.794 NET SALES"
+    },
+    {
+     "page": 14,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Penggantian biaya overhead 9 1.518 420.218 Overhead cost recovery"
+    },
+    {
+     "page": 97,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 4 20.775.224 451.939.794 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 2470685861160,
+   "label": 2470685861160,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 18,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 1 60.267.635 157.785.455 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "total_share",
+   "pred": 24821230250,
+   "label": 24821230250,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 94,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 2 4.821.230.250 100,00 Total"
+    },
+    {
+     "page": 94,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 2 4.821.230.250 100,00 Total"
+    },
+    {
+     "page": 103,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "saham 24.821.230.250 24.821.230.250 shares"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "aset",
+   "pred": 25588628483170,
+   "label": 25588628483170,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 1 .583.258.785 1 .368.757.121 TOTAL ASSETS"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "DAN EKUITAS 1.583.258.785 1.368.757.121 AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "total_aset_lancar",
+   "pred": 4131724938258,
+   "label": 4131724938258,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 2 55.644.409 2 42.372.954 Total Current Assets"
+    },
+    {
+     "page": 26,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "PT EMP Energi Gandewa (EMP EG) 99,99 99,99 43.869.727 2 55.557"
+    },
+    {
+     "page": 99,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Sewa 255.297"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "kas",
+   "pred": 866385440812,
+   "label": 866385440812,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 3d,3y,6,28 5 3.606.326 8 2.440.574 Cash and cash equivalents"
+    },
+    {
+     "page": 18,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR TAHUN 53.606.326"
+    },
+    {
+     "page": 63,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 53.606.326 82.440.574 Total"
+    },
+    {
+     "page": 93,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Dikurangi kas 53.606.326 82.440.574 Less cash"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "liabilitas",
+   "pred": 14967921815054,
+   "label": 14967921815054,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 9 26.118.167 7 83.652.104 Total Liabilities"
+    },
+    {
+     "page": 13,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Lain Neto - Setelah Pajak (927.457) (722.627) Loss - Net of Tax"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "utang_bank",
+   "pred": 1077599782286,
+   "label": 1077599782286,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Aset tidak lancar lainnya - neto 3n,3y,19 1 7.187.392 6 6.544.546 Other non-current assets - net"
+    },
+    {
+     "page": 74,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "fasilitasnya dalam pengerjaan 1 15.007.963 6 6.767.377 their facilities in progress"
+    },
+    {
+     "page": 76,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Neto 17.187.392 66.544.546 Net"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "ekuitas",
+   "pred": 11801323765692,
+   "label": 11801323765692,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 730.189.566 655.722.351 Net"
+    },
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo 31 Desember 2024 638.086.082 356.853.209 (9.792.916) 134.090.077 (13.648.677) (375.398.209) 730.189.566 (73.048.948) 657.140.618"
+    },
+    {
+     "page": 65,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Lebih dari 60 hari 729.287"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "laba_bersih",
+   "pred": 1218528688864,
+   "label": 1218528688864,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 75.394.672 68.435.792 Owners of the parent"
+    },
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba neto tahun berjalan - - - - - 75.394.672 75.394.672 (2.431.614) 72.963.058"
+    },
+    {
+     "page": 104,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik entitas induk 7 5.394.672 6 8.435.792 owners of the parent"
+    },
+    {
+     "page": 109,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Bentu 146.332.049 (75.354.873) 70.977 176 493.162.180 (196.696.081) Bentu"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "pendapatan",
+   "pred": 7554525710674,
+   "label": 7554525710674,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENJUALAN NETO 35,34 467.425.177 420.775.224 NET SALES"
+    },
+    {
+     "page": 98,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 467.425.177 420.775.224 Total"
+    },
+    {
+     "page": 109,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 467.425.177 (319.361.232) 148.063.945 1.912.463.244 (1.283.581.910) Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 3356254561678,
+   "label": 3356254561678,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 2 07.663.319 1 60.267.635 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "total_share",
+   "pred": 24821230250,
+   "label": 24821230250,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 94,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Subtotal 24.821.230.250 100,00 Subtotal"
+    },
+    {
+     "page": 104,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "saham 24.821.230.250 24.821.230.250 shares"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "aset",
+   "pred": 30582193254006,
+   "label": 30582193254006,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "1.822.321.133"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "DAN EKUITAS 1.822.321.133 1.583.258.785 AND EQUITY"
+    },
+    {
+     "page": 113,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "PT Kilang Pertamina Internasional 40.372.077 - 19.500.979 1.659.852 1.822.227 73.451.245 136.806.380 PT Kilang Pertamina Internasional"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "total_aset_lancar",
+   "pred": 3463275814578,
+   "label": 3463275814578,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 206.368.479 255.644.409 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "kas",
+   "pred": 1044662197758,
+   "label": 1044662197758,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 3d,3y,6,29 62.248.969 53.606.326 Cash and cash equivalents"
+    },
+    {
+     "page": 63,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 62.248.969 53.606.326 Total"
+    },
+    {
+     "page": 88,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas di bank dan setara kas 62.148.464 62.148.464 Cash in bank and cash equivalents"
+    },
+    {
+     "page": 93,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 62.148.461 53.495.358 Cash and cash equivalents"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "liabilitas",
+   "pred": 16774968711204,
+   "label": 16774968711204,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "999.581.022 926.118.167 Total Liabilities"
+    },
+    {
+     "page": 72,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Total 7 89.599.582 3 8.728.072 - 1 72.223.695 1 .000.551.349 Total"
+    },
+    {
+     "page": 125,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Lalang yang akan diserahkan selama jangka the agreement period is estimated at 1,000,000 -"
+    },
+    {
+     "page": 125,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "1.000.000 - 2.000.000 Barrel dengan of +/- 5%."
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "utang_bank",
+   "pred": 1365339567942,
+   "label": 1365339567942,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "81.783.646 81.314.012 Third parties"
+    },
+    {
+     "page": 79,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Total 81.783.646 81.314.012 Total"
+    },
+    {
+     "page": 89,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pihak ketiga 81.314.011 81.314.011 Third parties"
+    },
+    {
+     "page": 95,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pihak ketiga 81.314.011 81.314.011 81.314.011 - - Third parties"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "ekuitas",
+   "pred": 15031792952358,
+   "label": 15031792952358,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Tagihan pajak 3u,38b 1.496.672 894.614 Claims for tax refund"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 8 95.709.269 7 30.189.566 Net"
+    },
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo 31 Desember 2025 647.422.128 556.514.487 (10.621.211) (13.648.677) (92.224) (283.865.234) 895.709.269 (72.969.157) 822.740.112"
+    },
+    {
+     "page": 64,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "894.556 year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "laba_bersih",
+   "pred": 1536106386450,
+   "label": 1536106386450,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA NETO 9 1.612.766 7 2.963.058 NET PROFIT"
+    },
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 9 1.532.975 7 5.394.672 Owners of the parent"
+    },
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Neto 9 1.612.766 7 2.963.058 Net"
+    },
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "berjalan - - - - 91.532.975 91.532.975 79.791 91.612.766"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "pendapatan",
+   "pred": 8359564578534,
+   "label": 8359564578534,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENJUALAN NETO 3s,34 4 98.126.837 4 67.425.177 NET SALES"
+    },
+    {
+     "page": 101,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 498.126.837 467.425.177 Total"
+    },
+    {
+     "page": 112,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 498.126.837 (316.638.332) 181.488.505 2 .167.613.467 (1.329.726.327) Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 5538342642444,
+   "label": 5538342642444,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 18,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 330.016.842 207.663.319 Operating Activities"
+    },
+    {
+     "page": 64,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "1-30 hari 329.678"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ENRG.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "total_share",
+   "pred": 26346230250,
+   "label": 26346230250,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 23,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "disetor penuh Perusahaan menjadi 26.346.230.250 26,346,230,250 shares.."
+    },
+    {
+     "page": 96,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 26.346.230.250 100,00 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ENRG.pdf"
+  }
+ ]
+}

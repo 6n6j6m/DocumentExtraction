@@ -1,0 +1,6222 @@
+{
+ "ticker": "APEX",
+ "date": "2026-11-10",
+ "has_labels": true,
+ "filings": [
+  {
+   "period": "Q1 2022",
+   "file": "Q1_2022_APEX.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 14,349.01 (Bank Indonesia kurs tengah 2022-03-31 (beli 14,277.26, jual 14,420.75) for period end 2022-03-31)",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 54",
+   "pdf_found": true
+  },
+  {
+   "period": "Q1 2023",
+   "file": "Q1_2023_APEX.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 15,062.00 (Bank Indonesia kurs tengah 2023-03-31 (beli 14,986.69, jual 15,137.31) for period end 2023-03-31)",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 53",
+   "pdf_found": true
+  },
+  {
+   "period": "Q1 2024",
+   "file": "Q1_2024_APEX.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 15,853.00 (Bank Indonesia kurs tengah 2024-03-28 (beli 15,773.74, jual 15,932.26) for period end 2024-03-31)",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 53",
+   "pdf_found": true
+  },
+  {
+   "period": "Q1 2025",
+   "file": "Q1_2025_APEX.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 16,588.00 (Bank Indonesia kurs tengah 2025-03-27 (beli 16,505.06, jual 16,670.94) for period end 2025-03-31)",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 53",
+   "pdf_found": true
+  },
+  {
+   "period": "Q1 2026",
+   "file": "Q1_2026_APEX.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 16,993.00 (Bank Indonesia kurs tengah 2026-03-31 (beli 16,908.03, jual 17,077.97) for period end 2026-03-31)",
+   "error": "",
+   "pages_selected": "4 5 6 7 8 59",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2022",
+   "file": "Q2_2022_APEX.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 14,848.00 (Bank Indonesia kurs tengah 2022-06-30 (beli 14,773.76, jual 14,922.24) for period end 2022-06-30)",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 54",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2023",
+   "file": "Q2_2023_APEX.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 15,026.00 (Bank Indonesia kurs tengah 2023-06-27 (beli 14,950.87, jual 15,101.13) for period end 2023-06-30)",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 54",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2024",
+   "file": "Q2_2024_APEX.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 16,421.00 (Bank Indonesia kurs tengah 2024-06-28 (beli 16,338.90, jual 16,503.10) for period end 2024-06-30)",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 53",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2025",
+   "file": "Q2_2025_APEX.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 16,233.00 (Bank Indonesia kurs tengah 2025-06-30 (beli 16,151.83, jual 16,314.17) for period end 2025-06-30)",
+   "error": "",
+   "pages_selected": "4 5 6 7 8 53",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2026",
+   "file": "Q2_2026_APEX.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 17,856.00 (Bank Indonesia kurs tengah 2026-06-30 (beli 17,766.72, jual 17,945.28) for period end 2026-06-30)",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 60",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2022",
+   "file": "Q3_2022_APEX.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 15,247.00 (Bank Indonesia kurs tengah 2022-09-30 (beli 15,170.76, jual 15,323.24) for period end 2022-09-30)",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 54",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2023",
+   "file": "Q3_2023_APEX.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 15,526.00 (Bank Indonesia kurs tengah 2023-09-29 (beli 15,448.37, jual 15,603.63) for period end 2023-09-30)",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 54",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2024",
+   "file": "Q3_2024_APEX.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 15,138.00 (Bank Indonesia kurs tengah 2024-09-30 (beli 15,062.31, jual 15,213.69) for period end 2024-09-30)",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 53",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2025",
+   "file": "Q3_2025_APEX.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 16,680.00 (Bank Indonesia kurs tengah 2025-09-30 (beli 16,596.60, jual 16,763.40) for period end 2025-09-30)",
+   "error": "",
+   "pages_selected": "4 5 6 7 8 53",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2022",
+   "file": "Q4_2022_APEX.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 15,731.00 (Bank Indonesia kurs tengah 2022-12-30 (beli 15,652.34, jual 15,809.66) for period end 2022-12-31)",
+   "error": "",
+   "pages_selected": "10 11 12 13 14 59",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2023",
+   "file": "Q4_2023_APEX.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 15,416.00 (Bank Indonesia kurs tengah 2023-12-29 (beli 15,338.92, jual 15,493.08) for period end 2023-12-31)",
+   "error": "",
+   "pages_selected": "10 11 12 13 14 57",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2024",
+   "file": "Q4_2024_APEX.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 16,162.00 (Bank Indonesia kurs tengah 2024-12-31 (beli 16,081.19, jual 16,242.81) for period end 2024-12-31)",
+   "error": "",
+   "pages_selected": "11 12 13 14 15 62",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2025",
+   "file": "Q4_2025_APEX.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 16,782.00 (Bank Indonesia kurs tengah 2025-12-31 (beli 16,698.09, jual 16,865.91) for period end 2025-12-31)",
+   "error": "",
+   "pages_selected": "9 10 11 12 13 62",
+   "pdf_found": true
+  }
+ ],
+ "cells": [
+  {
+   "period": "Q1 2022",
+   "field": "aset",
+   "pred": 5078697883209,
+   "label": null,
+   "status": "no_label",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 353,940,647 357,749,955 TOTAL ASSETS"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 353,940,647 357,749,955 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_APEX.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "total_aset_lancar",
+   "pred": 942398910990,
+   "label": null,
+   "status": "no_label",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 65,676,929 65,351,664 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_APEX.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "kas",
+   "pred": 160178931316,
+   "label": null,
+   "status": "no_label",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 11,163,065 13,463,925 Cash and cash equivalents"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS DAN SETARA KAS AKHIR PERIODE 11,163,065 11,015,230 AT END OF THE PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_APEX.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "liabilitas",
+   "pred": 3184640702472,
+   "label": null,
+   "status": "no_label",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS 221,941,493 226,529,655 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_APEX.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "utang_bank",
+   "pred": 38198140796,
+   "label": null,
+   "status": "no_label",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman 16 2,662,075 2,049,575 Loans"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_APEX.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "ekuitas",
+   "pred": 1894057180738,
+   "label": null,
+   "status": "no_label",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL EKUITAS 131,999,154 131,220,300 TOTAL EQUITY"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Maret 2022 126,840,386 65,069,566 854,413 24,406,111 (85,171,322) 131,999,154 Balance as of March 31, 2022"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_APEX.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "laba_bersih",
+   "pred": 10801016391,
+   "label": null,
+   "status": "no_label",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA BERSIH PERIODE BERJALAN 752,736 1,002,980 NET INCOME FOR THE PERIOD"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk 752,736 1,002,980 Owners of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba Bersih Tahun Berjalan 752,736 1,002,980 Net Income for the Year"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba Tahun Berjalan -- -- -- -- 752,736 752,736 Income for the Year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_APEX.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "pendapatan",
+   "pred": 345941817434,
+   "label": null,
+   "status": "no_label",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 22 24,109,107 10,244,951 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_APEX.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": -12082612569,
+   "label": null,
+   "status": "no_label",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktifitas Operasi (842,052) (468,580) Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_APEX.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "total_share",
+   "pred": 2796804997,
+   "label": null,
+   "status": "no_label",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 54,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 2,796,804,997 100% 126,840,386 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_APEX.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "aset",
+   "pred": 3942449942448,
+   "label": 4136730542028,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 261,748,104 262,966,788 TOTAL ASSETS"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 261,748,104 262,966,788 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_APEX.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "total_aset_lancar",
+   "pred": 1084884244862,
+   "label": 1112391756043,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 72,027,901 70,713,353 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_APEX.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "kas",
+   "pred": 343426854560,
+   "label": 358639585370,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 22,800,880 22,798,270 Cash and cash equivalents"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS DAN SETARA KAS AWAL PERIODE 22,798,270 13,463,925 AT BEGINNING OF THE PERIOD"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS DAN SETARA KAS AKHIR PERIODE 22,800,880 11,163,065 AT END OF THE PERIOD"
+    },
+    {
+     "page": 39,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 22,800,880 22,798,270 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_APEX.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "liabilitas",
+   "pred": 2927059747278,
+   "label": 3092219136424,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS 194,334,069 196,568,504 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_APEX.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "utang_bank",
+   "pred": 46246500358,
+   "label": 48300603979,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice -- the pipeline's is the first figure on its line",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman 16 3,070,409 3,070,409 Loans"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Beban Usaha 24 (3,577,419) (3,068,732) Operating Expenses"
+    },
+    {
+     "page": 49,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dalam satu tahun (3,070,409) (3,070,409) Less current maturities"
+    },
+    {
+     "page": 56,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Jumlah 3,577,419 3,068,732 Total"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 44,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Peralatan pemboran darat 175,387,404 3,202 -- -- 175,390,606 Onshore drilling rigs"
+    }
+   ],
+   "abstained": false,
+   "file": "Q1_2023_APEX.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "ekuitas",
+   "pred": 1015390195170,
+   "label": 1044511405604,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL EKUITAS 67,414,035 66,398,284 TOTAL EQUITY"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Maret 2023 128,006,362 63,903,590 727,506 24,406,111 (149,629,534) 67,414,035 Balance as of March 31, 2023"
+    },
+    {
+     "page": 70,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Ekuitas 67,414,035 66,398,284 Equity"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_APEX.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "laba_bersih",
+   "pred": 15586729956,
+   "label": -1018429879534,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA BERSIH PERIODE BERJALAN 1,034,838 752,736 NET INCOME FOR THE PERIOD"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba Periode Berjalan -- -- -- -- 1,034,838 1,034,838 Income for the Period"
+    },
+    {
+     "page": 53,
+     "reading": "USD MILLIONS",
+     "first_on_line": false,
+     "line": "Erwin Sutanto 24,876 0.001% 1,125 Erwin Sutanto"
+    },
+    {
+     "page": 53,
+     "reading": "USD MILLIONS",
+     "first_on_line": false,
+     "line": "Erwin Sutanto 24,876 0.001% 1,128 Erwin Sutanto"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_APEX.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "pendapatan",
+   "pred": 234548913198,
+   "label": 1273845584601,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 22 15,572,229 24,109,107 REVENUES"
+    },
+    {
+     "page": 55,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 15,572,229 24,109,107 Total"
+    },
+    {
+     "page": 55,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 15,572,229 24,109,107 Total"
+    },
+    {
+     "page": 66,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Pendapatan 7,769,783 6,154,446 1,648,000 -- 15,572,229 Revenues"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_APEX.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 27675009172,
+   "label": 293385840001,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktifitas Operasi 1,837,406 (842,052) Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_APEX.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "total_share",
+   "pred": 2830004997,
+   "label": 2796804997,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "2.830.004.997 saham pada 31 Maret 2023 18 2,830,004,997 shares at March 31, 2023"
+    },
+    {
+     "page": 12,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Perusahaan atau sejumlah 2.830.004.997 2,830,004,997 outstanding shares have been"
+    },
+    {
+     "page": 53,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 2,830,004,997 100% 128,006,362 Total"
+    },
+    {
+     "page": 54,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "menjadi 2.830.004.997 lembar saham. 2,830,004,997 shares."
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "dan 2.796.804.997 saham pada 31 Desember 2022 128,006,362 126,840,386 and 2,796,804,997 shares at December 31, 2022"
+    },
+    {
+     "page": 53,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 2,796,804,997 100% 126,840,386 Total"
+    },
+    {
+     "page": 54,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "PMTHMETD adalah 2.796.804.997 lembar saham. PMTHMETD is 2,796,804,997 shares."
+    }
+   ],
+   "abstained": false,
+   "file": "Q1_2023_APEX.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "aset",
+   "pred": 4116184097089,
+   "label": 3965723898904,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "259.647.013"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 259.647.013 257.247.269 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_APEX.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "total_aset_lancar",
+   "pred": 1262032092024,
+   "label": 1151520288208,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice -- the pipeline's is the first figure on its line",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "79.608.408"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 44,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Bangunan dan prasarana 1.900.969 72.635 -- -- 1.973.604 Building and improvements"
+    }
+   ],
+   "abstained": false,
+   "file": "Q1_2024_APEX.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "kas",
+   "pred": 118816491170,
+   "label": 132778023416,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "7.494.890"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS DAN SETARA KAS AKHIR PERIODE 7.494.890 22.800.880 AT END OF THE PERIOD"
+    },
+    {
+     "page": 40,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 7.494.890 8.613.001 Total"
+    },
+    {
+     "page": 69,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Jumlah Liabilitas 7.695.533 7.500.854 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_APEX.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "liabilitas",
+   "pred": 3058603215782,
+   "label": 2964638765944,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice -- the pipeline's is the first figure on its line",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS 192.935.294 192.309.209 TOTAL LIABILITIES"
+    },
+    {
+     "page": 64,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Tingkat diskonto/ 100 (192.836) (180.030)"
+    },
+    {
+     "page": 64,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "192.938 120.226"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 44,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Kendaraan bermotor 968.544 187.204 515.374 = 640.374 Motor vehicles"
+    }
+   ],
+   "abstained": false,
+   "file": "Q1_2024_APEX.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "utang_bank",
+   "pred": 72454693877,
+   "label": 62749425144,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found (label may be a sum)",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman 16 4.570.409 4.070.409 Loans"
+    },
+    {
+     "page": 49,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dalam satu tahun (4.570.409) (4.070.409) Less current maturities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_APEX.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "ekuitas",
+   "pred": 1057580881307,
+   "label": 1001085132960,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Utang lain-lain kepada pihak ketiga 66.815 64.319 Other payables to third parties"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL EKUITAS 66.711.719 64.938.060 TOTAL EQUITY"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "131.645.596 60.264.356 702.064 24.406.111 (150.306.408) 66.711.719"
+    },
+    {
+     "page": 69,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "66.815"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_APEX.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "laba_bersih",
+   "pred": 27021834825,
+   "label": -20758584376,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "1.704.525"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "-- -- -- - 1.704.525 1.704.525"
+    },
+    {
+     "page": 60,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "diatribusikan kepada pemilik entitas induk 1.704.525"
+    },
+    {
+     "page": 64,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "1.701.459 2.017.138"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 53,
+     "reading": "USD MILLIONS",
+     "first_on_line": false,
+     "line": "Erwin Sutanto 24.876 0,001 1.116 Erwin Sutanto"
+    },
+    {
+     "page": 53,
+     "reading": "USD MILLIONS",
+     "first_on_line": false,
+     "line": "Erwin Sutanto 24.876 0,001 1125 Erwin Sutanto"
+    },
+    {
+     "page": 67,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba kotor segmen 1.311.483 7.459.004 (589.141) (871.646) 7.309.701 Segment gross profit"
+    },
+    {
+     "page": 67,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba (rugi) sebelum pajak 1.311.483 7.459.004 (589.141) (5.938.246) 2.243.101 Profit (loss) before tax"
+    }
+   ],
+   "abstained": false,
+   "file": "Q1_2024_APEX.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "pendapatan",
+   "pred": 377086591850,
+   "label": 960030351712,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "23.786.450"
+    },
+    {
+     "page": 55,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 23.786.450"
+    },
+    {
+     "page": 55,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 23.786.450"
+    },
+    {
+     "page": 67,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Pendapatan 11.741.009 6.792.195 5.253.246 23.786.450 Revenues"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_APEX.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 43130543715,
+   "label": -73003408376,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktifitas Operasi 2.720.655 1.903.551 Operating Activities"
+    },
+    {
+     "page": 60,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Imbalan pasca kerja 2.719.314"
+    },
+    {
+     "page": 62,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "imbalan pasca kerja 2.719.314 2.783.983 benefits obligations"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_APEX.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "total_share",
+   "pred": 2933628566,
+   "label": 2830004997,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "2.933.628.566 saham pada 31 Maret 2024 2,933,628,566 shares at March 31, 2024"
+    },
+    {
+     "page": 12,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Perusahaan atau sejumlah 2.933.628.566 shares or a total 2,933,628,566 outstanding"
+    },
+    {
+     "page": 53,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 2.933.628.566 100 131.645.596 Total"
+    },
+    {
+     "page": 54,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "PMTHMETD adalah 2.933.628.566 lembar saham. PMTHMETD is 2,933,628,566 shares."
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "dan 2.830.004.997 saham pada 31 Desember 2023 18 131.645.596 128.006.362 and 2,830,004,997 shares at December 31, 2023"
+    },
+    {
+     "page": 53,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 2.830.004.997"
+    },
+    {
+     "page": 54,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "menjadi 2.830.004.997 lembar saham. 2,830,004,997 shares."
+    },
+    {
+     "page": 60,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "2.830.004.997"
+    }
+   ],
+   "abstained": false,
+   "file": "Q1_2024_APEX.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "aset",
+   "pred": 4038927488024,
+   "label": 4056657959500,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "243.484.898"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "243.484.898"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 6,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "244.403"
+    },
+    {
+     "page": 50,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Jumlah 766.465 244.403 Total"
+    }
+   ],
+   "abstained": false,
+   "file": "Q1_2025_APEX.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "total_aset_lancar",
+   "pred": 1085446147500,
+   "label": 1147314359180,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "65.435.625"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "65.350.097"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "65.350.091"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "153.168.322 38.697.891 375 545.507 24.406.111 (151.468.109) 65.350.097 (6) 65.350.091"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 7,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Lain Periode Berjalan Setelah Pajak 90.007 69.134 for the Period, Net of Tax"
+    },
+    {
+     "page": 8,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "- - 69.134 - 69.134 - 69.134"
+    }
+   ],
+   "abstained": false,
+   "file": "Q1_2025_APEX.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "kas",
+   "pred": 277173619580,
+   "label": 192271556240,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "16.709.285"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS DAN SETARA KAS AKHIR PERIODE 16.709.285 7.494.890 AT END OF THE PERIOD"
+    },
+    {
+     "page": 43,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 16.709.285 11.896.520 Total"
+    },
+    {
+     "page": 52,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "16.709.677 PT Bank Rakyat Indonesia (Persero) Tbk"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_APEX.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "liabilitas",
+   "pred": 2946150738388,
+   "label": 3000469788758,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "177.607.351"
+    },
+    {
+     "page": 47,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "177.822.172"
+    },
+    {
+     "page": 47,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "177.822.172"
+    },
+    {
+     "page": 47,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Peralatan pemboran darat 177.110.235 355.797 -- -- 356.140 177.822.172 Onshore drilling rigs"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 53,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Transaksi entitas sepengendali (180.722.557) (180.722.557) under common control"
+    },
+    {
+     "page": 56,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "180.901 Entertainment, advertising and promotions"
+    }
+   ],
+   "abstained": false,
+   "file": "Q1_2025_APEX.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "utang_bank",
+   "pred": 84107944492,
+   "label": 81947950258,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found (label may be a sum)",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "5.077.443"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "5.070.409"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "5.070.409"
+    },
+    {
+     "page": 51,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dalam satu tahun (5.070.409) (5.070.409) Less current maturities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_APEX.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "ekuitas",
+   "pred": 1092776865752,
+   "label": 1056188267714,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "65.877.554"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "65.877.547"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "153.168.322 38.697.891 360 635.529 24.406.111 (151.030.659) 65.877.554 (7) 65.877.547"
+    },
+    {
+     "page": 71,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Ekuitas 65.877.547 65.350.091 Equity"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_APEX.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "laba_bersih",
+   "pred": 7256437188,
+   "label": 8773137650,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA BERSIH PERIODE BERJALAN 437.450 1.704.525 NET PROFIT FOR THE PERIOD"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 437.451 1.704.525 Owners of the parent entity"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA BERSIH PERIODE BERJALAN 437.450 1.704.525 NET PROFIT FOR THE PERIOD"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "- -- - 437.450 437.450 (1) 437.449"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 77,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "528.830"
+    },
+    {
+     "page": 77,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Bunga masih harus dibayar atas pinjaman 12.856.783 528.830 13.385.613 Accrued interest on loans"
+    },
+    {
+     "page": 77,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Jumlah 38.009.184 (7.874.530) 528.830 130.663.484 Total"
+    }
+   ],
+   "abstained": false,
+   "file": "Q1_2025_APEX.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "pendapatan",
+   "pred": 379524067780,
+   "label": 1367021330632,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 18 22.879.435 23.786.450 REVENUES"
+    },
+    {
+     "page": 55,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 22.879.435"
+    },
+    {
+     "page": 56,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 22.879.435 23.786.450 Total"
+    },
+    {
+     "page": 67,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Pendapatan 14.286.607 7.720.066 872.762 - 22.879.435 Revenues"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_APEX.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 128025636596,
+   "label": 166531292398,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktifitas Operasi 7.717.967 2.720.655 Operating Activities"
+    },
+    {
+     "page": 58,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Lain-lain 7.708"
+    },
+    {
+     "page": 67,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Pendapatan 14.286.607 7.720.066 872.762 - 22.879.435 Revenues"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_APEX.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "total_share",
+   "pred": 3546466661,
+   "label": 3546466661,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "3.546.466.661 saham pada 31 Maret 2025"
+    },
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "3,546,466,661 shares at March 31, 2025"
+    },
+    {
+     "page": 53,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 3.546.466.661 100% 153.168.322 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_APEX.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "aset",
+   "pred": 4444985081067,
+   "label": 4404502944090,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 261.577.419 262.453.995 TOTAL ASSETS"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 261.577.419 262.453.995 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_APEX.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "total_aset_lancar",
+   "pred": 1276174452937,
+   "label": 1199508453108,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 75.100.009 71.475.894 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_APEX.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "kas",
+   "pred": 511357145439,
+   "label": 451701391932,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "30.092.225"
+    },
+    {
+     "page": 43,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "30.092.225"
+    },
+    {
+     "page": 71,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "30.092.223"
+    },
+    {
+     "page": 73,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas (30.092.223) (26.915.826) Cash and cash eguivalents"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_APEX.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "liabilitas",
+   "pred": 3249845096251,
+   "label": 3245978434116,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Total Aset Tidak Lancar 186.477.410 190.978.101 Total Non-current Assets"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS 191.246.107 193.420.238 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Total Aset Tidak Lancar 186.477.410 190.978.101 Total Non-current Assets"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS 191.246.107 193.420.238 TOTAL LIABILITIES"
+    }
+   ],
+   "abstained": false,
+   "file": "Q1_2026_APEX.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "utang_bank",
+   "pred": 86161460137,
+   "label": 85091603838,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman 16 5.070.409 5.070.409 Loans"
+    },
+    {
+     "page": 53,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dalam satu tahun (5.070.409) (5.070.409) Less current maturities"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 43,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "5.000.000"
+    }
+   ],
+   "abstained": false,
+   "file": "Q1_2026_APEX.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "ekuitas",
+   "pred": 1195140137753,
+   "label": 1158524661012,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik Perusahaan 70.331.321 69.033.766 owners of the Company"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL EKUITAS 70.331.312 69.033.757 TOTAL EQUITY"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Maret 2026 153.168.322 38.697.891 829 371.123 24.406.111 (146.312.955) 70.331.321 (9) 70.331.312 Balance as of March 31, 2026"
+    },
+    {
+     "page": 73,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Ekuitas 70.331.312 69.033.757 Equity"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_APEX.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "laba_bersih",
+   "pred": 18635509394,
+   "label": 68109679872,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA BERSIH PERIODE BERJALAN 1.096.658 437.450 NET PROFIT FOR THE PERIOD"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 1.096.658 437.451 Owners of the Company"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA BERSIH PERIODE BERJALAN 1.096.658 437.450 NET PROFIT FOR THE PERIOD"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba periode berjalan -- -- -- -- -- 1.096.658 1 .096.658 1.096.658 Income for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_APEX.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "pendapatan",
+   "pred": 337593932471,
+   "label": 1413702036234,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 22 19.866.647 22.879.435 REVENUES"
+    },
+    {
+     "page": 62,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 19.866.647"
+    },
+    {
+     "page": 62,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 19.866.647"
+    },
+    {
+     "page": 69,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Pendapatan 11.262.126 7.633.191 971.330 19.866.647 Revenues"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_APEX.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 116872280296,
+   "label": 514335105204,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktifitas Operasi 6.877.672"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_APEX.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "total_share",
+   "pred": 3546466661,
+   "label": 3546466661,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "3.546.466.661 saham 18 153.168.322 153.168.322 3,546,466,661 shares"
+    },
+    {
+     "page": 59,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 3.546.466.661 100% 153.168.322 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_APEX.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "aset",
+   "pred": 5267053920768,
+   "label": 5078697883209,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 354,731,541 357,749,955 TOTAL ASSETS"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 354,731,541 357,749,955 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 58,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Jamuan 342,542 195,339 Entertainment"
+    }
+   ],
+   "abstained": false,
+   "file": "Q2_2022_APEX.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "total_aset_lancar",
+   "pred": 1061436154880,
+   "label": 942398910990,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 71,486,810 65,351,664 Total Current Assets"
+    },
+    {
+     "page": 45,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Kendaraan bermotor 850,533 71,559 -- -- 922,092 Motor vehicles"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 44,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Sewa 63,589 171,250 Rental"
+    }
+   ],
+   "abstained": false,
+   "file": "Q2_2022_APEX.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "kas",
+   "pred": 237447849984,
+   "label": 160178931316,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 15,991,908 13,463,925 Cash and cash equivalents"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS DAN SETARA KAS AKHIR PERIODE 15,991,908 8,510,453 AT END OF THE PERIOD"
+    },
+    {
+     "page": 40,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 15,991,908 13,463,925 Total"
+    },
+    {
+     "page": 40,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Jumlah 18,886,250 15,974,816 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_APEX.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "liabilitas",
+   "pred": 3287890993152,
+   "label": 3184640702472,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice -- the pipeline's is the first figure on its line",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS 221,436,624 226,529,655 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 64,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "liabilitas program 217,878 (189,887) (125,482) (745,438) (214,113) on plan liabilities"
+    }
+   ],
+   "abstained": false,
+   "file": "Q2_2022_APEX.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "utang_bank",
+   "pred": 51652361216,
+   "label": 38198140796,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found (label may be a sum)",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Liabilitas sewa 13 3,229,392 3,481,144 Lease Liabilities"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman 16 3,478,742 2,049,575 Loans"
+    },
+    {
+     "page": 50,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dalam satu tahun (3,478,742) (2,049,575) Less current maturities"
+    },
+    {
+     "page": 74,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Liabilitas sewa -- -- -- 3,481,144 5,063,927 -- 8,545,071 Lease liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_APEX.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "ekuitas",
+   "pred": 1979162927616,
+   "label": 1894057180738,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL EKUITAS 133,294,917 131,220,300 TOTAL EQUITY"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 June 2022 126,840,386 65,069,566 755,834 24,406,111 (83,776,980) 133,294,917 Balance as of June 30, 2022"
+    },
+    {
+     "page": 70,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Ekuitas 133,294,917 131,220,300 Equity"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_APEX.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "laba_bersih",
+   "pred": 31879814144,
+   "label": 10801016391,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA BERSIH PERIODE BERJALAN 2,147,078 1,836,206 NET INCOME FOR THE PERIOD"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk 2,147,078 1,836,206 Owners of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba Bersih Periode Berjalan 2,147,078 1,836,206 Net Income for the Period"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba Periode Berjalan -- -- -- -- 2 ,147,078 2,147,078 Income for the Period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_APEX.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "pendapatan",
+   "pred": 693913677824,
+   "label": 345941817434,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 22 46,734,488 22,515,858 REVENUES"
+    },
+    {
+     "page": 55,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 46,734,488 22,515,858 Total"
+    },
+    {
+     "page": 56,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 46,734,488 22,515,858 Total"
+    },
+    {
+     "page": 66,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Pendapatan 27,011,102 19,723,386 -- -- 46,734,488 Revenues"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_APEX.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 73564326912,
+   "label": -12082612569,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktifitas Operasi 4,954,494 4,663,348 Operating Activities"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "BEBAN PAJAK PENGHASILAN 27 (813,787) (502,962) INCOME TAX EXPENSE"
+    },
+    {
+     "page": 57,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Beban pajak tangguhan (813,787) (502,962) Deferred tax expenses"
+    },
+    {
+     "page": 57,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah beban pajak (813,787) (502,962) Total tax expenses"
+    },
+    {
+     "page": 58,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Perusahaan - bersih (47,312,969) (4,696,437) 1,270,303 (241,849) (50,980,952) (813,787) -- 20,437 (51,774,302) Company - net"
+    }
+   ],
+   "abstained": false,
+   "file": "Q2_2022_APEX.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "total_share",
+   "pred": 2796804997,
+   "label": 2796804997,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "penuh - 2.796.804.997 saham pada 30 Juni 2022 18 2,796,804,997 at June 30, 2022"
+    },
+    {
+     "page": 54,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 2,796,804,997 100% 126,840,386 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_APEX.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "aset",
+   "pred": 3926578738038,
+   "label": 3942449942448,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 261,318,963 262,966,788 TOTAL ASSETS"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 261,318,963 262,966,788 TOTAL LIABILITIES AND EQUITY"
+    },
+    {
+     "page": 40,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Lain-lain 261,245 193,220 Others"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_APEX.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "total_aset_lancar",
+   "pred": 1144520953620,
+   "label": 1084884244862,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 76,169,370 70,713,353 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_APEX.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "kas",
+   "pred": 310943325836,
+   "label": 343426854560,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 20,693,686 22,798,270 Cash and cash equivalents"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS DAN SETARA KAS AKHIR PERIODE 20,693,686 15,991,908 AT END OF THE PERIOD"
+    },
+    {
+     "page": 39,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 20,693,686 22,798,270 Total"
+    },
+    {
+     "page": 69,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 20,693,686 -- Cash and cash equivalents"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_APEX.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "liabilitas",
+   "pred": 2908078787856,
+   "label": 2927059747278,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS 193,536,456 196,568,504 TOTAL LIABILITIES"
+    },
+    {
+     "page": 40,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Lain-lain 261,245 193,220 Others"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_APEX.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "utang_bank",
+   "pred": 46135965634,
+   "label": 46246500358,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found (label may be a sum)",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman 16 3,070,409 3,070,409 Loans"
+    },
+    {
+     "page": 50,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dalam satu tahun (3,070,409) (3,070,409) Less current maturities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_APEX.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "ekuitas",
+   "pred": 1018499950182,
+   "label": 1015390195170,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL EKUITAS 67,782,507 66,398,284 TOTAL EQUITY"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 Juni 2023 128,006,362 63,903,590 564,993 24,406,111 (149,098,549) 67,782,507 Balance as of June 30, 2023"
+    },
+    {
+     "page": 46,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Hak Guna Bangunan (HGB) No. 10, 11 dan 12 Bojonegara with a total area of 67,757 sqm,"
+    },
+    {
+     "page": 46,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "keseluruhan 67.757 m2, terdiri dari hak atas tanah 36,106 sqm and 21,935 sqm in the form of land use"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_APEX.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "laba_bersih",
+   "pred": 23528056398,
+   "label": 15586729956,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice -- the pipeline's is the first figure on its line",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA BERSIH PERIODE BERJALAN 1,565,823 2,147,078 NET INCOME FOR THE PERIOD"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba Periode Berjalan -- -- -- -- 1 ,565,823 1,565,823 Income for the Period"
+    },
+    {
+     "page": 59,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Rugi fiskal 5,898,574 (1,566,004) -- 4,332,570 Fiscal loss"
+    },
+    {
+     "page": 60,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "diatribusikan kepada pemilik entitas induk 1,565,823 2,147,078 owners of the Company"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 54,
+     "reading": "USD MILLIONS",
+     "first_on_line": false,
+     "line": "Erwin Sutanto 24,876 0.001% 1,125 Erwin Sutanto"
+    },
+    {
+     "page": 54,
+     "reading": "USD MILLIONS",
+     "first_on_line": false,
+     "line": "Erwin Sutanto 24,876 0.001% 1,128 Erwin Sutanto"
+    }
+   ],
+   "abstained": false,
+   "file": "Q2_2023_APEX.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "pendapatan",
+   "pred": 497907456244,
+   "label": 234548913198,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 22 33,136,394 46,734,488 REVENUES"
+    },
+    {
+     "page": 50,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Tranche 1B 31,937,500 33,162,500 Tranche 1B"
+    },
+    {
+     "page": 51,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Jumlah 31,937,500 33,162,500 Total"
+    },
+    {
+     "page": 55,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah saham tambahan adalah 33.200.000 Number of additional shares is 33,200,000 shares,"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_APEX.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 46558962560,
+   "label": 27675009172,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktifitas Operasi 3,098,560 4,954,494 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_APEX.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "total_share",
+   "pred": 2830004997,
+   "label": 2830004997,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "2.830.004.997 saham pada 30 Juni 2023 18 2,830,004,997 shares at June 30, 2023"
+    },
+    {
+     "page": 54,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 2,830,004,997 100% 128,006,362 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_APEX.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "aset",
+   "pred": 4221646810090,
+   "label": 4116184097089,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "257.088.290"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "257.247.269"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "257.088.290 257.247.269 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 7,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "PERIODE BERJALAN 250.405 1.384.223 FOR THE PERIOD"
+    },
+    {
+     "page": 44,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Peralatan pemboran darat 177.110.235 250.735 - 3.267 177.364.237 Onshore drilling rigs"
+    }
+   ],
+   "abstained": false,
+   "file": "Q2_2024_APEX.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "total_aset_lancar",
+   "pred": 1290731948078,
+   "label": 1262032092024,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "78.602.518"
+    },
+    {
+     "page": 75,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Pinjaman 0.5% - 2% -- 767.601 3.302.808 40.544.134 78.608.267 123.222.810 Loans"
+    },
+    {
+     "page": 75,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Jumlah 9.490.647 767.601 5.480.402 59.663.423 78.608.267 154.010.340 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_APEX.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "kas",
+   "pred": 208703668339,
+   "label": 118816491170,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "12.709.559"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "12.709.559"
+    },
+    {
+     "page": 40,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 12.709.559 8.613.001 Total"
+    },
+    {
+     "page": 69,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 12.709.559"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 45,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Peralatan kantor 7.236.245 42.283 7.278.528 Office equipment"
+    }
+   ],
+   "abstained": false,
+   "file": "Q2_2024_APEX.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "liabilitas",
+   "pred": 3151187026325,
+   "label": 3058603215782,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "191.899.825 192.309.209 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_APEX.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "utang_bank",
+   "pred": 83261186189,
+   "label": 72454693877,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found (label may be a sum)",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "5.070.409 4.070.409 Loans"
+    },
+    {
+     "page": 49,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dalam satu tahun (5.070.409) (4.070.409) Less current maturities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_APEX.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "ekuitas",
+   "pred": 1070459783765,
+   "label": 1057580881307,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "65.188.465 64.938.060 TOTAL EQUITY"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 1 Januari 2023 126.840.386 65.069.566 746.593 24.406.111 (150.664.372) 66.398.284 Balance as of January 1, 2023"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 Juni 2024 131.645.596 60.264.356 547.955 24.406.111 (151.675.553) 65.188.465 Balance as of June 30, 2024"
+    },
+    {
+     "page": 70,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Ekuitas 65.188.465 64.938.060 Equity"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 6,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "60.674 64.319 Other payables to third parties"
+    },
+    {
+     "page": 69,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "64.319 Other payables to third parties"
+    },
+    {
+     "page": 75,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Utang lain-lain kepada pihak ketiga -- 64.319 -- -- -- -- 64.319 Other payables"
+    }
+   ],
+   "abstained": false,
+   "file": "Q2_2024_APEX.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "laba_bersih",
+   "pred": 5507274980,
+   "label": 27021834825,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA BERSIH PERIODE BERJALAN 335.380 1.565.823 NET INCOME FOR THE PERIOD"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba Periode Berjalan -- -- -- - 335.380 335.380 Income for the Period"
+    },
+    {
+     "page": 57,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Sub-jumlah 334.765"
+    },
+    {
+     "page": 60,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "diatribusikan kepada pemilik entitas induk 335.380 1.565.823 owners of the Company"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_APEX.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "pendapatan",
+   "pred": 699179660085,
+   "label": 377086591850,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 22 42.578.385 33.136.394 REVENUES"
+    },
+    {
+     "page": 55,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 42.578.385 33.136.394 Total"
+    },
+    {
+     "page": 55,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 42.578.385"
+    },
+    {
+     "page": 56,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Asuransi 42.654 170.431 Insurance"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_APEX.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 183181345510,
+   "label": 43130543715,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "11.155.310"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_APEX.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "total_share",
+   "pred": 2933628566,
+   "label": 2933628566,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "2.933.628.566 saham pada 30 Juni 2024"
+    },
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "2,933,628,566 shares at June 30, 2024"
+    },
+    {
+     "page": 53,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 2.933.628.566 100 131.645.596 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_APEX.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "aset",
+   "pred": 3986793096951,
+   "label": 4038927488024,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "245.598.047"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 245.598.047 250.999.750 TOTAL LIABILITIES AND EQUITY"
+    },
+    {
+     "page": 43,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "PT Bank Mandiri (Persero) Tbk 3.108.057 245.563 PT Bank Mandiri (Persero) Tbk"
+    },
+    {
+     "page": 59,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Pasal 23 437.522 245.345 Article 23"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_APEX.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "total_aset_lancar",
+   "pred": 1127765013732,
+   "label": 1085446147500,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "69.473.604"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_APEX.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "kas",
+   "pred": 368062334430,
+   "label": 277173619580,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS DAN SETARA KAS AKHIR PERIODE 22.673.710 12.709.559 AT END OF THE PERIOD"
+    },
+    {
+     "page": 43,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 22.673.710 11.896.520 Total"
+    },
+    {
+     "page": 70,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 22.673.710 - Cash and cash eguivalents"
+    },
+    {
+     "page": 72,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas (22.673.710) (11.896.520) Cash and cash eguivalents"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 48,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "17.066.206 -- -- 1.729.591 -- 15.336.615"
+    },
+    {
+     "page": 48,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo Awal 15.336.615 17.066.206 Beginning Balance"
+    }
+   ],
+   "abstained": false,
+   "file": "Q2_2025_APEX.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "liabilitas",
+   "pred": 2917657815765,
+   "label": 2946150738388,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "180.011.360 Total Non-current Assets"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS 179.736.205 185.649.659 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 63,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "181.392 experience adjustment"
+    }
+   ],
+   "abstained": false,
+   "file": "Q2_2025_APEX.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "utang_bank",
+   "pred": 82307949297,
+   "label": 84107944492,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman 13 5.070.409 5.070.409 Loans"
+    },
+    {
+     "page": 52,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dalam satu tahun (5.070.409) (5.070.409) Less current maturities"
+    },
+    {
+     "page": 53,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PT Sarana Multi Infrastruktur 5.071.887 5.370.968 PT Sarana Multi Infrastruktur"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 48,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Peralatan pemboran darat 5.177.790 -- -- 1.729.591 -- 3.448.199 Onshore drilling rigs"
+    }
+   ],
+   "abstained": false,
+   "file": "Q2_2025_APEX.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "ekuitas",
+   "pred": 1069135411050,
+   "label": 1092776865752,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilih entitas induk 65.861.850 65.350.097 owners of the parent entity"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL EKUITAS 65.861.842 65.350.091 TOTAL EQUITY"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "153.168.322 38.697.891 336 306.074 24.406.111 (150.716.884) 65.861.850 (8) 65.861.842"
+    },
+    {
+     "page": 72,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Ekuitas 65.861.842 65.350.091 Eguity"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_APEX.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "laba_bersih",
+   "pred": 12194667891,
+   "label": 7256437188,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice -- the pipeline's is the first figure on its line",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA BERSIH PERIODE BERJALAN 751.225 335.380 NET PROFIT FOR THE PERIOD"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 751.227 335.380 Owners of the parent entity"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA BERSIH PERIODE BERJALAN 751.225 335.380 NET PROFIT FOR THE PERIOD"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "- - - 751.225 751.225 (2) 751.223"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 46,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Agustus 2024 masing-masing sebesar amounting to Rp7,497,175,200 (USD446,606) and"
+    },
+    {
+     "page": 46,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Rp7.497.175.200 (USD446.606) dan Rp5,829,044,073 (USD358,600), respectively. The"
+    },
+    {
+     "page": 60,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "komersial dan fiskal (40.824.034) 446.219"
+    }
+   ],
+   "abstained": false,
+   "file": "Q2_2025_APEX.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "pendapatan",
+   "pred": 695728848360,
+   "label": 379524067780,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice -- the pipeline's is the first figure on its line",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 18 42.858.920 42.578.385 REVENUES"
+    },
+    {
+     "page": 56,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 42.858.920 42.578.385 Total"
+    },
+    {
+     "page": 57,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 42.858.920 42.578.385 Total"
+    },
+    {
+     "page": 68,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "42.858.920"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 47,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Peralatan kantor 7.325.609 23.386 -- -- 7.348.995 Office equipment"
+    }
+   ],
+   "abstained": false,
+   "file": "Q2_2025_APEX.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 264092810205,
+   "label": 128025636596,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice -- the pipeline's is the first figure on its line",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktifitas Operasi 16.268.885 11.155.310 Operating Activities"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 68,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Beban Langsung segmen (18.155.445) (7.874.147) (4.388.893)"
+    }
+   ],
+   "abstained": false,
+   "file": "Q2_2025_APEX.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "total_share",
+   "pred": 3546466661,
+   "label": 3546466661,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "3.546.466.661 saham pada 30 Juni 2025 3,546,466,661 shares at June 30, 2025"
+    },
+    {
+     "page": 53,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 3.546.466.661 \\ 100% 153.168.322 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_APEX.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "aset",
+   "pred": 4512312979200,
+   "label": 4444985081067,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 252.705.700 262.453.995 TOTAL ASSETS"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 252.705.700 262.453.995 TOTAL LIABILITIES AND EQUITY"
+    },
+    {
+     "page": 54,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Tranche 2 52.374.133 52.484.337 Tranche 2"
+    },
+    {
+     "page": 57,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "252.550 Current service cost"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_APEX.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "total_aset_lancar",
+   "pred": 1238208124608,
+   "label": 1276174452937,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice -- the pipeline's is the first figure on its line",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 69.344.093 71.475.894 Total Current Assets"
+    },
+    {
+     "page": 58,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Dampak selisih kurs (69.456) (39.197) Foreign exchange impact"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Total Aset Lancar 69.344.093 71.475.894 Total Current Assets"
+    }
+   ],
+   "abstained": false,
+   "file": "Q2_2026_APEX.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "kas",
+   "pred": 500495055552,
+   "label": 511357145439,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 28.029.517 26.915.826 Cash and cash equivalents"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS DAN SETARA KAS AKHIR PERIODE 28.029.517 22.673.710"
+    },
+    {
+     "page": 44,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 28.029.517 26.915.826 Total"
+    },
+    {
+     "page": 72,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 28.029.517 -- Cash and cash equivalents"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_APEX.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "liabilitas",
+   "pred": 3230307550656,
+   "label": 3249845096251,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS 180.908.801 193.420.238 TOTAL LIABILITIES"
+    },
+    {
+     "page": 61,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Transaksi entitas sepengendali (180.722.557) (180.722.557) under common control"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_APEX.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "utang_bank",
+   "pred": 46790023104,
+   "label": 86161460137,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found (label may be a sum)",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman 16 2.620.409 5.070.409 Loans"
+    },
+    {
+     "page": 54,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dalam satu tahun (2.620.409) (5.070.409) Less current maturities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_APEX.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "ekuitas",
+   "pred": 1282005607104,
+   "label": 1195140137753,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice -- the pipeline's is the first figure on its line",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik Perusahaan 71.796.909 69.033.766 owners of the Company"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL EKUITAS 71.796.899 69.033.757 TOTAL EQUITY"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 Juni 2026 153.168.322 38.697.891 1.337 362.056 24.406.111 (144.838.808) 71.796.909 (10) 71.796.899 Balance as of June 30, 2026"
+    },
+    {
+     "page": 74,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Ekuitas 71.796.899 69.033.757 Eguity"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 78,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Pinjaman 0.50% - 2.00% 655.102 1.965.307 29.190.229 67.011.757 98.822.395 Loans"
+    },
+    {
+     "page": 78,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Jumlah 5.440.591 2.466.424 7.366.010 59.342.500 67.011.757 141.627.282 Total"
+    }
+   ],
+   "abstained": false,
+   "file": "Q2_2026_APEX.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "laba_bersih",
+   "pred": 45904311936,
+   "label": 18635509394,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA BERSIH PERIODE BERJALAN 2.570.805 751.225 NET PROFIT FOR THE PERIOD"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 2.570.806 751.227 Owners of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA BERSIH PERIODE BERJALAN 2.570.805 751.225 NET PROFIT FOR THE PERIOD"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba periode berjalan -- -- -- -- -- 2.570.805 2.570.805 (1) 2.570.804 Income for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_APEX.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "pendapatan",
+   "pred": 599340300480,
+   "label": 337593932471,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Utang kepada pihak berelasi 29 33.574 35.723 Payables to related parties"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 22 33.565.205 42.858.920 REVENUES"
+    },
+    {
+     "page": 58,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Biaya jasa lalu (amandemen program) -- (33.542) Past service cost (benefit changes)"
+    },
+    {
+     "page": 63,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 33.565.205"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_APEX.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 235962950976,
+   "label": 116872280296,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktifitas Operasi 13.214.771 16.268.885"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_APEX.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "total_share",
+   "pred": 3546466661,
+   "label": 3546466661,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "3.546.466.661 saham 18 153.168.322 153.168.322 3,546,466,661 shares"
+    },
+    {
+     "page": 60,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "3.546.466.661"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_APEX.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "aset",
+   "pred": 4028024898497,
+   "label": 5267053920768,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 264,184,751 357,749,955 TOTAL ASSETS"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 264,184,751 357,749,955 TOTAL LIABILITIES AND EQUITY"
+    },
+    {
+     "page": 44,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Asuransi 277,676 263,952 Insurance"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_APEX.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "total_aset_lancar",
+   "pred": 1139565476076,
+   "label": 1061436154880,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 74,740,308 65,351,664 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_APEX.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "kas",
+   "pred": 278746751784,
+   "label": 237447849984,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 18,282,072 13,463,925 Cash and cash equivalents"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS DAN SETARA KAS AKHIR PERIODE 18,282,072 11,571,732 AT END OF THE PERIOD"
+    },
+    {
+     "page": 39,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 18,282,072 13,463,925 Total"
+    },
+    {
+     "page": 69,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 18,282,072 -- Cash and cash equivalents"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_APEX.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "liabilitas",
+   "pred": 2994749019128,
+   "label": 3287890993152,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS 196,415,624 226,529,655 TOTAL LIABILITIES"
+    },
+    {
+     "page": 50,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Pasal 21 196,260 296,904 Article 21"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 65,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "- tahun ke 4/ 4th year 215,374 317,137"
+    }
+   ],
+   "abstained": false,
+   "file": "Q3_2022_APEX.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "utang_bank",
+   "pred": 46814526023,
+   "label": 51652361216,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found (label may be a sum)",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman 16 3,070,409 2,049,575 Loans"
+    },
+    {
+     "page": 50,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dalam satu tahun (3,070,409) (2,049,575) Less current maturities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_APEX.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "ekuitas",
+   "pred": 1033275879369,
+   "label": 1979162927616,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice -- the pipeline's is the first figure on its line",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL EKUITAS 67,769,127 131,220,300 TOTAL EQUITY"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 September 2022 126,840,386 65,069,566 785,644 24,406,111 (149,332,580) 67,769,127 Balance as of September 30, 2022"
+    },
+    {
+     "page": 47,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Hak Guna Bangunan (HGB) No. 10, 11 dan 12 Bojonegara with a total area of 67,757 sqm,"
+    },
+    {
+     "page": 47,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "keseluruhan 67.757 m2, terdiri dari hak atas tanah 36,106 sqm and 21,935 sqm in the form of land use"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 September 2021 122,030,559 69,879,393 116,958 24,406,111 (86,609,487) 129,823,534 Balance as of September 30, 2021"
+    },
+    {
+     "page": 43,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "masing sebesar Rp2.084.098.714 (USD146.057) (USD129,781) and Rp1,851,846,675 (USD129,781),"
+    },
+    {
+     "page": 43,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "dan Rp1.851.846.675 (USD129.781). Perusahaan respectively. The Company agreed with the"
+    }
+   ],
+   "abstained": false,
+   "file": "Q3_2022_APEX.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "laba_bersih",
+   "pred": -966789734934,
+   "label": 31879814144,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA (RUGI) BERSIH PERIODE BERJALAN (63,408,522) 2,971,058 NET INCOME (LOSS) FOR THE PERIOD"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PERIODE BERJALAN (63,451,173) 3,117,186 FOR THE PERIOD"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk (63,408,522) 2,971,058 Owners of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba (Rugi) Bersih Periode Berjalan (63,408,522) 2,971,058 Net Income (Loss) for the Period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_APEX.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "pendapatan",
+   "pred": 988066008614,
+   "label": 693913677824,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 22 64,803,962 41,661,904 REVENUES"
+    },
+    {
+     "page": 56,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 64,803,962 41,661,904 Total"
+    },
+    {
+     "page": 56,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 64,803,962 34,909,761 Total"
+    },
+    {
+     "page": 67,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Pendapatan 38,737,589 26,066,373 -- -- 64,803,962 Revenues"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_APEX.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 147218704495,
+   "label": 73564326912,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktifitas Operasi 9,655,585 10,365,835 Operating Activities"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KENAIKAN (PENURUNAN) KAS DAN SETARA KAS 4,818,147 (1,540,637) CASH EQUIVALENTS"
+    },
+    {
+     "page": 65,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "imbalan kerja 3,026,867 3,260,553 4,326,114 4,832,099 4,986,443 benefit obligation"
+    }
+   ],
+   "abstained": false,
+   "file": "Q3_2022_APEX.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "total_share",
+   "pred": 2796804997,
+   "label": 2796804997,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "2.796.804.997 saham pada 30 September 2022 18 2,796,804,997 at September 30, 2022"
+    },
+    {
+     "page": 54,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 2,796,804,997 100% 126,840,386 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_APEX.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "aset",
+   "pred": 4000808180712,
+   "label": 3926578738038,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 257.684.412 262.966.788 TOTAL ASSETS"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "257.684.412"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 59,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "252.406 Article 23"
+    }
+   ],
+   "abstained": false,
+   "file": "Q3_2023_APEX.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "total_aset_lancar",
+   "pred": 1127681124962,
+   "label": 1144520953620,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 72.631.787 70.713.353 Total Current Assets"
+    },
+    {
+     "page": 49,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Dolar Singapura 124.096 72.578 Singaporean Dollar"
+    },
+    {
+     "page": 69,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "pihak ketiga SGD 169.993 124.096 104.763 72.578 third parties"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_APEX.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "kas",
+   "pred": 207712821036,
+   "label": 310943325836,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 13.378.386 22.798.270 Cash and cash equivalents"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS DAN SETARA KAS AKHIR PERIODE 13.378.386"
+    },
+    {
+     "page": 39,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 13.378.386"
+    },
+    {
+     "page": 70,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "13.378.386"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_APEX.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "liabilitas",
+   "pred": 2954184466828,
+   "label": 2908078787856,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "190.273.378"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_APEX.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "utang_bank",
+   "pred": 55434170134,
+   "label": 46135965634,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "3.570.409"
+    },
+    {
+     "page": 50,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dalam satu tahun (3.570.409) (3.070.409) Less current maturities"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "2.974.812"
+    },
+    {
+     "page": 76,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Liabilitas sewa -- -- -- 2.974.812 2.177.594 -- 5.152.406 Lease liabilities"
+    }
+   ],
+   "abstained": false,
+   "file": "Q3_2023_APEX.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "ekuitas",
+   "pred": 1046623713884,
+   "label": 1018499950182,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "67.411.034"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "67.411.034 Balance as of September 30, 2023"
+    },
+    {
+     "page": 54,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "PT Aserra Capital 1.909.730.677 67,482% 81.688.069 PT Aserra Capital"
+    },
+    {
+     "page": 71,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Ekuitas 67.411.034 66.398.284 Eguity"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 58,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Beban pajak lainnya 65.469 324.760"
+    }
+   ],
+   "abstained": false,
+   "file": "Q3_2023_APEX.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "laba_bersih",
+   "pred": 17096641212,
+   "label": 23528056398,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA (RUGI) BERSIH PERIODE BERJALAN 1.101.162"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "- 1.101.162"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "1.101.162 Income for the Period"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pembayaran beban keuangan 16 (1.103.192)"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_APEX.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "pendapatan",
+   "pred": 727779355828,
+   "label": 497907456244,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 22 46.874.878"
+    },
+    {
+     "page": 45,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Peralatan kantor 7.525.883 46.890 - - 7.572.773 Office eguipment"
+    },
+    {
+     "page": 56,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 46.874.878 64.803.962 Total"
+    },
+    {
+     "page": 56,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 46.874.878"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "32.016.996"
+    },
+    {
+     "page": 59,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "24.937 (32.016.996) Company - net"
+    }
+   ],
+   "abstained": false,
+   "file": "Q3_2023_APEX.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": -28052997840,
+   "label": 46558962560,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "(Digunakan untuk) Aktifitas Operasi (1.806.840)"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 54,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "biaya penerbitan saham 3.002.831"
+    },
+    {
+     "page": 54,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "3.002.831 issuance cost"
+    }
+   ],
+   "abstained": false,
+   "file": "Q3_2023_APEX.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "total_share",
+   "pred": 2830004997,
+   "label": 2830004997,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "2.830.004.997 saham pada 30 Juni 2023"
+    },
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "2,830,004,997 shares at June 30, 2023"
+    },
+    {
+     "page": 54,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 2.830.004.997 100% 128.006.362 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_APEX.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "aset",
+   "pred": 3854317651902,
+   "label": 4221646810090,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "254.612.079"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 254.612.079 257.247.269 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_APEX.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "total_aset_lancar",
+   "pred": 1175726497464,
+   "label": 1290731948078,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "77.667.228 74.696.438"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_APEX.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "kas",
+   "pred": 137859192540,
+   "label": 208703668339,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "9.106.830 8.613.001"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "9.106.830"
+    },
+    {
+     "page": 40,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 9.106.830"
+    },
+    {
+     "page": 69,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 9.106.830"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_APEX.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "liabilitas",
+   "pred": 2859227140860,
+   "label": 3151187026325,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS 188.877.470 192.309.209 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_APEX.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "utang_bank",
+   "pred": 76755851442,
+   "label": 83261186189,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice -- the pipeline's is the first figure on its line",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman 16 5.070.409 4.070.409 Loans"
+    },
+    {
+     "page": 49,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "(5.070.409) (4.070.409)"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 67,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Laba kotor segmen 11.458.219 5.492.444 (3.253.104) (730.429) 12.967.130 Segment gross profit"
+    },
+    {
+     "page": 67,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Laba (rugi) sebelum pajak 11.458.219 5.492.444 (3.253.104) (12.313.915) 1.383.644 Profit (loss) before tax"
+    }
+   ],
+   "abstained": false,
+   "file": "Q3_2024_APEX.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "ekuitas",
+   "pred": 995090511042,
+   "label": 1070459783765,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL EKUITAS 65.734.609 64.938.060 TOTAL EQUITY"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 September 2024 153.168.322 38.741.630 457.498 24.406.111 (151.038.952) 65.734.609 Balance as of September 30, 2024"
+    },
+    {
+     "page": 71,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Ekuitas 65.734.609 64.938.060 Equity"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 43,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Sewa 70.644 96.458 Rental"
+    },
+    {
+     "page": 60,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Jamuan 70.818"
+    },
+    {
+     "page": 81,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "OWK Tranche 2 sebesar USD70.842.286 Tranche 2 MCBs with amount of USD70,842,286"
+    }
+   ],
+   "abstained": false,
+   "file": "Q3_2024_APEX.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "laba_bersih",
+   "pred": 14713848378,
+   "label": 5507274980,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice -- the pipeline's is the first figure on its line",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA BERSIH PERIODE BERJALAN 971.981"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba Periode Berjalan -- -- -- - 971.981 971.981 Income for the Period"
+    },
+    {
+     "page": 60,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "diatribusikan kepada pemilik entitas induk 971.981"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 65,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "531.333 363.803"
+    }
+   ],
+   "abstained": false,
+   "file": "Q3_2024_APEX.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "pendapatan",
+   "pred": 920770182144,
+   "label": 699179660085,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 22 60.825.088"
+    },
+    {
+     "page": 55,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 60.825.088"
+    },
+    {
+     "page": 56,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 60.825.088 46.874.878 Total"
+    },
+    {
+     "page": 67,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Pendapatan 31.870.412 20.184.379 8.770.297 -- 60.825.088 Revenues"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "(46.162.521) Cash paid to suppliers, employees and others"
+    }
+   ],
+   "abstained": false,
+   "file": "Q3_2024_APEX.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 157770476424,
+   "label": 183181345510,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice -- the pipeline's is the first figure on its line",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "10.422.148"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 67,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Beban Langsung segmen (13.855.741) (12.096.438) (6.350.748) (1.481.624) (33.784.551) Segment direct cost"
+    }
+   ],
+   "abstained": false,
+   "file": "Q3_2024_APEX.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "total_share",
+   "pred": 3546466661,
+   "label": 2933628566,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "3.546.466.661 saham pada 30 September 2024 3,546,466,661 shares at September 30, 2024"
+    },
+    {
+     "page": 12,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "saham Perusahaan atau sejumlah shares or a total 3,546,466,661 outstanding"
+    },
+    {
+     "page": 12,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "3.546.466.661 lembar saham telah dicatatkan shares have been listed in the IDX."
+    },
+    {
+     "page": 53,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 3.546.466.661 100% 153.168.322"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 54,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "PMTHMETD adalah 2.933.628.566 lembar saham. PMTHMETD is 2,933,628,566 shares."
+    }
+   ],
+   "abstained": false,
+   "file": "Q3_2024_APEX.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "aset",
+   "pred": 4051115518440,
+   "label": 3986793096951,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 242.872.633 250.999.750 TOTAL ASSETS"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 242.872.633 250.999.750 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_APEX.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "total_aset_lancar",
+   "pred": 1158445865880,
+   "label": 1127765013732,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice -- the pipeline's is the first figure on its line",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 69.451.191 70.988.390 Total Current Assets"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 48,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Peralatan kantor 7.581.311 67.552 -- -- -- 7.648.863 Office equipment"
+    }
+   ],
+   "abstained": false,
+   "file": "Q3_2025_APEX.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "kas",
+   "pred": 431658600840,
+   "label": 368062334430,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 4 25.878.813 11.896.520 Cash and cash equivalents"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS DAN SETARA KAS AKHIR PERIODE 25.878.813"
+    },
+    {
+     "page": 43,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 25.878.813 11.896.520 Total"
+    },
+    {
+     "page": 69,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 25.878.813"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_APEX.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "liabilitas",
+   "pred": 2941339023600,
+   "label": 2917657815765,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS 176.339.270 185.649.659 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_APEX.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "utang_bank",
+   "pred": 84574422120,
+   "label": 82307949297,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found (label may be a sum)",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman 13 5.070.409 5.070.409 Loans"
+    },
+    {
+     "page": 52,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dalam satu tahun (5.070.409)"
+    },
+    {
+     "page": 52,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "(5.070.409) Less current maturities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_APEX.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "ekuitas",
+   "pred": 1109776628280,
+   "label": 1069135411050,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilih entitas induk 66.533.371 65.350.097 owners of the parent entity"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL EKUITAS 66.533.363 65.350.091 TOTAL EQUITY"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "153.168.322 38.697.891 644 209.769 24.406.111 (149.949.366) 66.533.371 (8) 66.533.363"
+    },
+    {
+     "page": 71,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Ekuitas 66.533.363 65.350.091 Equity"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_APEX.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "laba_bersih",
+   "pred": 25332633240,
+   "label": 12194667891,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice -- the pipeline's is the first figure on its line",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA BERSIH PERIODE BERJALAN 1.518.743 971.981 NET PROFIT FOR THE PERIOD"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 1.518.743 971.981 Owners of the parent entity"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA BERSIH PERIODE BERJALAN 1.518.743 971.981 NET PROFIT FOR THE PERIOD"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "- - - 1.518.743 1.518.743 (2) 1.518.741"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 68,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Beban Langsung segmen (20.412.193) (14.691.935) (12.023.401) (730.429) (47.857.958) Segment direct cost"
+    },
+    {
+     "page": 68,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Laba kotor segmen 11.458.219 5.492.444 (3.253.104) (730.429) 12.967.130 Segment gross profit"
+    }
+   ],
+   "abstained": false,
+   "file": "Q3_2025_APEX.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "pendapatan",
+   "pred": 1062866697000,
+   "label": 695728848360,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 18 63.721.025 60.825.088 REVENUES"
+    },
+    {
+     "page": 56,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 63.721.025 60.825.088 Total"
+    },
+    {
+     "page": 57,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 63.721.025 60.825.088 Total"
+    },
+    {
+     "page": 67,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "2.259.474 63.721.025 Revenues"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 60,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "komersial dan fiskal (41.696.505) 872.471"
+    }
+   ],
+   "abstained": false,
+   "file": "Q3_2025_APEX.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 394086083520,
+   "label": 264092810205,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktifitas Operasi 23.626.264"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_APEX.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "total_share",
+   "pred": 3546466661,
+   "label": 3546466661,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "3.546.466.661 saham pada 30 Juni 2025 3,546,466,661 shares at June 30, 2025"
+    },
+    {
+     "page": 53,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 3.546.466.661"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_APEX.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "aset",
+   "pred": 4136730542028,
+   "label": 4028024898497,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 262,966,788 357,749,955 TOTAL ASSETS"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 262,966,788 357,749,955 TOTAL LIABILITIES AND EQUITY"
+    },
+    {
+     "page": 51,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Beban usaha (Catatan 24) 263,077 371,093 Operating expenses (Note 24)"
+    },
+    {
+     "page": 61,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Penyusutan (Catatan 11) 263,077 371,093 Depreciation (Note 11)"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_APEX.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "total_aset_lancar",
+   "pred": 1112391756043,
+   "label": 1139565476076,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 70,713,353 65,351,664 Total Current Assets"
+    },
+    {
+     "page": 64,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Jamuan 144,565 70,696 Entertainment"
+    },
+    {
+     "page": 83,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "OWK Tranche 2 sebesar USD70.842.286 Tranche 2 MCBs with amount of USD70,842,286"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 54,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Dolar Singapura 72,578 70,441 Singaporean Dollar"
+    },
+    {
+     "page": 71,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "pihak ketiga SGD 104,763 72,578 95,420 70,441 third parties"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2022_APEX.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "kas",
+   "pred": 358639585370,
+   "label": 278746751784,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice -- the pipeline's is the first figure on its line",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 22,798,270 13,463,925 Cash and cash equivalents"
+    },
+    {
+     "page": 12,
+     "reading": "USD MILLIONS",
+     "first_on_line": true,
+     "line": "LABA (RUGI) PER SAHAM DASAR 28 (0.0231) 0.0014 BASIC EARNING (LOSS) PER SHARE"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS DAN SETARA KAS AKHIR TAHUN 22,798,270 13,463,925 AT END OF THE YEAR"
+    },
+    {
+     "page": 44,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 22,798,270 13,463,925 Total"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 56,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "PT Bank Rakyat Indonesia (Persero) Tbk 17,522,581 17,703,226 PT Bank Rakyat Indonesia (Persero) Tbk"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2022_APEX.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "liabilitas",
+   "pred": 3092219136424,
+   "label": 2994749019128,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS 196,568,504 226,529,655 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_APEX.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "utang_bank",
+   "pred": 48300603979,
+   "label": 46814526023,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman 16 3,070,409 2,049,575 Loans"
+    },
+    {
+     "page": 55,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dalam satu tahun (3,070,409) (2,049,575) Less current maturities"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Liabilitas sewa 13 2,974,812 3,481,144 Lease Liabilities"
+    },
+    {
+     "page": 77,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Liabilitas sewa -- -- -- 2,974,812 2,177,594 -- 5,152,406 Lease liabilities"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2022_APEX.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "ekuitas",
+   "pred": 1044511405604,
+   "label": 1033275879369,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL EKUITAS 66,398,284 131,220,300 TOTAL EQUITY"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Desember 2022 126,840,386 65,069,566 746,593 24,406,111 (150,664,372) 66,398,284 Balance as of December 31, 2022"
+    },
+    {
+     "page": 73,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Ekuitas 66,398,284 131,220,300 Equity"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_APEX.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "laba_bersih",
+   "pred": -1018429879534,
+   "label": -966789734934,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA (RUGI) BERSIH TAHUN BERJALAN (64,740,314) 3,656,487 NET INCOME (LOSS) FOR THE YEAR"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TAHUN BERJALAN (64,822,016) 4,513,952 FOR THE YEAR"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Rugi Tahun Berjalan -- -- -- -- (64,740,314) (64,740,314) Loss for the Year"
+    },
+    {
+     "page": 64,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "diatribusikan kepada pemilik entitas induk (64,740,313) 3,656,487 owners of the Company"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_APEX.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "pendapatan",
+   "pred": 1273845584601,
+   "label": 988066008614,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 22 80,976,771 65,155,633 REVENUES"
+    },
+    {
+     "page": 60,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 80,976,771 65,155,633 Total"
+    },
+    {
+     "page": 70,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Pendapatan 48,325,238 32,651,533 -- -- 80,976,771 Revenues"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_APEX.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 293385840001,
+   "label": 147218704495,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktifitas Operasi 18,650,171 13,634,313 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_APEX.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "total_share",
+   "pred": 2796804997,
+   "label": 2796804997,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "2.796.804.997 saham pada 31 Desember 2022 2,796,804,997 at December 31, 2022"
+    },
+    {
+     "page": 59,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 2,796,804,997 100 126,840,386 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_APEX.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "aset",
+   "pred": 3965723898904,
+   "label": 4000808180712,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 257,247,269 262,966,788 TOTAL ASSETS"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 257,247,269 262,966,788 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_APEX.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "total_aset_lancar",
+   "pred": 1151520288208,
+   "label": 1127681124962,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 74,696,438 70,713,353 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_APEX.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "kas",
+   "pred": 132778023416,
+   "label": 207712821036,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice -- the pipeline's is the first figure on its line",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 8,613,001 22,798,270 Cash and cash equivalents"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS DAN SETARA KAS AKHIR TAHUN 8,613,001 22,798,270 AT END OF THE YEAR"
+    },
+    {
+     "page": 44,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 8,613,001 22,798,270 Total"
+    },
+    {
+     "page": 70,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 8,613,001 -- Cash and cash equivalents"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "KAS DAN SETARA KAS AWAL TAHUN 22,798,270 13,463,925 AT BEGINNING OF THE YEAR"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2023_APEX.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "liabilitas",
+   "pred": 2964638765944,
+   "label": 2954184466828,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Total Aset Tidak Lancar 182,550,831 192,253,435 Total Non-current Assets"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS 192,309,209 196,568,504 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_APEX.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "utang_bank",
+   "pred": 62749425144,
+   "label": 55434170134,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice -- the pipeline's is the first figure on its line",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman 16 4,070,409 3,070,409 Loans"
+    },
+    {
+     "page": 53,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dalam satu tahun (4,070,409) (3,070,409) Less current maturities"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 67,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "USD3.743.698 dan USD3.593.094 masing- USD3,743,698 and USD3,593,094 in 2023 and"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2023_APEX.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "ekuitas",
+   "pred": 1001085132960,
+   "label": 1046623713884,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL EKUITAS 64,938,060 66,398,284 TOTAL EQUITY"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "TAHUN BERJALAN (1,460,224) (64,822,016) FOR THE YEAR"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Desember 2023 128,006,362 63,903,590 632,930 24,406,111 (152,010,933) 64,938,060 Balance as of December 31, 2023"
+    },
+    {
+     "page": 71,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Ekuitas 64,938,060 66,398,284 Equity"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "karyawan dan lain-lain (63,786,314) (67,821,330) Cash paid to suppliers, employees and others"
+    },
+    {
+     "page": 50,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Hak Guna Bangunan (HGB) No. 10, 11 dan 12 Bojonegara with a total area of 67,757 sqm,"
+    },
+    {
+     "page": 50,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "keseluruhan 67.757 m2, terdiri dari hak atas tanah 36,106 sqm and 21,935 sqm in the form of land use"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2023_APEX.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "laba_bersih",
+   "pred": -20758584376,
+   "label": 17096641212,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "RUGI BERSIH TAHUN BERJALAN (1,346,561) (64,740,314) NET LOSS FOR THE YEAR"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Rugi Tahun Berjalan -- -- -- -- (1,346,561) (1,346,561) Loss for the Year"
+    },
+    {
+     "page": 57,
+     "reading": "USD MILLIONS",
+     "first_on_line": false,
+     "line": "Erwin Sutanto 24,876 0.001% 1,125 Erwin Sutanto"
+    },
+    {
+     "page": 57,
+     "reading": "USD MILLIONS",
+     "first_on_line": false,
+     "line": "Erwin Sutanto 24,876 0.001% 1,128 Erwin Sutanto"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 49,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kendaraan bermotor 1,110,628 510,990 544,111 -- 1,077,507 Motor vehicles"
+    },
+    {
+     "page": 49,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Kendaraan bermotor 861,260 295,002 45,634 -- 1,110,628 Motor vehicles"
+    },
+    {
+     "page": 57,
+     "reading": "USD MILLIONS",
+     "first_on_line": false,
+     "line": "Erwin Sutanto 24,876 0.001% 1,125 Erwin Sutanto"
+    },
+    {
+     "page": 57,
+     "reading": "USD MILLIONS",
+     "first_on_line": false,
+     "line": "Erwin Sutanto 24,876 0.001% 1,128 Erwin Sutanto"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2023_APEX.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "pendapatan",
+   "pred": 960030351712,
+   "label": 727779355828,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 22 62,274,932 80,976,771 REVENUES"
+    },
+    {
+     "page": 59,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 62,274,932 80,976,771 Total"
+    },
+    {
+     "page": 68,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Pendapatan 35,630,904 14,224,835 12,419,192 -- 62,274,932 Revenues"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_APEX.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": -73003408376,
+   "label": -28052997840,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Diperoleh dari Aktifitas Operasi (4,735,561) 18,650,171 Provided by Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_APEX.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "total_share",
+   "pred": 2830004997,
+   "label": 2830004997,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "2.830.004.997 saham pada 31 Desember 2023 2,830,004,997 shares at December 31, 2023"
+    },
+    {
+     "page": 57,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 2,830,004,997 100% 128,006,362 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_APEX.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "aset",
+   "pred": 4056657959500,
+   "label": 3854317651902,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "250,999,750"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "250,999,750 257,253,701 262,973,211"
+    },
+    {
+     "page": 74,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Aset Segmen 11,728,383 153,423,633 37,534,719 48,313,015 250,999,750 Segment Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_APEX.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "total_aset_lancar",
+   "pred": 1147314359180,
+   "label": 1175726497464,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice -- the pipeline's is the first figure on its line",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "70,988,390 74,702,870 70,719,776"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 57,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Bangunan dan prasarana 1,900,969 72,635 1,973,604 Building and improvements"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2024_APEX.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "kas",
+   "pred": 192271556240,
+   "label": 137859192540,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice -- the pipeline's is the first figure on its line",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "11,896,520 8,613,579 22,798,956"
+    },
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS DAN SETARA KAS AKHIR TAHUN 11,896,520 8,613,579 AT END OF THE YEAR"
+    },
+    {
+     "page": 52,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 11,896,520 8,613,579 Total"
+    },
+    {
+     "page": 56,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Peralatan pemboran lepas pantai 11,888,416 -- -- -- -- 11,888,416 Offshore drilling rigs"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 62,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "BNYM RE ACP II Trading LLC 197,661,340 5.573% 8,536,794 BNYM RE ACP II Trading LLC"
+    },
+    {
+     "page": 65,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "PT Pertamina Geothermal Energy Tbk 2,660,247 8,542,371 PT Pertamina Geothermal Energy Tbk"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2024_APEX.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "liabilitas",
+   "pred": 3000469788758,
+   "label": 2859227140860,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "185,649,659 192,316,408 196,575,559"
+    },
+    {
+     "page": 58,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Kendaraan bermotor 185,643 185,643 Motor vehicles"
+    },
+    {
+     "page": 71,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "(185,669)"
+    },
+    {
+     "page": 74,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Liabilitas segmen 7,995,562 113,913,909 27,868,761 35,871,427 185,649,659 Sefment Liabilities"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 56,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Peralatan pemboran darat 177,110,235 355,797 -- -- 356,140 177,822,172 Onshore drilling rigs"
+    },
+    {
+     "page": 57,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Peralatan pemboran darat 175,387,404 440,678 1,282,153 177,110,235 Onshore drilling rigs"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2024_APEX.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "utang_bank",
+   "pred": 81947950258,
+   "label": 76755851442,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found (label may be a sum)",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "5,070,409 4,070,409 3,070,409"
+    },
+    {
+     "page": 60,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dalam satu tahun (5,070,409)"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_APEX.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "ekuitas",
+   "pred": 1056188267714,
+   "label": 995090511042,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "65,350,097 64,937,298 66,397,657"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "65,350,091 64,937,293 66,397,652"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Desember 2024 153,168,322 38,697,891 -- 375 545,507 24,406,111 (151,468,109) 65,350,097 (6) 65,350,091 Balance as of December 31, 2024"
+    },
+    {
+     "page": 56,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Aset dalam penyelesaian 1,362,158 2,176,463 -- -- (3,473,350) 65,271 Construction in progress"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_APEX.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "laba_bersih",
+   "pred": 8773137650,
+   "label": 14713848378,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PROFORMA 542,788 (1,346,679) PROFORMA ADJUSTMENT"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA (RUGI) BERSIH TAHUN BERJALAN 542,824 (1,346,561) NET PROFIT (LOSS) FOR THE YEAR"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 542,825 (1,346,561) Owners of the parent entity"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA (RUGI) BERSIH TAHUN BERJALAN 542,824 (1,346,561) NET PROFIT (LOSS) FOR THE YEAR"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 60,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "910,389"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2024_APEX.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "pendapatan",
+   "pred": 1367021330632,
+   "label": 920770182144,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 19 84,582,436 62,274,932 REVENUES"
+    },
+    {
+     "page": 64,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah 84,582,436"
+    },
+    {
+     "page": 74,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Pendapatan 44,120,045 27,803,691 12,658,700 - 84,582,436 Revenues"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_APEX.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 166531292398,
+   "label": 157770476424,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktifitas Operasi 10,303,879 (4,735,669) Operating Activities"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 57,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Beban langsung (Catatan 20) 9,752,074 8,510,690 Direct costs (Note 20)"
+    },
+    {
+     "page": 65,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Penyusutan (Catatan 10) 9,752,074 8,510,690 Depreciation (Note 10)"
+    },
+    {
+     "page": 76,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "9,780,271 Total Assets"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2024_APEX.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "total_share",
+   "pred": 3546466661,
+   "label": 3546466661,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "3.546.466.661 saham pada 31 Desember 2024"
+    },
+    {
+     "page": 12,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "3,546,466,661 shares at December 31, 2024,"
+    },
+    {
+     "page": 62,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 3,546,466,661 100% 153,168,322 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_APEX.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "aset",
+   "pred": 4404502944090,
+   "label": 4051115518440,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 262.453.995 250.999.750 TOTAL ASSETS"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 262.453.995 250.999.750 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_APEX.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "total_aset_lancar",
+   "pred": 1199508453108,
+   "label": 1158445865880,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 71.475.894 70.988.390 Total Current Assets"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik Perusahaan 69.033.766 65.350.097 of the Company"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL EKUITAS 69.033.757 65.350.091 TOTAL EQUITY"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo 31 Desember 2025 1 53.168.322 3 8.697.891 - 7 01 1 70.354 2 4.406.111 ( 147.409.613) 6 9.033.766 ( 9) 6 9.033.757 Balance as at December, 31 2025"
+    },
+    {
+     "page": 74,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Ekuitas 69.033.757 65.350.091 Equity"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2025_APEX.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "kas",
+   "pred": 451701391932,
+   "label": 431658600840,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 26.915.826 5 11.896.520 Cash and cash equivalents"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS DAN SETARA KAS AKHIR TAHUN 2 6.915.826 1 1.896.520 AT END OF THE YEAR"
+    },
+    {
+     "page": 47,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Kas 26.484 26.899 Cashonhand"
+    },
+    {
+     "page": 47,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 26.915.826 11.896.520 Total"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 77,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JuTmoltaahl 25.742.938 6.614.055 2.308.546 34.665.539 Total"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2025_APEX.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "liabilitas",
+   "pred": 3245978434116,
+   "label": 2941339023600,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS 193.420.238 185.649.659 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas Jangka Panjang 175.336.486 171.516.675 Total Non-Current Liabilities"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2025_APEX.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "utang_bank",
+   "pred": 85091603838,
+   "label": 84574422120,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found (label may be a sum)",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman 5.070.409 17 5.070.409 Loans"
+    },
+    {
+     "page": 56,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dalamsatutahun 5.070.409 5.070.409 Lesscurrentmaturities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_APEX.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "ekuitas",
+   "pred": 1158524661012,
+   "label": 1109776628280,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice -- the pipeline's is the first figure on its line",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik Perusahaan 69.033.766 65.350.097 of the Company"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TOTAL EKUITAS 69.033.757 65.350.091 TOTAL EQUITY"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo 31 Desember 2025 1 53.168.322 3 8.697.891 - 7 01 1 70.354 2 4.406.111 ( 147.409.613) 6 9.033.766 ( 9) 6 9.033.757 Balance as at December, 31 2025"
+    },
+    {
+     "page": 74,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Ekuitas 69.033.757 65.350.091 Equity"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "BEBAN LANGSUNG ( 59.818.429) 24 ( 66.016.956) DIRECT COST"
+    },
+    {
+     "page": 65,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Total 59.818.429 66.016.956 Total"
+    },
+    {
+     "page": 71,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "BebanLangsungsegmen (28.247.483) (19.886.603) (16.906.317) (976.553) (66.016.956) Segmentdirectcost"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2025_APEX.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "laba_bersih",
+   "pred": 68109679872,
+   "label": 25332633240,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENYESUAIAN PROFORMA 4.058.493 542.788 OF PROFORMA ADJUSTMENT"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "LABA BERSIH TAHUN BERJALAN 4.058.493 542.824 NET PROFIT FOR THE YEAR"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 4.058.496 542.825 Owners of the Company"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KOMPREHENSIF TAHUN BERJALAN 4.058.493 542.824 INCOME FOR THE YEAR"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 53,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Bangunandanprasarana 1.509.804 57.103 Buildingandimprovements"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2025_APEX.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "pendapatan",
+   "pred": 1413702036234,
+   "label": 1062866697000,
+   "status": "wrong:wrong_value",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 84.239.187 23 84.582.436 REVENUES"
+    },
+    {
+     "page": 64,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 84.239.187 84.582.436 Total"
+    },
+    {
+     "page": 65,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 84.239.187 84.582.436 Total"
+    },
+    {
+     "page": 71,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Pendapatan 49.200.661 31.360.904 3.677.622 - 84.239.187 Revenues"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_APEX.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 514335105204,
+   "label": 394086083520,
+   "status": "wrong:wrong_value",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dari aktivitas operasi 3 0.648.022 1 0.303.879 operating activities"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 47,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "23.469.627 10.749.045"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2025_APEX.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "total_share",
+   "pred": 3546466661,
+   "label": 3546466661,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "3.546.466.661 saham 153.168.322 19 153.168.322 3,546,466,661 shares"
+    },
+    {
+     "page": 62,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 3.546.466.661 100% 153.168.322 Total"
+    },
+    {
+     "page": 62,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 3.546.466.661 100% 153.168.322 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_APEX.pdf"
+  }
+ ]
+}

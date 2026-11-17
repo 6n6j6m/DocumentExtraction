@@ -1,0 +1,39 @@
+{
+ "about": "Kept by hand. Adds what data/issuers.json lacks: names a company filed under before a rename that neither IDX's current list nor the Wikipedia snapshot carries (aliases), and any issuer missing from both. Every entry says where the name was read. AADI and EMAS are on IDX's list since 2026-11-01 and kept here only as a record.",
+ "issuers": [
+  {
+   "ticker": "AADI",
+   "name": "Adaro Andalan Indonesia Tbk",
+   "source": "printed on the statements in ~/FinancialReport/AADI (7 filings, Q4 2024 onward); listed after the Wikipedia snapshot"
+  },
+  {
+   "ticker": "EMAS",
+   "name": "Merdeka Gold Resources Tbk",
+   "source": "printed on the statements in ~/FinancialReport/EMAS; listed after the Wikipedia snapshot"
+  },
+  {
+   "ticker": "ADMR",
+   "name": "Alamtri Minerals Indonesia Tbk",
+   "aliases": [
+    "Adaro Minerals Indonesia Tbk"
+   ],
+   "source": "13 filings in ~/FinancialReport/ADMR print the former name, 5 the current one"
+  },
+  {
+   "ticker": "LSIP",
+   "name": "PP London Sumatra Indonesia Tbk",
+   "aliases": [
+    "Perusahaan Perkebunan London Sumatra Indonesia Tbk"
+   ],
+   "source": "the legal name printed on every statement in ~/FinancialReport/LSIP; IDX abbreviates it to \"PP\""
+  },
+  {
+   "ticker": "ESSA",
+   "name": "ESSA Industries Indonesia Tbk",
+   "aliases": [
+    "Surya Esa Perkasa Tbk"
+   ],
+   "source": "8 ESSA filings in ~/Downloads/idx (Q1 2022 to Q4 2023) print the former name PT Surya Esa Perkasa Tbk; the files are named ESSA"
+  }
+ ]
+}

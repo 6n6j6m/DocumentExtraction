@@ -156,20 +156,28 @@ def test_revenue_doubling_from_q1_to_q2_is_a_business_not_an_error():
     assert not [f for f in screen_columns("TEST", columns) if f.kind == "double_jump"]
 
 
-def _git_has_head_workbook(ticker):
+# The last commit whose GTRA workbook still carried the two-column shift; the fix was
+# committed in 676bd14, so HEAD no longer has it and the test must name the revision.
+SHIFTED_GTRA_REVISION = "e02530d"
+
+
+def _git_has_head_workbook(ticker, revision="HEAD"):
     try:
         return subprocess.run(["git", "-C", str(ROOT), "cat-file", "-e",
-                               f"HEAD:data/ground_truth/{ticker}.xlsx"],
+                               f"{revision}:data/ground_truth/{ticker}.xlsx"],
                               capture_output=True).returncode == 0
     except OSError:
         return False
 
 
-@pytest.mark.skipif(not _git_has_head_workbook("GTRA"), reason="no git history here")
+@pytest.mark.skipif(not _git_has_head_workbook("GTRA", SHIFTED_GTRA_REVISION),
+                    reason="the revision with the shifted labels is not in this clone")
 def test_the_screen_finds_the_gtra_shift_in_the_committed_labels(tmp_path):
     """The shift that cost 117 cells was found by reading the corpus scorecard by hand.
-    The committed workbook still has it, so the free screen must see it."""
-    path = workbook_at("GTRA", "HEAD", ROOT / "data" / "ground_truth", tmp_path)
+    The workbook as committed before the fix still has it, so the free screen must
+    see it."""
+    path = workbook_at("GTRA", SHIFTED_GTRA_REVISION, ROOT / "data" / "ground_truth",
+                       tmp_path)
     columns, _ = read_columns(path)
     flags = [f for f in screen_columns("GTRA", columns) if f.kind == "duplicate_column"]
     assert flags, "a copied column is the shift's signature"

@@ -1,0 +1,224 @@
+{
+  "period_end_date": "2022-09-30",
+  "aset": 72663096015.0,
+  "total_aset_lancar": 9329296573.0,
+  "kas": 892273527.0,
+  "liabilitas": 16490574979.0,
+  "utang_bank": 8137462584.0,
+  "ekuitas": 56171521036.0,
+  "pendapatan": 28489431199.0,
+  "laba_bersih": -2590828008.0,
+  "kas_dari_aktivitas_operasi": 499194996.0,
+  "total_share": 435000000.0,
+  "utang_bank_jangka_pendek": 8137462584.0,
+  "utang_bank_bagian_lancar": 0.0,
+  "utang_bank_bagian_lancar_components": null,
+  "total_ekuitas": 56172521036.0,
+  "kepentingan_non_pengendali": 1000000.0,
+  "total_share_components": null,
+  "kas_components": null,
+  "saham_beredar": null,
+  "saham_treasuri": null,
+  "saham_ditempatkan": 435000000.0,
+  "currency": "IDR",
+  "reporting_scale": "FULL",
+  "statement_scope": "CONSOLIDATED",
+  "_confidence": {
+    "period_end_date": {
+      "confidence": 0.85,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "not verifiable verbatim"
+      ],
+      "withheld_value": null
+    },
+    "aset": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "total_aset_lancar": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "kas": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "liabilitas": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "utang_bank": {
+      "confidence": 1.0,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "derived from utang_bank_jangka_pendek, utang_bank_bagian_lancar; graded on those rows"
+      ],
+      "withheld_value": null
+    },
+    "ekuitas": {
+      "confidence": 1.0,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "derived from total_ekuitas, kepentingan_non_pengendali; graded on those rows"
+      ],
+      "withheld_value": null
+    },
+    "pendapatan": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "laba_bersih": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "kas_dari_aktivitas_operasi": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "total_share": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "utang_bank_jangka_pendek": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "utang_bank_bagian_lancar": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "total_ekuitas": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "kepentingan_non_pengendali": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "saham_ditempatkan": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "currency": {
+      "confidence": 0.85,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "not verifiable verbatim"
+      ],
+      "withheld_value": null
+    },
+    "reporting_scale": {
+      "confidence": 0.85,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "not verifiable verbatim"
+      ],
+      "withheld_value": null
+    },
+    "statement_scope": {
+      "confidence": 0.85,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "not verifiable verbatim"
+      ],
+      "withheld_value": null
+    }
+  },
+  "_elapsed_s": 15.0,
+  "_usage": {
+    "llm_calls": 4,
+    "tokens": {
+      "input": 34165,
+      "output": 1083
+    },
+    "latency_ms": {
+      "select_pages": 6159,
+      "read_text": 493,
+      "assess": 29
+    },
+    "cost": {
+      "amount": null,
+      "currency": "USD",
+      "per_model": [
+        {
+          "model": "gemini-3.5-flash-lite",
+          "input_tokens": 34165,
+          "output_tokens": 1083,
+          "amount": null
+        }
+      ],
+      "reason": "no price configured for gemini-3.5-flash-lite - add it to /Users/muhammadnajmirahmani/Belajar/ProjectDatasaur/config/pricing.json"
+    },
+    "notes": []
+  },
+  "_model": "gemini:gemini-3.5-flash-lite",
+  "_agent": null,
+  "_derived": {
+    "idr_values": {
+      "aset": 72663096015,
+      "total_aset_lancar": 9329296573,
+      "kas": 892273527,
+      "liabilitas": 16490574979,
+      "utang_bank": 8137462584,
+      "ekuitas": 56171521036,
+      "pendapatan": 28489431199,
+      "laba_bersih": -2590828008,
+      "kas_dari_aktivitas_operasi": 499194996,
+      "total_share": 435000000.0,
+      "period_end_date": "2022-09-30"
+    },
+    "withheld_idr": {},
+    "fx_rate": null,
+    "currency": "IDR",
+    "reporting_scale": "FULL",
+    "text_layer": "clean",
+    "model": "gemini:gemini-3.5-flash-lite",
+    "sha": "dfc84b42807a"
+  }
+}

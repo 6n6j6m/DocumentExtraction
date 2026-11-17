@@ -126,6 +126,28 @@ def _derived_from(extraction) -> dict:
     if components:
         derived["total_share"] = ("total_share_components",)
         derived["saham_ditempatkan"] = ("total_share_components",)
+    components_derive_current = (
+        getattr(extraction, "_utang_bank_current_from_components", False)
+        or (getattr(extraction, "utang_bank_bagian_lancar", None) is None
+            and getattr(extraction, "utang_bank_bagian_lancar_components", None)))
+    if components_derive_current:
+        derived["utang_bank_bagian_lancar"] = ("utang_bank_bagian_lancar_components",)
+    # Grade the final sum directly on the printed bank lender lines when a note
+    # supplied components. This avoids depending on another derived score's iteration
+    # order, while keeping balance-sheet scalars as sources when no list was returned.
+    bank_sources = []
+    for scalar, component_list in (
+            ("utang_bank_jangka_pendek", ""),
+            ("utang_bank_bagian_lancar", "utang_bank_bagian_lancar_components")):
+        if (component_list and getattr(extraction, component_list, None)
+                and (getattr(extraction, scalar, None) is None
+                     or (scalar == "utang_bank_bagian_lancar"
+                         and components_derive_current))):
+            bank_sources.append(component_list)
+        elif getattr(extraction, scalar, None) is not None:
+            bank_sources.append(scalar)
+    if bank_sources:
+        derived["utang_bank"] = tuple(bank_sources)
     # total_share is outstanding. Taken from a printed outstanding total, it is graded on
     # that row; computed as issued less treasury, on both inputs.
     beredar = getattr(extraction, "saham_beredar", None)
@@ -212,6 +234,18 @@ def score_extraction(extraction, document_text: str, issues: list) -> dict:
 
         scores[name] = FieldScore(name, value, round(confidence, 3), grounded,
                                   reasons=reasons)
+
+    # Absence of a short-term bank/finance-company row is established structurally
+    # when the component was repaired from an amount printed under another maturity
+    # section. Treat the corrected zero as a supported component, not an ungrounded
+    # model guess, so the correct current-maturity total remains usable.
+    if getattr(extraction, "_utang_bank_short_term_repaired", False):
+        repaired = scores.get("utang_bank_jangka_pendek")
+        if repaired:
+            repaired.confidence = 0.8
+            repaired.grounded = None
+            repaired.reasons = ["no short-term lender row in the visible section; "
+                                "misplaced amount corrected to zero"]
 
     # Derived values are a special case for grounding. utang_bank is a SUM, so it
     # is correctly absent from the document -- testing it verbatim would punish the

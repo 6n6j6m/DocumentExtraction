@@ -1,0 +1,246 @@
+{
+  "period_end_date": "2022-12-31",
+  "aset": 2076978640.0,
+  "total_aset_lancar": 1149653752.0,
+  "kas": 67337106.0,
+  "liabilitas": 1434907753.0,
+  "utang_bank": 662184152.0,
+  "ekuitas": 612716256.0,
+  "pendapatan": 275599180.0,
+  "laba_bersih": 205740.0,
+  "kas_dari_aktivitas_operasi": -143820184.0,
+  "total_share": 4205476.0,
+  "utang_bank_jangka_pendek": null,
+  "utang_bank_bagian_lancar": 662184152.0,
+  "utang_bank_bagian_lancar_components": [
+    -7070082.0,
+    -139972000.0,
+    -2023706.0,
+    -510096219.0,
+    -3022145.0
+  ],
+  "total_ekuitas": 642070887.0,
+  "kepentingan_non_pengendali": 29354631.0,
+  "total_share_components": null,
+  "kas_components": null,
+  "saham_beredar": 4205476.0,
+  "saham_treasuri": 199000.0,
+  "saham_ditempatkan": 4404476.0,
+  "currency": "IDR",
+  "reporting_scale": "THOUSANDS",
+  "statement_scope": "CONSOLIDATED",
+  "_confidence": {
+    "period_end_date": {
+      "confidence": 0.85,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "not verifiable verbatim"
+      ],
+      "withheld_value": null
+    },
+    "aset": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "total_aset_lancar": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "kas": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "liabilitas": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "utang_bank": {
+      "confidence": 1.0,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "derived from utang_bank_bagian_lancar; graded on those rows"
+      ],
+      "withheld_value": null
+    },
+    "ekuitas": {
+      "confidence": 1.0,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "derived from total_ekuitas, kepentingan_non_pengendali; graded on those rows"
+      ],
+      "withheld_value": null
+    },
+    "pendapatan": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "laba_bersih": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "kas_dari_aktivitas_operasi": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "total_share": {
+      "confidence": 1.0,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "derived from saham_ditempatkan, saham_treasuri; graded on those rows"
+      ],
+      "withheld_value": null
+    },
+    "utang_bank_bagian_lancar": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "utang_bank_bagian_lancar_components": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "total_ekuitas": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "kepentingan_non_pengendali": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "saham_beredar": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "saham_treasuri": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "saham_ditempatkan": {
+      "confidence": 1.0,
+      "grounded": true,
+      "abstained": false,
+      "reasons": [],
+      "withheld_value": null
+    },
+    "currency": {
+      "confidence": 0.85,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "not verifiable verbatim"
+      ],
+      "withheld_value": null
+    },
+    "reporting_scale": {
+      "confidence": 0.85,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "not verifiable verbatim"
+      ],
+      "withheld_value": null
+    },
+    "statement_scope": {
+      "confidence": 0.85,
+      "grounded": null,
+      "abstained": false,
+      "reasons": [
+        "not verifiable verbatim"
+      ],
+      "withheld_value": null
+    }
+  },
+  "_elapsed_s": 33.5,
+  "_usage": {
+    "llm_calls": 5,
+    "tokens": {
+      "input": 42426,
+      "output": 1618
+    },
+    "latency_ms": {
+      "select_pages": 17219,
+      "read_text": 1380,
+      "assess": 84
+    },
+    "cost": {
+      "amount": null,
+      "currency": "USD",
+      "per_model": [
+        {
+          "model": "gemini-3.5-flash-lite",
+          "input_tokens": 42426,
+          "output_tokens": 1618,
+          "amount": null
+        }
+      ],
+      "reason": "no price configured for gemini-3.5-flash-lite - add it to /Users/muhammadnajmirahmani/Belajar/ProjectDatasaur/config/pricing.json"
+    },
+    "notes": []
+  },
+  "_model": "gemini:gemini-3.5-flash-lite",
+  "_agent": null,
+  "_derived": {
+    "idr_values": {
+      "aset": 2076978640000,
+      "total_aset_lancar": 1149653752000,
+      "kas": 67337106000,
+      "liabilitas": 1434907753000,
+      "utang_bank": 662184152000,
+      "ekuitas": 612716256000,
+      "pendapatan": 275599180000,
+      "laba_bersih": 205740000,
+      "kas_dari_aktivitas_operasi": -143820184000,
+      "total_share": 4205476.0,
+      "period_end_date": "2022-12-31"
+    },
+    "withheld_idr": {},
+    "fx_rate": null,
+    "currency": "IDR",
+    "reporting_scale": "THOUSANDS",
+    "text_layer": "clean",
+    "model": "gemini:gemini-3.5-flash-lite",
+    "sha": "dfc84b42807a"
+  }
+}

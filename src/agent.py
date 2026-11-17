@@ -28,7 +28,8 @@ from dataclasses import dataclass, field
 from typing import Optional
 
 from agenttools import (AgentBudget, ToolContext, all_schemas, run_tool)
-from extract import (ALWAYS, GROUP_FIELDS, _apply_current_table_guard,
+from extract import (ALWAYS, GROUP_FIELDS, _apply_comparative_column_guard,
+                     _apply_current_table_guard,
                      _apply_treasury_date_guard, _coerce_numbers, _filled, assess,
                      derive_fields, merge_group)
 from llm import LLMError, LLMUnavailable, get_provider_chain
@@ -324,6 +325,7 @@ def extract_agentic(pdf_path: str, usage=None, budget: Optional[AgentBudget] = N
 
     _apply_current_table_guard(merged, page_texts, groups)
     _apply_treasury_date_guard(merged, page_texts, groups)
+    _apply_comparative_column_guard(merged, page_texts, pdf_path)
     for warning in derive_fields(merged):
         print(f"    ⚠ {warning}")
 

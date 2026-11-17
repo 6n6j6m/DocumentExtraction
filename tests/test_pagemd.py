@@ -27,6 +27,7 @@ ARCHIVE = Path.home() / "FinancialReport"
 GTRA = ARCHIVE / "GTRA" / "Q2_2024_GTRA.pdf"
 TLDN = ARCHIVE / "TLDN" / "Q4_2023_TLDN.pdf"
 EMAS = ARCHIVE / "EMAS" / "Q3_2025_EMAS.pdf"
+PURA_Q1_2023 = ARCHIVE / "PURA" / "Q1_2023_PURA.pdf"
 
 
 def _word(text, x0, x1, top=100.0):
@@ -50,6 +51,36 @@ def test_a_number_split_across_two_word_boxes_is_put_back_together():
     # swallowed by a rule that only joins boxes which touch.
     apart = merge_split_numbers([_word("13", 221, 231), _word("18.672.839.545", 278, 360)])
     assert [w["text"] for w in apart] == ["13", "18.672.839.545"]
+
+
+def test_a_leading_separator_fragment_is_joined_to_its_first_digit():
+    """PURA Q1 2023 has cash flow values split as `1` + `.768.888.226`.
+
+    The old renderer moved the leading digits into the label, so the model saw
+    `.768.888.226` and returned a different amount. The touching boxes identify the
+    split; a note reference separated by whitespace stays separate.
+    """
+    words = [_word("Arus", 60, 82), _word("kas", 84, 100),
+             _word("1", 300, 306), _word(".768.888.226", 306, 370)]
+    merged = merge_split_numbers(words)
+    assert [w["text"] for w in merged] == ["Arus", "kas", "1.768.888.226"]
+
+    apart = [_word("1", 250, 256), _word(".768.888.226", 300, 370)]
+    assert [w["text"] for w in merge_split_numbers(apart)] == [
+        "1", ".768.888.226"]
+
+
+@pytest.mark.skipif(not PURA_Q1_2023.exists(), reason="the filing archive is not on this machine")
+def test_pura_q1_2023_cash_flow_digit_stays_in_the_amount_cell():
+    """The actual income and cash-flow pages keep split first digits in amount cells."""
+    pages = page_markdown(str(PURA_Q1_2023), [5, 7])
+    income = next(line for line in pages[5].splitlines()
+                  if "LABA NETO TAHUN BERJALAN" in line)
+    cash_flow = next(line for line in pages[7].splitlines()
+                     if "Arus Kas Neto Diperoleh dari Aktivitas Operasi" in line)
+    assert "5.142.595.662" in income and "4.070.777.767" in income, income
+    assert "1.768.888.226" in cash_flow and "5.251.716.539" in cash_flow, cash_flow
+    assert "| 1 5 |" not in cash_flow, cash_flow
 
 
 def test_only_grouped_figures_decide_where_a_column_is():

@@ -44,6 +44,10 @@ _AMOUNT = re.compile(r"^\(?-?[\d.,]{3,}\)?$")
 _DIGITS = re.compile(r"\d")
 _LEADING_GROUP = re.compile(r"^\d{1,3}$")
 _GROUPED = re.compile(r"^\(?-?\d{1,3}(?:[.,]\d{3})+\)?$")
+# Some PDFs put the first digit in one word box and the separator plus the remaining
+# groups in the next: "1" + ".768.888.226". Those boxes touch just like the familiar
+# "1" + "7.149.123.737" split, but the fragment alone is not a complete number.
+_GROUPED_FRAGMENT = re.compile(r"^\(?[.,]\d{3}(?:[.,]\d{3})*\)?$")
 _MONTHS = re.compile(r"Jan|Feb|Mar|Apr|Mei|May|Jun|Jul|Agu|Aug|Sep|Okt|Oct|Nov|Des|Dec", re.I)
 
 
@@ -65,7 +69,9 @@ def merge_split_numbers(words: list) -> list:
             gap = word["x0"] - previous["x1"]
             joined = previous["text"] + word["text"]
             if (abs(gap) <= TOUCHING and _LEADING_GROUP.match(previous["text"])
-                    and _GROUPED.match(word["text"]) and _GROUPED.match(joined)):
+                    and (_GROUPED.match(word["text"])
+                         or _GROUPED_FRAGMENT.match(word["text"]))
+                    and _GROUPED.match(joined)):
                 merged[-1] = {**previous, "text": joined, "x1": word["x1"]}
                 continue
         merged.append(dict(word))
@@ -196,12 +202,27 @@ def page_markdown(pdf_path: str, page_numbers=None, fallback: Optional[dict] = N
     a page of plain text that at least carries its figures.
     """
     import pdfplumber
+    from pdftext import page_needs_ocr
 
     out = {}
     with pdfplumber.open(pdf_path) as pdf:
         wanted = (range(len(pdf.pages)) if page_numbers is None
                   else [n for n in page_numbers if 0 <= n < len(pdf.pages)])
         for n in wanted:
+            # Word boxes are only worth rebuilding when they ARE the page. RCCC Q1 2026
+            # types its balance sheet one glyph per run; rebuilt from those boxes the
+            # cash line reached the model as "K a s d a n B a n k 4 3 2 3 .2 9 6 .3 3 8",
+            # the note number fused to the figure, and the model answered 4.323.296.338
+            # for a printed 323.296.338. The OCR'd text was already in `fallback` and
+            # went unused, because the markdown/image decision was made per filing.
+            if fallback and (fallback.get(n) or "").strip():
+                try:
+                    page = pdf.pages[n]
+                    if page_needs_ocr(page, page.extract_text() or ""):
+                        out[n] = fallback[n]
+                        continue
+                except Exception:
+                    pass
             try:
                 headers, rows = page_table(pdf.pages[n])
                 markdown = to_markdown(headers, rows)

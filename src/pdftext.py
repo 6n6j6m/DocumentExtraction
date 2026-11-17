@@ -186,15 +186,149 @@ def page_titles(pdf_path: str) -> dict:
     return texts
 
 
-def _ocr_page(pdf_path: str, page_number: int, dpi: int) -> str:
+# Two OCR readings of every OCR'd page, not one. The primary is the reading this repo
+# has always used (300 dpi, tesseract's default layout analysis) and is what a model
+# is shown. The alternate -- 400 dpi, --psm 6, one uniform block -- is used only to
+# VERIFY figures. Measured on the replay of all 290 filings: switching to the alternate
+# outright fixed six TOTL figures tesseract had misread at 300 dpi (2.428.785.813 read
+# as 2.428.185.813, separators dropped in 847.433.444 and 1.793.562.796) and broke
+# eight others it had read right. No single setting wins; a figure printed in either
+# reading is printed.
+OCR_PRIMARY = (300, None)
+OCR_ALTERNATE = (400, 6)
+
+
+class OCRText(str):
+    """Page text from OCR, carrying the alternate reading for verification only."""
+    alternate = ""
+
+
+def _ocr_page(pdf_path: str, page_number: int, dpi: int, psm=None) -> str:
     from extract import render_pdf_page_to_image
     import io
     import pytesseract
-    from PIL import Image
+    from PIL import Image, ImageOps
 
     image = Image.open(io.BytesIO(render_pdf_page_to_image(pdf_path, page_number, dpi=dpi)))
     # The filings are bilingual, so both language packs are requested.
-    return pytesseract.image_to_string(image, lang="ind+eng")
+    if psm is None:
+        return pytesseract.image_to_string(image, lang="ind+eng")
+    return pytesseract.image_to_string(ImageOps.grayscale(image), lang="ind+eng",
+                                       config=f"--psm {psm}")
+
+
+def _ocr_cached(pdf_path: str, pages: list, dpi: int, psm, kind: str) -> dict:
+    """{page: text} for one OCR setting, from and into its own cache file."""
+    cache_file = _cache_path(pdf_path, kind)
+    cache = {}
+    if cache_file.exists():
+        try:
+            cache = json.loads(cache_file.read_text())
+        except ValueError:
+            cache = {}
+    missing = [n for n in pages if str(n) not in cache]
+    for n in missing:
+        try:
+            cache[str(n)] = _ocr_page(pdf_path, n, dpi, psm)
+        except Exception as exc:
+            print(f"    ✗ OCR page {n+1}: {exc}")
+    if missing:
+        cache_file.parent.mkdir(parents=True, exist_ok=True)
+        cache_file.write_text(json.dumps(cache))
+    return {n: cache[str(n)] for n in pages if str(n) in cache}
+
+
+# Two more ways a page passes text_layer_usable while its figures are not in the layer,
+# both found by tracing the PURA/RCCC/TRIN/TRUK evaluation back to its pages:
+#
+#   * The title, header and footnote are real text, but the TABLE is a scanned image
+#     pasted underneath. PURA Q4 2023 prints its whole balance sheet, income statement
+#     and cash flow that way (pages 10-14): ~500 characters of header, zero figures.
+#     Grounding read those pages, found none of the eleven figures the model had read
+#     correctly from the image, and withheld all of them.
+#   * Part of the page is typeset one glyph per run ("1 0 0 %", "1 5 ,2 8 %") while the
+#     rest is normal. PURA Q2 2025's shareholder table (page 55) is 53% single-character
+#     tokens, under the shredded threshold, so the selector never saw its 100% row and
+#     total_share was never asked for.
+#
+# A page like that is OCR'd like any broken page. Set OCR_MIXED_PAGES=false to get the
+# old behaviour back, which is how the change is measured.
+MIXED_IMAGE_SHARE = 0.20      # of page area covered by images
+MIXED_MAX_FIGURES = 2         # a statement page prints dozens; a scanned one prints none
+SPACED_LINE_SINGLE = 0.60     # a line is "spaced" when this share of its tokens is 1 char
+SPACED_LINE_SHARE = 0.25      # ...and a page is, when this share of its lines are
+_FIGURE = re.compile(r"\d{1,3}(?:[.,]\d{3})+")
+
+
+def text_layer_spaced(text: str) -> bool:
+    """True when a quarter of the page's lines are typeset one character at a time."""
+    rows = [line.split() for line in (text or "").split("\n")]
+    rows = [row for row in rows if len(row) >= 6]
+    if len(rows) < 4:
+        return False
+    spaced = sum(1 for row in rows
+                 if sum(len(token) == 1 for token in row) / len(row) >= SPACED_LINE_SINGLE)
+    return spaced / len(rows) >= SPACED_LINE_SHARE
+
+
+def figures_behind_image(page, text: str) -> bool:
+    """True when the page's figures are pixels: text with no figures, over an image."""
+    if len(_FIGURE.findall(text or "")) > MIXED_MAX_FIGURES:
+        return False
+    area = float(page.width * page.height) or 1.0
+    covered = 0.0
+    for image in page.images or []:
+        width = max(0.0, min(image["x1"], page.width) - max(image["x0"], 0))
+        height = max(0.0, min(image["bottom"], page.height) - max(image["top"], 0))
+        covered += width * height
+    return covered / area >= MIXED_IMAGE_SHARE
+
+
+def mixed_pages_enabled() -> bool:
+    return os.getenv("OCR_MIXED_PAGES", "true").lower() in ("1", "true", "yes")
+
+
+def page_needs_ocr(page, text: str) -> bool:
+    """The one per-page decision: is this page's text layer the page's content?"""
+    if not (text or "").strip() or not text_layer_usable(text):
+        return True
+    if not mixed_pages_enabled():
+        return False
+    return text_layer_spaced(text) or figures_behind_image(page, text)
+
+
+SEPARATED_POINTS = 3.0     # a lone digit this far from the next figure is its own token
+_LONE_DIGIT = re.compile(r"^\d$")
+_FIGURE_WORD = re.compile(r"^\(?(?:\d{1,3}(?:[.,]\d{3})+|[.,]\d{3}(?:[.,]\d{3})*)\)?$")
+
+
+def mark_separated_digits(page, text: str) -> str:
+    """Write two spaces where a lone digit and the figure after it are separate tokens.
+
+    The flattened text cannot tell "1 7.149.123.737" (GTRA: one figure, boxes touching)
+    from "1 77.250.439" (TRIN Q3 2022: a stray digit 35 points before the figure) or
+    "2,8&9 7.008.790.794" (TRUK: a note reference). The word boxes can, and the
+    archive leaves no doubt: every such pair is either touching or more than 10 points
+    apart. A double space keeps numfmt from joining what the page printed apart.
+    """
+    try:
+        words = page.extract_words()
+    except Exception:
+        return text
+    separated, touching = set(), set()
+    for a, b in zip(words, words[1:]):
+        if abs(a["top"] - b["top"]) > 2:
+            continue
+        lead = a["text"][-1:] if a["text"] else ""
+        if not (lead.isdigit() and _FIGURE_WORD.match(b["text"])):
+            continue
+        if not (_LONE_DIGIT.match(a["text"]) or not a["text"][-2:-1].isdigit()):
+            continue
+        pair = f"{lead} {b['text']}"
+        (separated if b["x0"] - a["x1"] > SEPARATED_POINTS else touching).add(pair)
+    for pair in separated - touching:
+        text = text.replace(pair, pair.replace(" ", "  ", 1))
+    return text
 
 
 def page_texts(pdf_path: str, pages=None, use_ocr: bool = True) -> dict:
@@ -210,9 +344,13 @@ def page_texts(pdf_path: str, pages=None, use_ocr: bool = True) -> dict:
     with pdfplumber.open(pdf_path) as pdf:
         total = len(pdf.pages)
         wanted = list(range(total)) if pages is None else [p for p in pages if 0 <= p < total]
-        texts = {n: (pdf.pages[n].extract_text() or "") for n in wanted}
+        texts = {n: mark_separated_digits(pdf.pages[n], pdf.pages[n].extract_text() or "")
+                 for n in wanted}
+        mixed = [n for n, t in texts.items()
+                 if t.strip() and text_layer_usable(t) and page_needs_ocr(pdf.pages[n], t)]
 
     broken = [n for n, t in texts.items() if not text_layer_usable(t) and t.strip()]
+    broken += mixed
     empty = [n for n, t in texts.items() if not t.strip()]
     if not use_ocr or not (broken or empty):
         return texts
@@ -220,14 +358,6 @@ def page_texts(pdf_path: str, pages=None, use_ocr: bool = True) -> dict:
     # Only pages that are actually unreadable are OCR'd. A filing with one rotated
     # page pays for one page, not for the document.
     todo = sorted(set(broken) | set(empty))
-    cache_file = _cache_path(pdf_path)
-    cache = {}
-    if cache_file.exists():
-        try:
-            cache = json.loads(cache_file.read_text())
-        except ValueError:
-            cache = {}
-
     try:
         import pytesseract  # noqa: F401
     except ImportError:
@@ -236,26 +366,18 @@ def page_texts(pdf_path: str, pages=None, use_ocr: bool = True) -> dict:
               f"Page selection, grounding and the FX rate will all be degraded.")
         return texts
 
-    # 300, not 200. At 200 dpi tesseract read EMAS's current-period exchange rate
-    # column as "S2" while the comparative column beside it came out cleanly -- which
-    # would have produced a plausible rate from the WRONG period. Costs about a second
-    # a page more, once, and the result is cached.
-    dpi = int(os.getenv("OCR_DPI", "300"))
-    missing = [n for n in todo if str(n) not in cache]
-    if missing:
-        print(f"  text layer unreadable on {len(todo)} page(s); OCR on {len(missing)} "
-              f"(cached: {len(todo) - len(missing)})")
+    # 300 rather than 200 dpi was the first lesson: at 200 tesseract read EMAS's
+    # current-period exchange rate column as "S2" while the comparative column beside
+    # it came out cleanly. The primary reading keeps its cache name ("full"), so text
+    # read before the alternate existed is still used rather than re-OCR'd.
+    dpi = int(os.getenv("OCR_DPI", str(OCR_PRIMARY[0])))
+    primary = _ocr_cached(pdf_path, todo, dpi, OCR_PRIMARY[1], "full")
+    alternate = _ocr_cached(pdf_path, todo, OCR_ALTERNATE[0], OCR_ALTERNATE[1],
+                            f"full-{OCR_ALTERNATE[0]}dpi-psm{OCR_ALTERNATE[1]}")
     for n in todo:
-        key = str(n)
-        if key not in cache:
-            try:
-                cache[key] = _ocr_page(pdf_path, n, dpi)
-            except Exception as exc:
-                print(f"    ✗ OCR page {n+1}: {exc}")
-                continue
-        texts[n] = cache[key]
-
-    if missing:
-        cache_file.parent.mkdir(parents=True, exist_ok=True)
-        cache_file.write_text(json.dumps(cache))
+        if n in primary:
+            text = OCRText(primary[n])
+            text.alternate = alternate.get(n, "")
+            texts[n] = text
     return texts
+

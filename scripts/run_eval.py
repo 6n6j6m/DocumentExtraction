@@ -548,6 +548,10 @@ def main():
                          "(it measures the system as deployed, and every cell records "
                          "which model answered), off otherwise (one scorecard, one model)")
     args = ap.parse_args()
+    if args.api_url and args.extractor == "agentic":
+        print("agentic extraction is in-process only; /extract currently runs the "
+              "pipeline, so --api-url would mislabel pipeline results as agentic")
+        return 2
     # Back into the env before run_metadata() reads it, so the scorecard records which
     # implementation produced it.
     os.environ["EXTRACTOR"] = args.extractor
@@ -606,7 +610,7 @@ def main():
             # is what names the cache directory anyway.
             provider = os.getenv("LLM_PROVIDER", "gemini").lower()
             model = os.getenv(f"{provider.upper()}_MODEL",
-                              "gemini-3.1-flash-lite" if provider == "gemini"
+                              "gemini-3.5-flash-lite" if provider == "gemini"
                               else "qwen2.5:7b-instruct")
             mode = os.getenv(f"{provider.upper()}_INPUT_MODE",
                              "image" if provider == "gemini" else "text")

@@ -179,44 +179,45 @@ Example amounts are placeholders built from repeating digits (111.111.111,
 --------------------------------------------------------------------------------
 6. utang_bank_jangka_pendek  and  utang_bank_bagian_lancar   (report both separately)
 
-   MEANING      Interest-bearing BANK borrowings that fall due within one year. This
-                is two things added together, and you report them as two numbers:
+   MEANING      Interest-bearing borrowings from BANKS and NON-BANK FINANCIAL
+                INSTITUTIONS that fall due within one year. Report these two amounts:
                   (a) borrowings that were short-term to begin with, and
-                  (b) the portion of long-term bank borrowings falling due within
-                      the next year.
+                  (b) the portion of long-term bank or financial-institution borrowings
+                      falling due within the next year.
    POSITION     Both live inside the CURRENT liabilities block. (b) sits under a
                 sub-heading that says, in effect, "the current portion of long-term
                 liabilities".
-   DISAMBIGUATE The word "bank" is what matters. The current-portion block usually
-                also lists lease liabilities, employee benefits or other borrowings
-                on their own rows -- those are NOT bank debt and must be excluded.
+   DISAMBIGUATE Include loans from both banks and non-bank financial institutions
+                (including finance companies). A combined row such as "Utang Bank dan
+                Lembaga Keuangan Non-Bank" is valid for its maturity section. Exclude
+                leases, employee benefits, trade payables, other non-financial
+                liabilities, and long-term remainder.
    WORDING      (a) "Utang bank jangka pendek" | "Pinjaman bank jangka pendek" |
-                    "Short-term bank loans"
+                    "Short-term bank or finance-company loans"
                 (b) under "Bagian lancar atas liabilitas jangka panjang:" or
                     "Liabilitas jangka panjang yang jatuh tempo dalam satu tahun:",
-                    the row naming a bank loan.
-   TRAP         A third bank row usually exists in the NON-CURRENT block, under a
+                    the row naming a bank or financial-institution loan.
+   TRAP         A long-term remainder may exist in the NON-CURRENT block, under a
                 heading like "Liabilitas jangka panjang, setelah dikurangi bagian
                 lancar". It is the remainder due beyond one year and must be
-                EXCLUDED. All three rows may carry the identical label "Utang bank";
+                EXCLUDED. Similar loan labels can recur across maturity sections;
                 only the section heading above them tells them apart, so read
                 downwards from the nearest heading.
    NIL vs MISSING
                 A dash "-" in the current-period column means the amount is NIL, and
                 nil is a fact worth reporting. If you can see the current-liabilities
-                section and it contains no bank borrowing at all -- because the
-                borrowings block lists only leases, or because the bank row's
+                section and it contains no qualifying financial-institution borrowing
+                -- because the borrowings block lists only leases, or because the loan row's
                 current-period column is a dash -- report 0, not null. Report null
                 only when you cannot see the section well enough to tell. The
-                difference matters downstream: 0 says "this company has no bank debt",
-                null says "we could not read it", and a leverage ratio computed from
-                the wrong one is wrong in opposite directions.
+                difference matters downstream: 0 says "this company has no qualifying
+                financial-institution debt"; null says "we could not read it".
    NOTE         Report the two figures separately and do NOT add them yourself.
    EXAMPLE      Liabilitas Jangka Pendek                    <- section
                   Utang bank jangka pendek     555.555.555  -> utang_bank_jangka_pendek
                   Bagian lancar atas liabilitas jangka panjang:
-                    Utang bank                 666.666.666  -> utang_bank_bagian_lancar
-                    Liabilitas sewa            123.123.123  -> NOT bank debt, ignore
+                    Utang Bank / Lembaga Keuangan Non-Bank 666.666.666 -> utang_bank_bagian_lancar
+                    Liabilitas sewa            123.123.123  -> NOT financial-institution debt, ignore
                 Liabilitas Jangka Panjang, setelah dikurangi bagian lancar:
                     Utang bank                 777.777.777  -> IGNORE, due beyond 1 year
 
@@ -276,6 +277,11 @@ Example amounts are placeholders built from repeating digits (111.111.111,
                 "Pendapatan Usaha" | "Penjualan Neto" | "Revenue"
    TRAP         Not "Pendapatan operasi lain" / other operating income, and not
                 financial income further down the statement.
+   BLOCK        Some statements open with a revenue BLOCK: several revenue lines that
+                close with a printed total ("Jumlah Pendapatan" / "Total Pendapatan" /
+                "Total Revenues") before the cost of revenues. Then take that printed
+                total, even when one line in the block is finance income or rental
+                income -- the issuer itself presents the block as its revenue.
    EXAMPLE      Pendapatan dari kontrak dengan pelanggan   123.456.789
 
 --------------------------------------------------------------------------------
@@ -295,6 +301,13 @@ Example amounts are placeholders built from repeating digits (111.111.111,
                 up the statement, which is the same total before the split. Do not
                 take comprehensive income ("Total penghasilan komprehensif"), which
                 includes items outside profit or loss.
+   NO SPLIT     A company with no subsidiaries has no non-controlling interest, so its
+                statement prints NO attribution block at all. Then the profit for the
+                period IS the parent's share: take "Laba periode/tahun berjalan" (or
+                "Laba neto periode berjalan" / "Profit for the period") -- the line
+                after income tax, before other comprehensive income. Do not return
+                null just because the block is missing; the rule above against the
+                higher line applies only when the block exists.
    EXAMPLE      Laba periode berjalan yang dapat diatribusikan kepada:
                   Pemilik entitas induk           234.567.891  -> laba_bersih
                   Kepentingan nonpengendali        12.345.678  -> excluded
@@ -395,6 +408,7 @@ Valid JSON, null for anything not found on these pages.
   "liabilitas": null,
   "utang_bank_jangka_pendek": 555555555,
   "utang_bank_bagian_lancar": 666666666,
+  "utang_bank_bagian_lancar_components": null,
   "total_ekuitas": 900000000,
   "kepentingan_non_pengendali": 11111111,
   "ekuitas": 888888888,
@@ -496,13 +510,13 @@ kas                         "Kas dan setara kas" on the balance sheet, unrestric
                             (Pihak berelasi / Pihak ketiga), cite each as a component.
 liabilitas                  the grand total of liabilities, not "Total Liabilitas dan
                             Ekuitas" and not the current subtotal.
-utang_bank                  BANK borrowings due within one year: short-term bank loans
-                            PLUS the current portion of long-term bank loans. Cite each
-                            row as a component. Never the non-current remainder; the
-                            rows often share the label "Utang bank", and only the
-                            section heading above them tells them apart. Leases and
-                            other borrowings are not bank debt. A dash is nil: cite it
-                            as printed_value "0" with its page.
+utang_bank                  BANK and non-bank FINANCIAL-INSTITUTION loans due within
+                            one year: short-term loans PLUS the current portion of
+                            long-term loans. Cite each row as a component. Never the
+                            non-current remainder; maturity section headings decide.
+                            Leases, employee benefits and other non-financial liabilities
+                            are excluded. A dash is nil: cite it as printed_value "0"
+                            with its page.
 ekuitas                     equity attributable to owners of the PARENT, excluding the
                             non-controlling interest. If the subtotal is printed, cite
                             it. If not, cite "Total Ekuitas" with sign + and the
@@ -512,7 +526,9 @@ laba_bersih                 profit for the period attributable to owners of the 
                             from the block that splits profit between the parent and
                             the non-controlling interest. Not the total, not
                             comprehensive income.
-pendapatan                  revenue: the first line of the income statement.
+pendapatan                  revenue: the first line of the income statement; when it
+                            opens with a block of revenue lines closed by a printed
+                            "Jumlah/Total Pendapatan", that total.
 kas_dari_aktivitas_operasi  net cash from operating activities, cash flow statement.
 total_share                 shares OUTSTANDING (saham beredar) at the period end, from
                             the shareholder table in the notes ("Susunan pemegang

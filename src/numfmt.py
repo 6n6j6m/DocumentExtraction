@@ -31,9 +31,16 @@ _ONE_GROUP = re.compile(r"^\d{1,3}[.,]\d{3}$")
 # Anything reading figures out of a text layer -- the grounding check, the bank-debt
 # position check -- has to close those gaps first or it reads a different number than
 # the one printed, which is worse than reading none.
-_DIGIT_GAP = re.compile(r"(?<=\d)[ \t]+(?=\d)"          # 1 4.406
-                        r"|(?<=\d)[ \t]+(?=[.,]\d)"      # 1 .092
-                        r"|(?<=[.,])[ \t]+(?=\d)")        # 1. 092
+#
+# One space only. A split figure's boxes touch -- measured across the archive, 5.711
+# lone-digit-before-figure pairs sat within 0,6 points and 1.661 more than 10 points
+# apart, with nothing between -- and pdftext.page_texts writes TWO spaces where the
+# geometry shows separate tokens (a note number, a stray digit). TRIN Q3 2022 prints
+# "1" 35 points before its cash figure 77.250.439; joined, it became 177.250.439, and
+# both the model and grounding accepted it.
+_DIGIT_GAP = re.compile(r"(?<=\d)[ \t](?=\d)"          # 1 4.406
+                        r"|(?<=\d)[ \t](?=[.,]\d)"      # 1 .092
+                        r"|(?<=[.,])[ \t](?=\d)")        # 1. 092
 
 
 def repair_digit_gaps(text: str) -> str:
@@ -51,7 +58,7 @@ def repair_digit_gaps(text: str) -> str:
 # periods -- into one 26-digit run that parses as nothing at all. So only the gap
 # that a split figure leaves is closed: a lone digit standing at the start of a word,
 # immediately before a properly grouped number, is that number's first digit.
-_SPLIT_LEAD = re.compile(r"(?<!\d)(\d)[ \t]+(?=\d{1,3}[.,]\d{3}|[.,]\d{3})")
+_SPLIT_LEAD = re.compile(r"(?<!\d)(\d)[ \t](?=\d{1,3}[.,]\d{3}|[.,]\d{3})")
 
 # A figure as a statement prints one: at least one group of three behind a separator.
 # Anything shorter is a note reference or a year, not an amount.

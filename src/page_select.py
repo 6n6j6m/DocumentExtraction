@@ -32,7 +32,14 @@ STATEMENT_MARKERS = [
     # Cash flow
     r"laporan arus kas", r"statement of cash flows", r"\bcash flow",
 ]
-_MARKER_RE = re.compile("|".join(STATEMENT_MARKERS), re.IGNORECASE)
+# Spaces are optional: PGAS Q4 2023's text layer has none ("LAPORANPOSISIKEUANGAN",
+# "STATEMENTOFPROFITORLOSS"), so no title matched and selection fell back to the first
+# ten pages -- cover, auditor's report -- and nine of ten fields came back empty.
+def _spaced(pattern: str) -> str:
+    return pattern.replace(" ", r"\s*")
+
+
+_MARKER_RE = re.compile("|".join(_spaced(m) for m in STATEMENT_MARKERS), re.IGNORECASE)
 
 # Title region size (in characters)
 TITLE_REGION_CHARS = 250
@@ -51,10 +58,13 @@ class PageSelection:
     method: str                   # "keyword_match" | "fallback_first_n" | "whole_document"
     matched_pages: list[int]      # Which pages had keyword matches
     share_capital_pages: list[int] = None   # the shareholder table total_share is read from
+    bank_loan_pages: list[int] = None       # lender breakdown when statement combines lenders
 
     def __post_init__(self):
         if self.share_capital_pages is None:
             self.share_capital_pages = []
+        if self.bank_loan_pages is None:
+            self.bank_loan_pages = []
 
 
 # Where the issued share count is disclosed varies by issuer, and it is the one
@@ -73,11 +83,19 @@ SHARE_CAPITAL_MARKERS = [
 ]
 _SHARE_MARKER_RE = re.compile("|".join(SHARE_CAPITAL_MARKERS), re.IGNORECASE)
 
-# A share count is a large grouped number: at least three groups, i.e. >= 1e9
-# ("24.835.000.000", "11.620.308.701", "11,520,659,250"). Requiring the grouping keeps
-# note prose and percentages out. Either separator, used consistently: PTBA, ITMG, AADI,
-# ADMR and EMAS print their counts English-style, and a dot-only pattern never saw them.
-_SHARE_COUNT_RE = re.compile(r"\d{1,3}([.,])\d{3}\1\d{3}(?:\1\d{3})+")
+# Share counts can be smaller than 1e9: RCCC has 750.000.000 shares. Requiring at
+# least two groups and a 100%-total-row check keeps note prose and percentages out.
+# Both separators are accepted: PTBA, ITMG, AADI, ADMR and EMAS use English grouping.
+_SHARE_COUNT_RE = re.compile(r"\d{1,3}([.,])\d{3}(?:\1\d{3})+")
+
+# Some text layers split the first digit of a count into a separate run (RCCC:
+# printed 750.000.000 -> extracted "7 50.000.000"). Repair only that shape so
+# adjacent numeric columns are not accidentally merged.
+_SPLIT_SHARE_LEAD = re.compile(r"(?<!\d)(\d)[ \t]+(?=\d{1,3}[.,]\d{3}|[.,]\d{3})")
+
+
+def _repair_share_count_gaps(line: str) -> str:
+    return _SPLIT_SHARE_LEAD.sub(r"\1", line or "")
 
 # AUTHORISED capital is a ceiling, not the shares in issue. DSNG prints
 # "Modal dasar: 35.000.000.000 saham" on the line above "Modal ditempatkan dan disetor
@@ -97,6 +115,14 @@ _AUTHORISED_RE = re.compile(r"modal\s+dasar|authori[sz]ed", re.I)
 # "Total 40,882,331,500 100 303,919,662", with no mark at all.
 _HUNDRED_PERCENT_RE = re.compile(r"(?<![\d.,])100(?:[.,]0{2,4}\s*%?|\s*%)(?![\d.,])")
 _BARE_TOTAL_ROW_RE = re.compile(r"^\s*(?:total|jumlah)\b.*(?<![\d.,])100(?![\d.,%])", re.I)
+# A few filings print an internally inconsistent ownership total. PURA Q1 2023, for
+# example, prints 104% beside the correctly summed 6,301,930,902 shares; Q2 prints
+# 100%. The count is still explicit in a shareholder-table total row. Accept a modest
+# overage only there, after the share count, and only when the filing prints a percent
+# sign. This does not admit arbitrary percentages or subsidiary rows as the table total.
+_OVER_100_TOTAL_PERCENT_RE = re.compile(
+    r"^\s*(?:total|jumlah)\b.*(?<![\d.,])(?:10[1-9]|110)(?:[.,]\d+)?\s*%", re.I)
+_OVER_100_PERCENT_RE = re.compile(r"(?<![\d.,])(?:10[1-9]|110)(?:[.,]\d+)?\s*%")
 
 
 def _hundred_percent(line: str) -> bool:
@@ -111,17 +137,59 @@ def total_row_count(line: str):
     100.00% 1,069,356,077", ownership percentages followed by total assets in dollars, on a
     page that names the subsidiary's shareholders -- and was found as the share table.
     """
-    if _AUTHORISED_RE.search(line) or not _hundred_percent(line):
+    line = _repair_share_count_gaps(line)
+    if _AUTHORISED_RE.search(line):
         return None
     match = _SHARE_COUNT_RE.search(line)
     if not match:
         return None
     rest = line[match.end():]
-    if _HUNDRED_PERCENT_RE.search(rest) or _BARE_TOTAL_ROW_RE.search(line) and re.search(
-            r"(?<![\d.,])100(?![\d.,%])", rest):
+    if (_HUNDRED_PERCENT_RE.search(rest)
+            or (_BARE_TOTAL_ROW_RE.search(line) and re.search(
+                r"(?<![\d.,])100(?![\d.,%])", rest))
+            or (_OVER_100_TOTAL_PERCENT_RE.search(line)
+                and _OVER_100_PERCENT_RE.search(rest))):
         return match.group(0)
     return None
 _SHAREHOLDER_PAGE_RE = re.compile(r"pemegang\s+saham|shareholders?\b", re.I)
+
+# Some issuers put bank and non-bank financial-institution loans in one balance-sheet
+# line, then split them by lender in the debt note. The statement row is already valid
+# for `utang_bank`; select the note as additional evidence for its current portion.
+_MIXED_BANK_ROW_RE = re.compile(
+    r"utang\s+bank\s+dan\s+lembaga[\s\S]{0,100}non\s*[-–]?\s*bank|"
+    r"bank\s+loans?\s+and\s+non\s*[-–]?\s*bank\s+financial\s+institutions?\s+loans?",
+    re.I)
+_BANK_NOTE_TITLE_RE = re.compile(
+    r"^\s*\d{1,2}\.\s*(?:utang\s+bank\s+dan\s+lembaga\s+keuangan\s+non|"
+    r"bank\s+loans?\s+and\s+non\s*[-–]?\s*bank\s+financial)", re.I | re.M)
+_CURRENT_PORTION_RE = re.compile(r"bagian\s+lancar|current\s+portion", re.I)
+
+
+def find_bank_loan_note_pages(page_texts, *, mixed_row_present: bool = True) -> list:
+    """Find the first debt-note page and its current-portion continuation, if any.
+
+    This is narrowly gated by a combined bank/non-bank financial-institution row. In
+    the note, the first page usually has the lender table and the next page carries the
+    current-portion breakdown. Narrative references to collateral or bank loans do not
+    match the numbered note-title pattern.
+    """
+    if not mixed_row_present:
+        return []
+    items = (sorted(page_texts.items()) if isinstance(page_texts, dict)
+             else list(enumerate(page_texts)))
+    texts = {int(n): (text or "") for n, text in items}
+    for n in sorted(texts):
+        if not _BANK_NOTE_TITLE_RE.search(texts[n]):
+            continue
+        pages = [n]
+        next_text = texts.get(n + 1, "")
+        if _CURRENT_PORTION_RE.search(next_text) and re.search(r"\bbank\b", next_text, re.I):
+            pages.append(n + 1)
+        elif _CURRENT_PORTION_RE.search(texts[n]) and re.search(r"\bbank\b", texts[n], re.I):
+            pass
+        return pages
+    return []
 
 
 def find_shareholder_table_pages(page_texts, limit: int = 1) -> list:
@@ -160,10 +228,10 @@ def find_shareholder_table_pages(page_texts, limit: int = 1) -> list:
         above its count, so the line above is only read as authorised when neither
         line carries an issued-capital phrase.
         """
-        line = lines[j]
+        line = _repair_share_count_gaps(lines[j])
         if not _SHARE_COUNT_RE.search(line) or _AUTHORISED_RE.search(line):
             return False
-        above = lines[j - 1] if j > 0 else ""
+        above = _repair_share_count_gaps(lines[j - 1]) if j > 0 else ""
         if _AUTHORISED_RE.search(above) and not (
                 _SHARE_MARKER_RE.search(line) or _SHARE_MARKER_RE.search(above)):
             return False
@@ -186,6 +254,73 @@ def find_shareholder_table_pages(page_texts, limit: int = 1) -> list:
             found.append(n)
             if len(found) >= limit:
                 break
+    if not found:
+        found = _shareholder_table_without_total_count(items, limit)
+    if not found:
+        found = _shareholder_table_in_split_columns(items, limit)
+    return found
+
+
+_SHARE_CAPITAL_TITLE_RE = re.compile(r"modal\s+saham|share\s+capital", re.I)
+_COUNT_WITH_PERCENT_RE = re.compile(r"\d{1,3}(?:[.,]\d{3}){2,}\s+\d{1,3}[.,]\d{1,2}\s*%")
+
+
+def _shareholder_table_without_total_count(items: list, limit: int) -> list:
+    """The share-capital note's shareholder table when its total row lost its count.
+
+    PURA Q2 2025 types its shareholder table one glyph per run; OCR recovers the
+    holders ("962.621.880 15,28%") and a "100%" line but drops the total's share count,
+    so the rule above -- a count beside 100% -- never fires and total_share is never
+    asked for. Only used when that rule found nothing: a page titled as the share-
+    capital note, about shareholders, with a 100% line and at least two holder rows
+    printing a count and a percentage. The page is then read from its image.
+    """
+    found = []
+    for n, text in items:
+        text = text or ""
+        if not (_SHARE_CAPITAL_TITLE_RE.search(text) and _SHAREHOLDER_PAGE_RE.search(text)):
+            continue
+        if not _HUNDRED_PERCENT_RE.search(text):
+            continue
+        if len(_COUNT_WITH_PERCENT_RE.findall(text)) < 2:
+            continue
+        found.append(n)
+        if len(found) >= limit:
+            break
+    return found
+
+
+_TOTAL_COUNT_LINE_RE = re.compile(r"^\s*(?:jumlah|total)\b\s*(\d{1,3}([.,])\d{3}(?:\2\d{3}){2,})\s*$",
+                                  re.I | re.M)
+
+
+def _shareholder_table_in_split_columns(items: list, limit: int) -> list:
+    """The share-capital note when OCR has pulled its table apart by column.
+
+    APEX Q3 2025's page 53 is OCR'd and comes back as one column at a time: the holders,
+    then their counts, then "Jumlah 3.546.466.661" on a line of its own, and the
+    percentages ("53,510%", "100%") further down beside the amounts. Neither rule above
+    fires -- no count sits beside 100%, no count beside any percentage -- so total_share
+    was never asked for. Only used when both found nothing: a page titled as the
+    share-capital note, about shareholders, with a bare "Jumlah/Total <count>" line that
+    is not authorised capital and a 100% line. The page is then read by the model.
+    """
+    found = []
+    for n, text in items:
+        text = text or ""
+        if not (_SHARE_CAPITAL_TITLE_RE.search(text) and _SHAREHOLDER_PAGE_RE.search(text)):
+            continue
+        if not _HUNDRED_PERCENT_RE.search(text):
+            continue
+        lines = text.split("\n")
+        totals = [j for j, line in enumerate(lines) if _TOTAL_COUNT_LINE_RE.match(line)
+                  and not _AUTHORISED_RE.search(line)
+                  and not (j > 0 and _AUTHORISED_RE.search(lines[j - 1]))]
+        if not totals:
+            continue
+        found.append(n)
+        if len(found) >= limit:
+            break
     return found
 
 
@@ -224,7 +359,7 @@ def shareholder_note_pages(page_texts: dict, page: int) -> list:
 # right, because note pages mention the statements near their top too. These two rules
 # changed only the filings that were wrong (LSIP 18, TLDN 10, TAPG 6, PTBA 2) across all
 # 215 filings in the archive.
-_TRANSLATION_NOTICE = re.compile(r"^\s*the\s+original\b[^.]{0,220}?language\.\s*", re.I)
+_TRANSLATION_NOTICE = re.compile(r"^\s*the\s*original[^.]{0,220}?language\.\s*", re.I)
 _WRAPPED_TITLE_RES = {
     "balance_sheet": re.compile(r"laporan\s+posisi\b[^\n]*\n\s*keuangan|"
                                 r"statement\s+of[^\n]*\n[^\n]*financial\s+position", re.I),
@@ -343,6 +478,9 @@ def select_statement_pages(pdf_path: str, *,
     # a shredded layer (JPFA, GTRA, TOTL) or one made of glyph ids (EMAS Q3 2025) -- are
     # the unreadable pages OCR'd to look again.
     layer = page_texts(pdf_path, use_ocr=False)
+    if selection.method == "keyword_match":
+        selection.pages = sorted(set(selection.pages) |
+                                 set(_untitled_cash_flow_after(selection.pages, texts, layer)))
     tables = find_shareholder_table_pages(layer, limit=1)
     if not tables:
         layer = page_texts(pdf_path)
@@ -350,6 +488,15 @@ def select_statement_pages(pdf_path: str, *,
     if tables:
         selection.share_capital_pages = shareholder_note_pages(layer, tables[0])
         selection.pages = sorted(set(selection.pages) | set(selection.share_capital_pages))
+    statement_pages = [n for n in selection.pages
+                       if n not in selection.share_capital_pages]
+    mixed_debt = any(_MIXED_BANK_ROW_RE.search(layer.get(n, "") or "")
+                     for n in statement_pages)
+    if mixed_debt:
+        selection.bank_loan_pages = find_bank_loan_note_pages(
+            layer, mixed_row_present=True)
+        if selection.bank_loan_pages:
+            selection.pages = sorted(set(selection.pages) | set(selection.bank_loan_pages))
     return selection
 
 
@@ -364,7 +511,8 @@ STATEMENT_GROUPS = {
     "equity":        [r"laporan perubahan ekuitas", r"statement of changes in equity"],
     "cash_flow":     [r"laporan arus kas", r"statement of cash flows", r"\bcash flow"],
 }
-_GROUP_RES = {g: re.compile("|".join(p), re.IGNORECASE) for g, p in STATEMENT_GROUPS.items()}
+_GROUP_RES = {g: re.compile("|".join(_spaced(m) for m in p), re.IGNORECASE)
+              for g, p in STATEMENT_GROUPS.items()}
 
 
 def classify_pages(page_texts: dict) -> dict:
@@ -387,4 +535,67 @@ def classify_pages(page_texts: dict) -> dict:
             current = group
         if current:
             groups.setdefault(current, []).append(n)
+    if "cash_flow" not in groups:
+        _recover_cash_flow_by_body(page_texts, groups)
     return groups
+
+
+# The body of a cash-flow statement, which no other statement prints: the operating
+# section heading, followed on the same page by the investing or financing one.
+# Bilingual pages set the two languages side by side, so a heading can break across lines
+# with the other language in between: ENRG prints "ARUS KAS DARI CASH FLOWS FROM" over
+# "AKTIVITAS OPERASI OPERATING ACTIVITIES".
+_CASH_FLOW_OPERATING = re.compile(r"arus\s+kas\s+dari\s+aktivitas|cash\s+flows?\s+from\s+"
+                                  r"operating|arus\s+kas\s+dari\b[^\n]*\n\s*aktivitas\s+"
+                                  r"operasi", re.I)
+_CASH_FLOW_OTHER = re.compile(r"aktivitas\s+(?:investasi|pendanaan)|investing\s+activities|"
+                              r"financing\s+activities", re.I)
+
+
+def _untitled_cash_flow_after(span: list, titles: list, layer: dict) -> list:
+    """The cash-flow pages just past the selected span, when no selected page is titled one.
+
+    ENRG Q1 2023 heads its cash-flow page "CATATAN ATAS LAPORAN KEUANGAN" like TRIN Q4
+    2022, but there the page fell inside the span of titled pages and
+    _recover_cash_flow_by_body found it; ENRG prints it LAST, so the span ended one page
+    before it and cash from operations was never asked for. Only the page right after
+    the span is looked at, by the same body test, and the one after that if it continues.
+    """
+    if not span or any(_title_group(_title_head(titles[n] if n < len(titles) else ""))
+                       == "cash_flow" for n in span):
+        return []
+    n = max(span) + 1
+    text = layer.get(n) or ""
+    if not (_CASH_FLOW_OPERATING.search(text) and _CASH_FLOW_OTHER.search(text)):
+        return []
+    following = layer.get(n + 1) or ""
+    if _CASH_FLOW_OTHER.search(following) and not _title_group(_title_head(following)) \
+            and not _CASH_FLOW_OPERATING.search(following):
+        return [n, n + 1]
+    return [n]
+
+
+def _recover_cash_flow_by_body(page_texts: dict, groups: dict) -> None:
+    """Find the cash-flow statement by what it prints when no page is titled as one.
+
+    TRIN Q4 2022 heads its cash-flow pages "CATATAN ATAS LAPORAN KEUANGAN
+    KONSOLIDASIAN" -- the notes title, a typesetting slip -- so the pages joined the
+    equity statement before them and no cash-flow question was ever asked. Only used
+    when title matching found no cash-flow page at all; the page that opens the
+    operating section, and the page after it if it continues to financing, are moved.
+    """
+    for n in sorted(page_texts):
+        text = page_texts[n] or ""
+        if not (_CASH_FLOW_OPERATING.search(text) and _CASH_FLOW_OTHER.search(text)):
+            continue
+        pages = [n]
+        following = page_texts.get(n + 1) or ""
+        if (n + 1) in page_texts and _CASH_FLOW_OTHER.search(following) \
+                and not _title_group(_title_head(following)):
+            pages.append(n + 1)
+        for name in list(groups):
+            groups[name] = [p for p in groups[name] if p not in pages]
+            if not groups[name]:
+                del groups[name]
+        groups["cash_flow"] = pages
+        return

@@ -25,6 +25,11 @@ Those are different facts, so `abstained` names the fields withdrawn on purpose,
 `status` distinguishes a clean row from a partial one. Anyone reading only the numeric
 columns still gets a blank rather than a fabricated figure.
 
+**A dollar filer is converted at the rate it discloses.** One that discloses none is
+converted at Bank Indonesia's middle rate for its quarter end (data/fx_rates_bi.csv,
+from scripts/fetch_fx_rates.py), and `fx_source` says `bi_middle_rate` so the row never
+passes a reference rate off as the filing's own.
+
 **A failed document still gets a row.** Fifty filings with one unreadable PDF should
 produce forty-nine rows of figures and one row saying what went wrong -- not a traceback
 and no file.
@@ -38,6 +43,7 @@ Usage:
 
 import argparse
 import csv
+import json
 import re
 import sys
 import time
@@ -48,8 +54,9 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from extract import (build_document_text, extract_from_pdf,  # noqa: E402
                      read_page_texts)
+from claudecode import AnswerPending, document  # noqa: E402
 from llm import LLMError  # noqa: E402
-from normalize import detect_scale, to_idr  # noqa: E402
+from normalize import detect_scale, fx_for_filing, to_idr  # noqa: E402
 from page_select import select_statement_pages  # noqa: E402
 from schema import EXCEL_ROWS  # noqa: E402
 from usage import Usage  # noqa: E402
@@ -69,6 +76,7 @@ COLUMNS = (
     # derived from are kept beside it so the adjustment can be seen, not just trusted.
     + ["saham_ditempatkan", "saham_treasuri"]
     + ["status", "fields_filled", "abstained", "issues", "notes",
+       "missing_fields", "missing_not_abstained", "abstention_details",
        "fx_rate", "fx_source", "fx_page",
        "pages_selected", "model", "llm_calls", "tokens_in", "tokens_out", "seconds",
        "error"]
@@ -82,6 +90,19 @@ _STEM = re.compile(r"^(Q[1-4])_(\d{4})_([A-Z]{3,5})$")
 def ticker_of(pdf: Path) -> str:
     match = _STEM.match(pdf.stem)
     return match.group(3) if match else ""
+
+
+def period_end_of(pdf: Path, stated) -> str:
+    """The quarter end the filing reports: as the model read it, else from the name."""
+    if stated:
+        return str(stated)[:10]
+    match = _STEM.match(pdf.stem)
+    if not match:
+        return ""
+    return f"{match.group(2)}-{_QUARTER_END[match.group(1)]}"
+
+
+_QUARTER_END = {"Q1": "03-31", "Q2": "06-30", "Q3": "09-30", "Q4": "12-31"}
 
 
 def _blank_row(pdf: Path) -> dict:
@@ -98,10 +119,15 @@ def extract_row(pdf: Path, as_printed: bool = False) -> dict:
     usage = Usage()
 
     try:
-        result = extract_from_pdf(str(pdf), usage=usage)
+        with document(pdf):
+            result = extract_from_pdf(str(pdf), usage=usage)
         if result is None:
             row.update(status="error", error="extraction returned no fields")
             return row
+    except AnswerPending:
+        # Claude Code provider: the filing waits for answers. No row -- an error row
+        # here would replace the filing's previous row with a non-result.
+        raise
     except Exception as exc:                      # noqa: BLE001 - the row IS the report
         row.update(status="error", error=f"{type(exc).__name__}: {exc}",
                    seconds=round(time.time() - started, 1))
@@ -130,7 +156,15 @@ def extract_row(pdf: Path, as_printed: bool = False) -> dict:
         # guessing one. A refusal is a fact about the document, so it lands in the row
         # instead of stopping the batch.
         try:
-            converted = to_idr(result, pdf_path=str(pdf), document_text=document_text)
+            fx = None
+            if str(result.currency or "").upper() == "USD":
+                # The filing's own rate, or Bank Indonesia's for the period end when it
+                # prints none (ESSA, APEX) -- said in the row either way.
+                fx, fx_note = fx_for_filing(str(pdf),
+                                            period_end_of(pdf, result.period_end_date))
+                if fx_note:
+                    notes.append(fx_note)
+            converted = to_idr(result, fx=fx, pdf_path=str(pdf), document_text=document_text)
             values = converted["values"]
             unit = "IDR full"
             notes += converted["warnings"]
@@ -150,6 +184,16 @@ def extract_row(pdf: Path, as_printed: bool = False) -> dict:
         row[field] = _cell(values.get(field))
 
     filled = sum(1 for field in FIELD_COLUMNS if row[field] != "")
+    missing = [field for field in FIELD_COLUMNS if row[field] == ""]
+    explicit_abstentions = set(abstained)
+    abstention_details = {
+        name: {
+            "confidence": score.get("confidence"),
+            "reasons": score.get("reasons", []),
+            "withheld_value": score.get("withheld_value"),
+        }
+        for name, score in confidence.items() if score.get("abstained")
+    }
     row.update(
         period_end_date=result.period_end_date or "",
         currency=result.currency or "",
@@ -158,6 +202,11 @@ def extract_row(pdf: Path, as_printed: bool = False) -> dict:
         status="ok" if filled == len(FIELD_COLUMNS) else "partial",
         fields_filled=f"{filled}/{len(FIELD_COLUMNS)}",
         abstained=" ".join(sorted(abstained)),
+        missing_fields=" ".join(missing),
+        missing_not_abstained=" ".join(
+            field for field in missing if field not in explicit_abstentions),
+        abstention_details=json.dumps(abstention_details, ensure_ascii=False,
+                                      sort_keys=True) if abstention_details else "",
         issues=" ".join(sorted({i["rule"] for i in issues})),
         # Verbatim, not a rule name. These are the sentences that say the header
         # disagreed with the model, or that no header could be read at all -- the

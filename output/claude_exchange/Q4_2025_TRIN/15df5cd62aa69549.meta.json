@@ -1,0 +1,15 @@
+{
+ "key": "15df5cd62aa69549",
+ "pdf": "/Users/muhammadnajmirahmani/FinancialReport/TRIN/Q4_2025_TRIN.pdf",
+ "fields": [
+  "aset",
+  "total_aset_lancar",
+  "kas",
+  "liabilitas",
+  "utang_bank",
+  "ekuitas"
+ ],
+ "images": 0,
+ "memory": true,
+ "created": "2026-11-17 21:08:15"
+}

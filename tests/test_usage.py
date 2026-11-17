@@ -225,6 +225,26 @@ def test_a_capacity_503_is_retried_once_and_recovers(monkeypatch):
     assert calls == [503, 200], "should have tried again after the 503"
 
 
+def test_gemini_transport_errors_redact_the_api_key(monkeypatch):
+    import requests
+    import llm
+
+    secret = "test-gemini-secret"
+    monkeypatch.setenv("GEMINI_API_KEY", secret)
+    provider = llm.GeminiProvider()
+    provider.max_retries = 0
+
+    def fail_with_request_url(url, **kwargs):
+        raise requests.ConnectionError(f"failed at {url}?key={kwargs['params']['key']}")
+
+    monkeypatch.setattr(llm.requests, "post", fail_with_request_url)
+    with pytest.raises(llm.LLMError) as caught:
+        provider.complete("sys", "user")
+
+    assert secret not in str(caught.value)
+    assert "key=<redacted>" in str(caught.value)
+
+
 def test_a_per_minute_rate_limit_is_waited_out(monkeypatch):
     """A requests-per-minute bucket refills on a clock, so waiting IS the fix.
 
@@ -302,6 +322,20 @@ def test_other_gemini_models_are_tried_before_the_local_one(monkeypatch):
     chain = llm.get_provider_chain()
     assert [p.name for p in chain] == ["gemini:gemini-3.1-flash-lite", "ollama:qwen3-vl:8b"]
     assert chain[0].rate_limit_wait == 70
+
+
+def test_configured_3_1_fallback_precedes_3_6(monkeypatch):
+    import llm
+    monkeypatch.setenv("GEMINI_API_KEY", "test-key")
+    monkeypatch.setenv("LLM_PROVIDER", "gemini")
+    monkeypatch.setenv("GEMINI_MODEL", "gemini-3.5-flash-lite")
+    monkeypatch.setenv("GEMINI_FALLBACK_MODELS",
+                       "gemini-3.1-flash-lite,gemini-3.6-flash")
+    monkeypatch.setenv("LLM_FALLBACK_PROVIDER", "")
+    monkeypatch.setattr(llm, "_COOLDOWN_UNTIL", {})
+
+    assert [p.model for p in llm.get_provider_chain()] == [
+        "gemini-3.5-flash-lite", "gemini-3.1-flash-lite", "gemini-3.6-flash"]
 
 
 def test_a_throttled_model_hands_over_without_cooling_down(monkeypatch):

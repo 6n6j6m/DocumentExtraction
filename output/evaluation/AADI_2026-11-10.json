@@ -1,0 +1,1992 @@
+{
+ "ticker": "AADI",
+ "date": "2026-11-10",
+ "has_labels": true,
+ "filings": [
+  {
+   "period": "Q1 2025",
+   "file": "Q1_2025_AADI.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "Rate quoted to 2 decimal places (0.6), so converted figures carry about 0.8% rounding uncertainty - wider than the evaluation tolerance.; Rate row also carried 16,129 IDR/USD (comparative periods); took the first column, 16,667.",
+   "error": "",
+   "pages_selected": "4 5 6 7 8 9 10 11 108",
+   "pdf_found": true
+  },
+  {
+   "period": "Q1 2026",
+   "file": "Q1_2026_AADI.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "Rate quoted to 2 decimal places (0.59), so converted figures carry about 0.8% rounding uncertainty - wider than the evaluation tolerance.; Rate row also carried 16,667 IDR/USD (comparative periods); took the first column, 16,949.",
+   "error": "",
+   "pages_selected": "4 5 6 7 8 9 10 97",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2025",
+   "file": "Q2_2025_AADI.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "Rate quoted to 2 decimal places (0.62), so converted figures carry about 0.8% rounding uncertainty - wider than the evaluation tolerance.; Rate row also carried 16,129 IDR/USD (comparative periods); took the first column, 16,129.",
+   "error": "",
+   "pages_selected": "6 7 8 9 10 11 12 13 107",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2026",
+   "file": "Q2_2026_AADI.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "Rate quoted to 2 decimal places (0.56), so converted figures carry about 0.9% rounding uncertainty - wider than the evaluation tolerance.; Rate row also carried 16,667 IDR/USD (comparative periods); took the first column, 17,857.",
+   "error": "",
+   "pages_selected": "6 7 8 9 10 11 12 96",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2025",
+   "file": "Q3_2025_AADI.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "Rate quoted to 2 decimal places (0.6), so converted figures carry about 0.8% rounding uncertainty - wider than the evaluation tolerance.; Rate row also carried 16,129 IDR/USD (comparative periods); took the first column, 16,667.",
+   "error": "",
+   "pages_selected": "4 5 6 7 8 9 10 11 105",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2024",
+   "file": "Q4_2024_AADI.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "filing quotes its rate to 2 decimals (16,129.03, range 16,000-16,260); Bank Indonesia's 16,162.00 lies inside it and is used",
+   "error": "",
+   "pages_selected": "12 13 14 15 16 17 18 19 20 125",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2025",
+   "file": "Q4_2025_AADI.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "Rate quoted to 2 decimal places (0.6), so converted figures carry about 0.8% rounding uncertainty - wider than the evaluation tolerance.; Rate row also carried 16,129 IDR/USD (comparative periods); took the first column, 16,667.",
+   "error": "",
+   "pages_selected": "14 15 16 17 18 19 20 21 22 112",
+   "pdf_found": true
+  }
+ ],
+ "cells": [
+  {
+   "period": "Q1 2025",
+   "field": "aset",
+   "pred": 97129483333333,
+   "label": 97129483333333,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "TOTAL ASET 5,827,769 5,992,658 TOTAL ASSETS"
+    },
+    {
+     "page": 6,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 5,827,769 5,992,658 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_AADI.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "total_aset_lancar",
+   "pred": 33287716666667,
+   "label": 33287716666667,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Total aset lancar 1,997,263 2,214,052 Total current assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_AADI.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "kas",
+   "pred": 22638883333333,
+   "label": 22638883333333,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 1,358,333 1,518,688 Cash and cash equivalents"
+    },
+    {
+     "page": 11,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "periode 5 1,358,333 2,372,792 the end of the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_AADI.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "liabilitas",
+   "pred": 38993233333333,
+   "label": 38993233333333,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD MILLIONS",
+     "first_on_line": false,
+     "line": "Aset takberwujud 2,079 2,335 Intangible assets"
+    },
+    {
+     "page": 5,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS 2,339,594 2,629,176 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_AADI.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "utang_bank",
+   "pred": 591466666667,
+   "label": 591466666667,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Utang bank 19 35,488 40,884 Bank loans"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_AADI.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "ekuitas",
+   "pred": 52686266666667,
+   "label": 52686266666667,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "kepada pemilik entitas induk 3,161,176 2,998,891 owners of the parent entity"
+    },
+    {
+     "page": 9,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Saldo pada 31 Maret 2025 2,519,582 (96,511) 148,775 - 45,000 590,837 11,817 (14,285) (44,039) 3,161,176 326,999 3,488,175 Balance as at 31 March 2025"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_AADI.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "laba_bersih",
+   "pred": 3266600000000,
+   "label": 3266600000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 195,996 276,793 Owners of the parent entity"
+    },
+    {
+     "page": 9,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Laba periode berjalan - - - - - 195,996 - - - 195,996 26,892 222,888 Profit for the period"
+    },
+    {
+     "page": 9,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "periode berjalan - - - - - 195,996 (1,730) (26,680) (5,298) 162,288 24,066 186,354 for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_AADI.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "pendapatan",
+   "pred": 19407283333333,
+   "label": 19407283333333,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Pendapatan usaha 28 1,164,437 1,314,579 Revenue"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_AADI.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 5444250000000,
+   "label": 5444250000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Kepentingan non-pengendali 27 326,999 364,591 Non-controlling interests"
+    },
+    {
+     "page": 9,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Saldo pada 31 Maret 2025 2,519,582 (96,511) 148,775 - 45,000 590,837 11,817 (14,285) (44,039) 3,161,176 326,999 3,488,175 Balance as at 31 March 2025"
+    },
+    {
+     "page": 10,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "dari aktivitas operasi 326,655 317,633 operating activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_AADI.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "total_share",
+   "pred": 7786891760,
+   "label": 7786891760,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "dan disetor penuh 7.786.891.760 and fully paid 7,786,891,760"
+    },
+    {
+     "page": 108,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah/Total 7,786,891,760 100.00 2,519,582"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_AADI.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "aset",
+   "pred": 97975254237288,
+   "label": 97975254237288,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "TOTAL ASET 5,780,540 5,706,276 TOTAL ASSETS"
+    },
+    {
+     "page": 6,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 5,780,540 5,706,276 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_AADI.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "total_aset_lancar",
+   "pred": 30654152542373,
+   "label": 30654152542373,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Total aset lancar 1,808,595 1,796,272 Total current assets"
+    },
+    {
+     "page": 4,
+     "reading": "USD MILLIONS",
+     "first_on_line": true,
+     "line": "Aset takberwujud 1,811 1,882 Intangible assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_AADI.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "kas",
+   "pred": 15498830508475,
+   "label": 15498830508475,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 4 914,431 925,445 Cash and cash equivalents"
+    },
+    {
+     "page": 10,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "periode 4 914,431 1,358,333 the end of the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_AADI.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "liabilitas",
+   "pred": 33886610169492,
+   "label": 33886610169492,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS 1,999,310 2,056,648 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_AADI.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "utang_bank",
+   "pred": 730915254237,
+   "label": 730915254237,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Utang bank 17 43,124 36,602 Bank loans"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_AADI.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "ekuitas",
+   "pred": 58889322033898,
+   "label": 58889322033898,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "kepada pemilik entitas induk 3,474,470 3,333,550 owners of the parent entity"
+    },
+    {
+     "page": 9,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "31 Maret 2026 2,519,582 (96,511) 151,675 - 55,000 901,602 (1,195) (6,175) (49,508) 3,474,470 306,760 3,781,230 Balance as at 31 March 2026"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_AADI.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "laba_bersih",
+   "pred": 2424372881356,
+   "label": 2424372881356,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 143,038 195,996 Owners of the parent entity"
+    },
+    {
+     "page": 9,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Laba periode berjalan - - - - - 143,038 - - - 143,038 10,730 153,768 Profit for the period"
+    },
+    {
+     "page": 9,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "periode berjalan - - - - - 143,038 (118) (549) (1,451) 140,920 10,573 151,493 for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_AADI.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "pendapatan",
+   "pred": 17698169491525,
+   "label": 17698169491525,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Pendapatan usaha 26 1,044,192 1,164,437 Revenue"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_AADI.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 767610169492,
+   "label": 767610169492,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "dari aktivitas operasi 45,289 326,655 operating activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_AADI.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "total_share",
+   "pred": 7786891760,
+   "label": 7786891760,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "dan disetor penuh 7.786.891.760 and fully paid 7,786,891,760"
+    },
+    {
+     "page": 97,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah/Total 7,786,891,760 100.00 2,519,582"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_AADI.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "aset",
+   "pred": 98194661290323,
+   "label": 98194661290323,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "TOTAL ASET 6,088,069 5,992,658 TOTAL ASSETS"
+    },
+    {
+     "page": 8,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 6,088,069 5,992,658 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_AADI.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "total_aset_lancar",
+   "pred": 35429500000000,
+   "label": 35429500000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Total aset lancar 2,196,629 2,214,052 Total current assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_AADI.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "kas",
+   "pred": 23128129032258,
+   "label": 23128129032258,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 1,433,944 1,518,688 Cash and cash equivalents"
+    },
+    {
+     "page": 7,
+     "reading": "USD MILLIONS",
+     "first_on_line": true,
+     "line": "pendek 892 1,436 liabilities"
+    },
+    {
+     "page": 13,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "kas dan setara kas (80,271) (1,433,884) cash and cash equivalents"
+    },
+    {
+     "page": 13,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "periode 5 1,433,944 1,080,020 the end of the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_AADI.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "liabilitas",
+   "pred": 38095661290323,
+   "label": 38095661290323,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS 2,361,931 2,629,176 TOTAL LIABILITIES"
+    },
+    {
+     "page": 11,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Saldo pada 1 Januari 2024 2,366,335 (212,235) 145,878 216,890 - 1,842,560 11,616 23,053 (28,097) 4,366,000 424,464 4,790,464 Balance as at 1 January 2024"
+    },
+    {
+     "page": 11,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Saldo pada 30 Juni 2024 2,366,335 (212,205) 145,878 - - 88,086 13,827 22,875 (41,755) 2,383,041 337,927 2,720,968 Balance as at 30 June 2024"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_AADI.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "utang_bank",
+   "pred": 349516129032,
+   "label": 349516129032,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Utang bank 18 21,670 40,884 Bank loans"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_AADI.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "ekuitas",
+   "pred": 54454048387097,
+   "label": 54454048387097,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "kepada pemilik entitas induk 3,376,151 2,998,891 owners of the parent entity"
+    },
+    {
+     "page": 11,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Saldo pada 30 Juni 2025 2,519,582 (96,511) 148,775 - 55,000 813,524 (765) (22,153) (41,301) 3,376,151 349,987 3,726,138 Balance as at 30 June 2025"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_AADI.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "laba_bersih",
+   "pred": 6914241935484,
+   "label": 6914241935484,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 428,683 858,922 Owners of the parent entity"
+    },
+    {
+     "page": 11,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Laba periode berjalan - - - - - 428,683 - - - 428,683 52,597 481,280 Profit for the period"
+    },
+    {
+     "page": 11,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "periode berjalan - - - - - 428,683 (14,312) (34,548) (2,560) 377,263 48,798 426,061 for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_AADI.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "pendapatan",
+   "pred": 38702500000000,
+   "label": 38702500000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Pendapatan usaha 27 2,399,555 2,656,511 Revenue"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_AADI.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 8745548387097,
+   "label": 8745548387097,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "dari aktivitas operasi 542,224 633,260 operating activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_AADI.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "total_share",
+   "pred": 7786891760,
+   "label": 7786891760,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "dan disetor penuh 7.786.891.760 and fully paid 7,786,891,760"
+    },
+    {
+     "page": 107,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah/Total 7,786,891,760 100.00 2,519,582"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_AADI.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "aset",
+   "pred": 112883535714286,
+   "label": 112883535714286,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "TOTAL ASET 6,321,478 5,706,276 TOTAL ASSETS"
+    },
+    {
+     "page": 8,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 6,321,478 5,706,276 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_AADI.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "total_aset_lancar",
+   "pred": 53798803571429,
+   "label": 53798803571429,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Total aset lancar 3,012,733 1,796,272 Total current assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_AADI.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "kas",
+   "pred": 21413000000000,
+   "label": 21413000000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 4 1,199,128 925,445 Cash and cash equivalents"
+    },
+    {
+     "page": 12,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "periode 4 1,199,128 1,433,944 the end of the period"
+    },
+    {
+     "page": 96,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AlamTri 1,197,023,942 15.37 387,318"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_AADI.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "liabilitas",
+   "pred": 42628553571429,
+   "label": 42628553571429,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS 2,387,199 2,056,648 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_AADI.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "utang_bank",
+   "pred": 1722928571429,
+   "label": 1722928571429,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Utang bank 17 96,484 36,602 Bank loans"
+    },
+    {
+     "page": 8,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Tambahan modal disetor 21 (96,511) (96,511) Additional paid-in capital"
+    },
+    {
+     "page": 11,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Saldo pada 1 Januari 2025 2,519,582 (96,511) 148,778 45,000 394,841 13,547 12,395 (38,741) 2,998,891 364,591 3,363,482 Balance as at 1 January 2025"
+    },
+    {
+     "page": 11,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Saldo pada 30 Juni 2025 2,519,582 (96,511) 148,775 55,000 813,524 (765) (22,153) (41,301) 3,376,151 349,987 3,726,138 Balance as at 30 June 2025"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_AADI.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "ekuitas",
+   "pred": 64073357142857,
+   "label": 64073357142857,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "kepada pemilik entitas induk 3,588,108 3,333,550 owners of the parent entity"
+    },
+    {
+     "page": 11,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "30 Juni 2026 2,519,582 (96,511) 151,675 65,000 1,022,329 (1,622) (14,636) (57,709) 3,588,108 346,171 3,934,279 Balance as at 30 June 2026"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_AADI.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "laba_bersih",
+   "pred": 8460089285714,
+   "label": 8460089285714,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Pihak ketiga 7 473,730 389,227 Third parties"
+    },
+    {
+     "page": 10,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 473,765 428,683 Owners of the parent entity"
+    },
+    {
+     "page": 11,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Laba periode berjalan - - - - 473,765 - - - 473,765 50,667 524,432 Profit for the period"
+    },
+    {
+     "page": 11,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "periode berjalan - - - - 473,765 (545) (9,010) (9,652) 454,558 49,319 503,877 for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_AADI.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "pendapatan",
+   "pred": 45474928571429,
+   "label": 45474928571429,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Pendapatan usaha 26 2,546,596 2,399,555 Revenue"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_AADI.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 8033392857143,
+   "label": 8033392857143,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "dari aktivitas operasi 449,870 542,224 operating activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_AADI.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "total_share",
+   "pred": 7786891760,
+   "label": 7786891760,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "dan disetor penuh 7.786.891.760 and fully paid 7,786,891,760"
+    },
+    {
+     "page": 96,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah/Total 7,786,891,760 100.00 2,519,582"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_AADI.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "aset",
+   "pred": 101865400000000,
+   "label": 101865400000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "TOTAL ASET 6,111,924 5,992,658 TOTAL ASSETS"
+    },
+    {
+     "page": 6,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 6,111,924 5,992,658 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_AADI.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "total_aset_lancar",
+   "pred": 37098000000000,
+   "label": 37098000000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Total aset lancar 2,225,880 2,214,052 Total current assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_AADI.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "kas",
+   "pred": 23617166666667,
+   "label": 23617166666667,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 1,417,030 1,518,688 Cash and cash equivalents"
+    },
+    {
+     "page": 11,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "periode 5 1,417,030 1,459,256 the end of the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_AADI.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "liabilitas",
+   "pred": 38653366666667,
+   "label": 38653366666667,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS 2,319,202 2,629,176 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_AADI.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "utang_bank",
+   "pred": 187483333333,
+   "label": 187483333333,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Utang bank 18 11,249 40,884 Bank loans"
+    },
+    {
+     "page": 11,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "kas dan setara kas (11,236) (5,297) cash and cash equivalents"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_AADI.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "ekuitas",
+   "pred": 57743633333333,
+   "label": 57743633333333,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "kepada pemilik entitas induk 3,464,618 2,998,891 owners of the parent entity"
+    },
+    {
+     "page": 9,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Saldo pada 30 September 2025 2,519,582 (96,511) 148,775 - 55,000 972,165 (1,015) (86,550) (46,828) 3,464,618 328,104 3,792,722 Balance as at 30 September 2025"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_AADI.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "laba_bersih",
+   "pred": 9788733333333,
+   "label": 9788733333333,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Utang bank 18 587,578 645,705 Bank loans"
+    },
+    {
+     "page": 8,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 587,324 1,074,705 Owners of the parent entity"
+    },
+    {
+     "page": 9,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Laba periode berjalan - - - - - 587,324 - - - 587,324 67,545 654,869 Profit for the period"
+    },
+    {
+     "page": 9,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "periode berjalan - - - - - 587,324 (14,562) (98,945) (8,087) 465,730 56,141 521,871 for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_AADI.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "pendapatan",
+   "pred": 60152133333333,
+   "label": 60152133333333,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Pendapatan usaha 27 3,609,128 4,049,958 Revenue"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_AADI.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 11414916666667,
+   "label": 11414916666667,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "dari aktivitas operasi 684,895 1,023,366 operating activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_AADI.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "total_share",
+   "pred": 7786891760,
+   "label": 7786891760,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "dan disetor penuh 7.786.891.760 and fully paid 7,786,891,760"
+    },
+    {
+     "page": 105,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah/Total 7,786,891,760 100.00 2,519,582"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_AADI.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "aset",
+   "pred": 96853338596000,
+   "label": 96655774193548,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "TOTAL ASET 5,992,658 7,062,916 7,966,086 TOTAL ASSETS"
+    },
+    {
+     "page": 13,
+     "reading": "USD MILLIONS",
+     "first_on_line": false,
+     "line": "Liabilitas sewa 2,656 6,764 6,002 Lease liabilities"
+    },
+    {
+     "page": 14,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 5,992,658 7,062,916 7,966,086 TOTAL LIABILITIES AND EQUITY"
+    },
+    {
+     "page": 88,
+     "reading": "USD MILLIONS",
+     "first_on_line": true,
+     "line": "Liabilitas sewa 5,982 20 6,002 - 6,002 Lease liabilities"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 88,
+     "reading": "USD MILLIONS",
+     "first_on_line": true,
+     "line": "Liabilitas sewa 5,982 20 6,002 - 6,002 Lease liabilities"
+    },
+    {
+     "page": 95,
+     "reading": "USD MILLIONS",
+     "first_on_line": false,
+     "line": "Jatuh tempo 1 - 30 hari 10,962 5,974 Overdue by 1 - 30 days"
+    },
+    {
+     "page": 140,
+     "reading": "USD MILLIONS",
+     "first_on_line": false,
+     "line": "MSW 10,630 5,886 5,979 MSW"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2024_AADI.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "total_aset_lancar",
+   "pred": 35783508424000,
+   "label": 35710516129032,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Total aset lancar 2,214,052 3,270,164 4,326,775 Total current assets"
+    },
+    {
+     "page": 129,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "dividen tunai interim untuk tahun 2024 sebesar dividends for 2024 of US$2,211,964"
+    },
+    {
+     "page": 129,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "AS$2.211.964 (AS$101,00/saham - nilai penuh). (US$101.00/share - full amount) was approved. This"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 12,
+     "reading": "USD MILLIONS",
+     "first_on_line": true,
+     "line": "Pihak berelasi 9 546 546 2,208 Related parties"
+    },
+    {
+     "page": 83,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS 2,208,287 64,165 2,272,452 - 2,272,452 TOTAL LIABILITIES"
+    },
+    {
+     "page": 87,
+     "reading": "USD MILLIONS",
+     "first_on_line": true,
+     "line": "Pihak berelasi 2,208 - 2,208 - 2,208 Related parties"
+    },
+    {
+     "page": 96,
+     "reading": "USD MILLIONS",
+     "first_on_line": true,
+     "line": "Pihak berelasi 546 546 2,208 Related parties"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2024_AADI.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "kas",
+   "pred": 24545035456000,
+   "label": 24494967741935,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 1,518,688 2,534,480 3,380,339 Cash and cash equivalents"
+    },
+    {
+     "page": 20,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "tahun 5 1,518,688 2,534,480 the end of the year"
+    },
+    {
+     "page": 91,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Total 1,518,688 2,534,480 3,380,339 Total"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 98,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Sub-total (1,513,680) (51,911) 2,199 - 1,526 (1,561,866) Sub-total"
+    },
+    {
+     "page": 99,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Sub-total (1,471,122) (45,954) 3,823 - (427) (1,513,680) Sub-total"
+    },
+    {
+     "page": 140,
+     "reading": "USD MILLIONS",
+     "first_on_line": false,
+     "line": "MSW (Catatan 41a) 1,297 1,515 1,672 MSW (Note 41a)"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2024_AADI.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "liabilitas",
+   "pred": 42492742512000,
+   "label": 42406064516129,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS 2,629,176 2,272,452 3,457,870 TOTAL LIABILITIES"
+    },
+    {
+     "page": 24,
+     "reading": "USD MILLIONS",
+     "first_on_line": true,
+     "line": "tetap (tidak diaudit) (31 Desember 2023: 2.630 (unaudited) (31 December 2023: 2,630"
+    },
+    {
+     "page": 27,
+     "reading": "USD MILLIONS",
+     "first_on_line": false,
+     "line": "PT Adaro Tirta Jasa penunjang Indonesia 2023 99.02% 99.02% 4,235 2,630"
+    },
+    {
+     "page": 99,
+     "reading": "USD MILLIONS",
+     "first_on_line": true,
+     "line": "dan kendaraan (2,632) (1,534) 149 - (8) (4,025) equipment and vehicles"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_AADI.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "utang_bank",
+   "pred": 660767208000,
+   "label": 659419354839,
+   "status": "wrong:wrong_near_miss",
+   "hint": "likely LABEL error: the pipeline's figure is printed as the line's first figure, the label's is not found (label may be a sum)",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Uang muka - bagian lancar 10 15,157 40,955 7,059 Advances - current portion"
+    },
+    {
+     "page": 13,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Utang bank 20 40,884 58,396 104,307 Bank loans"
+    },
+    {
+     "page": 82,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Uang muka - bagian lancar 40,955 - 40,955 - 40,955 Advances - current portion"
+    },
+    {
+     "page": 96,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Dikurangi: bagian lancar 15,157 40,955 7,059 Less: current portion"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_AADI.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "ekuitas",
+   "pred": 48468076342000,
+   "label": 48369209677419,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "kepada pemilik entitas induk 2,998,891 4,366,000 4,115,713 owners of the parent entity"
+    },
+    {
+     "page": 18,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Saldo pada 31 Desember 2024 2,519,582 (96,511) 148,778 - 45,000 394,841 13,547 12,395 (38,741) 2,998,891 364,591 3,363,482 Balance as at 31 December 2024"
+    },
+    {
+     "page": 19,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "dan kontraktor (2,994,774) (2,927,993) Payments to suppliers and contractors"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 19,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "dan kontraktor (2,994,774) (2,927,993) Payments to suppliers and contractors"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2024_AADI.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "laba_bersih",
+   "pred": 19568917276000,
+   "label": 19529000000000,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 16,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 1,210,798 1,143,813 Owners of the parent entity"
+    },
+    {
+     "page": 18,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Laba tahun berjalan*) - - - - - 1,210,798 - - - 1,210,798 115,938 1,326,736 Profit for the year*)"
+    },
+    {
+     "page": 18,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "tahun berjalan - - - - - 1,211,071 1,931 (10,658) (10,644) 1,191,700 114,525 1,306,225 for the year"
+    },
+    {
+     "page": 19,
+     "reading": "USD MILLIONS",
+     "first_on_line": true,
+     "line": "Penerimaan hasil penjualan aset tetap 13 1,210 463 Proceeds from disposal of fixed assets"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 19,
+     "reading": "USD MILLIONS",
+     "first_on_line": true,
+     "line": "Penerimaan hasil penjualan aset tetap 13 1,210 463 Proceeds from disposal of fixed assets"
+    },
+    {
+     "page": 100,
+     "reading": "USD MILLIONS",
+     "first_on_line": true,
+     "line": "- Harga jual dari pelepasan aset tetap 1,210 463 Selling price from disposal of fixed assets -"
+    },
+    {
+     "page": 101,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "namun masih dipakai sebesar AS$1.206.596 but are still in use amounted to US$1,206,596"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2024_AADI.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "pendapatan",
+   "pred": 85975084284000,
+   "label": 85799709677419,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 15,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Pendapatan usaha 30 5,319,582 5,915,408 Revenue"
+    },
+    {
+     "page": 130,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Total 5,319,582 5,915,408 Total"
+    },
+    {
+     "page": 141,
+     "reading": "USD MILLIONS",
+     "first_on_line": false,
+     "line": "SIS 5,184 5,312 SIS"
+    },
+    {
+     "page": 150,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Pendapatan di luar segmen 5,108,613 183,681 27,288 - 5,319,582 External revenue"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 92,
+     "reading": "USD MILLIONS",
+     "first_on_line": true,
+     "line": "Bank Mandiri 5,305 5,395 Bank Mandiri"
+    },
+    {
+     "page": 141,
+     "reading": "USD MILLIONS",
+     "first_on_line": false,
+     "line": "SIS 5,184 5,312 SIS"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2024_AADI.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 19370399430000,
+   "label": 19330887096774,
+   "status": "wrong:wrong_near_miss",
+   "hint": "both printed: wrong row, wrong column or a convention choice",
+   "pred_printed": [
+    {
+     "page": 19,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "dari aktivitas operasi 1,198,515 595,206 operating activities"
+    },
+    {
+     "page": 125,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AlamTri 1,197,023,942 15.37 387,318"
+    },
+    {
+     "page": 134,
+     "reading": "USD MILLIONS",
+     "first_on_line": true,
+     "line": "- Lain-lain 1,199 1,471 5,044 Others -"
+    },
+    {
+     "page": 141,
+     "reading": "USD MILLIONS",
+     "first_on_line": false,
+     "line": "Lain-lain (dibawah AS$5.000) 1,200 1,872 Others (below US$5,000)"
+    }
+   ],
+   "label_printed": [
+    {
+     "page": 90,
+     "reading": "USD MILLIONS",
+     "first_on_line": false,
+     "line": "Standard Chartered Bank 2,255 1,194 38,452 Standard Chartered Bank"
+    },
+    {
+     "page": 105,
+     "reading": "USD MILLIONS",
+     "first_on_line": false,
+     "line": "utang usaha dan liabilitas lain-lain) 103,665 82,820 151 123 25 28 1,196 539 other liabilities)"
+    },
+    {
+     "page": 105,
+     "reading": "USD MILLIONS",
+     "first_on_line": false,
+     "line": "Liabilitas jangka pendek 147,782 130,241 1,076 861 81 121 1,196 556 Current liabilities"
+    },
+    {
+     "page": 125,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AlamTri 1,197,023,942 15.37 387,318"
+    }
+   ],
+   "abstained": false,
+   "file": "Q4_2024_AADI.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "total_share",
+   "pred": 7786891760,
+   "label": 7786891760,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "dan disetor penuh 7.786.891.760 and fully paid 7,786,891,760"
+    },
+    {
+     "page": 125,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah/Total 7,786,891,760 100.00 2,519,582"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_AADI.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "aset",
+   "pred": 95104600000000,
+   "label": 95104600000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "TOTAL ASET 5,706,276 5,992,658 TOTAL ASSETS"
+    },
+    {
+     "page": 16,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 5,706,276 5,992,658 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_AADI.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "total_aset_lancar",
+   "pred": 29937866666667,
+   "label": 29937866666667,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Total aset lancar 1,796,272 2,214,052 Total current assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_AADI.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "kas",
+   "pred": 15424083333333,
+   "label": 15424083333333,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 925,445 1,518,688 Cash and cash equivalents"
+    },
+    {
+     "page": 22,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "tahun 5 925,445 1,518,688 the end of the year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_AADI.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "liabilitas",
+   "pred": 34277466666667,
+   "label": 34277466666667,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 15,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS 2,056,648 2,629,176 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_AADI.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "utang_bank",
+   "pred": 610033333333,
+   "label": 610033333333,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 15,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Utang bank 18 36,602 40,884 Bank loans"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_AADI.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "ekuitas",
+   "pred": 55559166666667,
+   "label": 55559166666667,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 16,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "kepada pemilik entitas induk 3,333,550 2,998,891 owners of the parent entity"
+    },
+    {
+     "page": 20,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "31 Desember 2025 2,519,582 (96,511) 151,675 55,000 758,564 (1,077) (5,626) (48,057) 3,333,550 316,078 3,649,628 Balance as at 31 December 2025"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_AADI.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "laba_bersih",
+   "pred": 12669666666667,
+   "label": 12669666666667,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 18,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 760,180 1,210,798 Owners of the parent entity"
+    },
+    {
+     "page": 20,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Laba tahun berjalan - - - - 760,180 - - - 760,180 89,004 849,184 Profit for the year"
+    },
+    {
+     "page": 20,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "tahun berjalan - - - - 759,461 (14,624) (153,759) (9,316) 581,762 71,387 653,149 for the year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_AADI.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "pendapatan",
+   "pred": 81837716666667,
+   "label": 81837716666667,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 17,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Pendapatan usaha 27 4,910,263 5,319,582 Revenue"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_AADI.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 14320700000000,
+   "label": 14320700000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 21,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "dari aktivitas operasi 859,242 1,198,515 operating activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_AADI.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "total_share",
+   "pred": 7786891760,
+   "label": 7786891760,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 16,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "dan disetor penuh 7.786.891.760 and fully paid 7,786,891,760"
+    },
+    {
+     "page": 112,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah/Total 7,786,891,760 100.00 2,519,582"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_AADI.pdf"
+  }
+ ]
+}

@@ -304,7 +304,9 @@ def test_the_tool_request_drops_response_mime_type_and_carries_roles(monkeypatch
                                  [{"name": "read_page_text", "parameters": {}}])
 
     body = bodies[0]
-    assert "responseMimeType" not in body["generationConfig"]
+    generation = body.get("generationConfig", {})
+    assert "responseMimeType" not in generation
+    assert "temperature" not in generation
     assert body["tools"][0]["functionDeclarations"][0]["name"] == "read_page_text"
     assert body["systemInstruction"]["parts"][0]["text"] == "system text"
     assert all("role" in entry for entry in body["contents"])
@@ -358,6 +360,7 @@ def test_complete_still_returns_a_string_after_the_refactor(monkeypatch):
 
     assert provider.complete("sys", "user") == '{"aset": 1}'
     assert bodies[0]["generationConfig"]["responseMimeType"] == "application/json"
+    assert "temperature" not in bodies[0]["generationConfig"]
     assert "tools" not in bodies[0]
 
 
@@ -396,6 +399,17 @@ def test_the_agent_cache_can_never_overwrite_the_pipelines():
     ref = PeriodRef("ARCI", "Q1", 2022, Path("x.pdf"))
     assert cache_path_for(ref, Path("out"), pipeline).parent != \
         cache_path_for(ref, Path("out"), agentic).parent
+
+
+def test_agentic_evaluation_cannot_be_silently_routed_through_pipeline_api(
+        monkeypatch, capsys):
+    """The current HTTP endpoint only serves the pipeline implementation."""
+    run_eval = _run_eval()
+    monkeypatch.setattr(sys, "argv", ["run_eval", "--corpus", "--extractor",
+                                      "agentic", "--api-url", "http://localhost:8000"])
+
+    assert run_eval.main() == 2
+    assert "would mislabel pipeline results as agentic" in capsys.readouterr().out
 
 
 def test_a_trajectory_survives_the_prediction_cache(monkeypatch, tmp_path):

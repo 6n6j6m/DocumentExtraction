@@ -1,0 +1,3530 @@
+{
+ "ticker": "GTRA",
+ "date": "2026-11-10",
+ "has_labels": true,
+ "filings": [
+  {
+   "period": "Q1 2023",
+   "file": "Q1_2023_GTRA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9 69",
+   "pdf_found": true
+  },
+  {
+   "period": "Q1 2024",
+   "file": "Q1_2024_GTRA.pdf",
+   "status": "partial",
+   "issues": "section_map_incomplete wrong_section",
+   "notes": "",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9 10 11",
+   "pdf_found": true
+  },
+  {
+   "period": "Q1 2025",
+   "file": "Q1_2025_GTRA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9 10 65",
+   "pdf_found": true
+  },
+  {
+   "period": "Q1 2026",
+   "file": "Q1_2026_GTRA.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9 10 11 64",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2023",
+   "file": "Q2_2023_GTRA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9 70",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2024",
+   "file": "Q2_2024_GTRA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9 66",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2025",
+   "file": "Q2_2025_GTRA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9 62",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2026",
+   "file": "Q2_2026_GTRA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9 10 11 12 68",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2023",
+   "file": "Q3_2023_GTRA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9 10 11 12 13 77",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2024",
+   "file": "Q3_2024_GTRA.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9 66",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2025",
+   "file": "Q3_2025_GTRA.pdf",
+   "status": "partial",
+   "issues": "",
+   "notes": "",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2022",
+   "file": "Q4_2022_GTRA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 88",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2023",
+   "file": "Q4_2023_GTRA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 79",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2024",
+   "file": "Q4_2024_GTRA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 78",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2025",
+   "file": "Q4_2025_GTRA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "",
+   "error": "",
+   "pages_selected": "2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 74",
+   "pdf_found": true
+  }
+ ],
+ "cells": [
+  {
+   "period": "Q1 2023",
+   "field": "aset",
+   "pred": 737307899123,
+   "label": 737307899123,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 737.307.899.123 6 84.826.152.989 TOTAL ASSETS"
+    },
+    {
+     "page": 5,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 737.307.899.123 6 84.826.152.989 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "total_aset_lancar",
+   "pred": 97760865990,
+   "label": 97760865990,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 9 7.760.865.990 7 3.761.021.797 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "kas",
+   "pred": 25751037598,
+   "label": 25751037598,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas 3c,5 25.751.037.598 8.759.584.740 Cash"
+    },
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "KAS AKHIR PERIODE 25.751.037.598 1 2.816.819.949 CASH AT END OF PERIOD"
+    },
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas 25.751.037.598 1 2.816.819.949 Cash"
+    },
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total 25.751.037.598 1 2.816.819.949 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "liabilitas",
+   "pred": 482217445372,
+   "label": 482217445372,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 482.217.445.372 4 88.840.075.078 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "utang_bank",
+   "pred": 5778000000,
+   "label": 5778000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pinjaman bank 14 5.778.000.000 5 .304.000.000 Bank loans"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "ekuitas",
+   "pred": 255081056739,
+   "label": 255081056739,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Subtotal 255.081.056.739 1 95.976.647.933 Subtotal"
+    },
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": false,
+     "line": "Saldo 31 Maret 2023 189.437.500.000 15.161.644.523 5.000.000.000 46.238.687.357 (756.775.141) 255.081.056.739 9.397.012 255.090.453.751 Balance at March 31, 2023"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "laba_bersih",
+   "pred": 6055264283,
+   "label": 6055264283,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 6 .055.264.283 3 .133.320.394 Owners of the parent"
+    },
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 6 .055.264.283 3 .133.320.394 Owners of the parent"
+    },
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Laba neto periode berjalan - - - 6.055.264.283 - 6.055.264.283 (32.966) 6.055.231.317 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "pendapatan",
+   "pred": 69701660977,
+   "label": 69701660977,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN NETO 3i,19b,24 6 9.701.660.977 4 9.006.946.793 NET REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 10976626569,
+   "label": 10976626569,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 1 0.976.626.569 8 .049.676.750 Operating Activit"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "total_share",
+   "pred": 1894375000,
+   "label": 1894375000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "1.894.375.000 saham pada 1,894,375,000 shares at"
+    },
+    {
+     "page": 69,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 1.894.375.000 100% 189.437.500.000 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "aset",
+   "pred": 1009256528341,
+   "label": 1009256528341,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 1 .009.256.528.341 9 41.311.157.349 TOTAL ASSETS"
+    },
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 1 .009.256.528.341 9 41.311.157.349 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "total_aset_lancar",
+   "pred": 178242590275,
+   "label": 178242590275,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 178.242.590.275 121.176.804.224 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "kas",
+   "pred": 60303440517,
+   "label": 60303440517,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2c,4 6 0.303.440.517 1 6.057.258.132 Cash and cash equivalent"
+    },
+    {
+     "page": 11,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "60.303.440.517"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "liabilitas",
+   "pred": 717062907204,
+   "label": 717062907204,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 7 17.062.907.204 6 59.149.682.105 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "utang_bank",
+   "pred": 17952780906,
+   "label": 17952780906,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pinjaman bank 13 1 7.952.780.906 1 7.149.123.737 Bank loans"
+    }
+   ],
+   "label_printed": [],
+   "abstained": true,
+   "file": "Q1_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "ekuitas",
+   "pred": 292173845314,
+   "label": 292173845314,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Subtotal 292.173.845.314 282.141.339.260 Subtotal"
+    },
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": false,
+     "line": "Saldo 31 Maret 2024 189.437.500.000 15.161.644.523 10.000.000.000 78.637.385.366 ( 1.062.684.575) 292.173.845.314 19.775.823 292.193.621.137 Balance at March 31, 2024"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "laba_bersih",
+   "pred": 10032506054,
+   "label": 10032506054,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 10.032.506.054 6.055.264.283 Owners of the parent"
+    },
+    {
+     "page": 8,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 10.032.506.054 6.055.264.283 Owners of the parent"
+    },
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Laba neto periode berjalan - - - 10.032.506.054 - 10.032.506.054 (360.161) 10.032.145.893 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "pendapatan",
+   "pred": 107283585181,
+   "label": 107283585181,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "107.283.585.181"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 7054265677,
+   "label": 7054265677,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 7.054.265.677 10.976.626.569 Operating Activit"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "total_share",
+   "pred": 1894375000,
+   "label": 1894375000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "1.894.375.000 saham 19 189.437.500.000 189.437.500.000 1,894,375,000 shares"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "aset",
+   "pred": 1020153134914,
+   "label": 1020153134914,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 1 .020.153.134.914 9 89.890.084.157 TOTAL ASSETS"
+    },
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "1.020.153.134.914"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "total_aset_lancar",
+   "pred": 224998895107,
+   "label": 224998895107,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 224.998.895.107 193.749.178.955 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "kas",
+   "pred": 13769104184,
+   "label": 13769104184,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2c,4 1 3.769.104.184 8 .528.119.944 Cash and cash equivalent"
+    },
+    {
+     "page": 10,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas 13.769.104.184 60.303.440.517 Cash"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "liabilitas",
+   "pred": 681840780948,
+   "label": 681840780948,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 6 81.840.780.948 6 69.483.382.092 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "utang_bank",
+   "pred": 38125984102,
+   "label": 38125984102,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "ekuitas",
+   "pred": 338223345881,
+   "label": 338223345881,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "338.223.345.881"
+    },
+    {
+     "page": 8,
+     "reading": "IDR FULL",
+     "first_on_line": false,
+     "line": "(2.302.796.886) 338.223.345.881 89.008.085 338.312.353.966"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "laba_bersih",
+   "pred": 17899314088,
+   "label": 17899314088,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 17.899.314.088 10.032.506.054 Owners of the parent"
+    },
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 17.899.314.088 10.032.506.054 Owners of the parent"
+    },
+    {
+     "page": 8,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "- - - 17.899.314.088"
+    },
+    {
+     "page": 8,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "- 17.899.314.088 6.337.813 17.905.651.901"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "pendapatan",
+   "pred": 136421123584,
+   "label": 136421123584,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 2i,18b,23 136.421.123.584 107.283.585.181 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 12746527545,
+   "label": 12746527545,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "12.746.527.545"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "total_share",
+   "pred": 1894375000,
+   "label": 1894375000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "1.894.375.000 saham 19"
+    },
+    {
+     "page": 65,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 1.894.375.000 100% 189.437.500.000 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "aset",
+   "pred": 1414582709919,
+   "label": 1414582709919,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "1.414.582.709.919"
+    },
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "1.414.582.709.919"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "total_aset_lancar",
+   "pred": 279945979244,
+   "label": 279945979244,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "279.945.979.244"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "kas",
+   "pred": 20409301364,
+   "label": 20409301364,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "20.409.301.364"
+    },
+    {
+     "page": 11,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 4 20.409.301.364 13.769.104.184 Cash and cash equivalent"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "liabilitas",
+   "pred": 1007851247418,
+   "label": 1007851247418,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "1.007.851.247.418"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "utang_bank",
+   "pred": 45503369944,
+   "label": 45503369944,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "ekuitas",
+   "pred": 406380339115,
+   "label": 406380339115,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "406.380.339.115"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "laba_bersih",
+   "pred": 20081053204,
+   "label": 20081053204,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "20.081.053.204"
+    },
+    {
+     "page": 8,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "20.081.053.204"
+    },
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "- 20.081.053.204"
+    },
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "20.081.053.204"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "pendapatan",
+   "pred": 198217525096,
+   "label": 198217525096,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 2i,19,24 198.217.525.096 136.421.123.584 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 21593359177,
+   "label": 21593359177,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 21.593.359.177 12.746.527.545 Operating Activit"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_GTRA.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "total_share",
+   "pred": 1894375000,
+   "label": 1894375000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "1.894.375.000 saham"
+    },
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "1,894,375,000 shares"
+    },
+    {
+     "page": 64,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 1.894.375.000 100% 189.437.500.000 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "aset",
+   "pred": 813614754558,
+   "label": 813614754558,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 813.614.754.558 6 84.826.152.989 TOTAL ASSETS"
+    },
+    {
+     "page": 5,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 813.614.754.558 6 84.826.152.989 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "total_aset_lancar",
+   "pred": 102188935358,
+   "label": 102188935358,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 1 02.188.935.358 73.761.021.797 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "kas",
+   "pred": 11051322582,
+   "label": 11051322582,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 3c,5 1 1.051.322.582 8.759.584.740 Cash and cash equivalent"
+    },
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 11.051.322.582 (30.880.706.209) AT END OF PERIOD"
+    },
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas 11.051.322.582 7.591.216.234 Cash"
+    },
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total 11.051.322.582 (30.880.706.209) Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "liabilitas",
+   "pred": 553362078527,
+   "label": 553362078527,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 5 53.362.078.527 4 88.840.075.078 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "utang_bank",
+   "pred": 11613965775,
+   "label": 11613965775,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pinjaman bank 14 11.613.965.775 5.304.000.000 Bank loans"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "ekuitas",
+   "pred": 260244201148,
+   "label": 260244201148,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Subtotal 260.244.201.148 1 95.976.647.933 Subtotal"
+    },
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": false,
+     "line": "Saldo 30 Juni 2023 189.437.500.000 15.161.644.523 5.000.000.000 51.401.831.766 (756.775.141) 260.244.201.148 8.474.883 260.252.676.031 Balance at June 30, 2023"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "laba_bersih",
+   "pred": 11218408692,
+   "label": 11218408692,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 1 1.218.408.692 7.285.278.280 Owners of the parent"
+    },
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 1 1.218.408.692 7.285.278.280 Owners of the parent"
+    },
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Laba neto periode berjalan - - - 11.218.408.692 - 11.218.408.692 (955.095) 11.217.453.597 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "pendapatan",
+   "pred": 148107135064,
+   "label": 148107135064,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN NETO 3i,19b,24 1 48.107.135.064 96.697.834.915 NET REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 5354597522,
+   "label": 5354597522,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 5 .354.597.522 11.462.454.763 Operating Activit"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "total_share",
+   "pred": 1894375000,
+   "label": 1894375000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "1.894.375.000 saham pada 1,894,375,000 shares at"
+    },
+    {
+     "page": 70,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 1.894.375.000 100% 189.437.500.000 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "aset",
+   "pred": 973186701838,
+   "label": 973186701838,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 9 73.186.701.838 9 41.311.157.349 TOTAL ASSETS"
+    },
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 973.186.701.838 9 41.311.157.349 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "total_aset_lancar",
+   "pred": 149381817741,
+   "label": 149381817741,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 149.381.817.741 121.176.804.224 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "kas",
+   "pred": 8765089846,
+   "label": 8765089846,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2c,4 8 .765.089.846 1 6.057.258.132 Cash and cash equivalent"
+    },
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE/TAHUN 8.765.089.846 11.051.322.582 AT END OF PERIOD/YEAR"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "liabilitas",
+   "pred": 671856600123,
+   "label": 671856600123,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 671.856.600.123 6 59.149.682.105 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "utang_bank",
+   "pred": 18672839545,
+   "label": 18672839545,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pinjaman bank 13 18.672.839.545 1 7.149.123.737 Bank loans"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "ekuitas",
+   "pred": 301305356813,
+   "label": 301305356813,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Subtotal 301.305.356.813 282.141.339.260 Subtotal"
+    },
+    {
+     "page": 8,
+     "reading": "IDR FULL",
+     "first_on_line": false,
+     "line": "Saldo 30 Juni 2024 189.437.500.000 15.161.644.523 15.000.000.000 82.768.896.865 ( 1.062.684.575) 301.305.356.813 24.744.902 301.330.101.715 Balance at June 30, 2024"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "laba_bersih",
+   "pred": 19164017553,
+   "label": 19164017553,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 19.164.017.553 11.218.408.692 Owners of the parent"
+    },
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 19.164.017.553 11.218.408.692 Owners of the parent"
+    },
+    {
+     "page": 8,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Laba neto periode berjalan - - - 19.164.017.553 - 19.164.017.553 4.608.918 19.168.626.471 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "pendapatan",
+   "pred": 211814927894,
+   "label": 211814927894,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 2i,18b,23 211.814.927.894 148.107.135.064 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 17339806788,
+   "label": 17339806788,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 17.339.806.788 5.354.597.522 Operating Activit"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "total_share",
+   "pred": 1894375000,
+   "label": 1894375000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "1.894.375.000 saham 19 189.437.500.000 189.437.500.000 1,894,375,000 shares"
+    },
+    {
+     "page": 66,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 1.894.375.000 100% 189.437.500.000 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "aset",
+   "pred": 1021734463181,
+   "label": 1021734463181,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 1 .021.734.463.181 9 89.890.084.157 TOTAL ASSETS"
+    },
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 1 .021.734.463.181 9 89.890.084.157 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "total_aset_lancar",
+   "pred": 240605013483,
+   "label": 240605013483,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 2 40.605.013.483 1 93.749.178.955 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "kas",
+   "pred": 14112835723,
+   "label": 14112835723,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2c,4 1 4.112.835.723 8 .528.119.944 Cash and cash equivalent"
+    },
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas 1 4.112.835.723 8 .765.089.846 Cash"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "liabilitas",
+   "pred": 672036868836,
+   "label": 672036868836,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 672.036.868.836 669.483.382.092 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "utang_bank",
+   "pred": 39762517790,
+   "label": 39762517790,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "ekuitas",
+   "pred": 349603540294,
+   "label": 349603540294,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Subtotal 3 49.603.540.294 3 20.324.031.793 Subtotal"
+    },
+    {
+     "page": 8,
+     "reading": "IDR FULL",
+     "first_on_line": false,
+     "line": "Saldo 30 Juni 2025 189.437.500.000 15.161.644.523 20.000.000.000 127.307.192.657 (2.302.796.886) 349.603.540.294 94.054.051 349.697.594.345 Balance at June 30, 2025"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "laba_bersih",
+   "pred": 29279508501,
+   "label": 29279508501,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 2 9.279.508.501 1 9.164.017.553 Owners of the parent"
+    },
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 2 9.279.508.501 1 9.164.017.553 Owners of the parent"
+    },
+    {
+     "page": 8,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Laba neto periode berjalan - - - 29.279.508.501 - 29.279.508.501 11.383.779 29.290.892.280 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "pendapatan",
+   "pred": 276031872177,
+   "label": 276031872177,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 2i,18b,23 2 76.031.872.177 2 11.814.927.894 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 19157874324,
+   "label": 19157874324,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 1 9.157.874.324 1 7.339.806.788 Operating Activit"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "total_share",
+   "pred": 1894375000,
+   "label": 1894375000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "1.894.375.000 saham 19 1 89.437.500.000 1 89.437.500.000 1,894,375,000 shares"
+    },
+    {
+     "page": 62,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 1.894.375.000 100% 189.437.500.000 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "aset",
+   "pred": 1740079004309,
+   "label": 1740079004309,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 1 .740.079.004.309 1 .242.804.936.571 TOTAL ASSETS"
+    },
+    {
+     "page": 8,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 1.740.079.004.309 1 .242.804.936.571 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "total_aset_lancar",
+   "pred": 357569040589,
+   "label": 357569040589,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 357.569.040.589 285.904.361.224 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "kas",
+   "pred": 29716666451,
+   "label": 29716666451,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2c,4 29.716.666.451 1 9.695.706.377 Cash and cash equivalent"
+    },
+    {
+     "page": 12,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 29.716.666.451 14.112.835.723 AT END OF THE PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "liabilitas",
+   "pred": 1298825565646,
+   "label": 1298825565646,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 1.298.825.565.646 856.251.177.156 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "utang_bank",
+   "pred": 60777863478,
+   "label": 60777863478,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "ekuitas",
+   "pred": 440787896768,
+   "label": 440787896768,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Subtotal 440.787.896.768 386.299.285.911 Subtotal"
+    },
+    {
+     "page": 10,
+     "reading": "IDR FULL",
+     "first_on_line": false,
+     "line": "Saldo 30 Juni 2026 189.437.500.000 15.161.644.523 25.000.000.000 213.173.658.216 (1.984.905.971) 440.787.896.768 465.541.895 441.253.438.663 Balance at June 30, 2026"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "laba_bersih",
+   "pred": 54488610857,
+   "label": 54488610857,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 54.488.610.857 29.279.508.501 Owners of the parent entity"
+    },
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 54.488.610.857 29.279.508.501 Owners of the parent entity"
+    },
+    {
+     "page": 10,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Laba neto periode berjalan - - - 54.488.610.857 - 54.488.610.857 211.068.391 54.699.679.248 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "pendapatan",
+   "pred": 416305253678,
+   "label": 416305253678,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 2i,19,24 416.305.253.678 276.031.872.177 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 36280251489,
+   "label": 36280251489,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 36.280.251.489 19.157.874.324 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_GTRA.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "total_share",
+   "pred": 1894375000,
+   "label": 1894375000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "1.894.375.000 saham 20 189.437.500.000 189.437.500.000 1,894,375,000 shares"
+    },
+    {
+     "page": 68,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 1.894.375.000 100% 189.437.500.000 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "aset",
+   "pred": 921720459761,
+   "label": 921720459761,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 921.720.459.761 6 84.826.152.989 TOTAL ASSETS"
+    },
+    {
+     "page": 8,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 921.720.459.761 6 84.826.152.989 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "total_aset_lancar",
+   "pred": 110953728308,
+   "label": 110953728308,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 1 10.953.728.308 7 3.761.021.797 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "kas",
+   "pred": 12850012053,
+   "label": 12850012053,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2c,4 1 2.850.012.053 8 .759.584.740 Cash and cash equivalent"
+    },
+    {
+     "page": 13,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 12.850.012.053 (36.172.821.710) AT END OF PERIOD"
+    },
+    {
+     "page": 13,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas 12.850.012.053 5 .099.087.513 Cash"
+    },
+    {
+     "page": 13,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total 12.850.012.053 (36.172.821.710) Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "liabilitas",
+   "pred": 655152105799,
+   "label": 655152105799,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 655.152.105.799 4 88.840.075.078 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "utang_bank",
+   "pred": 16095039591,
+   "label": 16095039591,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pinjaman bank 13 1 6.095.039.591 5 .304.000.000 Bank loans"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "ekuitas",
+   "pred": 266561991235,
+   "label": 266561991235,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Subtotal 266.561.991.235 1 95.976.647.933 Subtotal"
+    },
+    {
+     "page": 11,
+     "reading": "IDR FULL",
+     "first_on_line": false,
+     "line": "Saldo 30 September 2023 189.437.500.000 15.161.644.523 5.000.000.000 57.719.621.853 (756.775.141) 266.561.991.235 6.362.727 266.568.353.962 Balance at September 30, 2023"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "laba_bersih",
+   "pred": 17536198779,
+   "label": 17536198779,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 1 7.536.198.779 1 2.047.454.894 Owners of the parent"
+    },
+    {
+     "page": 10,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 1 7.536.198.779 1 1.827.102.813 Owners of the parent"
+    },
+    {
+     "page": 11,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Laba neto periode berjalan - - - 17.536.198.779 - 17.536.198.779 (3.067.251) 17.533.131.528 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "pendapatan",
+   "pred": 238738972578,
+   "label": 238738972578,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 2i,18b,23 2 38.738.972.578 1 56.021.707.082 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 30910421282,
+   "label": 30910421282,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 3 0.910.421.282 1 7.485.641.267 Operating Activit"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "total_share",
+   "pred": 1894375000,
+   "label": 1894375000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "1.894.375.000 saham pada 1,894,375,000 shares at"
+    },
+    {
+     "page": 77,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 1.894.375.000 100% 189.437.500.000 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "aset",
+   "pred": 969955345450,
+   "label": 969955345450,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 9 69.955.345.450 9 41.311.157.349 TOTAL ASSETS"
+    },
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 969.955.345.450 9 41.311.157.349 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "total_aset_lancar",
+   "pred": 161089530656,
+   "label": 161089530656,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 161.089.530.656 121.176.804.224 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "kas",
+   "pred": 9393862468,
+   "label": 9393862468,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2c,4 9 .393.862.468 1 6.057.258.132 Cash and cash equivalent"
+    },
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 9.393.862.468 12.850.012.053 AT END OF PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "liabilitas",
+   "pred": 659794391223,
+   "label": 659794391223,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 659.794.391.223 659.149.682.105 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "utang_bank",
+   "pred": 19398788428,
+   "label": 19398788428,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pinjaman bank 13 1 9.398.788.428 17.149.123.737 Bank loans"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "ekuitas",
+   "pred": 310122130019,
+   "label": 310122130019,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Subtotal 310.122.130.019 282.141.339.260 Subtotal"
+    },
+    {
+     "page": 8,
+     "reading": "IDR FULL",
+     "first_on_line": false,
+     "line": "Saldo 30 September 2024 189.437.500.000 15.161.644.523 15.000.000.000 91.585.670.071 ( 1.062.684.575) 310.122.130.019 38.824.208 310.160.954.227 Balance at September 30, 2024"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "laba_bersih",
+   "pred": 27980790759,
+   "label": 27980790759,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 27.980.790.759 17.536.198.779 Owners of the parent"
+    },
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 27.980.790.759 17.536.198.779 Owners of the parent"
+    },
+    {
+     "page": 8,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Laba neto periode berjalan - - - 27.980.790.759 - 27.980.790.759 10.688.224 27.991.478.983 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "pendapatan",
+   "pred": 320168860120,
+   "label": 320168860120,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 2i,18b,23 320.168.860.120 238.738.972.578 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 34013886562,
+   "label": 34013886562,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 34.013.886.562 30.910.421.282 Operating Activit"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "total_share",
+   "pred": 1894375000,
+   "label": 1894375000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "1.894.375.000 saham 19 189.437.500.000 189.437.500.000 1,894,375,000 shares"
+    },
+    {
+     "page": 66,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 1.894.375.000 100% 189.437.500.000 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "aset",
+   "pred": 1092421914566,
+   "label": 1092421914566,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 1 .092.421.914.566 9 89.890.084.157 TOTAL ASSETS"
+    },
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 1 .092.421.914.566 9 89.890.084.157 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "total_aset_lancar",
+   "pred": 256084951495,
+   "label": 256084951495,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 2 56.084.951.495 1 93.749.178.955 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "kas",
+   "pred": 14653796710,
+   "label": 14653796710,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2c,4 1 4.653.796.710 8 .528.119.944 Cash and cash equivalent"
+    },
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas 1 4.653.796.710 9.393.862.468 Cash"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "liabilitas",
+   "pred": 730612108307,
+   "label": 730612108307,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 7 30.612.108.307 6 69.483.382.092 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "utang_bank",
+   "pred": 44508856492,
+   "label": 44508856492,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "ekuitas",
+   "pred": 361666067730,
+   "label": 361666067730,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Subtotal 3 61.666.067.730 3 20.324.031.793 Subtotal"
+    },
+    {
+     "page": 8,
+     "reading": "IDR FULL",
+     "first_on_line": false,
+     "line": "Saldo 30 September 2025 189.437.500.000 15.161.644.523 20.000.000.000 139.369.720.093 (2.302.796.886) 361.666.067.730 143.738.529 361.809.806.259 Balance at September 30, 2025"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "laba_bersih",
+   "pred": 44789798437,
+   "label": 44789798437,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 4 4.789.798.437 2 7.980.790.759 Owners of the parent"
+    },
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 4 4.789.798.437 2 7.980.790.759 Owners of the parent"
+    },
+    {
+     "page": 8,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Laba neto periode berjalan - - - 44.789.798.437 - 44.789.798.437 61.068.257 44.850.866.694 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "pendapatan",
+   "pred": 454671565688,
+   "label": 454671565688,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 2i,18b,23 4 54.671.565.688 3 20.168.860.120 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 46744141072,
+   "label": 46744141072,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 4 6.744.141.072 3 4.013.886.562 Operating Activit"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "total_share",
+   "pred": 1894375000,
+   "label": 1894375000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "1.894.375.000 saham 19 1 89.437.500.000 1 89.437.500.000 1,894,375,000 shares"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "aset",
+   "pred": 684826152989,
+   "label": 684826152989,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 6 84.826.152.989 4 41.293.297.174 3 51.209.166.902 TOTAL ASSETS"
+    },
+    {
+     "page": 11,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 684.826.152.989 4 41.293.297.174 3 51.209.166.902 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "total_aset_lancar",
+   "pred": 73761021797,
+   "label": 73761021797,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 7 3.761.021.797 48.296.839.779 46.873.735.883 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "kas",
+   "pred": 8759584740,
+   "label": 8759584740,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas 3c,5 8 .759.584.740 2 .921.058.498 5 .326.875.615 Cash"
+    },
+    {
+     "page": 17,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas (Catatan 5) 8 .759.584.740 2 .921.058.498 Cash (Note 5)"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "liabilitas",
+   "pred": 488840075078,
+   "label": 488840075078,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 4 88.840.075.078 345.678.358.630 310.671.051.183 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "utang_bank",
+   "pred": 5304000000,
+   "label": 5304000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pinjaman bank 15 5 .304.000.000 1 3.420.666.664 7.185.873.942 Bank loans"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "ekuitas",
+   "pred": 195976647933,
+   "label": 195976647933,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Subtotal 195.976.647.933 95.614.938.544 4 0.538.115.719 Subtotal"
+    },
+    {
+     "page": 15,
+     "reading": "IDR FULL",
+     "first_on_line": false,
+     "line": "Saldo 31 Desember 2022 151.550.000.000 5.000.000.000 40.183.423.074 (756.775.141) 195.976.647.933 9.429.978 195.986.077.911 Balance at December 31, 2022"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "laba_bersih",
+   "pred": 15834397481,
+   "label": 15834397481,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 1 5.834.397.481 7 .788.178.389 Owners of the parent"
+    },
+    {
+     "page": 15,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Laba neto tahun berjalan - - 15.834.397.481 - 15.834.397.481 (570.022) 15.833.827.459 Net profit for the year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "pendapatan",
+   "pred": 215876144768,
+   "label": 215876144768,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 3i,20b,24 2 15.876.144.768 1 47.186.890.849 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 27606264949,
+   "label": 27606264949,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 16,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 2 7.606.264.949 2 1.131.695.059 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "total_share",
+   "pred": 1515500000,
+   "label": 1515500000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "1.515.500.000 saham pada 1,515,500,000 shares at"
+    },
+    {
+     "page": 88,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 1.515.500.000 100% 151.550.000.000 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "aset",
+   "pred": 941311157349,
+   "label": 941311157349,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 941.311.157.349 6 84.826.152.989 TOTAL ASSETS"
+    },
+    {
+     "page": 11,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 941.311.157.349 6 84.826.152.989 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "total_aset_lancar",
+   "pred": 121176804224,
+   "label": 121176804224,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 1 21.176.804.224 7 3.761.021.797 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "kas",
+   "pred": 16057258132,
+   "label": 16057258132,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2c,4 1 6.057.258.132 8 .759.584.740 Cash and cash equivalent"
+    },
+    {
+     "page": 16,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "AKHIR TAHUN 16.057.258.132 (33.961.923.146) AT END OF YEAR"
+    },
+    {
+     "page": 16,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas 16.057.258.132 8 .759.584.740 Cash"
+    },
+    {
+     "page": 16,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total 16.057.258.132 (33.961.923.146) Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "liabilitas",
+   "pred": 659149682105,
+   "label": 659149682105,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 659.149.682.105 4 88.840.075.078 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "utang_bank",
+   "pred": 17149123737,
+   "label": 17149123737,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pinjaman bank 13 1 7.149.123.737 5 .304.000.000 Bank loans"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "ekuitas",
+   "pred": 282141339260,
+   "label": 282141339260,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Subtotal 282.141.339.260 1 95.976.647.933 Subtotal"
+    },
+    {
+     "page": 14,
+     "reading": "IDR FULL",
+     "first_on_line": false,
+     "line": "Saldo 31 Desember 2023 189.437.500.000 15.161.644.523 10.000.000.000 68.604.879.312 (1.062.684.575) 282.141.339.260 20.135.984 282.161.475.244 Balance at December 31, 2023"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "laba_bersih",
+   "pred": 33421456238,
+   "label": 33421456238,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 3 3.421.456.238 1 5.834.397.481 Owners of the parent"
+    },
+    {
+     "page": 14,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Laba neto tahun berjalan - - - 33.421.456.238 - 33.421.456.238 10.706.006 33.432.162.244 Net profit for the year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "pendapatan",
+   "pred": 344916761385,
+   "label": 344916761385,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 2i,18b,23 3 44.916.761.385 2 15.876.144.768 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 59573516823,
+   "label": 59573516823,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 15,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 5 9.573.516.823 2 7.606.264.949 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "total_share",
+   "pred": 1894375000,
+   "label": 1894375000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "1.894.375.000 saham pada 1,894,375,000 shares"
+    },
+    {
+     "page": 79,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 1.894.375.000 100% 189.437.500.000 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "aset",
+   "pred": 989890084157,
+   "label": 989890084157,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 989.890.084.157 9 41.311.157.349 TOTAL ASSETS"
+    },
+    {
+     "page": 12,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 989.890.084.157 9 41.311.157.349 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "total_aset_lancar",
+   "pred": 193749178955,
+   "label": 193749178955,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 1 93.749.178.955 1 21.176.804.224 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "kas",
+   "pred": 8528119944,
+   "label": 8528119944,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2c,4 8 .528.119.944 1 6.057.258.132 Cash and cash equivalent"
+    },
+    {
+     "page": 17,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "AKHIR TAHUN 8.528.119.944 1 6.057.258.132 AT END OF THE YEAR"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "liabilitas",
+   "pred": 669483382092,
+   "label": 669483382092,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 669.483.382.092 6 59.149.682.105 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "utang_bank",
+   "pred": 24401706902,
+   "label": 24401706902,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "ekuitas",
+   "pred": 320324031793,
+   "label": 320324031793,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Subtotal 320.324.031.793 2 82.141.339.260 Subtotal"
+    },
+    {
+     "page": 15,
+     "reading": "IDR FULL",
+     "first_on_line": false,
+     "line": "Saldo 31 Desember 2023 189.437.500.000 15.161.644.523 15.000.000.000 103.027.684.156 (2.302.796.886) 320.324.031.793 82.670.272 320.406.702.065 Balance at December 31, 2024"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "laba_bersih",
+   "pred": 39422804844,
+   "label": 39422804844,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 3 9.422.804.844 3 3.421.456.238 Owners of the parent"
+    },
+    {
+     "page": 15,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Laba neto tahun berjalan - - - 39.422.804.844 - 39.422.804.844 54.534.288 39.477.339.132 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "pendapatan",
+   "pred": 428929469152,
+   "label": 428929469152,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 2i,19b,24 4 28.929.469.152 3 44.916.761.385 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 33900503009,
+   "label": 33900503009,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 16,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 3 3.900.503.009 5 9.573.516.823 Operating Activit"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "total_share",
+   "pred": 1894375000,
+   "label": 1894375000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "1.894.375.000 saham 20 189.437.500.000 1 89.437.500.000 1,894,375,000 shares"
+    },
+    {
+     "page": 78,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 1.894.375.000 100% 189.437.500.000 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "aset",
+   "pred": 1242804936571,
+   "label": 1242804936571,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL ASET 1.242.804.936.571 989.890.084.157 TOTAL ASSETS"
+    },
+    {
+     "page": 13,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "TOTAL LIABILITAS DAN EKUITAS 1.242.804.936.571 989.890.084.157 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "total_aset_lancar",
+   "pred": 285904361224,
+   "label": 285904361224,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 285.904.361.224 1 93.749.178.955 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "kas",
+   "pred": 19695706377,
+   "label": 19695706377,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2c,4 1 9.695.706.377 8.528.119.944 Cash and cash equivalents"
+    },
+    {
+     "page": 18,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 4 19.695.706.377 8.528.119.944 Cash and cash equivalents"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "liabilitas",
+   "pred": 856251177156,
+   "label": 856251177156,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 856.251.177.156 6 69.483.382.092 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "utang_bank",
+   "pred": 42355371268,
+   "label": 42355371268,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "ekuitas",
+   "pred": 386299285911,
+   "label": 386299285911,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik entitas induk 386.299.285.911 3 20.324.031.793 the owners of parent"
+    },
+    {
+     "page": 16,
+     "reading": "IDR FULL",
+     "first_on_line": false,
+     "line": "Saldo 31 Desember 2025 189.437.500.000 15.161.644.523 20.000.000.000 163.685.047.359 (1.984.905.971) 386.299.285.911 254.473.504 386.553.759.415 Balance as of December 31, 2025"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "laba_bersih",
+   "pred": 69105125703,
+   "label": 69105125703,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 15,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 6 9.105.125.703 39.422.804.844 Owners of the parent"
+    },
+    {
+     "page": 16,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Laba neto tahun berjalan - - - 69.105.125.703 - 6 9.105.125.703 171.781.823 6 9.276.907.526 Net profit for the year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "pendapatan",
+   "pred": 656304660831,
+   "label": 656304660831,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Rp656.304.660.831, yang terutama berasal dari jasa"
+    },
+    {
+     "page": 6,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "recorded revenue of Rp656,304,660,831, which"
+    },
+    {
+     "page": 14,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 2i,24 656.304.660.831 4 28.929.469.152 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 92912280784,
+   "label": 92912280784,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 17,
+     "reading": "IDR FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 92.912.280.784 33.900.503.009 Operating Activity"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_GTRA.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "total_share",
+   "pred": 1894375000,
+   "label": 1894375000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 74,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 1.894.375.000 100,00% 189.437.500.000 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_GTRA.pdf"
+  }
+ ]
+}

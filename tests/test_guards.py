@@ -197,6 +197,22 @@ def test_a_header_without_the_verb_is_still_a_header():
     assert detect_scale("(dalam hal ini Direksi)") is None
 
 
+def test_a_header_with_a_subject_before_the_verb_is_still_a_header():
+    """AKRA 2022 - Q3 2023: "(Angka disajikan ..." was missed, and the par-value line
+    "(dalam Rupiah penuh)" further down the equity page was read as the header instead."""
+    page = ("LAPORAN POSISI KEUANGAN KONSOLIDASIAN CONSOLIDATED STATEMENT OF\n"
+            "Tanggal 31 Maret 2023 As of March 31, 2023\n"
+            "(Angka disajikan dalam ribuan Rupiah, (Amounts are expressed in thousands of Rupiah,\n"
+            "kecuali dinyatakan lain) unless otherwise stated)\n"
+            "EKUITAS EQUITY\n"
+            "Modal saham - nilai nominal\n"
+            "Rp20 per saham Capital stock - Rp20 par value\n"
+            "(dalam Rupiah penuh) (in full Rupiah)\n")
+    assert detect_scale(page) == "THOUSANDS"
+    assert detect_scale("(Amounts are expressed in millions of Rupiah)") == "MILLIONS"
+    assert detect_scale("(Angka dalam tabel ini disusun ulang)") is None
+
+
 def test_printed_scale_overrides_the_model():
     """The header is unambiguous; the model's answer is not. The header wins."""
     e = F(**{**TRUTH, "currency": "IDR", "reporting_scale": "FULL"})
@@ -327,6 +343,54 @@ def test_a_title_split_across_bilingual_columns_is_still_found():
     selection = select_from_page_texts(pages)
     assert selection.pages[0] == 4, "the first balance-sheet page carries cash and current assets"
     assert classify_pages({n: pages[n] for n in selection.pages})["balance_sheet"][0] == 4
+
+
+def test_a_title_extracted_without_spaces_is_still_found():
+    """PGAS Q4 2023's text layer has no spaces at all, notice included:
+    "LAPORANPOSISIKEUANGAN", "STATEMENTOFPROFITORLOSS". No title matched, selection fell
+    back to the cover and auditor's report, and nine of ten fields came back empty."""
+    from page_select import select_from_page_texts, classify_pages
+    notice = ("Theoriginalconsolidatedfinancialstatementsincludedherein\n"
+              "areintheIndonesianlanguage.\n"
+              "PTPERUSAHAANGASNEGARATBK\nDANENTITASANAK/ANDITSSUBSIDIARIES\nHalaman1/1Page\n")
+    pages = (["cover"] * 14
+             + [notice + "LAPORANPOSISIKEUANGAN CONSOLIDATED\nKONSOLIDASIAN "
+                         "STATEMENTOFFINANCIALPOSITION"] * 2
+             + [notice + "LAPORANLABARUGI CONSOLIDATED\nDANPENGHASILANKOMPREHENSIFLAIN "
+                         "STATEMENTOFPROFITORLOSS"]
+             + [notice + "LAPORANARUSKAS CONSOLIDATED\nKONSOLIDASIAN STATEMENTOFCASHFLOWS"]
+             + ["notes"] * 20)
+    selection = select_from_page_texts(pages)
+    assert selection.method == "keyword_match" and selection.pages[0] == 14
+    groups = classify_pages({n: pages[n] for n in selection.pages})
+    assert groups["balance_sheet"] == [14, 15] and groups["income"] == [16]
+    assert groups["cash_flow"] == [17]
+
+
+def test_a_cash_flow_page_titled_as_notes_after_the_statements_is_still_selected():
+    """ENRG Q1 2023 heads its cash-flow page with the notes title and prints it after the
+    equity statement, so the span of titled pages ended one page short of it."""
+    from page_select import _untitled_cash_flow_after, classify_pages
+    notes_head = "CATATAN ATAS LAPORAN KEUANGAN NOTES TO THE CONSOLIDATED\n"
+    titles = (["cover"] * 2 + ["LAPORAN POSISI KEUANGAN KONSOLIDASIAN"] * 2
+              + ["LAPORAN LABA RUGI KONSOLIDASIAN", "LAPORAN PERUBAHAN EKUITAS KONSOLIDASIAN"]
+              + [notes_head] * 4)
+    layer = {n: t for n, t in enumerate(titles)}
+    # As ENRG's text layer has it: the heading broken across lines by the English half.
+    layer[6] = (notes_head + "ARUS KAS DARI CASH FLOWS FROM\nAKTIVITAS OPERASI OPERATING ACTIVITIES\n"
+                "Arus Kas Neto Diperoleh dari Net Cash Provided by\nAktivitas Operasi 28.619.851\n"
+                "ARUS KAS DARI CASH FLOWS FROM\nAKTIVITAS INVESTASI INVESTING ACTIVITIES")
+    layer[7] = notes_head + "1. UMUM\nPerusahaan didirikan berdasarkan akta"
+    span = [2, 3, 4, 5]
+    assert _untitled_cash_flow_after(span, titles, layer) == [6]
+    assert classify_pages({n: layer[n] for n in span + [6]})["cash_flow"] == [6]
+    # A titled cash-flow page in the span means nothing is added.
+    titles[5] = "LAPORAN ARUS KAS KONSOLIDASIAN"
+    assert _untitled_cash_flow_after(span, titles, layer) == []
+    # A notes page that is not a cash-flow statement is not added either.
+    titles[5] = "LAPORAN PERUBAHAN EKUITAS KONSOLIDASIAN"
+    layer[6] = notes_head + "1. UMUM\nPerusahaan didirikan"
+    assert _untitled_cash_flow_after(span, titles, layer) == []
 
 
 def test_a_note_mentioning_a_statement_is_not_a_title():
@@ -575,6 +639,88 @@ def test_an_annual_column_is_recognised_as_q4():
     assert prices.parse_period("2024") is None
 
 
+def test_an_empty_window_falls_back_to_any_session_in_the_same_month(monkeypatch):
+    """A suspension can leave nothing within twelve days of the 17th. The month is then
+    read from the 1st in order and its first session prices the period -- nothing from
+    the month before or after ever does."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "fetch_share_prices", ROOT / "scripts" / "fetch_share_prices.py")
+    prices = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(prices)
+    from datetime import date
+    today = date(2026, 1, 1)
+    target = date(2024, 6, 17)
+    series = {date(2024, 6, 2): 100.0, date(2024, 6, 3): 101.0, date(2024, 7, 1): 120.0}
+    with pytest.raises(prices.PriceUnavailable):
+        prices.close_nearest(series, target, today=today)
+    assert prices.close_in_month(series, target, today=today) == (date(2024, 6, 2), 100.0)
+    with pytest.raises(prices.PriceUnavailable):
+        prices.close_in_month({date(2024, 5, 31): 1.0, date(2024, 7, 1): 2.0}, target,
+                              today=today)
+    # One month back, walking from its end; never the month after.
+    assert prices.close_last_in_month({date(2024, 5, 30): 1.0, date(2024, 5, 31): 2.0,
+                                       date(2024, 7, 1): 3.0}, date(2024, 5, 31),
+                                      today=today) == (date(2024, 5, 31), 2.0)
+
+    # The collector uses the fallback only when the window is empty, and says so.
+    calls = []
+
+    def fake_fetch(ticker, start, end):
+        calls.append((start, end))
+        window = {d: v for d, v in series.items() if start <= d <= end}
+        if not window:
+            raise prices.PriceUnavailable("no trading days for TEST.JK in the window")
+        return window
+
+    monkeypatch.setattr(prices, "fetch_daily_closes", fake_fetch)
+    monkeypatch.setattr(prices.time, "sleep", lambda s: None)
+    row = prices.collect("TEST", [("Q1", 2024)])[0]
+    assert row["price"] == 100.0 and row["price_date"] == "2024-06-02"
+    assert "first session of June 2024" in row["note"]
+    assert calls[-1] == (date(2024, 6, 1), date(2024, 6, 30))
+    blank = prices.collect("TEST", [("Q1", 2024)], month_fallback=False)[0]
+    assert blank["price"] == ""
+
+
+def test_a_17th_not_yet_reached_is_priced_provisionally_from_the_1st(monkeypatch):
+    """On 2 November 2026 Q3's 17 November has not come. The month is read from the 1st
+    and its first FINAL close is used, marked provisional; with none yet, the previous
+    month's last session. Today's bar counts only after 17:00 Jakarta time, and a month
+    not yet started stays in the future."""
+    import importlib.util
+    from datetime import date, datetime
+    spec = importlib.util.spec_from_file_location(
+        "fetch_share_prices", ROOT / "scripts" / "fetch_share_prices.py")
+    prices = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(prices)
+
+    jkt = prices.JAKARTA
+    assert prices.last_final_day(datetime(2026, 11, 2, 15, 4, tzinfo=jkt)) == date(2026, 11, 1)
+    assert prices.last_final_day(datetime(2026, 11, 2, 17, 5, tzinfo=jkt)) == date(2026, 11, 2)
+
+    series = {date(2026, 10, 30): 1.0, date(2026, 11, 2): 1400.0, date(2026, 11, 3): 1410.0}
+    monkeypatch.setattr(prices, "fetch_daily_closes", lambda t, a, b: {
+        d: v for d, v in series.items() if a <= d <= b})
+    monkeypatch.setattr(prices.time, "sleep", lambda s: None)
+
+    # Before 17:00 on the 2nd: no final close in November yet, so October's LAST session.
+    monkeypatch.setattr(prices, "last_final_day", lambda: date(2026, 11, 1))
+    row = prices.collect("TEST", [("Q3", 2026)])[0]
+    assert row["price"] == 1.0 and row["price_date"] == "2026-10-30"
+    assert "last session of October 2026" in row["note"] and "PROVISIONAL" in row["note"]
+    # The 3rd: the 2nd is the first final close of November.
+    monkeypatch.setattr(prices, "last_final_day", lambda: date(2026, 11, 3))
+    row = prices.collect("TEST", [("Q3", 2026)])[0]
+    assert row["price"] == 1400.0 and row["price_date"] == "2026-11-02"
+    assert row["note"].startswith("PROVISIONAL") and "--overwrite" in row["note"]
+    # Q4 2026 is priced in May 2027: not started, still the future.
+    assert "in the future" in prices.collect("TEST", [("Q4", 2026)])[0]["note"]
+    # With the fallback off, a 17th not yet reached stays blank.
+    assert "in the future" in prices.collect("TEST", [("Q3", 2026)],
+                                             month_fallback=False)[0]["note"]
+
+
 def test_the_nearest_session_to_the_17th_prices_the_period():
     """Either side of the 17th, whichever is nearer; the earlier one on a tie; never a
     session that has not happened yet."""
@@ -672,6 +818,132 @@ def test_a_rate_quoted_directly_as_rupiah_per_dollar_is_read():
     assert quote("Rupiah 10.000 (Rp) 0.56 0.60 Rupiah 10,000") is None
 
 
+def test_a_rate_quoted_in_dollars_per_one_rupiah_is_read():
+    """MEDC prints "Rupiah/AS$1 0,000060 0,000062": dollars per ONE Rupiah, no 1.000 unit.
+
+    Without the unit the row was skipped and all eighteen MEDC filings failed conversion.
+    Six decimals of a number this small is two significant figures, so the rate carries
+    almost 1% rounding uncertainty, and that is said rather than hidden.
+    """
+    from normalize import _rate_from_line
+    rate, places, quoted, others = _rate_from_line(
+        "Rupiah/AS$1 0,000060 0,000062 Rupiah/US$1")
+    assert round(rate, 2) == 16666.67 and places == 6 and quoted == 0.00006
+    assert others == (16129.03,)
+    # The neighbouring rows quote other currencies per dollar, not the Rupiah.
+    assert _rate_from_line("Euro/AS$1 1,0787 1,0427 Euro/US$1") is None
+
+
+def test_a_rate_quoted_dollar_first_with_a_slash_is_read():
+    """ENRG and PGAS print "1 Dolar AS/Rp 16.588,00 16.162,00" and were taken for filers
+    that disclose no rate. pdfplumber also splits ENRG's figure as "1 6.588,00" and
+    glues PGAS's words together; neither may lose the rate. ENRG's rights-issue price
+    "Rp14.572 per USD 1" on an earlier page is not a rate."""
+    from normalize import _rate_from_direct_quote
+    assert _rate_from_direct_quote(
+        "1 Dolar AS/Rp 1 6.588,00 1 6.162,00 US Dolar 1/Rp") == (16588.0, (16162.0,))
+    assert _rate_from_direct_quote(
+        "1dolarAS/Rupiah(nilaipenuh) 15.439 15.731 1USdollar/Rupiah(fullamount)") \
+        == (15439.0, (15731.0,))
+    assert _rate_from_direct_quote(
+        "1 Dolar Amerika Serikat/Rp 16.782 16.162 1 United States Dollar/Rp")[0] == 16782.0
+    assert _rate_from_direct_quote("amounting to Rp14,572 per USD 1. This PUT III") is None
+
+
+def test_bi_excel_export_is_read_by_header(tmp_path):
+    """BI's Kurs Transaksi export: title rows, then NO/Nilai/Kurs Jual/Kurs Beli/Tanggal
+    with Indonesian-formatted text and month-first dates. The quarter-end row uses the
+    last fixing on or before the date (31 March 2025 fell in the Lebaran closure)."""
+    import importlib.util
+    from datetime import date
+
+    import openpyxl
+    spec = importlib.util.spec_from_file_location(
+        "fetch_fx_rates", Path(__file__).resolve().parent.parent / "scripts" / "fetch_fx_rates.py")
+    fetch = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(fetch)
+
+    book = openpyxl.Workbook()
+    sheet = book.active
+    sheet.append([None] * 5)
+    sheet.append(["Kurs Transaksi USD"] * 4 + [None])
+    sheet.append(["NO", "Nilai", "Kurs Jual", "Kurs Beli", "Tanggal"])
+    sheet.append([1, "1,00", "16.670,94", "16.505,06", "3/27/2025 12:00:00 AM"])
+    sheet.append([2, "1,00", "16.700,00", "16.600,00", "4/8/2025 12:00:00 AM"])
+    path = tmp_path / "kurs.xlsx"
+    book.save(path)
+
+    fixings = fetch.fixings_from_excel(path)
+    assert fixings[date(2025, 3, 27)] == (16505.06, 16670.94)
+    row = fetch.middle_rate_at(date(2025, 3, 31), fixings)
+    assert row["rate_date"] == "2025-03-27" and row["idr_per_usd"] == 16588.0
+
+
+def _bi_table(tmp_path):
+    path = tmp_path / "fx_rates_bi.csv"
+    path.write_text("period_end,rate_date,idr_per_usd,buy,sell,source\n"
+                    "2025-03-31,2025-03-27,16588.0,16505.06,16670.94,BI\n")
+    return path
+
+
+def test_a_filing_with_no_rate_is_converted_at_bank_indonesias_and_says_so(
+        tmp_path, monkeypatch):
+    """ESSA and APEX print no period-end rate; their notes name BI's middle
+    rate. That published rate is used and labelled -- never passed off as the filing's."""
+    import normalize
+    monkeypatch.setattr(normalize, "extract_fx_rate", lambda pdf: None)
+    table = _bi_table(tmp_path)
+    fx, note = normalize.fx_for_filing("x.pdf", "2025-03-31", table)
+    assert fx.idr_per_usd == 16588.0 and fx.source == "bi_middle_rate"
+    assert "discloses no exchange rate" in note and "2025-03-27" in note
+    # A quarter the table does not carry is still refused, not filled from a neighbour.
+    assert normalize.fx_for_filing("x.pdf", "2025-06-30", table) == (None, None)
+
+
+def test_a_rate_derived_from_a_translated_amount_gives_way_to_bis(tmp_path, monkeypatch):
+    """ESSA Q4 2025 has no rate table; the only Rp/US$ pair is a 2017 share transfer,
+    "Rp 245.520.000.000 (setara dengan US$ 25.389.223)" = 9.670. It is not a period-end
+    rate and must not convert a 2025 balance sheet when BI's rate is known."""
+    import normalize
+    pair = normalize.FxRate(idr_per_usd=9670.24, source="derived_from_pair", page=19,
+                            evidence="Rp 245.520.000.000 US$ 25,389,223")
+    monkeypatch.setattr(normalize, "extract_fx_rate", lambda pdf: pair)
+    table = _bi_table(tmp_path)
+    fx, note = normalize.fx_for_filing("x.pdf", "2025-03-31", table)
+    assert fx.idr_per_usd == 16588.0 and fx.source == "bi_middle_rate"
+    assert "9,670.24" in note and "ignored" in note
+    # Without a BI rate for the quarter the pair is still the only evidence, as before.
+    assert normalize.fx_for_filing("x.pdf", "2025-06-30", table) == (pair, None)
+
+
+def test_a_coarse_disclosed_rate_is_sharpened_only_inside_its_own_rounding(
+        tmp_path, monkeypatch):
+    """MEDC's 0,000060 means 16,529-16,807. BI's 16,588 lies inside, so both say the same
+    rate and BI's says it exactly. A precise disclosed rate is never replaced."""
+    import normalize
+    table = _bi_table(tmp_path)
+    coarse = normalize.FxRate(idr_per_usd=1 / 0.00006, source="disclosed_rate_table",
+                              page=36, evidence="Rupiah/AS$1 0,000060", decimals=6,
+                              quoted_value=0.00006)
+    monkeypatch.setattr(normalize, "extract_fx_rate", lambda pdf: coarse)
+    fx, note = normalize.fx_for_filing("x.pdf", "2025-03-31", table)
+    assert fx.idr_per_usd == 16588.0
+    assert fx.source == "bi_middle_rate_within_filing_rounding" and fx.page == 36
+    assert "16,529-16,807" in note
+    # BI outside the quote's rounding: the filing's own figure stands.
+    off = normalize.FxRate(idr_per_usd=1 / 0.000070, source="disclosed_rate_table",
+                           page=38, evidence="Rupiah/AS$1 0,000070", decimals=6,
+                           quoted_value=0.00007)
+    monkeypatch.setattr(normalize, "extract_fx_rate", lambda pdf: off)
+    assert normalize.fx_for_filing("x.pdf", "2025-03-31", table) == (off, None)
+    # A rate quoted to four decimals (ARCI's 0,0697) is precise enough to stand.
+    fine = normalize.FxRate(idr_per_usd=1000 / 0.0697, source="disclosed_rate_table",
+                            page=20, evidence="1.000 Rupiah 0,0697", decimals=4,
+                            quoted_value=0.0697)
+    monkeypatch.setattr(normalize, "extract_fx_rate", lambda pdf: fine)
+    assert normalize.fx_for_filing("x.pdf", "2025-03-31", table) == (fine, None)
+
+
 def test_share_count_search_reads_only_the_shareholder_table():
     """Three pages DSNG really prints, in the order it prints them.
 
@@ -721,6 +993,11 @@ def test_share_count_search_reads_only_the_shareholder_table():
     # Two total rows the pattern once missed, as printed.
     assert find({76: "Pemegang saham\nTotal 40,882,331,500 100 303,919,662"}) == [76]  # ADMR Q1 2023
     assert find({106: "Pemegang saham\nTotal 19.852.540.000 100,0000 1.985.254"}) == [106]  # TAPG Q3 2023
+    # PURA Q1 2023 prints an inconsistent 104% ownership total, while the total share
+    # count is explicit and matches the sum of shareholder counts. Q2 prints 100%.
+    assert find({50: "Pemegang saham\nTotal 6.301.930.902 104% 315.096.545.100"}) == [50]
+    assert find({50: "Pemegang saham\nTotal 6.301.930.902 120% 315.096.545.100"}) == []
+    assert find({50: "Pemegang saham\nMasyarakat 6.301.930.902 104% 315.096.545.100"}) == []
     # A subsidiary table on a page naming its shareholders: ownership first, then assets.
     admr = {15: "Pemegang saham ASC adalah PT Trinugraha Thohir\n"
                 "PT Alamtri Indo Aluminium Investasi Indonesia - 100.00% 100.00% 1,069,356,077 629,420,541",
@@ -876,6 +1153,21 @@ def test_a_computed_outstanding_figure_does_not_sink_a_total_its_inputs_support(
     assert j.total_share == 11_627_669_901
 
 
+def test_a_shareholder_table_ocr_split_into_columns_is_still_found():
+    """APEX Q3 2025's share note is OCR'd one column at a time: holders, then counts,
+    then "Jumlah 3.546.466.661" alone, and the percentages further down. No count sits
+    beside a percentage, so total_share was never asked for. Authorised capital on a
+    bare total line still does not count."""
+    from page_select import find_shareholder_table_pages
+    page = ("MODAL SAHAM\n14. CAPITAL STOCK\nSusunan pemegang saham Perusahaan\n"
+            "Pemegang Saham Shares\nPT Aserra Capital\nMasyarakat\n\n1.897.730.677\n"
+            "1.648.735.984\n\nJumlah 3.546.466.661\n\n53,510% 81.961.076 PT Aserra Capital\n"
+            "46,490% 71.207.246 Public\n100% 153.168.322 Total\n")
+    assert find_shareholder_table_pages({10: "notes", 52: page}) == [52]
+    authorised = page.replace("Jumlah 3.546.466.661", "Modal dasar\nJumlah 3.546.466.661")
+    assert find_shareholder_table_pages({52: authorised}) == []
+
+
 def test_the_shareholder_table_is_found_and_the_eps_note_is_not():
     """Outstanding and treasury counts live in the shareholder table, not the statements.
 
@@ -960,6 +1252,106 @@ def test_a_total_from_the_comparative_table_is_replaced_by_the_current_one():
     assert unknown.total_share == 1_234_567_890
 
 
+def test_mixed_bank_loan_note_is_selected_and_kept_as_its_own_group():
+    from page_select import find_bank_loan_note_pages
+    from extract import group_pages
+    pages = {
+        4: "LAPORAN POSISI KEUANGAN\nUtang Bank dan Lembaga Bank loans\n"
+            "Keuangan Non-Bank 672.925.827",
+        20: "Persediaan digunakan sebagai jaminan utang bank dan lembaga keuangan non-bank.",
+        70: "23. UTANG BANK DAN LEMBAGA KEUANGAN NON-\nBANK\nTotal 690.692.892",
+        71: "Dikurangi bagian lancar\nPT Bank Maybank (1.705.294)\n"
+            "PT Bank Pan Indonesia (524.205.898)\nSub-total (672.925.827)",
+    }
+    assert find_bank_loan_note_pages(pages) == [70, 71]
+    assert find_bank_loan_note_pages(pages, mixed_row_present=False) == []
+    groups = group_pages({4: pages[4], 70: pages[70], 71: pages[71]}, [], [70, 71])
+    assert groups == {"balance_sheet": [4], "bank_note": [70, 71]}
+
+
+def test_bank_note_components_sum_only_after_each_amount_is_grounded():
+    from extract import derive_fields
+    e = F(utang_bank_jangka_pendek=15_000,
+          utang_bank_bagian_lancar_components=[-5_000, -7_000])
+    derive_fields(e)
+    assert e.utang_bank_bagian_lancar == 12_000
+    assert e.utang_bank == 27_000
+
+    source = ("Utang bank jangka pendek 15.000; Bank C (5.000); "
+              "Bank D (7.000)")
+    issues = validate(e) + validate_against_document(e, source)
+    scores = score_extraction(e, source, issues)
+    assert scores["utang_bank_bagian_lancar_components"].grounded is True
+    assert scores["utang_bank_bagian_lancar"].confidence >= 0.55
+    assert scores["utang_bank"].confidence >= 0.55
+
+
+def test_combined_bank_and_nonbank_financial_institution_row_is_valid_debt():
+    from validate import _bank_rows_by_section
+    source = ("Bagian Liabilitas Jangka Panjang Jatuh Tempo dalam Satu Tahun\n"
+              "Utang Bank dan Lembaga Keuangan Non-Bank 359.124.216\n"
+              "Liabilitas Jangka Panjang Setelah Dikurangi Bagian Lancar\n"
+              "Utang Bank dan Lembaga Keuangan Non-Bank 211.178.167")
+    e = F(**{**TRUTH, "utang_bank": 359_124_216,
+             "utang_bank_jangka_pendek": 0,
+             "utang_bank_bagian_lancar": 359_124_216})
+
+    assert _bank_rows_by_section(source) == {
+        "current_maturity": [359_124_216], "long_term": [211_178_167]}
+    assert not [issue for issue in validate(e) + validate_against_document(e, source)
+                if issue.severity == "ERROR"]
+
+
+def test_printed_combined_current_total_wins_over_incomplete_note_components():
+    from extract import derive_fields
+    e = F(utang_bank_jangka_pendek=0, utang_bank_bagian_lancar=359_124_216,
+          utang_bank_bagian_lancar_components=[200_000_000])
+    warnings = derive_fields(e)
+    assert e.utang_bank_bagian_lancar == 359_124_216
+    assert e.utang_bank == 359_124_216
+    assert any("keeping statement total" in w for w in warnings)
+
+
+def test_split_trin_headings_and_rows_repair_duplicate_or_long_term_component():
+    from validate import (_bank_rows_by_section,
+                          repair_misclassified_short_term_debt)
+    source = ("--- PAGE 5 ---\n"
+              "LIABILITAS JANGKA\nPENDEK\n"
+              "Bagian Liabilitas Jangka\npanjang jatuh tempo Current maturity\n"
+              "dalam satu tahun: of long-term liabilities:\n"
+              "Utang Bank dan Bank loans\nlembaga keuangan and non-bank financial\n"
+              "non-bank 24 178.961.211 695.981.931 loans\n"
+              "Liabilitas jangka panjang -\ndikurangi bagian jatuh\n"
+              "tempo: Long-term liabilities - net of current portion:\n"
+              "Utang Bank dan Lembaga Bank loans and non-bank\n"
+              "Keuangan Non-Bank 23 576.947.572 12.486.620 loans")
+    rows = _bank_rows_by_section(source)
+    assert rows["short_term"] == []
+    assert rows["current_maturity"] == [178_961_211, 695_981_931]
+    assert rows["long_term"] == [576_947_572, 12_486_620]
+
+    e = F(**{**TRUTH, "utang_bank": 755_908_783,
+             "utang_bank_jangka_pendek": 576_947_572,
+             "utang_bank_bagian_lancar": 178_961_211})
+    warning = repair_misclassified_short_term_debt(e, source)
+    assert warning and "long_term" in warning
+    assert e.utang_bank_jangka_pendek == 0
+    assert e.utang_bank == 178_961_211
+
+    issues = validate(e) + validate_against_document(e, source)
+    scores = score_extraction(e, source, issues)
+    assert not any(i.severity == "error" for i in issues)
+    assert scores["utang_bank"].confidence >= 0.55
+
+    duplicate = F(**{**TRUTH, "utang_bank": 357_922_422,
+                     "utang_bank_jangka_pendek": 178_961_211,
+                     "utang_bank_bagian_lancar": 178_961_211})
+    warning = repair_misclassified_short_term_debt(duplicate, source)
+    assert warning and "current_maturity" in warning
+    assert duplicate.utang_bank_jangka_pendek == 0
+    assert duplicate.utang_bank == 178_961_211
+
+
 if __name__ == "__main__":
     # Runnable without pytest, so the guards can be demonstrated anywhere.
     text = build_document_text(read_page_texts(str(PDF), [4, 5, 6, 7, 8, 9, 10, 11]))
@@ -1014,6 +1406,24 @@ def test_grounding_survives_a_digit_split_from_its_separator():
     assert check_grounding(777777777777, text) is False
 
 
+def test_a_nil_current_column_is_not_a_bank_row_ignored():
+    """ESSA Q3 2025 repaid every loan: "Utang bank 15 - 42.216.691", a dash this period
+    against last December's figure. The correct nil was withheld as "bank_row_ignored"
+    because the comparative read as the row's amount. A real current figure still fires
+    (TRIN Q4 2024's printed 695.981.931 against a reported 0)."""
+    from schema import FinancialStatementExtraction
+    from validate import validate_against_document
+    def page(row):
+        return ("--- PAGE 5 ---\nLIABILITAS JANGKA PENDEK\nUtang usaha 14 1.000.000 2.000.000\n"
+                "Liabilitas jangka panjang yang jatuh tempo dalam satu tahun\n" + row + "\n"
+                "LIABILITAS JANGKA PANJANG\nLiabilitas jangka panjang setelah dikurangi "
+                "bagian yang jatuh tempo dalam satu tahun\nUtang bank 15 - 16.016.645\n")
+    nil = FinancialStatementExtraction(utang_bank_bagian_lancar=0, utang_bank_jangka_pendek=0)
+    codes = lambda text: [i.rule for i in validate_against_document(nil, text)]
+    assert "bank_row_ignored" not in codes(page("Utang bank 15 - 42.216.691 Bank loans"))
+    assert "bank_row_ignored" in codes(page("Utang bank 15 695.981.931 600.000.000"))
+
+
 def test_an_explicit_nil_is_not_position_checked(document_text):
     """Zero means the row does not exist, so there is no row to locate it in.
 
@@ -1027,3 +1437,60 @@ def test_an_explicit_nil_is_not_position_checked(document_text):
     issues = validate_against_document(e, document_text)
     assert not any(i.rule == "wrong_section" and "bagian_lancar" in " ".join(i.fields)
                    for i in issues), [i.message for i in issues]
+
+
+ENRG_Q1_2023 = """TOTAL ASET
+1.201.620.447
+
+1.194.330.408
+Total Liabilitas 668.220.525 679.404.122 Total Liabilities
+Ekuitas - Neto 532.218.646 514.926.286 Equity - Net
+TOTAL LIABILITAS TOTAL LIABILITIES
+DAN EKUITAS 1.200.439.171 1.194.330.408 AND EQUITY"""
+
+
+def test_a_filing_whose_own_balance_sheet_does_not_balance_is_reported_with_a_warning():
+    """ENRG Q1 2023 prints assets 1.201.620.447 against L+E 1.200.439.171. The model read
+    every figure correctly and all three were withheld; the user chose to report them."""
+    from validate import filing_prints_unbalanced
+    e = F()
+    e.aset, e.liabilitas, e.total_ekuitas = 1201620447, 668220525, 532218646
+    assert "does not balance" in filing_prints_unbalanced(e, ENRG_Q1_2023)
+    # Liabilities and equity from the comparative column land on the comparative L+E
+    # total, which never leads its line: still a misread, still withheld.
+    e.liabilitas, e.total_ekuitas = 679404122, 514926286
+    assert filing_prints_unbalanced(e, ENRG_Q1_2023) is None
+    # So is an assets figure taken from the comparative column.
+    e.aset, e.liabilitas, e.total_ekuitas = 1194330408, 668220525, 532218646
+    assert filing_prints_unbalanced(e, ENRG_Q1_2023 + "\nTOTAL ASET 1.201.620.447 "
+                                    "1.194.330.408") is None
+
+
+MEDC_Q2_2024 = """PENDAPATAN REVENUES
+Pendapatan dari kontrak dengan
+pelanggan 2,34 1.141.062.168 1.094.111.984
+customers
+Pendapatan keuangan 2,34 24.306.353 22.094.150 Finance income
+JUMLAH PENDAPATAN 1.165.368.521 1.116.206.134 TOTAL REVENUES
+BEBAN POKOK PENDAPATAN"""
+
+
+def test_a_revenue_block_with_a_printed_total_reports_the_total():
+    """The user's convention for MEDC: JUMLAH PENDAPATAN, not its first line."""
+    from validate import repair_revenue_block_total
+    e = F()
+    e.pendapatan = 1141062168
+    assert repair_revenue_block_total(e, {7: MEDC_Q2_2024})
+    assert e.pendapatan == 1165368521
+    # Already the total: nothing to do.
+    assert repair_revenue_block_total(e, {7: MEDC_Q2_2024}) == []
+    # AKRA before 2024 prints no total; the first line stands.
+    akra = ("Pendapatan dari Kontrak dengan Pelanggan 10.891.301.304 10.071.527.947\n"
+            "Pendapatan Sewa 67.571.271 62.724.201 Rental Income\n"
+            "Beban Pokok Penjualan dan Pendapatan (9.888.680.270) (9.395.848.827)")
+    e.pendapatan = 10891301304
+    assert repair_revenue_block_total(e, {6: akra}) == [] and e.pendapatan == 10891301304
+    # A total the lines in between do not add up to belongs to another block.
+    e.pendapatan = 1141062168
+    wrong = MEDC_Q2_2024.replace("24.306.353", "20.000.000")
+    assert repair_revenue_block_total(e, {7: wrong}) == [] and e.pendapatan == 1141062168

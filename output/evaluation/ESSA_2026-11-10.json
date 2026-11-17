@@ -1,0 +1,4462 @@
+{
+ "ticker": "ESSA",
+ "date": "2026-11-10",
+ "has_labels": true,
+ "filings": [
+  {
+   "period": "Q1 2022",
+   "file": "Q1_2022_ESSA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 14,349.01 (Bank Indonesia kurs tengah 2022-03-31 (beli 14,277.26, jual 14,420.75) for period end 2022-03-31)",
+   "error": "",
+   "pages_selected": "4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 68",
+   "pdf_found": true
+  },
+  {
+   "period": "Q1 2023",
+   "file": "Q1_2023_ESSA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 15,062.00 (Bank Indonesia kurs tengah 2023-03-31 (beli 14,986.69, jual 15,137.31) for period end 2023-03-31)",
+   "error": "",
+   "pages_selected": "4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 65",
+   "pdf_found": true
+  },
+  {
+   "period": "Q1 2024",
+   "file": "Q1_2024_ESSA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 15,853.00 (Bank Indonesia kurs tengah 2024-03-28 (beli 15,773.74, jual 15,932.26) for period end 2024-03-31)",
+   "error": "",
+   "pages_selected": "4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 70",
+   "pdf_found": true
+  },
+  {
+   "period": "Q1 2025",
+   "file": "Q1_2025_ESSA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 16,588.00 (Bank Indonesia kurs tengah 2025-03-27 (beli 16,505.06, jual 16,670.94) for period end 2025-03-31)",
+   "error": "",
+   "pages_selected": "4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 73",
+   "pdf_found": true
+  },
+  {
+   "period": "Q1 2026",
+   "file": "Q1_2026_ESSA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "the filing states no rate table; a Rp/US$ pair on p12 (9,670.24: 'Rp 245.520.000.000 US$ 25,389,223') is not a period-end rate and was ignored; converted at Bank Indonesia's middle rate 16,993.00 (Bank Indonesia kurs tengah 2026-03-31 (beli 16,908.03, jual 17,077.97) for period end 2026-03-31)",
+   "error": "",
+   "pages_selected": "4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 69",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2022",
+   "file": "Q2_2022_ESSA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 14,848.00 (Bank Indonesia kurs tengah 2022-06-30 (beli 14,773.76, jual 14,922.24) for period end 2022-06-30)",
+   "error": "",
+   "pages_selected": "4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 68",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2023",
+   "file": "Q2_2023_ESSA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 15,026.00 (Bank Indonesia kurs tengah 2023-06-27 (beli 14,950.87, jual 15,101.13) for period end 2023-06-30)",
+   "error": "",
+   "pages_selected": "4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 65",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2024",
+   "file": "Q2_2024_ESSA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 16,421.00 (Bank Indonesia kurs tengah 2024-06-28 (beli 16,338.90, jual 16,503.10) for period end 2024-06-30)",
+   "error": "",
+   "pages_selected": "4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 70",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2025",
+   "file": "Q2_2025_ESSA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 16,233.00 (Bank Indonesia kurs tengah 2025-06-30 (beli 16,151.83, jual 16,314.17) for period end 2025-06-30)",
+   "error": "",
+   "pages_selected": "4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 73",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2026",
+   "file": "Q2_2026_ESSA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "the filing states no rate table; a Rp/US$ pair on p13 (9,670.24: 'Rp 245.520.000.000 US$ 25,389,223') is not a period-end rate and was ignored; converted at Bank Indonesia's middle rate 17,856.00 (Bank Indonesia kurs tengah 2026-06-30 (beli 17,766.72, jual 17,945.28) for period end 2026-06-30)",
+   "error": "",
+   "pages_selected": "4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 70",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2022",
+   "file": "Q3_2022_ESSA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 15,247.00 (Bank Indonesia kurs tengah 2022-09-30 (beli 15,170.76, jual 15,323.24) for period end 2022-09-30)",
+   "error": "",
+   "pages_selected": "4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 68",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2023",
+   "file": "Q3_2023_ESSA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 15,526.00 (Bank Indonesia kurs tengah 2023-09-29 (beli 15,448.37, jual 15,603.63) for period end 2023-09-30)",
+   "error": "",
+   "pages_selected": "4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 65",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2024",
+   "file": "Q3_2024_ESSA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 15,138.00 (Bank Indonesia kurs tengah 2024-09-30 (beli 15,062.31, jual 15,213.69) for period end 2024-09-30)",
+   "error": "",
+   "pages_selected": "4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 70",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2025",
+   "file": "Q3_2025_ESSA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 16,680.00 (Bank Indonesia kurs tengah 2025-09-30 (beli 16,596.60, jual 16,763.40) for period end 2025-09-30)",
+   "error": "",
+   "pages_selected": "4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 73",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2022",
+   "file": "Q4_2022_ESSA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 15,731.00 (Bank Indonesia kurs tengah 2022-12-30 (beli 15,652.34, jual 15,809.66) for period end 2022-12-31)",
+   "error": "",
+   "pages_selected": "10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 74",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2023",
+   "file": "Q4_2023_ESSA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 15,416.00 (Bank Indonesia kurs tengah 2023-12-29 (beli 15,338.92, jual 15,493.08) for period end 2023-12-31)",
+   "error": "",
+   "pages_selected": "13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 83",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2024",
+   "file": "Q4_2024_ESSA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "the filing discloses no exchange rate; converted at Bank Indonesia's middle rate 16,162.00 (Bank Indonesia kurs tengah 2024-12-31 (beli 16,081.19, jual 16,242.81) for period end 2024-12-31)",
+   "error": "",
+   "pages_selected": "13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 85",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2025",
+   "file": "Q4_2025_ESSA.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "the filing states no rate table; a Rp/US$ pair on p19 (9,670.24: 'Rp 245.520.000.000 US$ 25,389,223') is not a period-end rate and was ignored; converted at Bank Indonesia's middle rate 16,782.00 (Bank Indonesia kurs tengah 2025-12-31 (beli 16,698.09, jual 16,865.91) for period end 2025-12-31)",
+   "error": "",
+   "pages_selected": "11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 82",
+   "pdf_found": true
+  }
+ ],
+ "cells": [
+  {
+   "period": "Q1 2022",
+   "field": "aset",
+   "pred": 12273761212052,
+   "label": 12273761212052,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 855.373.382 809.293.023 TOTAL ASSETS"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS DAN EKUITAS 855.373.382 809.293.023 TOTAL LIABILITIES AND EQUITY"
+    },
+    {
+     "page": 16,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Penawaran saham tanpa hak 4 September/ 100.000.000 854.701 Shares issued without pre-emptive rights"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "total_aset_lancar",
+   "pred": 3117007504778,
+   "label": 3117007504778,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 217.228.053 158.000.533 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "kas",
+   "pred": 1596739136040,
+   "label": 1596739136040,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 111.278.697 80.841.178 Cash and cash equivalents"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 111.278.697 596.174.458 AT END OF PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "liabilitas",
+   "pred": 7296607240541,
+   "label": 7296607240541,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS 508.509.454 508.511.713 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "utang_bank",
+   "pred": 1233111116303,
+   "label": 1233111116303,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "ekuitas",
+   "pred": 3485727098525,
+   "label": 3485727098525,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik Perusahaan 242.924.571 213.463.376 of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Maret 2022 15.405.610 90.902.649 282.808 (1.512.357) 17.542.421 734.991 4.474.656 2.166.100 112.927.693 242.924.571 103.939.357 346.863.928 Balance as of March 31, 202"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "laba_bersih",
+   "pred": 371858124006,
+   "label": 371858124006,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk 25.915.246 6.408.854 Owners of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba periode berjalan - - - - - - - - 25.915.246 25.915.246 14.257.398 40.172.644 Profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "pendapatan",
+   "pred": 2281936950142,
+   "label": 2281936950142,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 21 159.030.968 68.514.421 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 792078969210,
+   "label": 792078969210,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas operasi 55.200.949 15.461.026 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "total_share",
+   "pred": 15660887000,
+   "label": 15660887000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "15.660.887.000 lembar saham 18 15.405.610 15.405.610 15,660,887,000 shares"
+    },
+    {
+     "page": 16,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Perusahaan, sebanyak 15.660.887.000 lembar 15,660,887,000 shares, are listed on the"
+    },
+    {
+     "page": 16,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Saldo per 31 Maret 2022 15.660.887.000 15.405.610 Balance as of March 31, 2022"
+    },
+    {
+     "page": 68,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 15.660.887.000 100,00 15.405.610 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "aset",
+   "pred": 13108021636318,
+   "label": 13108021636318,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 870.270.989 831.295.165 TOTAL ASSETS"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS DAN EKUITAS 870.270.989 831.295.165 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "total_aset_lancar",
+   "pred": 3425241256396,
+   "label": 3425241256396,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 227.409.458 261.075.367 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "kas",
+   "pred": 2605036356206,
+   "label": 2605036356206,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 172.954.213 147.519.049 Cash and cash equivalents"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "KEPENTINGAN NONPENGENDALI 22 128.343.549 172.978.548 NON-CONTROLLING INTERESTS"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Desember 2022 15.405.610 90.902.649 282.808 (1.512.357) 15.677.062 667.886 6.460.638 3.081.122 221.420.134 352.385.552 172.978.548 525.364.100 Balance as of December 3"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 172.954.213 111.278.697 AT END OF PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "liabilitas",
+   "pred": 4243713785594,
+   "label": 4243713785594,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS 281.749.687 305.931.065 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "utang_bank",
+   "pred": 1732487421260,
+   "label": 1732487421260,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "ekuitas",
+   "pred": 6931197315686,
+   "label": 6931197315686,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik Perusahaan 460.177.753 352.385.552 of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Maret 2023 16.441.246 195.997.453 282.808 (1.512.357) 15.055.276 667.886 5.009.102 3.081.122 225.155.217 460.177.753 128.343.549 588.521.302 Balance as of Maret 31, 20"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "laba_bersih",
+   "pred": 46892479414,
+   "label": 46892479414,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk 3.113.297 25.915.246 Owners of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba bersih periode berjalan - - - - - - - - 3.113.297 3.113.297 83.875 3.197.172 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "pendapatan",
+   "pred": 1323157945474,
+   "label": 1323157945474,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 23 87.847.427 159.030.968 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 1047740479266,
+   "label": 1047740479266,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "BEBAN POKOK PENDAPATAN 24 (69.435.948) (92.827.113) COST OF REVENUES"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas operasi 69.561.843 55.200.949 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "total_share",
+   "pred": 17226975700,
+   "label": 17226975700,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "saham 17.226.975.700 pada 31 Maret 17,226,975,700 shares at March"
+    },
+    {
+     "page": 14,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Perusahaan, sebanyak 17.226.975.700 lembar 17,226,975,700 shares, are listed on the"
+    },
+    {
+     "page": 14,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Saldo per 31 Maret 2023 17.226.975.700 16.441.246 Balance as of March 31, 2023"
+    },
+    {
+     "page": 65,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 17.226.975.700 100,00 16.441.246 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "aset",
+   "pred": 10831701851518,
+   "label": 10831701851518,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 683.258.806 695.442.247 TOTAL ASSETS"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS DAN EKUITAS 683.258.806 695.442.247 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "total_aset_lancar",
+   "pred": 2808128146173,
+   "label": 2808128146173,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 177.135.441 178.839.689 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "kas",
+   "pred": 1795266421858,
+   "label": 1795266421858,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 113.244.586 98.203.795 Cash and cash equivalents"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 113.244.586 172.954.213 AT END OF PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "liabilitas",
+   "pred": 2740966055611,
+   "label": 2740966055611,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS 172.898.887 197.698.606 TOTAL LIABILITIES"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 1 Januari 2023 15.405.610 90.902.649 282.808 (1.512.357) 15.677.062 667.886 6.460.638 3.081.122 221.420.134 352.385.552 172.978.548 525.364.100 Balance as of January 1, 2"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "AKHIR PERIODE 113.244.586 172.954.213 AT END OF PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "utang_bank",
+   "pred": 1427547827445,
+   "label": 1427547827445,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Utang bank 14 90.049.065 105.914.993 Bank loans"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "ekuitas",
+   "pred": 6162627321601,
+   "label": 6162627321601,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik Perusahaan 388.735.717 379.264.500 of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Maret 2024 16.441.246 129.308.195 282.808 (1.512.357) 21.829.912 489.264 929.493 3.288.249 217.678.907 388.735.717 121.624.203 510.359.920 Balance as of March 31, 2024"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "laba_bersih",
+   "pred": 161867199177,
+   "label": 161867199177,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk 10.210.509 3.113.297 Owners of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba bersih periode berjalan - - - - - - - - 10.210.509 10.210.509 3.461.912 13.672.421 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "pendapatan",
+   "pred": 1170279366864,
+   "label": 1170279366864,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 23 73.820.688 87.847.427 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 634527501365,
+   "label": 634527501365,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas operasi 40.025.705 69.561.851 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "total_share",
+   "pred": 17226975700,
+   "label": 17226975700,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "17.226.975.700 lembar saham 17,226,975,700 shares at"
+    },
+    {
+     "page": 15,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Perusahaan sebanyak 17.226.975.700 lembar shares amounted to 17,226,975,700 shares,"
+    },
+    {
+     "page": 16,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Saldo per 31 Maret 2024 17.226.975.700 16.441.246 Balance as of March 31, 2024"
+    },
+    {
+     "page": 70,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 17.226.975.700 100,00 16.441.246 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "aset",
+   "pred": 11067569551324,
+   "label": 11067569551324,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 667.203.373 693.675.660 TOTAL ASSETS"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS DAN EKUITAS 667.203.373 693.675.660 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "total_aset_lancar",
+   "pred": 3344450796544,
+   "label": 3344450796544,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 201.618.688 218.595.338 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "kas",
+   "pred": 2139902792456,
+   "label": 2139902792456,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 129.003.062 157.471.279 Cash and cash equivalents"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR TAHUN 129.003.062 113.244.586 AT END OF PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "liabilitas",
+   "pred": 1706932155500,
+   "label": 1706932155500,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS 102.901.625 139.799.491 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "utang_bank",
+   "pred": 691421895164,
+   "label": 691421895164,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Utang bank 14 41.682.053 42.216.691 Bank loans"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "ekuitas",
+   "pred": 7042410816584,
+   "label": 7042410816584,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik Perusahaan 424.548.518 416.598.577 of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Maret 2025 16.441.246 128.345.996 282.808 (1.512.357) 19.146.583 552.650 38.010 3.288.249 257.965.333 424.548.518 139.753.230 564.301.748 Balance as of March 31, 2025"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "laba_bersih",
+   "pred": 134831029476,
+   "label": 134831029476,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk 8.128.227 10.210.509 Owners of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba bersih tahun berjalan - - - - - - - - 8.128.227 8.128.227 2.552.046 10.680.273 Net profit for the year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "pendapatan",
+   "pred": 1154894596284,
+   "label": 1154894596284,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Derivatif keuangan 11 69.584 396.115 Financial derivatives"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 24 69.622.293 73.820.688 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 304346090620,
+   "label": 304346090620,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas operasi 18.347.365 40.025.705 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "total_share",
+   "pred": 17226975700,
+   "label": 17226975700,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "17.226.975.700 lembar saham 17,226,975,700 shares at"
+    },
+    {
+     "page": 17,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Perusahaan sebanyak 17.226.975.700 lembar 17,226,975,700 shares, are listed on the"
+    },
+    {
+     "page": 18,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Saldo per 31 Maret 2025 17.226.975.700 16.441.246 Balance as of March 31, 2025"
+    },
+    {
+     "page": 73,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 17.226.975.700 100,00 16.441.246 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "aset",
+   "pred": 11602785122532,
+   "label": 11602785122532,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 682.797.924 646.558.220 TOTAL ASSETS"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS DAN EKUITAS 682.797.924 646.558.220 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "total_aset_lancar",
+   "pred": 4166981521276,
+   "label": 4166981521276,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 245.217.532 203.929.719 Total Current Assets"
+    },
+    {
+     "page": 12,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "pengalihan hak atas saham milik 245,520 shares with nominal value"
+    },
+    {
+     "page": 12,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Perusahaan sebanyak 245.520 saham Rp 245,520,000,000 (equivalent to"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "kas",
+   "pred": 2796345275394,
+   "label": 2796345275394,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 164.558.658 125.760.092 Cash and cash equivalents"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR TAHUN 164.558.658 129.003.062 AT END OF YEAR"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "liabilitas",
+   "pred": 1230229187369,
+   "label": 1230229187369,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS 72.396.233 62.911.891 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "utang_bank",
+   "pred": 0,
+   "label": 0,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "ekuitas",
+   "pred": 7907833387984,
+   "label": 7907833387984,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik Perusahaan 465.358.288 446.602.727 of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Maret 2026 16.441.246 128.345.996 282.808 (1.512.357) 16.414.208 752.722 - 3.288.249 301.345.416 465.358.288 145.043.403 610.401.691 Balance as of March 31, 2026"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "laba_bersih",
+   "pred": 318713248073,
+   "label": 318713248073,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk 18.755.561 8.128.227 Owners of the Company"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk 18.755.561 7.949.941 Owners of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba bersih tahun berjalan - - - - - - - - 18.755.561 18.755.561 7.999.801 26.755.362 Net profit for the year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "pendapatan",
+   "pred": 1617967933470,
+   "label": 1617967933470,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 24 95.213.790 69.622.293 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 773666786094,
+   "label": 773666786094,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas operasi 45.528.558 18.347.365 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ESSA.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "total_share",
+   "pred": 17226975700,
+   "label": 17226975700,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "17.226.975.700 lembar saham 20 16.441.246 16.441.246 17,226,975,700 shares"
+    },
+    {
+     "page": 16,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Perusahaan sebanyak 17.226.975.700 lembar to 17,226,975,700 shares, are listed on the"
+    },
+    {
+     "page": 16,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Saldo per 31 Maret 2026 17.226.975.700 16.441.246 Balance as of March 31, 2026"
+    },
+    {
+     "page": 69,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 17.226.975.700 100,00 16.441.246 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "aset",
+   "pred": 12994024702976,
+   "label": 12994024702976,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 875.136.362 809.293.023 TOTAL ASSETS"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS DAN EKUITAS 875.136.362 809.293.023 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "total_aset_lancar",
+   "pred": 3895272813568,
+   "label": 3895272813568,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 262.343.266 158.000.533 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "kas",
+   "pred": 2227184632320,
+   "label": 2227184632320,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 149.998.965 80.841.178 Cash and cash equivalents"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 149.998.965 56.736.494 AT END OF PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "liabilitas",
+   "pred": 6928142012416,
+   "label": 6928142012416,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS 466.604.392 508.511.713 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "utang_bank",
+   "pred": 1492464062464,
+   "label": 1492464062464,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "ekuitas",
+   "pred": 4154586169856,
+   "label": 4154586169856,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik Perusahaan 279.807.797 213.463.376 of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 Juni 2022 15.405.610 90.902.649 282.808 (1.512.357) 16.920.635 734.991 5.751.605 3.081.122 148.240.735 279.807.797 128.724.173 408.531.970 Balance as of June 30, 2022"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "laba_bersih",
+   "pred": 993409122304,
+   "label": 993409122304,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk 66.905.248 (10.726.268) Owners of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba periode berjalan - - - - - - - - 66.905.248 66.905.248 38.190.894 105.096.142 Profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "pendapatan",
+   "pred": 5210821278208,
+   "label": 5210821278208,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 21 350.944.321 138.930.995 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 2177626358784,
+   "label": 2177626358784,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas operasi 146.661.258 34.503.581 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "total_share",
+   "pred": 15660887000,
+   "label": 15660887000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "15.660.887.000 lembar saham 18 15.405.610 15.405.610 15,660,887,000 shares"
+    },
+    {
+     "page": 16,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Perusahaan, sebanyak 15.660.887.000 lembar 15,660,887,000 shares, are listed on the"
+    },
+    {
+     "page": 16,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Saldo per 30 Juni 2022 15.660.887.000 15.405.610 Balance as of June 30, 2022"
+    },
+    {
+     "page": 68,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 15.660.887.000 100,00 15.405.610 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "aset",
+   "pred": 11588523482206,
+   "label": 11588523482206,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 771.231.431 831.295.165 TOTAL ASSETS"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS DAN EKUITAS 771.231.431 831.295.165 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "total_aset_lancar",
+   "pred": 2180386932834,
+   "label": 2180386932834,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 145.107.609 261.075.367 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "kas",
+   "pred": 1371396619318,
+   "label": 1371396619318,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 91.268.243 147.519.049 Cash and cash equivalents"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 91.268.243 149.998.965 AT END OF PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "liabilitas",
+   "pred": 3512003689700,
+   "label": 3512003689700,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS 233.728.450 305.931.065 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "utang_bank",
+   "pred": 1497401349598,
+   "label": 1497401349598,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "ekuitas",
+   "pred": 6143613303520,
+   "label": 6143613303520,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik Perusahaan 408.865.520 352.385.552 of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 Juni 2023 16.441.246 195.970.248 282.808 (1.512.357) 14.433.489 667.886 4.328.666 3.081.122 175.172.412 408.865.520 128.637.461 537.502.981 Balance as of June 30, 2023"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "laba_bersih",
+   "pred": 59756854322,
+   "label": 59756854322,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk 3.976.897 66.905.248 Owners of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba bersih periode berjalan - - - - - - - - 3.976.897 3.976.897 669.413 4.646.310 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "pendapatan",
+   "pred": 2527071838544,
+   "label": 2527071838544,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 23 168.179.944 350.944.321 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 1359277128550,
+   "label": 1359277128550,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas operasi 90.461.675 146.661.258 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "total_share",
+   "pred": 17226975700,
+   "label": 17226975700,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "saham 17.226.975.700 pada 30 Juni 17,226,975,700 shares at June"
+    },
+    {
+     "page": 14,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Perusahaan, sebanyak 17.226.975.700 lembar 17,226,975,700 shares, are listed on the"
+    },
+    {
+     "page": 14,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Saldo per 30 Juni 2023 17.226.975.700 16.441.246 Balance as of June 30, 2023"
+    },
+    {
+     "page": 65,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 17.226.975.700 100,00 16.441.246 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "aset",
+   "pred": 11052917971341,
+   "label": 11052917971341,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 673.096.521 695.442.247 TOTAL ASSETS"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS DAN EKUITAS 673.096.521 695.442.247 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "total_aset_lancar",
+   "pred": 2921079799640,
+   "label": 2921079799640,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 177.886.840 178.839.689 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "kas",
+   "pred": 1940874725333,
+   "label": 1940874725333,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 118.194.673 98.203.795 Cash and cash equivalents"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "dan karyawan (95.562.765) (118.334.116) employees"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 118.194.673 91.268.243 AT END OF PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "liabilitas",
+   "pred": 2553173468936,
+   "label": 2553173468936,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS 155.482.216 197.698.606 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "utang_bank",
+   "pred": 1315204985428,
+   "label": 1315204985428,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "ekuitas",
+   "pred": 6452443453341,
+   "label": 6452443453341,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik Perusahaan 392.938.521 379.264.500 of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 Juni 2024 16.441.246 129.308.195 282.808 (1.512.357) 21.208.125 489.264 185.281 3.288.249 223.247.710 392.938.521 124.675.784 517.614.305 Balance as of June 30, 2024"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "laba_bersih",
+   "pred": 338122741954,
+   "label": 338122741954,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk 20.590.874 3.976.897 Owners of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba bersih periode berjalan - - - - - - - - 20.590.874 20.590.874 6.832.451 27.423.325 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "pendapatan",
+   "pred": 2489608188461,
+   "label": 2489608188461,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 23 151.611.241 168.179.944 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 1210107251965,
+   "label": 1210107251965,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas operasi 73.692.665 90.461.675 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "total_share",
+   "pred": 17226975700,
+   "label": 17226975700,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "17.226.975.700 lembar saham 17,226,975,700 shares at"
+    },
+    {
+     "page": 15,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Perusahaan sebanyak 17.226.975.700 lembar shares amounted to 17,226,975,700 shares,"
+    },
+    {
+     "page": 16,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Saldo per 30 Juni 2024 17.226.975.700 16.441.246 Balance as of June 30, 2024"
+    },
+    {
+     "page": 70,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 17.226.975.700 100,00 16.441.246 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "aset",
+   "pred": 10372058678709,
+   "label": 10372058678709,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 638.948.973 693.675.660 TOTAL ASSETS"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS DAN EKUITAS 638.948.973 693.675.660 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "total_aset_lancar",
+   "pred": 2855436061212,
+   "label": 2855436061212,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 175.903.164 218.595.338 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "kas",
+   "pred": 1761522891156,
+   "label": 1761522891156,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 108.514.932 157.471.279 Cash and cash equivalents"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 108.514.932 118.194.673 AT END OF PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "liabilitas",
+   "pred": 1478080166388,
+   "label": 1478080166388,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS 91.054.036 139.799.491 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "utang_bank",
+   "pred": 613429989543,
+   "label": 613429989543,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Utang bank 15 37.789.071 42.216.691 Bank loans"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "ekuitas",
+   "pred": 6833510998251,
+   "label": 6833510998251,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik Perusahaan 420.964.147 416.598.577 of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 Juni 2025 16.441.246 128.345.996 282.808 (1.512.357) 18.524.798 552.650 - 3.288.249 255.040.757 420.964.147 126.930.790 547.894.937 Balance as of June 30, 2025"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "laba_bersih",
+   "pred": 240961986447,
+   "label": 240961986447,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk 14.843.959 20.590.874 Owners of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba bersih tahun berjalan - - - - - - - - 14.843.959 14.843.959 4.747.198 19.591.157 Net profit for the year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "pendapatan",
+   "pred": 2233465208583,
+   "label": 2233465208583,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 25 137.587.951 151.611.241 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 724063160268,
+   "label": 724063160268,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas operasi 44.604.396 73.692.665 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "total_share",
+   "pred": 17226975700,
+   "label": 17226975700,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "17.226.975.700 lembar saham 17,226,975,700 shares at"
+    },
+    {
+     "page": 17,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Perusahaan sebanyak 17.226.975.700 lembar 17,226,975,700 shares, are listed on the"
+    },
+    {
+     "page": 18,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Saldo per 30 Juni 2025 17.226.975.700 16.441.246 Balance as of June 30, 2025"
+    },
+    {
+     "page": 73,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 17.226.975.700 100,00 16.441.246 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "aset",
+   "pred": 12380052072384,
+   "label": 12380052072384,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 693.327.289 646.558.220 TOTAL ASSETS"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS DAN EKUITAS 693.327.289 646.558.220 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "total_aset_lancar",
+   "pred": 4926201988608,
+   "label": 4926201988608,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 275.884.968 203.929.719 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "kas",
+   "pred": 3378811295808,
+   "label": 3378811295808,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 189.225.543 125.760.092 Cash and cash equivalents"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 189.225.543 108.514.932 AT END OF PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "liabilitas",
+   "pred": 2484297262656,
+   "label": 2484297262656,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS 139.129.551 62.911.891 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "utang_bank",
+   "pred": 0,
+   "label": 0,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "ekuitas",
+   "pred": 7612319083968,
+   "label": 7612319083968,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik Perusahaan 426.317.153 446.602.727 of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 Juni 2026 16.441.246 128.345.996 282.808 (1.512.357) 15.743.376 752.722 - 3.288.249 262.975.113 426.317.153 127.880.585 554.197.738 Balance as of June 30, 2026"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "laba_bersih",
+   "pred": 538780819392,
+   "label": 538780819392,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk 30.173.657 14.843.959 Owners of the Company"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk 30.173.657 14.627.663 Owners of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba bersih tahun berjalan - - - - - - - - 30.173.657 30.173.657 11.838.840 42.012.497 Net profit for the year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "pendapatan",
+   "pred": 3329708277888,
+   "label": 3329708277888,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 25 186.475.598 137.587.951 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 1564614947520,
+   "label": 1564614947520,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas operasi 87.624.045 44.604.396 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ESSA.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "total_share",
+   "pred": 17226975700,
+   "label": 17226975700,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "17.226.975.700 lembar saham 20 16.441.246 16.441.246 17,226,975,700 shares"
+    },
+    {
+     "page": 17,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Perusahaan sebanyak 17.226.975.700 lembar 17,226,975,700 shares, are listed on the"
+    },
+    {
+     "page": 17,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Saldo per 30 Juni 2026 17.226.975.700 16.441.246 Balance as of June 30, 2026"
+    },
+    {
+     "page": 70,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 17.226.975.700 100,00 16.441.246 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "aset",
+   "pred": 12793032827126,
+   "label": 12793032827126,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 839.052.458 809.293.023 TOTAL ASSETS"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS DAN EKUITAS 839.052.458 809.293.023 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "total_aset_lancar",
+   "pred": 3830217151153,
+   "label": 3830217151153,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 251.211.199 158.000.533 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "kas",
+   "pred": 2017003354133,
+   "label": 2017003354133,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 132.288.539 80.841.178 Cash and cash equivalents"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 132.288.539 92.445.543 AT END OF PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "liabilitas",
+   "pred": 5596885379230,
+   "label": 5596885379230,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS 367.081.090 508.511.713 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "utang_bank",
+   "pred": 1546398569839,
+   "label": 1546398569839,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "ekuitas",
+   "pred": 4859700659459,
+   "label": 4859700659459,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik Perusahaan 318.731.597 213.463.376 of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 September 2022 15.405.610 90.902.649 282.808 (1.512.357) 16.298.849 734.991 6.939.305 3.081.122 186.598.620 318.731.597 153.239.771 471.971.368 Balance as of September"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "laba_bersih",
+   "pred": 1595466617709,
+   "label": 1595466617709,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Pihak ketiga 104.629 19.777 Third parties"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk 104.641.347 8.154.422 Owners of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba periode berjalan - - - - - - - - 104.641.347 104.641.347 61.914.672 166.556.019 Profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "pendapatan",
+   "pred": 8493070334575,
+   "label": 8493070334575,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 21 557.032.225 240.514.034 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 3752943815206,
+   "label": 3752943815206,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Liabilitas Jangka Panjang 245.716.779 410.735.057 Total Non-Current Liabilities"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dihasilkan dari operasi 246.526.249 80.047.146 Cash generated from operations"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas operasi 246.143.098 82.095.154 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "total_share",
+   "pred": 15660887000,
+   "label": 15660887000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "15.660.887.000 lembar saham 18 15.405.610 15.405.610 15,660,887,000 shares"
+    },
+    {
+     "page": 16,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "saham Perusahaan, sebanyak 15.660.887.000 Company\u2019s 15,660,887,000 shares, are listed"
+    },
+    {
+     "page": 16,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Saldo per 30 September 2022 15.660.887.000 15.405.610 Balance as of September 30, 2022"
+    },
+    {
+     "page": 68,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 15.660.887.000 100,00 15.405.610 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "aset",
+   "pred": 11808070508864,
+   "label": 11808070508864,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 760.535.264 831.295.165 TOTAL ASSETS"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS DAN EKUITAS 760.535.264 831.295.165 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "total_aset_lancar",
+   "pred": 2289872635372,
+   "label": 2289872635372,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Kas dan setara kas 5 87.448.835 147.519.049 Cash and cash equivalents"
+    },
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 147.486.322 261.075.367 Total Current Assets"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AWAL PERIODE 147.519.049 80.841.178 AT BEGINNING OF PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "kas",
+   "pred": 1357730612210,
+   "label": 1357730612210,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 87.448.835 147.519.049 Cash and cash equivalents"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 1 Januari 2022 15.405.610 90.902.649 282.808 (1.512.357) 18.164.208 734.991 928.706 2.166.100 86.390.661 213.463.376 87.317.934 300.781.310 Balance as of January 1, 2022"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 87.448.835 132.288.539 AT END OF PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "liabilitas",
+   "pred": 3368976694678,
+   "label": 3368976694678,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS 216.989.353 305.931.065 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "utang_bank",
+   "pred": 1588778700726,
+   "label": 1588778700726,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Utang bank 14 102.330.201 91.480.068 Bank loans"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "ekuitas",
+   "pred": 6418883221156,
+   "label": 6418883221156,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik Perusahaan 413.428.006 352.385.552 of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 September 2023 16.441.246 195.970.248 282.808 (1.512.357) 14.433.489 667.886 3.101.766 3.081.122 180.961.798 413.428.006 130.117.905 543.545.911 Balance as of Septembe"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "laba_bersih",
+   "pred": 151631309858,
+   "label": 151631309858,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk 9.766.283 104.641.347 Owners of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba bersih periode berjalan - - - - - - - - 9.766.283 9.766.283 2.675.689 12.441.972 Net profit for the period"
+    },
+    {
+     "page": 65,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "dibawah 5%) 10.785.112.423 62,61 9.765.986 Public (each below 5%)"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "pendapatan",
+   "pred": 3611854989680,
+   "label": 3611854989680,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 23 232.632.680 557.032.225 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 1761676298830,
+   "label": 1761676298830,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas operasi 113.466.205 246.143.098 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "total_share",
+   "pred": 17226975700,
+   "label": 17226975700,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "17.226.975.700 lembar saham 17,226,975,700 shares at"
+    },
+    {
+     "page": 14,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "saham Perusahaan, sebanyak 17.226.975.700 17,226,975,700 shares, are listed on the"
+    },
+    {
+     "page": 14,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Saldo per 30 September 2023 17.226.975.700 16.441.246 Balance as of September 30, 2023"
+    },
+    {
+     "page": 65,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 17.226.975.700 100,00 16.441.246 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "aset",
+   "pred": 10530783518292,
+   "label": 10530783518292,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 695.652.234 695.442.247 TOTAL ASSETS"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS DAN EKUITAS 695.652.234 695.442.247 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "total_aset_lancar",
+   "pred": 3183785739756,
+   "label": 3183785739756,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 210.317.462 178.839.689 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "kas",
+   "pred": 2340359111628,
+   "label": 2340359111628,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 154.601.606 98.203.795 Cash and cash equivalents"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 154.601.606 87.448.835 AT END OF PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "liabilitas",
+   "pred": 2449645571376,
+   "label": 2449645571376,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS 161.820.952 197.698.606 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "utang_bank",
+   "pred": 1334602214406,
+   "label": 1334602214406,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Jangka panjang 33 (79.299.000) (88.310.000) Long term"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "ekuitas",
+   "pred": 6129696217320,
+   "label": 6129696217320,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik Perusahaan 404.921.140 379.264.500 of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 September 2024 16.441.246 129.308.195 282.808 (1.512.357) 20.586.339 489.264 (806.988) 3.288.249 236.844.384 404.921.140 128.910.142 533.831.282 Balance as of Septembe"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "laba_bersih",
+   "pred": 508118505156,
+   "label": 508118505156,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk 33.565.762 9.766.283 Owners of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba bersih periode berjalan - - - - - - - - 33.565.762 33.565.762 11.492.082 45.057.844 Net profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "pendapatan",
+   "pred": 3483510192306,
+   "label": 3483510192306,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 23 230.116.937 232.632.680 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 1746085374036,
+   "label": 1746085374036,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas operasi 115.344.522 113.466.205 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "total_share",
+   "pred": 17226975700,
+   "label": 17226975700,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "17.226.975.700 lembar saham 17,226,975,700 shares at"
+    },
+    {
+     "page": 15,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "saham Perusahaan sebanyak 17.226.975.700 Company\u2019s shares amounted to"
+    },
+    {
+     "page": 15,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "lembar saham, tercatat di Bursa Efek 17,226,975,700 shares, are listed on the"
+    },
+    {
+     "page": 16,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Saldo per 30 September 2024 17.226.975.700 16.441.246 Balance as of September 30, 2024"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "aset",
+   "pred": 10179780898200,
+   "label": 10179780898200,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 610.298.615 693.675.660 TOTAL ASSETS"
+    },
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS DAN EKUITAS 610.298.615 693.675.660 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "total_aset_lancar",
+   "pred": 2627967793680,
+   "label": 2627967793680,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Kas dan setara kas 5 82.189.557 157.471.279 Cash and cash equivalents"
+    },
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 157.552.026 218.595.338 Total Current Assets"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AWAL TAHUN 157.471.279 98.203.795 AT BEGINNING OF PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "kas",
+   "pred": 1370921810760,
+   "label": 1370921810760,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 4,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 82.189.557 157.471.279 Cash and cash equivalents"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR TAHUN 82.189.557 154.601.606 AT END OF PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "liabilitas",
+   "pred": 895481846160,
+   "label": 895481846160,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS 53.685.962 139.799.491 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "utang_bank",
+   "pred": 0,
+   "label": 0,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "ekuitas",
+   "pred": 7129437407400,
+   "label": 7129437407400,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik Perusahaan 427.424.305 416.598.577 of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 September 2025 16.441.246 128.345.996 282.808 (1.512.357) 17.903.011 552.650 - 3.288.249 262.122.702 427.424.305 129.188.348 556.612.653 Balance as of September 30, 20"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "laba_bersih",
+   "pred": 355352671560,
+   "label": 355352671560,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk 21.304.117 33.565.762 Owners of the Company"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba bersih tahun berjalan - - - - - - - - 21.304.117 21.304.117 7.004.756 28.308.873 Net profit for the year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "pendapatan",
+   "pred": 3341999612520,
+   "label": 3341999612520,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 25 200.359.689 230.116.937 REVENUES"
+    },
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Wajib Konversi menjadi 200.000.000 lembar 200,000,000 new shares of the Company."
+    },
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Konversi Obligasi Wajib 1 Februari/ 200.000.000 2.216.803 Conversion of Mandatory"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 1002419577960,
+   "label": 1002419577960,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas operasi 60.097.097 115.344.522 activities"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jangka panjang 35 (60.037.539) (79.299.000) Long term"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "total_share",
+   "pred": 17226975700,
+   "label": 17226975700,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "17.226.975.700 lembar saham 17,226,975,700 shares at"
+    },
+    {
+     "page": 17,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Perusahaan sebanyak 17.226.975.700 lembar to 17,226,975,700 shares, are listed on the"
+    },
+    {
+     "page": 18,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Saldo per 30 September 2025 17.226.975.700 16.441.246 Balance as of September 30, 2025"
+    },
+    {
+     "page": 73,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 17.226.975.700 100,00 16.441.246 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "aset",
+   "pred": 13077104240615,
+   "label": 13077104240615,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 831.295.165 809.293.023 TOTAL ASSETS"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS DAN EKUITAS 831.295.165 809.293.023 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "total_aset_lancar",
+   "pred": 4106976598277,
+   "label": 4106976598277,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 261.075.367 158.000.533 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "kas",
+   "pred": 2320622159819,
+   "label": 2320622159819,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 147.519.049 80.841.178 Cash and cash equivalents"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "US$ 147.550.233 pada US$ 147,550,233 as of"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR TAHUN 147.519.049 80.841.178 AT END OF YEAR"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "liabilitas",
+   "pred": 4812601583515,
+   "label": 4812601583515,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS 305.931.065 508.511.713 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "utang_bank",
+   "pred": 1454803949708,
+   "label": 1454803949708,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "ekuitas",
+   "pred": 5543377118512,
+   "label": 5543377118512,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik Perusahaan 352.385.552 213.463.376 of the Company"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Desember 2022 15.405.610 90.902.649 282.808 (1.512.357) 15.677.062 667.886 6.460.638 3.081.122 221.420.134 352.385.552 172.978.548 525.364.100 Balance as of December 3"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "laba_bersih",
+   "pred": 2184108935094,
+   "label": 2184108935094,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk 138.841.074 13.969.192 Owners of the Company"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba bersih tahun berjalan - - - - - - - - 138.841.074 138.841.074 81.949.252 220.790.326 Net profit for the year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "pendapatan",
+   "pred": 11507080736554,
+   "label": 11507080736554,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 23 731.490.734 303.437.230 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 5008925784919,
+   "label": 5008925784919,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas operasi 318.411.149 92.267.995 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "total_share",
+   "pred": 15660887000,
+   "label": 15660887000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "15.660.887.000 19 15.405.610 15.405.610 15,660,887,000"
+    },
+    {
+     "page": 20,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "saham Perusahaan, sebanyak 15.660.887.000 15,660,887,000 shares, are listed on the"
+    },
+    {
+     "page": 20,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Saldo per 31 Desember 2022 15.660.887.000 15.405.610 Balance as of December 31, 2022"
+    },
+    {
+     "page": 74,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 15.660.887.000 100,00 15.405.610 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "aset",
+   "pred": 10720937679752,
+   "label": 10720937679752,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 695.442.247 831.295.165 TOTAL ASSETS"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS DAN EKUITAS 695.442.247 831.295.165 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "total_aset_lancar",
+   "pred": 2756992645624,
+   "label": 2756992645624,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 178.839.689 272.532.450 Total Current Assets"
+    },
+    {
+     "page": 16,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "setelah pajak - - - - 9.261.782 (178.622 ) (4.791.853 ) - - 4.291.307 (2.090.076) 2.201.231 net of tax"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "kas",
+   "pred": 1513909703720,
+   "label": 1513909703720,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 98.203.795 147.519.049 Cash and cash equivalents"
+    },
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR TAHUN 98.203.795 147.519.049 AT END OF YEAR"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "liabilitas",
+   "pred": 3047721710096,
+   "label": 3047721710096,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Aset lainnya 197.789 552.781 Other assets"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS 197.698.606 305.931.065 TOTAL LIABILITIES"
+    },
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas pendanaan (197.930.544) (240.764.782) Net cash used in financing activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "utang_bank",
+   "pred": 1632785532088,
+   "label": 1632785532088,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Utang bank 14 105.914.993 91.480.068 Bank loans"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "ekuitas",
+   "pred": 5846741532000,
+   "label": 5846741532000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik Perusahaan 379.264.500 352.385.552 of the Company"
+    },
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Desember 2023 16.441.246 129.308.195 282.808 (1.512.357) 22.451.698 489.264 1.668.785 3.081.122 207.053.739 379.264.500 118.479.141 497.743.641 Balance as of December "
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "laba_bersih",
+   "pred": 533619475232,
+   "label": 533619475232,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk 34.614.652 138.841.074 Owners of the Company"
+    },
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba bersih tahun berjalan - - - - - - - - 34.614.652 34.614.652 12.108.785 46.723.437 Net profit for the year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "pendapatan",
+   "pred": 5317928411000,
+   "label": 5317928411000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 23 344.961.625 731.490.734 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 2332435959376,
+   "label": 2332435959376,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas operasi 151.299.686 318.750.357 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "total_share",
+   "pred": 17226975700,
+   "label": 17226975700,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "17.226.975.700 lembar saham 17,226,975,700 shares at"
+    },
+    {
+     "page": 24,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "saham Perusahaan sebanyak 17.226.975.700 Company\u2019s shares amounted to"
+    },
+    {
+     "page": 24,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "lembar saham, tercatat di Bursa Efek 17,226,975,700 shares, are listed on the"
+    },
+    {
+     "page": 25,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Saldo per 31 Desember 2023 17.226.975.700 16.441.246 Balance as of December 31, 2023"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "aset",
+   "pred": 11211186016920,
+   "label": 11211186016920,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 693.675.660 695.442.247 TOTAL ASSETS"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS DAN EKUITAS 693.675.660 695.442.247 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "total_aset_lancar",
+   "pred": 3532937852756,
+   "label": 3532937852756,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 218.595.338 178.839.689 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "kas",
+   "pred": 2545050811198,
+   "label": 2545050811198,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 157.471.279 98.203.795 Cash and cash equivalents"
+    },
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR TAHUN 157.471.279 98.203.795 AT END OF YEAR"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "liabilitas",
+   "pred": 2259439373542,
+   "label": 2259439373542,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS 139.799.491 197.698.606 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "utang_bank",
+   "pred": 1231814159942,
+   "label": 1231814159942,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 15,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "lain-lain \u2013 neto 76.176 (155.750) Other gains and losses - net"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "ekuitas",
+   "pred": 6733066201474,
+   "label": 6733066201474,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik Perusahaan 416.598.577 379.264.500 of the Company"
+    },
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Desember 2024 16.441.246 128.345.996 282.808 (1.512.357) 19.768.369 552.650 216.296 3.288.249 249.215.320 416.598.577 137.277.592 553.876.169 Balance as of December 31"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "laba_bersih",
+   "pred": 730223063598,
+   "label": 730223063598,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk 45.181.479 34.614.652 Owners of the Company"
+    },
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba bersih tahun berjalan - - - - - - - - 45.181.479 45.181.479 15.306.682 60.488.161 Net profit for the year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "pendapatan",
+   "pred": 4871256489594,
+   "label": 4871256489594,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 25 301.401.837 344.961.625 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 2308100327192,
+   "label": 2308100327192,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas operasi 142.810.316 151.299.686 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "total_share",
+   "pred": 17226975700,
+   "label": 17226975700,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "17.226.975.700 lembar saham 17,226,975,700 shares at"
+    },
+    {
+     "page": 26,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "17.226.975.700 lembar saham, tercatat di 17,226,975,700 shares, are listed on the"
+    },
+    {
+     "page": 27,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Saldo per 31 Desember 2024 17.226.975.700 16.441.246 Balance as of December 31, 2024"
+    },
+    {
+     "page": 85,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 17.226.975.700 100,00 16.441.246 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "aset",
+   "pred": 10850540048040,
+   "label": 10850540048040,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 646.558.220 693.675.660 TOTAL ASSETS"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS DAN EKUITAS 646.558.220 693.675.660 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "total_aset_lancar",
+   "pred": 3422348544258,
+   "label": 3422348544258,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 203.929.719 218.595.338 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "kas",
+   "pred": 2110505863944,
+   "label": 2110505863944,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 125.760.092 157.471.279 Cash and cash equivalents"
+    },
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR TAHUN 125.760.092 157.471.279 AT END OF YEAR"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "liabilitas",
+   "pred": 1055787354762,
+   "label": 1055787354762,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS 62.911.891 139.799.491 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "utang_bank",
+   "pred": 0,
+   "label": 0,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "ekuitas",
+   "pred": 7494886964514,
+   "label": 7494886964514,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik Perusahaan 446.602.727 416.598.577 of the Company"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Desember 2025 16.441.246 128.345.996 282.808 (1.512.357) 17.085.040 752.722 - 3.288.249 281.919.023 446.602.727 137.043.602 583.646.329 Balance as of December 31, 2025"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "laba_bersih",
+   "pred": 676164115806,
+   "label": 676164115806,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk 40.291.033 45.181.479 Owners of the Company"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik Entitas Induk 40.274.809 42.830.177 Owners of the Company"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba bersih tahun berjalan - - - - - - - - 40.291.033 40.291.033 14.775.862 55.066.895 Net profit for the year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "pendapatan",
+   "pred": 4950940538478,
+   "label": 4950940538478,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 26 295.014.929 301.401.837 REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 1745637376170,
+   "label": 1745637376170,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas operasi 104.018.435 142.810.316 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ESSA.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "total_share",
+   "pred": 17226975700,
+   "label": 17226975700,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "17.226.975.700 lembar saham 21 16.441.246 16.441.246 17,226,975,700 shares"
+    },
+    {
+     "page": 23,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "17.226.975.700 lembar saham, tercatat di 17,226,975,700 shares, are listed on the"
+    },
+    {
+     "page": 23,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Saldo per 31 Desember 2025 17.226.975.700 16.441.246 Balance as of December 31, 2025"
+    },
+    {
+     "page": 82,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah 17.226.975.700 100,00 16.441.246 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ESSA.pdf"
+  }
+ ]
+}

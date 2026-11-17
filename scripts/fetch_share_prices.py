@@ -28,8 +28,22 @@ near, and never a day that has not happened yet -- and the date actually used is
 on every row. A silently substituted date is how a price ends up describing a different
 week.
 
-**Nothing is invented.** If no trading day is found within the lookback window, the row
-is left empty and says so, the same way an abstained field does elsewhere in this repo.
+**When the 17th cannot be used, the month is read from the 1st.** A suspension or a
+thinly traded issuer can leave no session within the lookback window; the 17th may also
+not have arrived yet (Q3 2026 on 2 November). The price then falls back to the FIRST
+session of that same month with a final close, walking the 1st, 2nd, 3rd ... in order --
+any day the market quoted in June still prices a Q1 balance sheet in June. If that month
+has no final close at all, the previous month's LAST session is used (walking back from
+its end), one month only. The row says so, naming the date used. A price taken before the 17th has arrived is provisional:
+rerun with --write-xlsx --overwrite after the 17th to replace it. `--no-month-fallback`
+turns all of this off.
+
+**Only final closes count.** Yahoo returns a bar for today while the session is still
+trading; its "close" is the last trade so far. A day counts once Jakarta time has passed
+17:00 (IDX closes at 15:50, post-trading ends 16:15).
+
+**Nothing is invented.** If the whole month has no trading day, the row is left empty and
+says so, the same way an abstained field does elsewhere in this repo.
 
 **Close, not adjusted close.** Yahoo's `adjclose` is restated for later splits and
 dividends. The sheet divides this price by book value per share and by EPS, both taken
@@ -62,6 +76,7 @@ import json
 import sys
 import time
 from datetime import date, datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 from pathlib import Path
 
 import requests
@@ -87,6 +102,9 @@ QUARTER_DATE = {
 # closure that realistically sits behind the 17th; beyond that, returning nothing is more
 # honest than returning a price from a fortnight away.
 LOOKBACK_DAYS = 12
+
+JAKARTA = ZoneInfo("Asia/Jakarta")
+CLOSE_FINAL_HOUR = 17       # local hour after which today's close is final
 
 CHART_URL = "https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
 # IDX tickers carry the .JK suffix on Yahoo. Kept as a constant because an issuer that
@@ -197,6 +215,68 @@ def close_nearest(series: dict, target: date, window: int = LOOKBACK_DAYS,
     raise PriceUnavailable(f"market closed for {window}+ days either side of {target}")
 
 
+def last_final_day(now: datetime = None) -> date:
+    """The latest date whose close is final: today after 17:00 Jakarta time, else
+    yesterday."""
+    now = (now or datetime.now(JAKARTA)).astimezone(JAKARTA)
+    return now.date() if now.hour >= CLOSE_FINAL_HOUR else now.date() - timedelta(days=1)
+
+
+def month_bounds(target: date) -> tuple:
+    """(first day, last day) of the month `target` falls in."""
+    first = target.replace(day=1)
+    following = (first + timedelta(days=32)).replace(day=1)
+    return first, following - timedelta(days=1)
+
+
+def close_in_month(series: dict, target: date, today: date = None):
+    """(date, close) for the first session of target's month, from the 1st onwards.
+
+    The fallback when the 17th cannot be used: any trading day of the month the
+    convention names still prices the period in that month, and the days are taken in
+    order, 1st, 2nd, 3rd ... A session after `today` never counts.
+    """
+    today = today or date.today()
+    first, last = month_bounds(target)
+    sessions = [day for day in series if first <= day <= last and day <= today]
+    if not sessions:
+        raise PriceUnavailable(f"no trading day with a final close in {target:%B %Y}"
+                               + (" yet" if last > today else ""))
+    used = min(sessions)
+    return used, series[used]
+
+
+def close_last_in_month(series: dict, target: date, today: date = None):
+    """(date, close) for the last session of target's month, walking back from its end.
+
+    The second fallback, when the pricing month itself has no final close (Q3 2026 on
+    the first trading day of November): the previous month's last session, the one
+    nearest the month the convention names. One month back only; beyond that the row
+    stays empty.
+    """
+    today = today or date.today()
+    first, last = month_bounds(target)
+    sessions = [day for day in series if first <= day <= last and day <= today]
+    if not sessions:
+        raise PriceUnavailable(f"no trading day with a final close in {target:%B %Y} "
+                               f"either")
+    used = max(sessions)
+    return used, series[used]
+
+
+def fetch_month(ticker: str, first: date, last: date, today: date) -> dict:
+    """Closes for one calendar month up to `today`; {} when the market quoted none, so
+    the caller can say so in its own words. A month not yet begun fetches nothing."""
+    if first > today:
+        return {}
+    try:
+        return fetch_daily_closes(ticker, first, min(last, today))
+    except PriceUnavailable as exc:
+        if "no trading days" not in str(exc):
+            raise
+        return {}
+
+
 def periods_from_workbook(ticker: str) -> list:
     """The period columns the sheet actually has, newest first, as it orders them.
 
@@ -228,30 +308,64 @@ def periods_from_filings(directory: Path, ticker: str) -> list:
     return sorted(set(found), key=lambda p: (p[1], p[0]), reverse=True)
 
 
-def collect(ticker: str, periods: list, q4_same_year: bool = False) -> list:
+def collect(ticker: str, periods: list, q4_same_year: bool = False,
+            month_fallback: bool = True) -> list:
     """One row per period: the date used, the close, or the reason there is neither."""
     rows = []
+    today = last_final_day()
     for quarter, year in periods:
         target = price_date(quarter, year, q4_same_year)
         row = {"ticker": ticker.upper(), "period": f"{quarter} {year}",
                "key": f"{ticker.upper()}_{year}{quarter}",
                "target_date": target.isoformat(), "price_date": "", "price": "",
                "days_back": "", "note": ""}
-        if target > date.today():
-            # A period whose pricing date has not arrived yet. Not an error -- the sheet
+        first, last = month_bounds(target)
+        if target > today and (not month_fallback or first > today):
+            # A period whose pricing month has not started yet. Not an error -- the sheet
             # simply cannot have that column filled in yet, and saying so beats a blank.
             row["note"] = f"pricing date {target} is in the future"
             rows.append(row)
             continue
         try:
-            series = fetch_daily_closes(ticker, target - timedelta(days=LOOKBACK_DAYS),
-                                        min(target + timedelta(days=LOOKBACK_DAYS),
-                                            date.today()))
-            used, close = close_nearest(series, target)
+            try:
+                if target > today:
+                    raise PriceUnavailable(f"{target} has not arrived yet")
+                series = fetch_daily_closes(ticker, target - timedelta(days=LOOKBACK_DAYS),
+                                            min(target + timedelta(days=LOOKBACK_DAYS),
+                                                today))
+                used, close = close_nearest(series, target, today=today)
+                fallback = None
+            except PriceUnavailable as exc:
+                # An unknown symbol or a foreign-currency quote will not be cured by a
+                # wider window; only an empty window is.
+                if not month_fallback or "unknown symbol" in str(exc) \
+                        or "quotes in" in str(exc):
+                    raise
+                fallback = str(exc)
+                try:
+                    used, close = close_in_month(
+                        fetch_month(ticker, first, last, today), target, today=today)
+                    where = f"the first session of {target:%B %Y}"
+                except PriceUnavailable as empty_month:
+                    if "no trading day" not in str(empty_month):
+                        raise
+                    prev_last = first - timedelta(days=1)
+                    prev_first = prev_last.replace(day=1)
+                    used, close = close_last_in_month(
+                        fetch_month(ticker, prev_first, prev_last, today), prev_last,
+                        today=today)
+                    where = (f"the last session of {prev_last:%B %Y} ({empty_month})")
             # Positive: the session was before the 17th; negative: after it.
             row.update(price_date=used.isoformat(), price=close,
                        days_back=(target - used).days)
-            if used != target:
+            if fallback and target > today:
+                row["note"] = (f"PROVISIONAL: {target} has not arrived; used {used}, "
+                               f"{where}. Rerun with --write-xlsx --overwrite after "
+                               f"{target} to replace it")
+            elif fallback:
+                row["note"] = (f"no session within {LOOKBACK_DAYS} days of {target} "
+                               f"({fallback}); used {used}, {where}")
+            elif used != target:
                 side = "previous" if used < target else "next"
                 row["note"] = f"market closed on {target}; used the nearest ({side}) session"
         except PriceUnavailable as exc:
@@ -361,6 +475,10 @@ def main() -> int:
                     help="discover periods from <Q>_<YYYY>_<TICKER>.pdf in DIR instead")
     ap.add_argument("--q4-same-year", action="store_true",
                     help="price Q4 on 17 May of the SAME year (default: the next one)")
+    ap.add_argument("--no-month-fallback", action="store_true",
+                    help="leave a period blank when the 17th cannot be used (no session "
+                         f"within {LOOKBACK_DAYS} days, or not arrived yet), instead of "
+                         "taking the first session of that month from the 1st")
     ap.add_argument("-o", "--out", help="also write the table to this CSV")
     ap.add_argument("--write-json", action="store_true",
                     help=f"merge prices into {SHARE_PRICES.relative_to(ROOT)}")
@@ -402,7 +520,8 @@ def main() -> int:
             continue
 
         print(f"\n{ticker.upper()} — {len(periods)} period(s)")
-        rows = collect(ticker, periods, args.q4_same_year)
+        rows = collect(ticker, periods, args.q4_same_year,
+                       month_fallback=not args.no_month_fallback)
         print(f"  {'period':10} {'priced on':12} {'used':12} {'close':>10}  note")
         for row in rows:
             print(f"  {row['period']:10} {row['target_date']:12} "

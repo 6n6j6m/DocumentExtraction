@@ -153,6 +153,15 @@ def _strip_fences(text: str) -> str:
     return text.replace("```", "").strip()
 
 
+def _redact_api_key(message: str, api_key: Optional[str]) -> str:
+    """Remove Gemini credentials from transport errors before they reach logs."""
+    message = str(message)
+    if api_key:
+        message = message.replace(api_key, "<redacted>")
+    return re.sub(r"([?&]key=)[^&\s]+", r"\1<redacted>", message,
+                  flags=re.IGNORECASE)
+
+
 def parse_json(text: str) -> dict:
     """Parse a model response as JSON, tolerating fences and surrounding prose."""
     cleaned = _strip_fences(text)
@@ -205,7 +214,7 @@ class GeminiProvider:
         self.api_key = os.getenv("GEMINI_API_KEY")
         # A model can be named explicitly so the same class serves every Gemini model in
         # the fallback chain -- see get_provider_chain.
-        self.model = model or os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
+        self.model = model or os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite")
         self.timeout = int(os.getenv("GEMINI_TIMEOUT", os.getenv("LLM_TIMEOUT", "120")))
         # "markdown" rebuilds each page as a table from its word geometry and sends that;
         # "image" sends rendered pages to the VLM; "text" sends the flattened text layer.
@@ -264,10 +273,10 @@ class GeminiProvider:
 
         data = self._request({
             "contents": [{"parts": parts}],
-            "generationConfig": {
-                "temperature": 0,
-                "responseMimeType": "application/json",
-            },
+            # Gemini 3.5 Flash-Lite ignores deprecated sampling parameters such as
+            # temperature. Keep only structured output; deterministic behavior comes
+            # from explicit extraction rules and downstream validation.
+            "generationConfig": {"responseMimeType": "application/json"},
         }, usage=usage)
         if not data.get("candidates"):
             raise LLMError(f"Gemini returned no candidates: {str(data)[:200]}")
@@ -296,7 +305,6 @@ class GeminiProvider:
             "contents": contents,
             "tools": [{"functionDeclarations": tools}],
             "toolConfig": {"functionCallingConfig": {"mode": "AUTO"}},
-            "generationConfig": {"temperature": 0},
         }
         data = self._request(body, usage=usage)
         if not data.get("candidates"):
@@ -380,9 +388,10 @@ class GeminiProvider:
                     raise LLMUnavailable(
                         f"Gemini did not answer on {self.model} ({type(exc).__name__}) "
                         f"after {self.max_retries} retry; handing over to the next model"
-                    ) from exc
+                    ) from None
+                safe_error = _redact_api_key(exc, self.api_key)
                 raise LLMError(f"Gemini did not answer on {self.model}: "
-                               f"{type(exc).__name__}: {exc}") from exc
+                               f"{type(exc).__name__}: {safe_error}") from None
 
             if response.status_code == 429 and waited_out < self.rate_limit_retries \
                     and self.rate_limit_wait > 0:
@@ -615,7 +624,12 @@ def get_provider(name: Optional[str] = None):
         return GeminiProvider()
     if name == "ollama":
         return OllamaProvider()
-    raise LLMError(f"Unknown LLM_PROVIDER {name!r} (expected 'gemini' or 'ollama')")
+    if name == "claude-code":
+        # Answers come from a Claude Code session through files (src/claudecode.py).
+        from claudecode import ClaudeCodeProvider
+        return ClaudeCodeProvider()
+    raise LLMError(f"Unknown LLM_PROVIDER {name!r} "
+                   f"(expected 'gemini', 'ollama' or 'claude-code')")
 
 
 def get_provider_chain() -> list:

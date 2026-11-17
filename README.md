@@ -39,31 +39,35 @@ Two consequences worth knowing before reading further:
 
 ## Where it stands
 
-**Two issuers are scored**, and they say different things:
+The latest committed corpus scorecard measures the **pipeline on 223 filings and 2,229
+labelled cells across 14 issuers**. In image mode it records **2,205 correct, 10 wrong,
+and 14 missed** (98.9% accuracy). Of the ten wrong cells, eight are `utang_bank`, one is
+`kas`, and one is `total_share`; they are extractor errors, not known label errors.
+Abstentions are reported separately from wrong answers. The scorecard and its full slices
+are in `output/corpus_scorecard_gemini_gemini-3.1-flash-lite_image.json`.
 
-| Issuer | Result | What it is |
-|---|---|---|
-| **ARCI** | **40/40** (100%) | USD, full units. The issuer this was developed against. |
-| **JPFA** | **36/36**, and **33/36** once | Rupiah, millions. Never seen during development. Three runs, two answers. |
+That is a broader measurement than the earlier ARCI/JPFA experiments described later in
+this README. Those smaller runs remain useful history: ARCI scored 40/40, while repeated
+JPFA runs scored 36/36, 33/36 and 36/36. The 33/36 run is evidence that the abstention
+logic withdrew three fields after a balance-sheet inconsistency; the newer corpus also
+shows that real wrong answers can survive the guards, especially in bank debt. Neither
+the old clean runs nor the aggregate corpus score should be read as a guarantee for a new
+filing.
 
-JPFA is the more informative row, and the disagreement is the reason. Three runs of the
-same code over the same filings scored 36/36, 33/36 and 36/36. **Nothing was `wrong` in
-any of them.** In the middle one the model misread a figure on JPFA's annual report, the
-balance sheet stopped balancing, and the system withdrew the three implicated fields
-rather than publishing them — the abstention machinery firing on something nobody staged.
+**Tests:** 184 pass in the checkpointed run. The suite includes fault-injection tests for
+the extractor, evaluation harness, agent/tools, Markdown renderer, and label auditor.
 
-All three scorecards are committed. Reporting only the 36/36 would describe a system that
-is more reliable than this one is; reporting only the 33/36 would describe one that is
-worse. Together they say what is actually true: on an issuer it has never been tuned for,
-the extractor occasionally cannot read the hardest period, and when that happens it says
-so instead of guessing. **One period out of four is where the variance lives**, and one
-more clean run is not evidence that it has gone away.
+**Ground-truth independence is still a limitation.** A free screen found that 2,188 of
+2,229 labels (98.2%) are identical to output from the earlier `pdf_to_csv.py` pipeline.
+Several known label errors have been corrected, but the independent agent audit has not
+yet completed its pilot. A prediction matching a label is therefore not always
+independent evidence that the label itself is right.
 
-**184 tests**, of which 146 break one specific thing each and assert that the right guard fires: 52 on the extractor, 21 on the harness that measures it, 37 on the agent and its tools, 7 on the markdown renderer, and 29 on the label audit.
-
-**What is still not scored.** CPIN and EMAS are extracted and checked against what each
-filing says about itself, but they have no labels. The distinction is kept sharp
-throughout: a filing that validates is not a filing that was measured.
+**Repository data versus evaluation data:** `data/raw/` contains a small sample of 13
+PDFs. The 223-filing corpus scorecard and cached predictions cover a wider archive; some
+source filings live in the user's external `~/FinancialReport` archive and are not
+included in this checkout. Cached evaluation can be reproduced without those PDFs; a
+fresh full-corpus extraction cannot.
 
 ### What this README covers
 
@@ -88,17 +92,19 @@ and what more time would buy. In order:
 
 ## Start here
 
-Four ways in, in increasing order of what they need from you. Everything the commands
-below refer to — the filings, the labels, the committed results — is in the repository, so
-none of it has to be taken on trust.
+Five ways in, from a local, no-key check to a live API evaluation. The sample PDFs,
+ground-truth workbooks, cached predictions and scorecards are in the repository; the full
+223-filing source archive is not. A cache-only corpus score is reproducible from the
+checkout, while a fresh full-corpus extraction requires the external archive and a model
+key.
 
 | | Needs | Takes | Shows |
 |---|---|---|---|
-| **1. Run the tests** | Python only — **no API key** | ~90 s | That the guards, the confidence layer and the abstention logic do what this README says |
-| **2. Extract one filing** | A free Gemini key | ~25 s | The system reading a real 122-page filing end to end |
+| **1. Run the tests** | Python only — **no API key** | ~3 min (checkpoint run) | That the guards, confidence layer and abstention logic do what this README says |
+| **2. Extract one filing** | Gemini API key | Varies by PDF and OCR | The system reading a real filing end to end |
 | **3. Batch a folder into one CSV** | The key | ~30 s per filing | The thing this project exists for: a directory of PDFs becomes a spreadsheet |
-| **4. Score it** | The key | ~4 min | Both issuers re-scored from scratch |
-| **5. Docker** | Docker + the key | ~6 min | `compose up` serving the API, then **one command** that scores both issuers **against that API** |
+| **4. Score it** | Cached mode: no key. Fresh run: key + source PDFs | Cache-only is quick; full corpus takes hours | Reproduce the saved 223-filing evaluation or re-extract available filings |
+| **5. Docker** | Docker + the key | Varies | `compose up` serving the API, then a one-shot evaluation through that API |
 
 ### 1. Run the tests — no key required
 
@@ -113,23 +119,26 @@ python -m pytest tests/ -q
 ```
 
 Nothing here touches the network: `tests/test_api.py` stubs the provider, and
-`tests/test_guards.py` works from the committed PDFs. This is the cheapest way to see
+`tests/test_guards.py` uses local fixtures and available PDFs. This is the cheapest way to see
 what the system actually guarantees — each test breaks one thing and names the guard that
 should catch it. Start with `test_wrong_but_real_row_is_caught` and
 `test_hallucinated_value_is_caught`.
 
 ### 2. Extract one filing
 
-Get a free key from [Google AI Studio](https://aistudio.google.com/apikey), then:
+Get a key from [Google AI Studio](https://aistudio.google.com/apikey), then:
 
 ```bash
 cp .env.example .env          # put the key in GEMINI_API_KEY
 python src/extract.py data/raw/Q1_2022_ARCI.pdf
 ```
 
-Roughly 25 seconds and 3 API calls on the free tier. You should see page selection
-narrowing 122 pages to 8, three per-statement calls, a confidence line per field, and the
-figures converted to Rupiah using an exchange rate read out of the filing itself:
+On the configured default Markdown path, the extractor rebuilds selected pages as tables
+from the PDF text geometry and sends them to the model. It falls back to images when the
+text layer is unusable. The output includes selected pages, confidence per field, and
+conversion to full Rupiah using a rate read from the filing when applicable. Call counts
+and runtime vary by filing, provider and fallback path; the sample below is illustrative,
+not a current performance promise:
 
 ```
 📄 Selecting pages from Q1_2022_ARCI.pdf...
@@ -232,7 +241,7 @@ caller scripting this should not have to parse the CSV to find out.
 
 #### What a row actually contains
 
-Thirty-three columns: identity, then the ten figures, then everything needed to judge them. A
+Thirty-six columns: identity, then the ten figures, then everything needed to judge them. A
 reader who trusts the row can stop after the figures; a reader who does not has the
 grounds for their doubt on the same line.
 
@@ -240,6 +249,8 @@ grounds for their doubt on the same line.
 file             Q1_2022_JPFA.pdf      status           ok
 ticker           JPFA                  fields_filled    10/10
 period_end_date  2022-03-31            abstained
+missing_fields                         missing_not_abstained
+abstention_details                     {"kas": {"confidence": 0.4, ...}}
 currency         IDR                   issues
 reporting_scale  MILLIONS              notes
 unit             IDR full              fx_rate / fx_source / fx_page
@@ -259,8 +270,11 @@ Four conventions, because a CSV hides its own assumptions:
   question is what the page said.
 - **An empty cell means "not asserted", never zero.** A field can be blank because the
   filing does not report it, or because the system read something and refused to trust
-  it. Those are different facts, so `abstained` names the fields withdrawn on purpose and
-  `status` separates a clean row from a partial one.
+  it. `abstained` names fields withdrawn by the confidence layer; `abstention_details`
+  records the confidence, reason, and withheld value. `missing_not_abstained` exposes
+  output fields the model or pipeline left empty without a confidence withdrawal, while
+  `missing_fields` lists all empty output fields. These are different failure modes even
+  though both make the row partial.
 - **A failed document still gets a row.** Fifty filings with one unreadable PDF produce
   forty-nine rows of figures and one row saying what went wrong — not a traceback and no
   file. Verified on a batch whose middle file was not a PDF: two rows of figures, one
@@ -375,45 +389,31 @@ Interim quarters are **not** annualised, exactly as the workbook does it: a Q1 R
 roughly a quarter of the annual figure. Annualising is a modelling decision, and this
 file does not make those.
 
-### 4. Score it — the full evaluation
+### 4. Score it — cached corpus or fresh extraction
 
-**Without an API key**, from the predictions committed in this repository:
-
-```bash
-python scripts/run_eval.py
-```
-
-This calls no model at all. It reads the extraction results already in
-`output/predictions/`, converts them to Rupiah, compares them field by field against
-`data/ground_truth/ARCI.xlsx`, and writes a scorecard — the full 40/40, reproduced on your
-machine in a few seconds. It is the fastest way to inspect what is actually being
-measured: the tolerance, the four statuses, the failure taxonomy, the per-field errors.
-
-What it cannot do is test a change, because nothing was re-extracted. For that:
+To reproduce the broad scorecard without an API key or opening PDFs:
 
 ```bash
-python scripts/run_eval.py --ticker ARCI --no-cache      # 13 calls, ~2 min
-python scripts/run_eval.py --ticker JPFA --no-cache      # 16 calls, ~2 min
+python scripts/run_eval.py --corpus --cached-only
+python scripts/report_eval.py output/corpus_scorecard_gemini_gemini-3.1-flash-lite_image.json
 ```
 
-Each writes its own scorecard, `output/scorecard_<TICKER>_<provider>_<mode>.json`. For
-ARCI, expect:
+`--cached-only` uses the committed predictions and cached conversion data; it cannot
+measure code changes to extraction. To re-extract, pass the directories containing the
+corpus PDFs and configure a provider key. The private archive used for the full run is
+usually `~/FinancialReport`:
 
-```
-SUMMARY
-  correct       40
-  wrong          0
-  missed         0
-  accuracy     100.0%  (40/40)
-
-  usage
-    LLM calls            13
-    tokens              100878 in / 3765 out
-    latency             21-36s per document (mean 28s)
+```bash
+python scripts/run_eval.py --corpus --corpus-root data/raw ~/FinancialReport --no-cache
 ```
 
-The `usage` block is measured, not estimated: both providers report their own token
-counts. `cost` reads *unpriced* by design — see [*Cost*](#cost).
+To run only a sample first, use `--limit 5 --sample-seed 0`. To re-score one issuer,
+pass `--ticker TICKER`. Scores are per labelled cell and distinguish `correct`, `wrong`,
+and `missed`; deliberate abstentions are reported separately in the metrics. See
+[*Evaluation*](#evaluation) for the committed 223-filing result and its limitations.
+
+The `usage` block records calls, tokens and latency. Monetary cost is intentionally
+unpriced until provider rates are added to `config/pricing.json`.
 
 Exit codes are meant for CI: **0** if nothing is wrong, **1** if any field is `wrong`,
 **2** if the run could not be performed at all (no provider, no filings, a ground-truth
@@ -438,9 +438,9 @@ it the scorecard cannot name the commit that produced it.
 | Symptom | Cause and fix |
 |---|---|
 | `GEMINI_API_KEY not set` | No `.env`, or the key line is empty. `cp .env.example .env` and fill it in. |
-| `Model 'x' not found on this key` | Model availability differs per account. The error lists the ids your key actually has — copy one into `GEMINI_MODEL` in `.env`. Any Gemini vision model works; `gemini-3.1-flash-lite` is what the committed results used. |
+| `Model 'x' not found on this key` | Model availability differs per account. The error lists the ids your key actually has — copy one into `GEMINI_MODEL` in `.env`. The current default is `gemini-3.5-flash-lite`; the committed broad scorecard is historical and used `gemini-3.1-flash-lite`. |
 | `run_eval` says "only CACHED predictions can be scored" | You have no key configured. That is a working path, not an error: it re-scores the committed predictions. `--no-cache` is what needs a provider. |
-| The cache-only run took minutes and billed you | Predictions are cached per **model**. If `GEMINI_MODEL` in your `.env` is not `gemini-3.1-flash-lite`, every lookup misses and the run silently calls the API instead. Pin the model, or accept that you are doing a fresh extraction. |
+| The cache-only run took minutes and billed you | Predictions are cached per **model**. The committed broad cache is tagged `gemini-3.1-flash-lite`; the current default is `gemini-3.5-flash-lite`, so switching models creates a fresh cache and can call the API. Pin the historical model for a cache-only comparison. |
 | `503 ... high demand` | Gemini capacity spike. One retry is automatic; if it persists, wait a minute. The run continues and reports the field as `missed`, never as a guess. |
 | `429 rate limit` | Gemini has three limits behind one code: requests per minute (RPM), tokens per minute (TPM), requests per day (RPD). A per-minute limit cools down and retries automatically (`LLM_RATE_LIMIT_WAIT_S`, default 70s). A per-**day** quota is not waited out — sleeping cannot clear it — so it fails fast. Limits are counted per model, so `GEMINI_FALLBACK_MODELS` hands a throttled document to another Gemini model at once, and `LLM_FALLBACK_PROVIDER=ollama` takes over only when every Gemini model is out. |
 | `OCR unavailable` on EMAS | `brew install tesseract tesseract-lang`. Without it EMAS still extracts, but page selection, grounding and the FX rate degrade — and the run says so. |
@@ -550,12 +550,18 @@ ways that matter:
 | Negative non-controlling interest | Parent-attributable equity is *larger* than total equity |
 | One rotated page per filing | Its text layer extracts as ~330 unusable fragments |
 
-Ground truth lives in `data/ground_truth/ARCI.xlsx`, one column per period. It was
-labelled by hand from the filings and is stated in full Rupiah.
+Ground-truth workbooks live in `data/ground_truth/`, one column per period, and values
+are stated in full Rupiah. Fourteen issuer workbooks are present. The label screen found
+that 98.2% of labelled cells match an older extraction CSV, so labels are not fully
+independent of the system being measured; corrections are recorded in
+`data/ground_truth/CORRECTIONS.md`.
 
-Three further issuers are in `data/raw/`. **JPFA is labelled and scored**; CPIN and EMAS
-are extracted and self-checked but have no labels, so they test generalisation rather
-than accuracy:
+The checked-in `data/raw/` directory is a **13-PDF sample**, not the full evaluation
+archive. The wider corpus contains 223 issuer-period filings across 14 issuers, with
+2,229 labelled field cells and cached predictions. ARCI and JPFA are useful examples in
+the checked-in sample; several other source PDFs are in the external `~/FinancialReport`
+archive. The workbooks in `data/ground_truth/` provide labels for the corpus, though the
+label-independence caveat above applies. Examples of issuer-specific challenges include:
 
 | Issuer | Filings | What it adds that ARCI does not have |
 |---|---|---|
@@ -592,10 +598,10 @@ That origin explains three choices that otherwise look arbitrary:
   shareholders, so equity and profit exclude the non-controlling interest — which is why
   `ekuitas` is derived rather than read, and why a negative NCI makes the right answer
   *larger* than the printed total.
-- **`utang_bank` is bank debt only**, not total liabilities. Leverage measures
-  interest-bearing debt; trade payables are not that. This is also the hardest field in
-  the schema, because three balance-sheet rows carry the label and only one section
-  heading tells them apart.
+- **`utang_bank` covers current interest-bearing loans from banks and non-bank financial
+  institutions**, not total liabilities. Trade payables, leases and employee benefits
+  are excluded. The current and long-term sections determine which loan amounts belong
+  in the field.
 - **`total_share` is a count, not money.** It is a denominator in five of the seven
   ratios, so scaling or FX-converting it would corrupt every one of them by a factor of
   around 14,000. It is carried through `normalize.py` untouched, by name.
@@ -623,6 +629,8 @@ PDF (97-171 pages)
    │                    → 8 pages   [93.4% fewer pages]
    │                    → grouped: balance_sheet / income / cash_flow
    │                    → + the share-capital note, only if no page carries it
+   │                    → + bank-loan note when the balance sheet combines
+   │                      bank and non-bank lenders
    │
    ├─ pagemd.py        each page rebuilt as a markdown table from its word
    │                    geometry: amounts are right-aligned, so the columns are
@@ -729,13 +737,11 @@ and both are fixed:
   of budget ran out while still hunting the shareholder table. `read_page_text` now takes
   up to four pages in one call.
 
-**What is not claimed yet.** No accuracy comparison. Three filings is a smoke test, and
-that pass ran into an exhausted daily quota on `gemini-3.1-flash-lite` and 503s on
-`gemini-3.5-flash-lite`, so two of the three were lost to provider availability rather
-than to the loop. The experiment that settles it is designed and written down —
-pipeline in image mode, pipeline in text mode, agent with a generous image budget, all
-on one model, compared with a filing-clustered and an issuer-clustered bootstrap
-interval — and these are the results that would make the agent the wrong answer:
+**What the measurement supports.** The checkpoint records one scored agentic filing:
+7/10 correct, 12 calls, 118,170 input tokens and 241 seconds. This is an initial datapoint,
+not a reliable estimate of agent quality or cost. A useful comparison still needs a larger,
+matched sample and filing-/issuer-clustered uncertainty intervals. The agent's tool
+selection can also be compared with the deterministic selector:
 
 | Verdict | The number that says so |
 |---|---|
@@ -754,6 +760,11 @@ Image mode was the default for a year, on the reasoning that a VLM reads a state
 columns and indentation directly while a flattened text layer destroys both. The second
 half of that is true. The first half was never tested against a third option: giving the
 model the **structure itself**, rebuilt from the PDF's own geometry.
+
+The current default is Markdown (`GEMINI_INPUT_MODE=markdown`), with per-filing image
+fallback when the raw text layer is unusable. The committed broad 98.9% scorecard above
+is from image mode; Markdown has a measured 12-filing paired sample, while its full-corpus
+comparison remains pending.
 
 The text layer prints a row like this, and loses two things:
 
@@ -777,6 +788,15 @@ Both are recoverable from geometry rather than from language, and `src/pagemd.py
   `7.149.123.737` is **−0.02 points**, while a note reference sits 46–96 points from the
   amount beside it and two adjacent columns are 32 points apart. Merging on a sub-point gap
   cannot swallow a note number.
+- **The separator can start the second box.** PURA Q1 2023 prints `1.768.888.226` and
+  `5.142.595.662` as a leading digit followed by `.768.888.226` / `.142.595.662` in the
+  text geometry. The renderer previously left the digit in the label, so the model saw a
+  truncated number and confidence correctly withheld the resulting mismatch. It now joins
+  touching digit-plus-separator fragments before assigning table columns.
+- **A combined bank/non-bank financial-institution row is valid debt.** The balance-sheet
+  current-maturity total can be used directly; the numbered debt note is selected as
+  supporting evidence. If note components disagree, the printed balance-sheet subtotal
+  takes precedence over an incomplete lender breakdown.
 - **Indentation is kept**, as `·` per level, because in these statements indentation *is*
   the section. TLDN Q4 2023 prints two rows labelled `Utang bank 12` on one page — one
   under short-term liabilities, one under long-term — and nothing in the words separates
@@ -1032,6 +1052,13 @@ Below `CONFIDENCE_ABSTAIN_THRESHOLD` (default 0.55) the value is **removed**, no
 merely flagged — a low-confidence number left in the output gets used by whatever
 reads it next.
 
+An empty output field is not always an abstention. If the `abstained` column names the
+field, the confidence layer deliberately withdrew a value it had read. If the field is
+empty but absent from `abstained`, the model or pipeline never supplied a value (for
+example, the selected pages omitted the relevant note, or a statement group returned
+incomplete JSON). Both reduce `fields_filled`, but only the first is a confidence-based
+abstention.
+
 Observed behaviour:
 
 | Scenario | Result |
@@ -1172,10 +1199,14 @@ It refuses a run made from a dirty tree or with no commit recorded — a baselin
 cannot be reproduced from the repository turns the gate into a comparison with a number
 nobody can recreate — and every promotion appends to `evals/baselines/CHANGELOG.md`.
 
-The baseline is the chain as deployed: `gemini-3.1-flash-lite` first, `gemini-3.5-flash-lite`
-behind it. A corpus pass is long enough that the primary model *will* be throttled, and
-suppressing the fallback would measure the rate limiter rather than the extractor — so
-every cell records which model answered it and `model` is one of the slices.
+The committed broad baseline was measured with `gemini-3.1-flash-lite` first and
+`gemini-3.5-flash-lite` behind it. Since 2026-10-09 the configured base is
+`gemini-3.5-flash-lite`; that model change has not yet been evaluated across the labeled
+corpus. The current fallback order is `gemini-3.1-flash-lite`, then `gemini-3.6-flash`,
+`gemini-3.7-flash`, and `gemini-3.8-flash`. Historical scorecards remain tagged with the
+model that actually produced them. A corpus pass is long enough that a primary model can
+be throttled, and suppressing the fallback would measure the rate limiter as well as the
+extractor — so each prediction records which model answered.
 - **Statuses are distinct:** `correct` / `wrong` / `missed` / `no_truth`, and a
   `missed` caused by deliberate abstention is counted separately from one where the
   model simply returned nothing.
@@ -1208,13 +1239,32 @@ every cell records which model answered it and `model` is one of the slices.
 
 ### Results
 
-`gemini-3.1-flash-lite`, image mode, Q1–Q4 2022, both scored issuers:
+Latest broad result in the committed image-mode corpus scorecard:
 
 ```
-ARCI    correct 40   wrong 0   missed 0                accuracy 100%   (40/40)
-JPFA    correct 36   wrong 0   missed 0                accuracy 100%   (36/36)   ← via the API
-JPFA    correct 33   wrong 0   missed 3 (abstained)    accuracy 91.7%  (33/36)   ← a second run
-JPFA    correct 36   wrong 0   missed 0                accuracy 100%   (36/36)   ← current code
+gemini-3.1-flash-lite + fallback chain
+  filings        223 across 14 issuers
+  labelled cells 2,229
+  correct        2,205
+  wrong             10
+  missed            14
+  accuracy         98.9%
+```
+
+The ten wrong cells are eight `utang_bank`, one `kas` and one `total_share`. The
+scorecard also records eleven abstentions in its confidence accounting; abstention
+counts and cell outcomes are not interchangeable, because an abstention on an unlabelled
+field is not one of the 2,229 scored cells. Consult the scorecard for coverage, answered
+accuracy, per-field/per-issuer slices, model provenance, and usage. The run averages about
+31,184 input tokens and four calls per filing; provider cost is not priced.
+
+Older focused runs remain useful for understanding individual cases:
+
+```
+ARCI    correct 40   wrong 0   missed 0                (40/40)
+JPFA    correct 36   wrong 0   missed 0                (36/36)   ← via the API
+JPFA    correct 33   wrong 0   missed 3 (abstained)    (33/36)   ← another run
+JPFA    correct 36   wrong 0   missed 0                (36/36)   ← later run
 ```
 
 ARCI was reproduced after the prompt was rewritten to remove its own figures from the
@@ -1236,13 +1286,11 @@ Q4 liabilitas    missed -> correct
 correct 33 -> 36   wrong 0 -> 0   missed 3 -> 0
 ```
 
-**One run does not prove the JPFA variance is gone.** The same period produced
-both answers before anything changed, so a single clean pass cannot distinguish "fixed"
-from "lucky". What it does establish is that nothing that used to be right became wrong.
-Quoting only the 36/36 would describe a more reliable system than this is; quoting only
-the 33/36 would describe a worse one. What all three agree on is the part that matters:
-**on an issuer it was never tuned for, this extractor has never yet published a wrong
-figure.**
+The earlier JPFA runs show run-to-run variation on the annual report. In the 33/36 run,
+the balance-sheet check caused three implicated values to be abstained. The wider corpus
+now includes wrong answers that passed the guards, so the old claim that the extractor
+had never published a wrong figure is no longer true. The current challenge is reducing
+those measured errors, particularly bank-debt errors, while preserving coverage.
 
 **The same prompt, a different model.** ARCI was also run end to end on
 `gemini-3.5-flash-lite` with no prompt change: **40/40**, 13 calls, 100,878 in / 3,788 out,
@@ -1256,23 +1304,24 @@ find out rather than to guess.
 
 Stated plainly, because a clean scorecard is the easiest thing in this repo to over-read:
 
-- **Two issuers, not four.** 76 scored cells in total. CPIN and EMAS are extracted and
-  self-checked, not scored, because they have no labels.
-- **ARCI has never failed**, so its `failure_kinds` and `abstained` are empty in every
-  period. A 100% run on the template the system was built against is weak evidence, and
-  reading it as strong is the mistake this section exists to prevent.
-- **No extraction has ever scored `wrong`** on either issuer. Every failure so far has
-  been the system declining to answer, which is the behaviour it is designed for — but it
-  means the failure taxonomy (`wrong_scale`, `wrong_near_miss`, `hallucinated` …) is still
-  demonstrated only by fault injection, never by a real misread that survived the guards.
+- **The 98.9% is an aggregate across 14 issuers.** It can hide difficult slices: the
+  scorecard reports 94.2% accuracy on the 12 filings whose text layer is `shredded`, and
+  remaining wrong answers are concentrated in `utang_bank`. Read each percentage with
+  its denominator.
+- **Label independence is limited.** 98.2% of labelled cells matched the legacy
+  extractor's CSV according to the screen. Corrections have been made and logged, but
+  an independent agent audit has not yet produced a completed pilot. Some apparent
+  matches may therefore reflect shared lineage between prediction and label.
+- **A passing validation is not proof of correctness.** Ten wrong cells passed the
+  current confidence/validation path in this corpus. The guards reduce risk; they do not
+  eliminate it.
 - **The converted leg is not independent** for ARCI, for the reason given above. JPFA
   reports in Rupiah and has no conversion step, so its labels do not share this problem.
 
-Most of that is what `--corpus` exists to fix, and it is fixed by running it rather than
-by describing it: the machinery now scores every labelled filing, but the numbers above
-still come from the two issuers whose predictions are committed. The full pass is the
-author's to run — roughly three hours and a thousand calls — after which the baseline and
-the CI gate cover 223 filings instead of eight.
+The corpus machinery now scores all labelled filings for which predictions are cached.
+Running a fresh full pass still requires source PDFs from the external archive and
+provider capacity. The committed scorecard is the measured snapshot; a fresh full-corpus
+extraction cannot run from this checkout alone.
 
 ### Catching a regression before it ships
 
@@ -1708,8 +1757,9 @@ nobody staged.
 
 ## Agentic development
 
-This system was built with Claude Code across one long session, working directly
-against the repo on a linked machine.
+This system was built with Claude Code across a long session, working directly
+against the repository. That development workflow is separate from the experimental
+tool-calling extractor described below.
 
 What worked: giving it the filings and asking it to *verify* rather than *assume*.
 Every claim in this README that carries a number came from a script run against the
@@ -1748,6 +1798,16 @@ labels. Its column-selection warning ("check the column header, not the row
 position") is exactly the failure the extractor hit later, and its no-self-labelling
 rule is the same principle the prompt leak violated.
 
+### Agentic extractor: implemented, not yet a deployment path
+
+`src/agent.py` and `src/agenttools.py` implement a tool-calling extraction loop, with
+page listing/search/reading, group reports, a finish tool, bounded budgets and saved
+trajectories. The comparison is wired into `scripts/run_eval.py --extractor agentic`,
+but the checkpoint records only **one measured filing**: 7/10 correct, 12 calls,
+118,170 input tokens and 241 seconds. That sample is too small to support a quality
+conclusion, and the agent is not connected to `pdf_to_csv.py` or the HTTP API. The normal
+pipeline remains the production path in this repository.
+
 ---
 
 ## Generalising to other issuers
@@ -1780,16 +1840,15 @@ differently, `_bank_rows_by_section()` returns an empty map and every wrong-row 
 is skipped. Previously that was silent: the guard switched itself off while
 confidence stayed high. It now raises `section_map_incomplete`.
 
-### Run against three issuers it was never developed on
+### Early cross-issuer runs: JPFA, CPIN and EMAS
 
-Claims about generalisation are worth little until the code meets a document it was
-not written for, so the pipeline was run on **JPFA Q1 2022** (171 pages), **CPIN Q1
-2022** (120 pages) and **EMAS Q3 2025** (97 pages).
+This section records the initial generalisation experiments, not the current evaluation
+coverage. The pipeline was first run on **JPFA Q1 2022** (171 pages), **CPIN Q1 2022**
+(120 pages) and **EMAS Q3 2025** (97 pages). Since then, the labelled corpus has grown to
+223 filing-periods across 14 issuers (see *Results*). Balance identities and grounding
+are still useful diagnostics, but they are not substitutes for those labels:
 
-JPFA is now labelled and scored (see *Evaluation*). For CPIN and EMAS there is still no
-ground truth — but a filing checks a great deal of its own work:
-
-| Check | JPFA | CPIN | EMAS |
+| Check in these initial runs | JPFA | CPIN | EMAS |
 |---|---|---|---|
 | Balance sheet identity (`aset = liabilitas + total ekuitas`) | holds | holds | holds |
 | Scale read from the printed header | `MILLIONS` | `MILLIONS` | `FULL` |
@@ -2184,6 +2243,14 @@ the first: the current date's table is printed before the comparative one. EMAS 
 March 2026 on page 64 and December 2025, with its since-cancelled treasury shares, on page 65,
 so only page 64 is sent. Details, each found by sweeping all 215 filings:
 
+One filing-specific exception is now covered: PURA Q1 2023 prints 6,301,930,902 shares on
+the shareholder-table total row but labels that total `104%`; Q2 2023 prints `100%`. The
+shareholder counts add to the printed total, while the percentages in Q1 are internally
+inconsistent. The selector accepts 101–110% only when the percentage follows a share count
+on a `Total`/`Jumlah` row. It still rejects an ordinary shareholder row and implausible
+120% totals. This is why two nearly identical quarterly PDFs could produce different
+`total_share` coverage even though both contain the table.
+
 - **The count comes before the 100%.** ADMR Q2 and Q3 2025 list their subsidiaries as
   "100.00% 100.00% 1,069,356,077" — ownership, then total assets in dollars — on a page naming
   those subsidiaries' shareholders, and that page was found as the share table.
@@ -2245,34 +2312,23 @@ as a miss until those labels are corrected per period. `EMAS.xlsx` has a separat
 its Q4 2025 label, 20.006.577.715, matches neither the issued count, the outstanding count
 nor authorised capital printed in that filing.
 
-### Honest confidence
+### Confidence and remaining evidence gaps
 
 | Case | Confidence | Why |
 |---|---|---|
-| ARCI, other years | High | Same template, four periods score 40/40 |
-| Another IDX filer, IDR, millions | Medium-high | JPFA is scored: 36/36 on one run, 33/36 on another with three abstentions and nothing wrong. CPIN extracts cleanly but is unlabelled |
-| Filer reporting in thousands | Medium | Same deterministic reader as millions, which now works on real filings; the thousands branch itself is still untested |
-| Filer with a broken or absent text layer | Medium | Three distinct breakages now handled — glyph ids (EMAS), empty layers, single-character shredding (GTRA) — across 65 filings. OCR quality is the dependency this trades into, and it is not measured |
-| Filer whose statement pages must be OCR'd | Medium-low | Figures and grounding recover, but the bank-debt position check cannot run: OCR does not preserve which heading a row sits under |
+| ARCI, other years | Measured on a narrow template | ARCI's focused four-period run scored 40/40; the broader corpus has real errors across issuers |
+| JPFA / IDR in millions | Measured, with run variance | Focused runs scored 36/36, 33/36 and 36/36; the full corpus scorecard is the broader evidence |
+| Other currencies and scales | Measured by corpus slices | USD and THOUSANDS appear in the corpus; inspect each slice and its denominator rather than extrapolating from the early samples |
+| Broken or absent text layers | Lower coverage observed | The 12 `shredded` filings scored 113/120; OCR quality and the smaller slice size remain limitations |
+| OCR'd statement pages | Guard limitation | OCR text does not preserve enough layout for the bank-debt position check in all cases |
 | Filer with no disclosed FX rate, reporting in USD | Refuses | By design; it raises rather than guessing a rate |
 | Filer quoting its rate to two decimals | Works, with a caveat | 0.8% rounding uncertainty, reported on every conversion rather than hidden |
 
-Grounding does not depend on the issuer at all, and neither do the balance-sheet
-identity or containment rules. A new issuer is therefore more likely to produce
-**abstentions and validation errors** than confident wrong numbers — which is what
-both new issuers did: JPFA declined `total_share` rather than inventing one, and EMAS
-abstained on everything rather than asserting figures it could not verify.
-
-That behaviour is the design working, and JPFA has now shown it under measurement rather
-than under fault injection: on the period whose balance sheet did not balance, three
-fields were withdrawn and none was wrong.
-
-**The gap that remains is still labels, one issuer further out.** CPIN and EMAS are
-extracted but not *scored*, so "correct" for them rests on the filing's own internal
-consistency rather than on measurement. Labelling either — the workflow is in
-`.claude/skills/label-groundtruth/SKILL.md` — is the highest-value next step, and EMAS is
-the more valuable of the two: its text layer is unreadable and its digits are grouped in
-the English convention, so it exercises paths ARCI and JPFA never touch.
+Grounding, balance-sheet identities and containment checks are issuer-independent
+signals, but the corpus shows they cannot catch every wrong real row. New issuers should
+be evaluated against independent labels as well as these internal checks. The remaining
+label-quality gap is independence: most labels match an older extractor output, and the
+agent audit has not completed a pilot.
 
 ## Not built yet
 
@@ -2284,9 +2340,18 @@ Stated plainly because the brief asks for them:
 - **Cross-provider agreement as a fourth signal.** Running two models and scoring
   disagreement is the obvious next input to confidence, and the provider layer
   already supports it.
-- **A third and fourth scored issuer.** CPIN and EMAS are extracted and self-checked but
-  unlabelled. Two scored issuers is enough to have found real bugs; it is not enough to
-  characterise the extractor.
+- **Independent ground-truth audit.** A screen is implemented and the blind-reading plus
+  adjudication agent is implemented, but its pilot is still pending after provider
+  capacity and daily-quota failures. The workbook remains protected from automatic edits.
+- **Resolve nine remaining label/prediction disputes** against source filings and create
+  an independently labelled sample. The current screening report found ten disagreements
+  on the corrected working tree, corresponding to the ten wrong extractor cells.
+- **Complete the full-corpus Markdown comparison.** A 12-filing paired sample slightly
+  favoured Markdown (118/120 vs 117/120 for image), but this is not yet a full-corpus
+  comparison; the wider run is still pending.
+- **Connect the agentic extractor to the user-facing paths.** It can be scored through
+  `run_eval.py`, but is not yet wired into `pdf_to_csv.py` or `src/api.py`; its one-filing
+  result is not enough evidence to make it the default.
 - **Layout-aware OCR.** The OCR path asks tesseract for `image_to_string` and discards
   the geometry. `image_to_data` returns per-word coordinates, which would rebuild rows on
   an OCR'd page and let the bank-debt position check run there — the one guard still
@@ -2300,10 +2365,8 @@ Stated plainly because the brief asks for them:
 
 ## With more time
 
-1. **Label CPIN or EMAS.** JPFA was labelled during this work and immediately exposed two
-   filename collisions and a hole in the abstention logic. A third issuer is the cheapest
-   remaining source of that kind of finding — especially EMAS, whose text layer is
-   unreadable and whose figures are grouped in the English convention.
+1. **Finish the independent label audit** and produce a human-reviewed sample whose
+   labels were not copied from the extractor output.
 2. **Calibrate the abstention threshold** by sweeping it against the eval set and
    plotting precision against coverage, instead of choosing 0.55 by argument.
 3. **Sweep the retry policy.** One attempt on a `503` recovered the field it was added
@@ -2357,12 +2420,11 @@ scripts/
 tests/
   test_guards.py   fault injection; proves each guard fires (and stays quiet)
 data/
-  raw/             ARCI, JPFA, CPIN (Q1-Q4 2022) and EMAS (Q3 2025)
-  ground_truth/    six issuer workbooks; ARCI and JPFA are the two the eval scores
-                   CORRECTIONS.md — every label changed after entry, with evidence
+  raw/             13 checked-in sample PDFs; the full 223-filing source archive is external
+  ground_truth/    14 issuer workbooks; CORRECTIONS.md logs label changes and evidence
 config/
   pricing.json     token rates, empty of cloud prices by design
-Dockerfile         api + eval image (written, not yet built)
+Dockerfile         API + evaluation image
 docker-compose.yml `up` serves the API; `run --rm eval` scores it
 output/
   scorecard_*.json committed results from real runs, including a baseline to diff

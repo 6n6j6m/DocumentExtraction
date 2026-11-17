@@ -1,0 +1,947 @@
+{
+ "ticker": "EMAS",
+ "date": "2026-11-10",
+ "has_labels": true,
+ "filings": [
+  {
+   "period": "Q1 2026",
+   "file": "Q1_2026_EMAS.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "Rate quoted to 2 decimal places (0.59), so converted figures carry about 0.8% rounding uncertainty - wider than the evaluation tolerance.; Rate row also carried 16,667 IDR/USD (comparative periods); took the first column, 16,949.",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 64",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2026",
+   "file": "Q2_2026_EMAS.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "Rate quoted to 2 decimal places (0.56), so converted figures carry about 0.9% rounding uncertainty - wider than the evaluation tolerance.; Rate row also carried 16,667 IDR/USD (comparative periods); took the first column, 17,857.",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 66",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2025",
+   "file": "Q3_2025_EMAS.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "Rate quoted to 2 decimal places (0.61), so converted figures carry about 0.8% rounding uncertainty - wider than the evaluation tolerance.; Rate row also carried 16,129 IDR/USD (comparative periods); took the first column, 16,393.",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 68",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2025",
+   "file": "Q4_2025_EMAS.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "Rate quoted to 2 decimal places (0.6), so converted figures carry about 0.8% rounding uncertainty - wider than the evaluation tolerance.; Rate row also carried 16,129 IDR/USD (comparative periods); took the first column, 16,667.",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 72",
+   "pdf_found": true
+  }
+ ],
+ "cells": [
+  {
+   "period": "Q1 2026",
+   "field": "aset",
+   "pred": 13717107593220,
+   "label": 13717107593220,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 809,309,348 740,638,208 TOTAL ASSETS"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS DAN EKUITAS 809,309,348 740,638,208 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_EMAS.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "total_aset_lancar",
+   "pred": 1432792796610,
+   "label": 1432792796610,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah aset lancar 84,534,775 61,231,113 Total current assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_EMAS.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "kas",
+   "pred": 820486016949,
+   "label": 820486016949,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan bank 2g,4 48,408,675 45,308,297 Cash and banks"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS DAN BANK PADA AKHIR PERIODE 4 48,408,675 19,659,848 OF THE PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_EMAS.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "liabilitas",
+   "pred": 7477879169492,
+   "label": 7477879169492,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS 441,194,871 359,700,290 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_EMAS.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "utang_bank",
+   "pred": 0,
+   "label": 0,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_EMAS.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "ekuitas",
+   "pred": 6238533576271,
+   "label": 6238533576271,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik entitas induk 368,073,481 380,896,305 owners of the parent entity"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH EKUITAS 368,114,477 380,937,918 TOTAL EQUITY"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Maret 2026 18, 19 139,149,609 302,462,644 - ( 1,161,281 ) 52,140 ( 72,429,631 ) 368,073,481 40,996 368,114,477 Balance as of 31 March 2026"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_EMAS.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "laba_bersih",
+   "pred": -185260135593,
+   "label": -185260135593,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "RUGI PERIODE BERJALAN ( 10,930,796 ) ( 9,212,385) LOSS FOR THE PERIOD"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk ( 10,930,348 ) ( 9,211,856 ) Owners of the parent entity"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ( 10,930,796 ) ( 9,212,385 ) TOTAL"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Rugi periode berjalan - - - - - ( 10,930,348 ) ( 10,930,348 ) ( 448 ) ( 10,930,796 ) Loss for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_EMAS.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "pendapatan",
+   "pred": 44825322034,
+   "label": 44825322034,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 2v,20 2,644,694 - REVENUE"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_EMAS.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": -421878440678,
+   "label": -421878440678,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas operasi ( 24,890,828 ) ( 8,183,914 ) operating activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_EMAS.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "total_share",
+   "pred": 14731366060,
+   "label": 14731366060,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "penuh 14.731.366.060 issued and fully paid-up capital of"
+    },
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": false,
+     "line": "(31 Desember 2025: 16.180.232.675) 14,731,366,060 (31 December 2025:"
+    },
+    {
+     "page": 64,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah/Total 14,731,366,060 100.00% 139,149,609"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_EMAS.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "aset",
+   "pred": 17220170107143,
+   "label": 17220170107143,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 964,329,526 740,638,208 TOTAL ASSETS"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS DAN EKUITAS 964,329,526 740,638,208 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_EMAS.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "total_aset_lancar",
+   "pred": 2203440732143,
+   "label": 2203440732143,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah aset lancar 123,392,681 61,231,113 Total current assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_EMAS.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "kas",
+   "pred": 1109671107143,
+   "label": 1109671107143,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan bank 2g,4 62,141,582 45,308,297 Cash and banks"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS DAN BANK PADA AKHIR PERIODE 4 62,141,582 27,655,562 OF THE PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_EMAS.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "liabilitas",
+   "pred": 10763623250000,
+   "label": 10763623250000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS 602,762,902 359,700,290 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_EMAS.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "utang_bank",
+   "pred": 2660909553571,
+   "label": 2660909553571,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pinjaman bank 2q,13 149,010,935 - Bank loan"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_EMAS.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "ekuitas",
+   "pred": 6455841660714,
+   "label": 6455841660714,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik entitas induk 361,527,133 380,896,305 owners of the parent entity"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH EKUITAS 361,566,624 380,937,918 TOTAL EQUITY"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 Juni 2026 18, 19 139,149,609 302,462,644 - ( 3,761,453 ) 52,991 ( 76,376,658 ) 361,527,133 39,491 361,566,624 Balance as of 30 June 2026"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_EMAS.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "laba_bersih",
+   "pred": -265667410714,
+   "label": -265667410714,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "RUGI SEBELUM PAJAK PENGHASILAN ( 14,884,084 ) ( 14,198,754 ) LOSS BEFORE INCOME TAX"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "RUGI PERIODE BERJALAN ( 14,879,072 ) ( 16,051,004) LOSS FOR THE PERIOD"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk ( 14,877,375 ) ( 16,050,363 ) Owners of the parent entity"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ( 14,879,072 ) ( 16,051,004 ) TOTAL"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_EMAS.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "pendapatan",
+   "pred": 551024821429,
+   "label": 551024821429,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 2v,20 30,857,390 83,786 REVENUE"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Penerimaan dari pelanggan 20,27 30,866,311 36,982 Cash received from customers"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_EMAS.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": -456830375000,
+   "label": -456830375000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas operasi ( 25,582,501 ) ( 15,532,573 ) operating activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_EMAS.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "total_share",
+   "pred": 14731366060,
+   "label": 14731366060,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "penuh 14.731.366.060 issued and fully paid-up capital of"
+    },
+    {
+     "page": 6,
+     "reading": "COUNT",
+     "first_on_line": false,
+     "line": "(31 Desember 2025: 16.180.232.675) 14,731,366,060 (31 December 2025:"
+    },
+    {
+     "page": 66,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Jumlah/Total 14,731,366,060 100.00% 139,149,609"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_EMAS.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "aset",
+   "pred": 11679883344262,
+   "label": 11679883344262,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 712,472,884 529,721,253 TOTAL ASSETS"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS DAN EKUITAS 712,472,884 529,721,253 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_EMAS.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "total_aset_lancar",
+   "pred": 1414905311475,
+   "label": 1414905311475,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah aset lancar 86,309,224 71,444,503 Total current assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_EMAS.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "kas",
+   "pred": 1316757901639,
+   "label": 1316757901639,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_EMAS.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "liabilitas",
+   "pred": 5348295737705,
+   "label": 5348295737705,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS 326,246,040 256,684,638 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_EMAS.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "utang_bank",
+   "pred": 0,
+   "label": 0,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_EMAS.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "ekuitas",
+   "pred": 6330880819672,
+   "label": 6330880819672,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik entitas induk 386,183,730 272,992,812 owners of the parent entity"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH EKUITAS 386,226,844 273,036,615 TOTAL EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_EMAS.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "laba_bersih",
+   "pred": -365231213115,
+   "label": -365231213115,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "RUGI PERIODE BERJALAN ( 22,279,818 ) ( 8,612,132) LOSS FOR THE PERIOD"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk ( 22,279,104 ) ( 8,612,642 ) Owners of the parent entity"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ( 22,279,818 ) ( 8,612,132) TOTAL"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_EMAS.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "pendapatan",
+   "pred": 1859622951,
+   "label": 1859622951,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 2w,23 113,437 1,749,657 REVENUE"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_EMAS.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": -314196114754,
+   "label": -314196114754,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas operasi ( 19,165,963 ) ( 7,172,503 ) operating activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_EMAS.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "total_share",
+   "pred": 14731366060,
+   "label": 14731366060,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_EMAS.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "aset",
+   "pred": 12343970133333,
+   "label": 12343970133333,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 740,638,208 529,721,253 TOTAL ASSETS"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS DAN EKUITAS 740,638,208 529,721,253 TOTAL LIABILITIES AND EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_EMAS.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "total_aset_lancar",
+   "pred": 1020518550000,
+   "label": 1020518550000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah aset lancar 61,231,113 71,444,503 Total current assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_EMAS.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "kas",
+   "pred": 755138283333,
+   "label": 755138283333,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan bank 2g,5 45,308,297 67,334,348 Cash and banks"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "KAS DAN BANK PADA AKHIR TAHUN 5 45,308,297 67,334,348 OF THE YEAR"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_EMAS.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "liabilitas",
+   "pred": 5995004833333,
+   "label": 5995004833333,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH LIABILITAS 359,700,290 256,684,638 TOTAL LIABILITIES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_EMAS.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "utang_bank",
+   "pred": 0,
+   "label": 0,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_EMAS.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "ekuitas",
+   "pred": 6348271750000,
+   "label": 6348271750000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik entitas induk 380,896,305 272,992,812 owners of the parent entity"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH EKUITAS 380,937,918 273,036,615 TOTAL EQUITY"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Desember 2025 21, 22 152,891,444 302,462,644 ( 13,741,835 ) 732,219 51,116 ( 61,499,283 ) 380,896,305 41,613 380,937,918 2025"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_EMAS.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "laba_bersih",
+   "pred": -458205166667,
+   "label": -458205166667,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "RUGI TAHUN BERJALAN ( 27,494,518 ) ( 12,700,167) LOSS FOR THE YEAR"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk ( 27,492,310 ) ( 12,699,984 ) Owners of the parent entity"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ( 27,494,518 ) ( 12,700,167 ) TOTAL"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Rugi tahun berjalan - - - - - ( 27,492,310 ) ( 27,492,310 ) ( 2,208 ) ( 27,494,518 ) Loss for the year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_EMAS.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "pendapatan",
+   "pred": 2199400000,
+   "label": 2199400000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "PENDAPATAN 2w,23 131,964 1,749,657 REVENUE"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_EMAS.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": -317847850000,
+   "label": -317847850000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas operasi ( 19,070,871 ) ( 6,899,769 ) operating activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_EMAS.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "total_share",
+   "pred": 14731366060,
+   "label": 14731366060,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_EMAS.pdf"
+  }
+ ]
+}

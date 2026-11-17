@@ -1,0 +1,1 @@
+{"date": "2026-11-17", "ticker": "TRIN", "variant": "claude", "evaluation": "output/evaluation/TRIN_claude_2026-11-17.json", "memory": "on", "answer_model": "session", "labelled": 10, "correct": 10, "filled": 10, "cells": 10, "memory_digest_now": "e031b0b1c650", "memory_digest_used": ["ed9a1db5eb66"]}

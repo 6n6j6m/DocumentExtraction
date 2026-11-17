@@ -1,0 +1,3330 @@
+{
+ "ticker": "ARCI",
+ "date": "2026-11-10",
+ "has_labels": true,
+ "filings": [
+  {
+   "period": "Q1 2023",
+   "file": "Q1_2023_ARCI.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "Rate row also carried 15,723, 14,347 IDR/USD (comparative periods); took the first column, 15,060.",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 10 11 12 93",
+   "pdf_found": true
+  },
+  {
+   "period": "Q1 2024",
+   "file": "Q1_2024_ARCI.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "Rate row also carried 15,408, 15,060 IDR/USD (comparative periods); took the first column, 15,848.",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 10 11 12 84",
+   "pdf_found": true
+  },
+  {
+   "period": "Q1 2025",
+   "file": "Q1_2025_ARCI.pdf",
+   "status": "partial",
+   "issues": "",
+   "notes": "Rate row also carried 16,155, 15,848 IDR/USD (comparative periods); took the first column, 16,584.",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 10 11 12 78",
+   "pdf_found": true
+  },
+  {
+   "period": "Q1 2026",
+   "file": "Q1_2026_ARCI.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "Rate row also carried 16,779, 16,584 IDR/USD (comparative periods); took the first column, 17,007.",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 10 11 12 81",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2023",
+   "file": "Q2_2023_ARCI.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "Rate row also carried 15,723, 14,859 IDR/USD (comparative periods); took the first column, 15,015.",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 10 11 12 92",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2024",
+   "file": "Q2_2024_ARCI.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "model said scale THOUSANDS, header says FULL - using FULL; Rate row also carried 15,408, 15,015 IDR/USD (comparative periods); took the first column, 16,420.",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 10 11 12 82",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2025",
+   "file": "Q2_2025_ARCI.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "Rate row also carried 16,155, 16,420 IDR/USD (comparative periods); took the first column, 16,234.",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 10 11 12 78",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2026",
+   "file": "Q2_2026_ARCI.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "model said scale THOUSANDS, header says FULL - using FULL; Rate row also carried 16,779, 16,155 IDR/USD (comparative periods); took the first column, 17,857.",
+   "error": "",
+   "pages_selected": "22 23 24 25 26 27 28 29 103",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2023",
+   "file": "Q3_2023_ARCI.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "Rate row also carried 15,723, 15,244 IDR/USD (comparative periods); took the first column, 15,528.",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 10 11 12 93",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2024",
+   "file": "Q3_2024_ARCI.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "Rate row also carried 15,408, 15,528 IDR/USD (comparative periods); took the first column, 15,129.",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 10 11 12 82",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2025",
+   "file": "Q3_2025_ARCI.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "Rate row also carried 16,155, 15,129 IDR/USD (comparative periods); took the first column, 16,667.",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 10 11 12 78",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2023",
+   "file": "Q4_2023_ARCI.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "Rate row also carried 15,723 IDR/USD (comparative periods); took the first column, 15,408.",
+   "error": "",
+   "pages_selected": "14 15 16 17 18 19 20 21 91",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2024",
+   "file": "Q4_2024_ARCI.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "Rate row also carried 15,408 IDR/USD (comparative periods); took the first column, 16,155.",
+   "error": "",
+   "pages_selected": "14 15 16 17 18 19 20 21 87",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2025",
+   "file": "Q4_2025_ARCI.pdf",
+   "status": "ok",
+   "issues": "",
+   "notes": "Rate row also carried 16,155 IDR/USD (comparative periods); took the first column, 16,779.",
+   "error": "",
+   "pages_selected": "14 15 16 17 18 19 20 21 89",
+   "pdf_found": true
+  }
+ ],
+ "cells": [
+  {
+   "period": "Q1 2023",
+   "field": "aset",
+   "pred": 11020926611446,
+   "label": 11020926611446,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset 731.789.527 717.816.422 Total Assets"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas dan Ekuitas 731.789.527 717.816.422 Total Liabilities and Equity"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "total_aset_lancar",
+   "pred": 1191006762048,
+   "label": 1191006762048,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 79.082.849 87.174.516 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "kas",
+   "pred": 95256641566,
+   "label": 95256641566,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 6.325.041 5 10.339.434 Cash and cash equivalents"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Akhir Periode 6.325.041 5 23.125.502 At the End of the Period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "liabilitas",
+   "pred": 7212862966867,
+   "label": 7212862966867,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 478.934.101 470.060.983 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "utang_bank",
+   "pred": 1691064608434,
+   "label": 1691064608434,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "ekuitas",
+   "pred": 3811828644578,
+   "label": 3811828644578,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas Jangka Panjang 253.609.781 268.558.300 Total Non-Current Liabilities"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "253.105.422 247.837.925"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Ekuitas 252.855.426 247.755.439 Total Equity"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Maret 2023 (Tidak diaudit) 20.350.482 95.790.451 (5.105.641) (348.477) 200.000 142.218.607 253.105.422 (249.996 ) 252.855.426 Balance as of 31 March 2023 (Unaudited)"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "laba_bersih",
+   "pred": 73026460843,
+   "label": 73026460843,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 4.848.957 9.450.480 Owners of the parent"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba periode berjalan - - - - 4.848.957 4.848.957 (146.177) 4.702.780 Profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "pendapatan",
+   "pred": 851079141566,
+   "label": 851079141566,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dengan pelanggan 56.511.655 24 80.129.305 with customers"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 375205030120,
+   "label": 375205030120,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 24.913.614 36.388.972 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "total_share",
+   "pred": 24835000000,
+   "label": 24835000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "24.835.000.000 saham 20.350.482 1,21a 20.350.482 24,835,000,000 shares"
+    },
+    {
+     "page": 93,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.835.000.000 100,00% 20.350.482 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "aset",
+   "pred": 12882307892235,
+   "label": 12882307892235,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset 812.873.628 803.580.181 Total Assets"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas dan Ekuitas 812.873.628 803.580.181 Total Liabilities and Equity"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "total_aset_lancar",
+   "pred": 1417295277338,
+   "label": 1417295277338,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 89.431.332 94.562.276 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "kas",
+   "pred": 54720950872,
+   "label": 54720950872,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 3.452.892 5 9.320.177 Cash and cash equivalents"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Akhir Periode 3.452.892 5 6.325.041 At the End of the Period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "liabilitas",
+   "pred": 8790164072900,
+   "label": 8790164072900,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 554.659.353 540.950.196 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "utang_bank",
+   "pred": 767365721078,
+   "label": 767365721078,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "ekuitas",
+   "pred": 4090532551506,
+   "label": 4090532551506,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "258.112.604 262.534.900"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Ekuitas 258.214.275 262.629.985 Total Equity"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Maret 2024 (Tidak diaudit) 20.350.482 95.790.451 (5.105.641) (628.905 ) 300.000 147.406.217 258.112.604 101.671 258.214.275 Balance as of 31 March 2024 (Unaudited)"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "laba_bersih",
+   "pred": -66303692552,
+   "label": -66303692552,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk (4.183.763) 4.848.957 Owners of the parent"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Rugi periode berjalan - - - - - (4.183.763 ) (4.183.763) 9.074 (4.174.689) Loss for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "pendapatan",
+   "pred": 903510570523,
+   "label": 903510570523,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dengan pelanggan 57.011.517 24 56.511.655 with customers"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 332297448494,
+   "label": 332297448494,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 20.967.969 24.913.614 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "total_share",
+   "pred": 24835000000,
+   "label": 24835000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "24.835.000.000 saham 20.350.482 1,21a 20.350.482 24,835,000,000 shares"
+    },
+    {
+     "page": 84,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.835.000.000 100,00% 20.350.482 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "aset",
+   "pred": 14619914494196,
+   "label": 14619914494196,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset 881.580.844 865.399.797 Total Assets"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas dan Ekuitas 881.580.844 865.399.797 Total Liabilities and Equity"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "total_aset_lancar",
+   "pred": 1366961492537,
+   "label": 1366961492537,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 82.427.778 92.788.106 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "kas",
+   "pred": 47900281924,
+   "label": 47900281924,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2.888.387 5 4.537.084 Cash and cash equivalents"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Akhir Periode 2.888.387 5 3.452.892 At the End of the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "liabilitas",
+   "pred": 9921723548922,
+   "label": 9921723548922,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 598.279.930 592.443.636 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "utang_bank",
+   "pred": 1315414726368,
+   "label": 1315414726368,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "ekuitas",
+   "pred": 4693880281924,
+   "label": 4693880281924,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "283.040.981 272.906.015"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Ekuitas 283.300.914 272.956.161 Total Equity"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Maret 2025 (Tidak diaudit) 20.350.482 95.790.451 (5.105.641) (1.042.571 ) 300.000 172.748.260 283.040.981 259.933 283.300.914 Balance as of 31 March 2025 (Unaudited)"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "laba_bersih",
+   "pred": 170563117745,
+   "label": 170563117745,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 10.284.956 (4.183.763) Owners of the parent"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba periode berjalan - - - - - 10.284.956 10.284.956 198.480 10.483.436 Profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "pendapatan",
+   "pred": 1505426948590,
+   "label": 1505426948590,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dengan pelanggan 90.777.245 24 57.011.517 with customers"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 355914096186,
+   "label": 355914096186,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 21.461.620 20.967.969 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "total_share",
+   "pred": 24835000000,
+   "label": 24835000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "24.835.000.000 saham 20.350.482 1,21a 20.350.482 24,835,000,000 shares"
+    },
+    {
+     "page": 78,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.835.000.000 100,00% 20.350.482 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "aset",
+   "pred": 18047481428571,
+   "label": 18047481428571,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset 1.061.191.908 1.026.763.377 Total Assets"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas dan Ekuitas 1.061.191.908 1.026.763.377 Total Liabilities and Equity"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "total_aset_lancar",
+   "pred": 2927146258503,
+   "label": 2927146258503,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 172.116.200 172.120.458 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "kas",
+   "pred": 671137295918,
+   "label": 671137295918,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 39.462.873 5 24.882.783 Cash and cash equivalents"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Akhir Periode 39.462.873 5 2.888.387 At the End of the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "liabilitas",
+   "pred": 11364988384354,
+   "label": 11364988384354,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 668.261.317 663.835.665 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "utang_bank",
+   "pred": 834453248299,
+   "label": 834453248299,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "ekuitas",
+   "pred": 6663430374150,
+   "label": 6663430374150,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Sub total 391.809.706 362.190.321 Sub total"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Maret 2026 (Tidak diaudit) 20.590.605 113.564.722 (5.105.641) (1.410.760 ) 300.000 263.870.780 391.809.706 1.120.885 392.930.591 Balance as of 31 March 2026 (Unaudited"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "laba_bersih",
+   "pred": 506688826531,
+   "label": 506688826531,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 29.793.303 10.284.956 Owners of the parent"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba periode berjalan - - - - - 29.793.303 29.793.303 395.875 30.189.178 Profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "pendapatan",
+   "pred": 2328361428571,
+   "label": 2328361428571,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dengan pelanggan 136.907.652 25 90.777.245 with customers"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Penerimaan kas dari pelanggan 137.094.646 91.246.335 Cash receipts from customers"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 827912023810,
+   "label": 827912023810,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 48.681.227 21.461.620 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ARCI.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "total_share",
+   "pred": 25235000000,
+   "label": 25235000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "25.235.000.000 saham 20.590.605 1,22 20.590.605 25,235,000,000 shares"
+    },
+    {
+     "page": 81,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 25.235.000.000 100,00% 20.590.605 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "aset",
+   "pred": 11325048408408,
+   "label": 11325048408408,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset 754.248.224 717.816.422 Total Assets"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas dan Ekuitas 754.248.224 717.816.422 Total Liabilities and Equity"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "total_aset_lancar",
+   "pred": 973281951952,
+   "label": 973281951952,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 64.820.578 87.174.516 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "kas",
+   "pred": 56026486486,
+   "label": 56026486486,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 3.731.364 5 10.339.434 Cash and cash equivalents"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Akhir Periode 3.731.364 5 12.449.022 At the End of the Period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "liabilitas",
+   "pred": 7478349204204,
+   "label": 7478349204204,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 498.058.057 470.060.983 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "utang_bank",
+   "pred": 1956975885886,
+   "label": 1956975885886,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "ekuitas",
+   "pred": 3842490600601,
+   "label": 3842490600601,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "255.909.874 247.837.925"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Ekuitas 256.190.167 247.755.439 Total Equity"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 Juni 2023 (Tidak diaudit) 20.350.482 95.790.451 (5.105.641) (196.294) 300.000 144.770.876 255.909.874 280.293 256.190.167 Balance as of 30 June 2023 (Unaudited)"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "laba_bersih",
+   "pred": 109699054054,
+   "label": 109699054054,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 7.305.957 14.151.507 Owners of the parent"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba periode berjalan - - - - 7.305.957 7.305.957 366.445 7.672.402 Profit for the period"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Penerimaan tagihan pajak 7.291.577 - Receipts of claims for tax refund"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "pendapatan",
+   "pred": 1732177147147,
+   "label": 1732177147147,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dengan pelanggan 115.362.998 24 119.629.840 with customers"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 905774459459,
+   "label": 905774459459,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 60.324.579 16.639.487 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "total_share",
+   "pred": 24835000000,
+   "label": 24835000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "24.835.000.000 saham 20.350.482 1,21a 20.350.482 24,835,000,000 shares"
+    },
+    {
+     "page": 92,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.835.000.000 100,00% 20.350.482 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "aset",
+   "pred": 13503189704433,
+   "label": 13503189704433,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset 822.344.253 803.580.181 Total Assets"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas dan Ekuitas 822.344.253 803.580.181 Total Liabilities and Equity"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "total_aset_lancar",
+   "pred": 1289915648604,
+   "label": 1289915648604,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 78.555.863 94.562.276 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "kas",
+   "pred": 175804548440,
+   "label": 175804548440,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 10.706.497 5 9.320.177 Cash and cash equivalents"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Akhir Periode 10.706.497 5 3.731.364 At the End of the Period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "liabilitas",
+   "pred": 9266104597701,
+   "label": 9266104597701,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 564.305.770 540.950.196 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "utang_bank",
+   "pred": 819519967159,
+   "label": 819519967159,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "ekuitas",
+   "pred": 4236824334975,
+   "label": 4236824334975,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "258.022.602 262.534.900"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Ekuitas 258.038.483 262.629.985 Total Equity"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 Juni 2024 (Tidak diaudit) 20.350.482 95.790.451 (5.105.641) (1.008.605 ) 300.000 147.695.915 258.022.602 15.881 258.038.483 Balance as of 30 June 2024 (Unaudited)"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "laba_bersih",
+   "pred": -63835024631,
+   "label": -63835024631,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk (3.887.553) 7.305.957 Owners of the parent"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Rugi periode berjalan - - - - - (3.887.553 ) (3.887.553) (77.925) (3.965.478) Loss for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "pendapatan",
+   "pred": 2345676732348,
+   "label": 2345676732348,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dengan pelanggan 142.851.713 24 115.362.998 with customers"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 776953957307,
+   "label": 776953957307,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 47.316.496 60.324.579 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "total_share",
+   "pred": 24835000000,
+   "label": 24835000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "24.835.000.000 saham 20.350.482 1,21 20.350.482 24,835,000,000 shares"
+    },
+    {
+     "page": 82,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.835.000.000 100,00% 20.350.482 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "aset",
+   "pred": 14580815081169,
+   "label": 14580815081169,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset 898.178.209 865.399.797 Total Assets"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas dan Ekuitas 898.178.209 865.399.797 Total Liabilities and Equity"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "total_aset_lancar",
+   "pred": 1349429951299,
+   "label": 1349429951299,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 83.124.885 92.788.106 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "kas",
+   "pred": 70624772727,
+   "label": 70624772727,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 4.350.486 5 4.537.084 Cash and cash equivalents"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Akhir Periode 4.350.486 5 10.706.497 At the End of the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "liabilitas",
+   "pred": 9575570211039,
+   "label": 9575570211039,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 589.855.125 592.443.636 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "utang_bank",
+   "pred": 1556383457792,
+   "label": 1556383457792,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Tambahan modal disetor 95.790.451 22 95.790.451 Additional paid-in capital"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 1 Januari 2024 20.350.482 95.790.451 (5.105.641) (398.163 ) 300.000 151.597.771 262.534.900 95.085 262.629.985 Balance as of 1 January 2024"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 Juni 2024 (Tidak diaudit) 20.350.482 95.790.451 (5.105.641) (1.008.605 ) 300.000 147.695.915 258.022.602 15.881 258.038.483 Balance as of 30 June 2024 (Unaudited)"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 1 Januari 2025 20.350.482 95.790.451 (5.105.641) (819.097 ) 300.000 162.389.820 272.906.015 50.146 272.956.161 Balance as of 1 January 2025"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "ekuitas",
+   "pred": 4997574155844,
+   "label": 4997574155844,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "307.850.568 272.906.015"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Ekuitas 308.323.084 272.956.161 Total Equity"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 Juni 2025 (Tidak diaudit) 20.350.482 95.790.451 (5.105.641) (894.322 ) 300.000 197.409.598 307.850.568 472.516 308.323.084 Balance as of 30 June 2025 (Unaudited)"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "laba_bersih",
+   "pred": 566102840909,
+   "label": 566102840909,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pihak ketiga 34.855.242 56.617.910 Third parties"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 34.871.935 (3.887.553) Owners of the parent"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba periode berjalan - - - - - 34.871.935 34.871.935 400.631 35.272.566 Profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "pendapatan",
+   "pred": 3125823311688,
+   "label": 3125823311688,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dengan pelanggan 192.550.716 24 142.851.713 with customers"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 675487191558,
+   "label": 675487191558,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 41.610.011 47.316.496 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "total_share",
+   "pred": 24835000000,
+   "label": 24835000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "24.835.000.000 saham 20.350.482 1,21 20.350.482 24,835,000,000 shares"
+    },
+    {
+     "page": 78,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.835.000.000 100,00% 20.350.482 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "aset",
+   "pred": 19189496535714,
+   "label": 19189496535714,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 22,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset 1.074.611.806 1.026.763.377 865.399.797 Total Assets"
+    },
+    {
+     "page": 24,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas dan Ekuitas 1.074.611.806 1.026.763.377 865.399.797 Total Liabilities and Equity"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "total_aset_lancar",
+   "pred": 2979297232143,
+   "label": 2979297232143,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 22,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 166.840.645 172.120.458 92.788.106 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "kas",
+   "pred": 409296625000,
+   "label": 409296625000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 22,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 5 22.920.611 24.882.783 4.537.084 Cash and cash equivalents"
+    },
+    {
+     "page": 29,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Akhir Periode/Tahun 5 22.920.611 4.350.486 24.882.783 4.537.084 At the End of the Period/Year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "liabilitas",
+   "pred": 11803092071429,
+   "label": 11803092071429,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 23,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 660.973.156 663.835.665 592.443.636 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "utang_bank",
+   "pred": 1090018553571,
+   "label": 1090018553571,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "ekuitas",
+   "pred": 7353328160714,
+   "label": 7353328160714,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 24,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Sub total 411.786.377 362.190.321 272.906.015 Sub total"
+    },
+    {
+     "page": 27,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 Juni 2026 20.590.605 113.564.722 (5.105.641) (2.190.855 ) 500.000 284.427.546 411.786.377 1.852.273 413.638.650 Balance as of June 30, 2026"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "laba_bersih",
+   "pred": 1433061178571,
+   "label": 1433061178571,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 26,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 80.251.426 34.472.531 101.821.019 10.457.653 Owners of the parent"
+    },
+    {
+     "page": 27,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba periode berjalan - - - - - 80.251.426 80.251.426 1.218.439 81.469.865 Profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "pendapatan",
+   "pred": 5755149375000,
+   "label": 5755149375000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 25,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dengan pelanggan 25 322.288.365 192.431.600 496.229.823 287.618.877 with customers"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 1645245910714,
+   "label": 1645245910714,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 28,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 92.133.771 45.341.887 52.415.155 90.048.660 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ARCI.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "total_share",
+   "pred": 25235000000,
+   "label": 25235000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 24,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "25.235.000.000 saham 25,235,000,000 shares"
+    },
+    {
+     "page": 103,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 25.235.000.000 100,00% 20.590.605 Total"
+    },
+    {
+     "page": 103,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 25.235.000.000 100,00% 20.590.605 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "aset",
+   "pred": 12334644565217,
+   "label": 12334644565217,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset 794.351.110 717.816.422 Total Assets"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas dan Ekuitas 794.351.110 717.816.422 Total Liabilities and Equity"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "total_aset_lancar",
+   "pred": 1741458509317,
+   "label": 1741458509317,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 112.149.928 87.174.516 Total Current Assets"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Beban pokok penjualan (123.601.024) 25 (112.127.185) Cost of goods sold"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "kas",
+   "pred": 277259378882,
+   "label": 277259378882,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 17.855.504 5 10.339.434 Cash and cash equivalents"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Akhir Periode 17.855.504 5 9.586.906 At the End of the Period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "liabilitas",
+   "pred": 8302537375776,
+   "label": 8302537375776,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 534.683.407 470.060.983 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "utang_bank",
+   "pred": 759932531056,
+   "label": 759932531056,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "ekuitas",
+   "pred": 4028813990683,
+   "label": 4028813990683,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "259.455.621 247.837.925"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Ekuitas 259.667.703 247.755.439 Total Equity"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 September 2023 (Tidak diaudit) 20.350.482 95.796.630 (5.105.641) (476.511) 300.000 148.590.661 259.455.621 212.082 259.667.703 Balance as of 30 September 2023 (Unaudit"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "laba_bersih",
+   "pred": 169652484472,
+   "label": 169652484472,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Kas yang dibatasi penggunaannya 11.156.638 8 10.915.417 Restricted cash"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 10.925.620 15.206.789 Owners of the parent"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba periode berjalan - - - - - 10.925.620 10.925.620 306.754 11.232.374 Profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "pendapatan",
+   "pred": 2675790916149,
+   "label": 2675790916149,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dengan pelanggan 172.320.935 24 165.645.314 with customers"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 9790403727,
+   "label": 9790403727,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 630.502 36.780.985 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "total_share",
+   "pred": 24835000000,
+   "label": 24835000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "24.835.000.000 saham 20.350.482 1,21a 20.350.482 24,835,000,000 shares"
+    },
+    {
+     "page": 93,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.835.000.000 100,00% 20.350.482 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "aset",
+   "pred": 12766261376702,
+   "label": 12766261376702,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset 843.849.877 803.580.181 Total Assets"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas dan Ekuitas 843.849.877 803.580.181 Total Liabilities and Equity"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "total_aset_lancar",
+   "pred": 1229991785174,
+   "label": 1229991785174,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 81.302.457 94.562.276 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "kas",
+   "pred": 142554009077,
+   "label": 142554009077,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 9.422.820 5 9.320.177 Cash and cash equivalents"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Akhir Periode 9.422.820 5 17.855.504 At the End of the Period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "liabilitas",
+   "pred": 8849227080182,
+   "label": 8849227080182,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 584.933.910 540.950.196 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "utang_bank",
+   "pred": 789302329803,
+   "label": 789302329803,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "ekuitas",
+   "pred": 3915716959153,
+   "label": 3915716959153,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "258.828.891 262.534.900"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Ekuitas 258.915.967 262.629.985 Total Equity"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 September 2024 (Tidak diaudit) 20.350.482 95.790.451 (5.105.641) (183.895 ) 300.000 147.677.494 258.828.891 87.076 258.915.967 Balance as of 30 September 2024 (Unaudit"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "laba_bersih",
+   "pred": -58920756430,
+   "label": -58920756430,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk (3.894.662) 10.925.620 Owners of the parent"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Rugi periode berjalan - - - - - (3.894.662 ) (3.894.662 ) (10.252) (3.904.914) Loss for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "pendapatan",
+   "pred": 3257286263238,
+   "label": 3257286263238,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dengan pelanggan 215.306.622 24 172.320.935 with customers"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 1002810680787,
+   "label": 1002810680787,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Persediaan 68.385.287 7 66.284.625 Inventories"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 66.285.786 630.502 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "total_share",
+   "pred": 24835000000,
+   "label": 24835000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "24.835.000.000 saham 20.350.482 1,21 20.350.482 24,835,000,000 shares"
+    },
+    {
+     "page": 82,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.835.000.000 100,00% 20.350.482 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "aset",
+   "pred": 15886383333333,
+   "label": 15886383333333,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset 953.183.000 865.399.797 Total Assets"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas dan Ekuitas 953.183.000 865.399.797 Total Liabilities and Equity"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "total_aset_lancar",
+   "pred": 2184739283333,
+   "label": 2184739283333,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 131.084.357 92.788.106 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "kas",
+   "pred": 390399600000,
+   "label": 390399600000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 23.423.976 5 4.537.084 Cash and cash equivalents"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Akhir Periode 23.423.976 5 9.422.820 At the End of the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "liabilitas",
+   "pred": 10153818500000,
+   "label": 10153818500000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 609.229.110 592.443.636 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "utang_bank",
+   "pred": 1852997600000,
+   "label": 1852997600000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "ekuitas",
+   "pred": 5721647966667,
+   "label": 5721647966667,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "343.298.878 272.906.015"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Ekuitas 343.953.890 272.956.161 Total Equity"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 30 September 2025 (Tidak diaudit) 20.350.482 95.790.451 (5.105.641) (1.156.283 ) 300.000 233.119.869 343.298.878 655.012 343.953.890 Balance as of 30 September 2025 (Unau"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "laba_bersih",
+   "pred": 1174628250000,
+   "label": 1174628250000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 70.477.695 (3.894.662) Owners of the parent"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 70.392.863 (3.706.009) Owners of the parent"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba periode berjalan - - - - - 70.477.695 70.477.695 615.151 71.092.846 Profit for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "pendapatan",
+   "pred": 5478341016667,
+   "label": 5478341016667,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dengan pelanggan 328.700.461 24 215.306.622 with customers"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 1450888483333,
+   "label": 1450888483333,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Saldo per 30 September 2024 (Tidak diaudit) 20.350.482 95.790.451 (5.105.641) (183.895 ) 300.000 147.677.494 258.828.891 87.076 258.915.967 Balance as of 30 September 2024 (Unaudit"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 87.053.309 66.285.786 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "total_share",
+   "pred": 24835000000,
+   "label": 24835000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "24.835.000.000 saham 20.350.482 1,21 20.350.482 24,835,000,000 shares"
+    },
+    {
+     "page": 78,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.835.000.000 100,00% 20.350.482 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "aset",
+   "pred": 12381820970724,
+   "label": 12381820970724,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset 803.580.181 717.816.422 Total Assets"
+    },
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas dan Ekuitas 803.580.181 717.816.422 Total Liabilities and Equity"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "total_aset_lancar",
+   "pred": 1457045855162,
+   "label": 1457045855162,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 94.562.276 87.174.516 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "kas",
+   "pred": 143608274268,
+   "label": 143608274268,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 9.320.177 5 10.339.434 Cash and cash equivalents"
+    },
+    {
+     "page": 21,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Akhir Tahun 9.320.177 5 10.339.434 At the End of the Year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "liabilitas",
+   "pred": 8335133990755,
+   "label": 8335133990755,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 540.950.196 470.060.983 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "utang_bank",
+   "pred": 757654699538,
+   "label": 757654699538,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "ekuitas",
+   "pred": 4045221879815,
+   "label": 4045221879815,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "262.534.900 247.837.925"
+    },
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Ekuitas 262.629.985 247.755.439 Total Equity"
+    },
+    {
+     "page": 19,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Desember 2023 20.350.482 95.790.451 (5.105.641) (398.163 ) 300.000 151.597.771 262.534.900 95.085 262.629.985 Balance as of December 31, 2023"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "laba_bersih",
+   "pred": 224495208012,
+   "label": 224495208012,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 18,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 14.569.739 14.550.684 Owners of the parent"
+    },
+    {
+     "page": 19,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba tahun berjalan - - - - - 14.550.684 14.550.684 (13.871) 14.536.813 Profit for the year"
+    },
+    {
+     "page": 19,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba tahun berjalan - - - - - 14.569.739 14.569.739 189.385 14.759.124 Profit for the year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "pendapatan",
+   "pred": 3846390878274,
+   "label": 3846390878274,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dengan pelanggan 249.630.768 24 216.476.272 with customers"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 327001402157,
+   "label": 327001402157,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 20,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 21.222.391 54.291.208 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "total_share",
+   "pred": 24835000000,
+   "label": 24835000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 16,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "24.835.000.000 saham 20.350.482 1,21a 20.350.482 24,835,000,000 shares"
+    },
+    {
+     "page": 91,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.835.000.000 100,00% 20.350.482 Total"
+    },
+    {
+     "page": 91,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.835.000.000 100,00% 20.350.482 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "aset",
+   "pred": 13980610613893,
+   "label": 13980610613893,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset 865.399.797 803.580.181 Total Assets"
+    },
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas dan Ekuitas 865.399.797 803.580.181 Total Liabilities and Equity"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "total_aset_lancar",
+   "pred": 1499000096931,
+   "label": 1499000096931,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 92.788.106 94.562.276 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "kas",
+   "pred": 73296995153,
+   "label": 73296995153,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 4.537.084 5 9.320.177 Cash and cash equivalents"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Uang muka pemasok 4.537.896 2.988.778 Advances to suppliers"
+    },
+    {
+     "page": 21,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Akhir Tahun 4.537.084 5 9.320.177 At the End of the Year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "liabilitas",
+   "pred": 9570979579968,
+   "label": 9570979579968,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 592.443.636 540.950.196 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "utang_bank",
+   "pred": 1033713780291,
+   "label": 1033713780291,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "ekuitas",
+   "pred": 4408820920840,
+   "label": 4408820920840,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "272.906.015 262.534.900"
+    },
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Ekuitas 272.956.161 262.629.985 Total Equity"
+    },
+    {
+     "page": 19,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Desember 2024 20.350.482 95.790.451 (5.105.641) (819.097 ) 300.000 162.389.820 272.906.015 50.146 272.956.161 Balance as of December 31, 2024"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "laba_bersih",
+   "pred": 168944313409,
+   "label": 168944313409,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 18,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 10.457.653 14.569.739 Owners of the parent"
+    },
+    {
+     "page": 19,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba tahun berjalan - - - - - 10.457.653 10.457.653 (40.285) 10.417.368 Profit for the year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "pendapatan",
+   "pred": 4646508513732,
+   "label": 4646508513732,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dengan pelanggan 287.618.877 24 249.630.768 with customers"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 1454744103393,
+   "label": 1454744103393,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 20,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 90.048.660 21.222.391 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "total_share",
+   "pred": 24835000000,
+   "label": 24835000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 16,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "24.835.000.000 saham 20.350.482 1,21a 20.350.482 24,835,000,000 shares"
+    },
+    {
+     "page": 87,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 24.835.000.000 100,00% 20.350.482 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "aset",
+   "pred": 17227573439597,
+   "label": 17227573439597,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset 1.026.763.377 865.399.797 Total Assets"
+    },
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas dan Ekuitas 1.026.763.377 865.399.797 Total Liabilities and Equity"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "total_aset_lancar",
+   "pred": 2887927147651,
+   "label": 2887927147651,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Aset Lancar 172.120.458 92.788.106 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "kas",
+   "pred": 417496359060,
+   "label": 417496359060,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 24.882.783 5 4.537.084 Cash and cash equivalents"
+    },
+    {
+     "page": 21,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Akhir Tahun 24.882.783 5 4.537.084 At the End of the Year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "liabilitas",
+   "pred": 11138182298658,
+   "label": 11138182298658,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "Piutang usaha - pihak ketiga 663.411 6 69.044 Trade receivables - third parties"
+    },
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total Liabilitas 663.835.665 592.443.636 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "utang_bank",
+   "pred": 956825738255,
+   "label": 956825738255,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "ekuitas",
+   "pred": 6077018808725,
+   "label": 6077018808725,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Sub total 362.190.321 272.906.015 Sub total"
+    },
+    {
+     "page": 19,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo per 31 Desember 2025 20.590.605 113.564.722 (5.105.641) (1.237.513 ) 300.000 234.078.148 362.190.321 737.391 362.927.712 Balance as of December 31, 2025"
+    },
+    {
+     "page": 21,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "jangka panjang (362.500.000) 18,32 (2.000.000) bank loans"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "laba_bersih",
+   "pred": 1708406359060,
+   "label": 1708406359060,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Tahun Berjalan 101.957.155 10.326.176 Income for the Year"
+    },
+    {
+     "page": 18,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Pemilik entitas induk 101.821.019 10.457.653 Owners of the parent"
+    },
+    {
+     "page": 18,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Total 101.957.155 10.326.176 Total"
+    },
+    {
+     "page": 19,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba tahun berjalan - - - - - 101.821.019 101.821.019 702.364 102.523.383 Profit for the year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "pendapatan",
+   "pred": 8326003741611,
+   "label": 8326003741611,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dengan pelanggan 496.229.823 25 287.618.877 with customers"
+    },
+    {
+     "page": 20,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Penerimaan kas dari pelanggan 495.691.884 299.392.309 Cash receipts from customers"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 879448909396,
+   "label": 879448909396,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 20,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Aktivitas Operasi 52.415.155 90.048.660 Operating Activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ARCI.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "total_share",
+   "pred": 25235000000,
+   "label": 25235000000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 16,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "25.235.000.000 saham 25,235,000,000 shares"
+    },
+    {
+     "page": 89,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Total 25.235.000.000 100,00% 20.590.605 Total"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_ARCI.pdf"
+  }
+ ]
+}

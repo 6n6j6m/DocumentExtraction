@@ -1,0 +1,4252 @@
+{
+ "ticker": "MEDC",
+ "date": "2026-11-10",
+ "has_labels": true,
+ "filings": [
+  {
+   "period": "Q1 2022",
+   "file": "Q1_2022_MEDC.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "filing quotes its rate to 6 decimals (14,285.71, range 14,184-14,388); Bank Indonesia's 14,349.01 lies inside it and is used",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 10 11 12 13 14 213",
+   "pdf_found": true
+  },
+  {
+   "period": "Q1 2023",
+   "file": "Q1_2023_MEDC.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "filing quotes its rate to 6 decimals (15,151.52, range 15,038-15,267); Bank Indonesia's 15,062.00 lies inside it and is used",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 10 11 12 13 14 202",
+   "pdf_found": true
+  },
+  {
+   "period": "Q1 2024",
+   "file": "Q1_2024_MEDC.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "filing quotes its rate to 6 decimals (15,873.02, range 15,748-16,000); Bank Indonesia's 15,853.00 lies inside it and is used",
+   "error": "",
+   "pages_selected": "6 7 8 9 10 11 12 13 14 15 16 188",
+   "pdf_found": true
+  },
+  {
+   "period": "Q1 2025",
+   "file": "Q1_2025_MEDC.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "filing quotes its rate to 6 decimals (16,666.67, range 16,529-16,807); Bank Indonesia's 16,588.00 lies inside it and is used",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 10 11 12 13 14 15 187",
+   "pdf_found": true
+  },
+  {
+   "period": "Q1 2026",
+   "file": "Q1_2026_MEDC.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "filing quotes its rate to 6 decimals (16,949.15, range 16,807-17,094); Bank Indonesia's 16,993.00 lies inside it and is used",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 10 11 12 13 187",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2022",
+   "file": "Q2_2022_MEDC.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "filing quotes its rate to 6 decimals (14,925.37, range 14,815-15,038); Bank Indonesia's 14,848.00 lies inside it and is used",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 10 11 12 13 14 215",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2023",
+   "file": "Q2_2023_MEDC.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "filing quotes its rate to 6 decimals (14,925.37, range 14,815-15,038); Bank Indonesia's 15,026.00 lies inside it and is used",
+   "error": "",
+   "pages_selected": "14 15 16 17 18 19 20 21 22 23 194",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2024",
+   "file": "Q2_2024_MEDC.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "filing quotes its rate to 6 decimals (16,393.44, range 16,260-16,529); Bank Indonesia's 16,421.00 lies inside it and is used",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 10 11 12 13 14 15 191",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2025",
+   "file": "Q2_2025_MEDC.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "filing quotes its rate to 6 decimals (16,129.03, range 16,000-16,260); Bank Indonesia's 16,233.00 lies inside it and is used",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 10 11 12 13 14 189",
+   "pdf_found": true
+  },
+  {
+   "period": "Q2 2026",
+   "file": "Q2_2026_MEDC.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "filing quotes its rate to 6 decimals (17,857.14, range 17,699-18,018); Bank Indonesia's 17,856.00 lies inside it and is used",
+   "error": "",
+   "pages_selected": "15 16 17 18 19 20 21 22 23 24 25 26 27 285",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2022",
+   "file": "Q3_2022_MEDC.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "filing quotes its rate to 6 decimals (15,151.52, range 15,038-15,267); Bank Indonesia's 15,247.00 lies inside it and is used",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 10 11 12 13 14 220",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2023",
+   "file": "Q3_2023_MEDC.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "filing quotes its rate to 6 decimals (15,625.00, range 15,504-15,748); Bank Indonesia's 15,526.00 lies inside it and is used",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 10 11 12 13 14 190",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2024",
+   "file": "Q3_2024_MEDC.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "filing quotes its rate to 6 decimals (15,151.52, range 15,038-15,267); Bank Indonesia's 15,138.00 lies inside it and is used",
+   "error": "",
+   "pages_selected": "6 7 8 9 10 11 12 13 14 15 16 194",
+   "pdf_found": true
+  },
+  {
+   "period": "Q3 2025",
+   "file": "Q3_2025_MEDC.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "filing quotes its rate to 6 decimals (16,666.67, range 16,529-16,807); Bank Indonesia's 16,680.00 lies inside it and is used",
+   "error": "",
+   "pages_selected": "5 6 7 8 9 10 11 12 13 14 191",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2022",
+   "file": "Q4_2022_MEDC.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "filing quotes its rate to 6 decimals (15,625.00, range 15,504-15,748); Bank Indonesia's 15,731.00 lies inside it and is used",
+   "error": "",
+   "pages_selected": "17 18 19 20 21 22 23 24 25 26 27 229",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2023",
+   "file": "Q4_2023_MEDC.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "filing quotes its rate to 6 decimals (15,384.62, range 15,267-15,504); Bank Indonesia's 15,416.00 lies inside it and is used",
+   "error": "",
+   "pages_selected": "18 19 20 21 22 23 24 25 26 27 206",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2024",
+   "file": "Q4_2024_MEDC.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "filing quotes its rate to 6 decimals (16,129.03, range 16,000-16,260); Bank Indonesia's 16,162.00 lies inside it and is used",
+   "error": "",
+   "pages_selected": "16 17 18 19 20 21 22 23 24 25 204",
+   "pdf_found": true
+  },
+  {
+   "period": "Q4 2025",
+   "file": "Q4_2025_MEDC.pdf",
+   "status": "ok",
+   "issues": "section_map_incomplete",
+   "notes": "filing quotes its rate to 6 decimals (16,666.67, range 16,529-16,807); Bank Indonesia's 16,782.00 lies inside it and is used",
+   "error": "",
+   "pages_selected": "18 19 20 21 22 23 24 25 26 27 208",
+   "pdf_found": true
+  }
+ ],
+ "cells": [
+  {
+   "period": "Q1 2022",
+   "field": "aset",
+   "pred": 100387634723518,
+   "label": 100387634723518,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 6.996.136.648 5.683.884.139 TOTAL ASSETS"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "DAN EKUITAS 6.996.136.648 5.683.884.139 EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "total_aset_lancar",
+   "pred": 22805630195201,
+   "label": 22805630195201,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 1.589.352.171 1.701.563.649 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "kas",
+   "pred": 5403114521158,
+   "label": 5403114521158,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 376.549.638 2,4 480.984.828 Cash and cash equivalents"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 376.549.638 4 505.182.519 END OF PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "liabilitas",
+   "pred": 81827982325172,
+   "label": 81827982325172,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Liabilitas 5.702.691.846 4.454.547.678 Total Liabilities"
+    },
+    {
+     "page": 13,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "kas yang diperoleh (788.406.785) 47 (5.700.000) net of cash acquired"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "utang_bank",
+   "pred": 3812001990665,
+   "label": 3812001990665,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "-Pinjaman bank 265.574.371 28 194.127.151 Bank loans -"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "ekuitas",
+   "pred": 16163875224132,
+   "label": 16163875224132,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 1.126.480.170 1.072.725.874 parent company"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo tanggal 31 March 2022 121.020.597 488.916.445 6.492.210 593.846.757 (72.514.729) (9.553.899) (43.446.323) - 6.400.562 (2.966.814) 38.285.364 1.126.480.170 166.964.632 1.293.4"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "laba_bersih",
+   "pred": 1291975605289,
+   "label": 1291975605289,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "pemilik entitas induk 90.039.355 5.118.340 of the parent company"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba tahun berjalan - - - 90.039.355 - - - - - - - 90.039.355 5.906.893 95.946.248 Profit for the year"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "tahun berjalan - - - 90.039.355 - (735.529) (45.438.347) - - 8.950.880 6.553 52.822.912 u 11.044.185 63.867.097 for the year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "pendapatan",
+   "pred": 7021556032608,
+   "label": 7021556032608,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Tambahan modal disetor 488.916.445 32 488.107.377 Additional paid-in capital"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH PENDAPATAN 489.340.800 301.948.536 TOTAL REVENUES"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo tanggal 31 March 2022 121.020.597 488.916.445 6.492.210 593.846.757 (72.514.729) (9.553.899) (43.446.323) - 6.400.562 (2.966.814) 38.285.364 1.126.480.170 166.964.632 1.293.4"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 2956585343393,
+   "label": 2956585343393,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dari aktivitas operasi 206.048.037 133.435.446 operating activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2022",
+   "field": "total_share",
+   "pred": 24975599559,
+   "label": 24975599559,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 213,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Sub-jumlah/Sub-total 24.975.599.559 100,00% 624.389.990 121.020.597"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "aset",
+   "pred": 102941622011598,
+   "label": 102941622011598,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 6.834.525.429 6.931.905.826 TOTAL ASSETS"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "DAN EKUITAS 6.834.525.429 6.931.905.826 EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "total_aset_lancar",
+   "pred": 25101720589766,
+   "label": 25101720589766,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 1.666.559.593 1.751.396.299 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "kas",
+   "pred": 8238986839832,
+   "label": 8238986839832,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2,4 547.004.836 599.998.594 Cash and cash equivalents"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dengan pelanggan 2,34 547.468.533 460.849.477 with customers"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 4 547.004.836 376.549.638 END OF PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "liabilitas",
+   "pred": 75053514880374,
+   "label": 75053514880374,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Liabilitas 4.982.971.377 5.184.386.501 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "utang_bank",
+   "pred": 4570910521806,
+   "label": 4570910521806,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "ekuitas",
+   "pred": 25005398301480,
+   "label": 25005398301480,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 1.660.164.540 1.557.260.010 parent company"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo tanggal 31 Maret 2023 121.383.320 492.840.173 6.492.210 1.056.745.846 (72.514.729) (24.951.792) 29.916.216 6.400.562 8.760.317 35.092.417 1.660.164.540 191.389.512 1.851.554."
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "laba_bersih",
+   "pred": 1235923992678,
+   "label": 1235923992678,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "pemilik entitas induk 82.055.769 90.039.355 of the parent company"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba periodeberjalan - - - 82.055.769 - - - - - - 82.055.769 7.099.164 89.154.933 Profit for the period"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "periodeberjalan - - - 82.055.769 - 25.993.667 (3.758.691) - (3.350.565) 6.553 100.946.733 1.130.197 102.076.930 for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "pendapatan",
+   "pred": 8405991268370,
+   "label": 8405991268370,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH PENDAPATAN 558.092.635 471.344.631 TOTAL REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 2213215355894,
+   "label": 2213215355894,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Utang pajak 2,25 147.171.558 202.331.343 Taxes payable"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "amortisasi 218,35 147.007.778 103.692.006 amortization"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dari aktivitas operasi 146.940.337 206.015.795 operating activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2023",
+   "field": "total_share",
+   "pred": 25050482997,
+   "label": 25050482997,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 202,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Sub-jumlah/Sub-total 25.050.482.997 100,00% 626.262.076 121.383.320"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "aset",
+   "pred": 120040865475116,
+   "label": 120040865475116,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 7.572.122.972 7.468.316.269 TOTAL ASSETS"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "EKUITAS 7.572.122.972 7.468.316.269 EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "total_aset_lancar",
+   "pred": 26150923097958,
+   "label": 26150923097958,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 1.649.588.286 1.546.648.779 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "kas",
+   "pred": 6372131676068,
+   "label": 6372131676068,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2,4 401.951.156 353.948.953 Cash and cash equivalents"
+    },
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 4 401.951.156 547.004.836 PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "liabilitas",
+   "pred": 86582188502377,
+   "label": 86582188502377,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Liabilitas 5.461.564.909 5.440.720.277 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "utang_bank",
+   "pred": 3498396333279,
+   "label": 3498396333279,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "ekuitas",
+   "pred": 30236812127900,
+   "label": 30236812127900,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 1.907.324.300 1.828.543.298 company"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Balance, March 31, 2024 121.798.946 (539.025) 495.856.404 (72.514.729) (37.326.868) 24.701.363 6.400.562 10.844.615 37.936.077 10.435.835 1.309.731.120 1.907.324.300 203.233.763 2."
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "laba_bersih",
+   "pred": 1151863808679,
+   "label": 1151863808679,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "- Pihak berelasi 72.531 69.401 Related parties -"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "asosiasi 33 (72.514.729) (72.514.729) associates"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 72.659.043 82.055.769 company"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Balance, December 31, 2022 121.798.946 (537.814) 491.004.564 (72.514.729) (50.945.459) 33.674.907 6.400.562 12.110.882 35.085.864 6.492.210 974.690.077 1.557.260.010 190.259.315 1."
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "pendapatan",
+   "pred": 8820608074437,
+   "label": 8820608074437,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH PENDAPATAN 556.399.929 558.092.635 TOTAL REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 3386807811370,
+   "label": 3386807811370,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "operasi 213.638.290 146.946.057 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2024",
+   "field": "total_share",
+   "pred": 25024989984,
+   "label": 25024989984,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 188,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Sub-jumlah/Sub-total 25.024.989.984 100,00 % 625.624.751 121.259.921"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "aset",
+   "pred": 134159744152148,
+   "label": 134159744152148,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 8.087.758.871 7.926.890.365 TOTAL ASSETS"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "EKUITAS 8.087.758.871 7.926.890.365 EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "total_aset_lancar",
+   "pred": 34506089305688,
+   "label": 34506089305688,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 2.080.183.826 1.816.976.250 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "kas",
+   "pred": 13521134769428,
+   "label": 13521134769428,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2,4 815.115.431 637.024.448 Cash and cash equivalents"
+    },
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR TAHUN 4 815.115.431 401.951.156 YEAR"
+    },
+    {
+     "page": 187,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Roberto Lorato 168.421.200 0,67 % 4.210.530 816.094"
+    },
+    {
+     "page": 187,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Roberto Lorato 168.421.200 0,67 % 4.210.530 816.094"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "liabilitas",
+   "pred": 95354284793768,
+   "label": 95354284793768,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Liabilitas 5.748.389.486 5.575.858.796 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "utang_bank",
+   "pred": 3751386202564,
+   "label": 3751386202564,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "ekuitas",
+   "pred": 34965951811076,
+   "label": 34965951811076,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 2.107.906.427 2.118.726.151 company"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Balance, March 31, 2024 121.798.946 (539.025) 495.856.404 (72.514.729) (37.326.868) 24.701.363 6.400.562 10.844.615 37.936.077 10.435.835 1.309.731.120 1.907.324.300 203.233.763 2."
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Balance, March 31, 2025 121.798.946 (672.336) 494.290.650 (72.514.729) (37.609.477) (517.673) 6.400.562 (3.252.335) 37.729.025 10.435.835 1.551.817.959 2.107.906.427 231.462.958 2."
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "laba_bersih",
+   "pred": 292359203708,
+   "label": 292359203708,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 17.624.741 72.659.043 the parent company"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Profit for the year \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 17.624.741 17.624.741 2.905.364 20.530.105"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "year \u2013 \u2013 \u2013 \u2013 (2.457.569) (12.326.782) \u2013 (9.548.566) \u2013 \u2013 17.624.741 (6.708.176) (842.460) (7.550.636)"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "pendapatan",
+   "pred": 9297078450088,
+   "label": 9297078450088,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH PENDAPATAN 560.470.126 556.399.929 TOTAL REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 3491953266516,
+   "label": 3491953266516,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "operasi 210.510.807 213.638.290 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2025",
+   "field": "total_share",
+   "pred": 24997478164,
+   "label": 24997478164,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 187,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Sub-jumlah/Sub-total 24.997.478.164 100,00 % 624.936.954 121.126.610"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "aset",
+   "pred": 140581027528191,
+   "label": 140581027528191,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 8.272.878.687 8.362.663.065 TOTAL ASSETS"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "EKUITAS 8.272.878.687 8.362.663.065 EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "total_aset_lancar",
+   "pred": 26996375057439,
+   "label": 26996375057439,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 1.588.676.223 1.630.326.374 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "kas",
+   "pred": 9072570380836,
+   "label": 9072570380836,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2,4 533.900.452 569.106.521 Cash and cash equivalents"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 4 533.900.452 815.115.431 PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "liabilitas",
+   "pred": 99690941099380,
+   "label": 99690941099380,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Liabilitas 5.866.588.660 6.002.551.559 Total Liabilities"
+    },
+    {
+     "page": 13,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Penyelesaian liabilitas derivatif 55 (1.078.003) (5.859.223) Settlement of derivative liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "utang_bank",
+   "pred": 3520712700587,
+   "label": 3520712700587,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "dalam satu tahun 2,8 200.015.559 207.339.725 current maturities"
+    },
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "- Pinjaman bank 28 207.186.059 196.398.717 Bank loans -"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "ekuitas",
+   "pred": 37322908578814,
+   "label": 37322908578814,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 2.196.369.598 2.153.386.982 company"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Balance March 31, 2026 121.798.946 (2.207.682) 476.972.211 (48.782.535) (37.098.913) 7.603.687 6.400.562 (3.119.432) 41.979.157 10.435.835 1.622.387.762 2.196.369.598 209.920.429 2"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "laba_bersih",
+   "pred": 1145098352682,
+   "label": 1145098352682,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 67.386.474 17.624.740 company"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Profit for the year \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 67.386.474 67.386.474 4.764.505 72.150.979"
+    },
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Total comprehensive income (loss) for the period \u2013 \u2013 \u2013 \u2013 (2.760.618) (19.522.209) \u2013 (2.403.739) \u2013 \u2013 67.386.474 42.699.908 3.195.905 45.895.813"
+    },
+    {
+     "page": 187,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Roberto Lorato 13.915.680 0,06 % 347.892 67.430"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "pendapatan",
+   "pred": 11356589671889,
+   "label": 11356589671889,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH PENDAPATAN 668.309.873 560.470.126 TOTAL REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 4638308290601,
+   "label": 4638308290601,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "operasi 272.954.057 210.510.807 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_MEDC.pdf"
+  },
+  {
+   "period": "Q1 2026",
+   "field": "total_share",
+   "pred": 24680621344,
+   "label": 24680621344,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 187,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Sub-jumlah/Sub-total 24.680.621.344 100,00 % 617.015.534 119.591.264"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q1_2026_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "aset",
+   "pred": 103573541373952,
+   "label": 103573541373952,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 6.975.588.724 5.683.884.139 TOTAL ASSETS"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "DAN EKUITAS 6.975.588.724 5.683.884.139 EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "total_aset_lancar",
+   "pred": 23854811944960,
+   "label": 23854811944960,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 1.606.601.020 1.701.563.649 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "kas",
+   "pred": 5511543969280,
+   "label": 5511543969280,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 371.197.735 2,4 480.984.828 Cash and cash equivalents"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 371.197.735 4 431.398.055 END OF PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "liabilitas",
+   "pred": 81502283186176,
+   "label": 81502283186176,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Liabilitas 5.489.108.512 4.454.547.678 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "utang_bank",
+   "pred": 6033668766720,
+   "label": 6033668766720,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "ekuitas",
+   "pred": 19424298353152,
+   "label": 19424298353152,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 1.308.209.749 1.072.725.874 parent company"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo tanggal 30 Juni 2022 121.115.143 489.300.319 6.492.210 773.914.129 (72.514.729) (22.309.496 ) (32.355.955) 6.400.562 (85.169) 38.252.735 1.308.209.749 178.270.463 1.486.480.2"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "laba_bersih",
+   "pred": 4010544682496,
+   "label": 4010544682496,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dari operasi yang dilanjutkan 270.056.872 37.164.017 from continuing operations"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "pemilik entitas induk 270.106.727 46.485.120 of the parent company"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Labaperiodeberjalan - - - 270.106.727 - - - - - - 270.106.727 11.160.713 281.267.440 Profitfor the period"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "periodeberjalan - - - 270.106.727 - (13.491.126) (34.347.979) - 11.832.525 (26.076) 234.074.071 23.426.822 257.500.893 for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "pendapatan",
+   "pred": 17036689172992,
+   "label": 17036689172992,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH PENDAPATAN 1.147.406.329 636.291.252 TOTAL REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 5526764817408,
+   "label": 5526764817408,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dari aktivitas operasi 372.222.846 175.022.249 operating activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2022",
+   "field": "total_share",
+   "pred": 24995111693,
+   "label": 24995111693,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 215,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Sub-jumlah/Sub-total 24.995.111.693 100,00% 624.877.793 121.115.143"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "aset",
+   "pred": 100126413676652,
+   "label": 100126413676652,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 6.663.544.102 6.931.905.826 TOTAL ASSETS"
+    },
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "EKUITAS 6.663.544.102 6.931.905.826 EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "total_aset_lancar",
+   "pred": 24243360878726,
+   "label": 24243360878726,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 1.613.427.451 1.751.396.299 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "kas",
+   "pred": 7004193539838,
+   "label": 7004193539838,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2,4 466.138.263 599.998.594 Cash and cash equivalents"
+    },
+    {
+     "page": 23,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 4 466.138.263 369.234.636 PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "liabilitas",
+   "pred": 72002411321698,
+   "label": 72002411321698,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Liabilitas 4.791.854.873 5.184.386.501 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "utang_bank",
+   "pred": 6246021684232,
+   "label": 6246021684232,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "ekuitas",
+   "pred": 25062508152176,
+   "label": 25062508152176,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 1.667.942.776 1.557.260.010 company"
+    },
+    {
+     "page": 21,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo tanggal 30 Juni 2023 121.442.133 497.553.342 6.492.210 1.054.153.406 (72.514.729) (30.332.709) 37.617.299 6.400.562 12.047.471 35.083.791 1.667.942.776 203.746.453 1.871.689."
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "laba_bersih",
+   "pred": 1795055981554,
+   "label": 1795055981554,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 19,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 119.463.329 303.056.447 company"
+    },
+    {
+     "page": 21,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba periode berjalan \u2013 \u2013 \u2013 119.463.329 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 119.463.329 10.818.971 130.282.300 Profit for the period"
+    },
+    {
+     "page": 21,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "berjalan \u2013 \u2013 \u2013 119.463.329 \u2013 20.612.750 3.942.392 \u2013 (63.411) (2.073) 143.952.987 15.247.138 159.200.125 period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "pendapatan",
+   "pred": 16772113369484,
+   "label": 16772113369484,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH PENDAPATAN 1.116.206.134 1.108.617.079 TOTAL REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 2690560774022,
+   "label": 2690560774022,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 22,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "operasi 179.060.347 381.309.329 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2023",
+   "field": "total_share",
+   "pred": 25062637190,
+   "label": 25062637190,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 194,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Sub-jumlah/Sub-total 25.062.637.190 100,00 % 626.565.930 121.442.133"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "aset",
+   "pred": 123182266579146,
+   "label": 123182266579146,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 7.501.508.226 7.468.316.269 TOTAL ASSETS"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "EKUITAS 7.501.508.226 7.468.316.269 EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "total_aset_lancar",
+   "pred": 26312036946699,
+   "label": 26312036946699,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 1.602.340.719 1.546.648.779 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "kas",
+   "pred": 9588297173864,
+   "label": 9588297173864,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2,4 583.904.584 353.948.953 Cash and cash equivalents"
+    },
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 4 583.904.584 466.138.263 PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "liabilitas",
+   "pred": 87338325604572,
+   "label": 87338325604572,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Liabilitas 5.318.697.132 5.440.720.277 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "utang_bank",
+   "pred": 2531922790100,
+   "label": 2531922790100,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "ekuitas",
+   "pred": 32499247636253,
+   "label": 32499247636253,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 1.979.127.193 1.828.543.298 company"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Balance, June 30, 2024 121.798.946 (339.100) 500.142.638 (72.514.729) (42.932.742) 19.446.045 6.400.562 5.552.081 37.936.077 10.435.835 1.393.201.580 1.979.127.193 203.683.901 2.18"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "laba_bersih",
+   "pred": 3300556301260,
+   "label": 3300556301260,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 200.996.060 119.463.329 company"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Profit for the period \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 200.996.060 200.996.060 11.622.529 212.618.589"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "period \u2013 \u2013 \u2013 \u2013 (5.565.621) 1.913.179 \u2013 (5.974.658) \u2013 \u2013 200.996.060 191.368.960 6.859.326 198.228.286"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "pendapatan",
+   "pred": 19136516483341,
+   "label": 19136516483341,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH PENDAPATAN 1.165.368.521 1.116.206.134 TOTAL REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 9746136729019,
+   "label": 9746136729019,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "operasi 593.516.639 179.041.544 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2024",
+   "field": "total_share",
+   "pred": 25066249684,
+   "label": 25066249684,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 191,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Sub-jumlah/Sub-total 25.066.249.684 100,00 % 626.656.243 121.459.846"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "aset",
+   "pred": 131054118953604,
+   "label": 131054118953604,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 8.073.314.788 7.926.890.365 TOTAL ASSETS"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "EKUITAS 8.073.314.788 7.926.890.365 EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "total_aset_lancar",
+   "pred": 34162334425989,
+   "label": 34162334425989,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 2.104.499.133 1.816.976.250 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "kas",
+   "pred": 13380655335075,
+   "label": 13380655335075,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2,4 824.287.275 637.024.448 Cash and cash equivalents"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR TAHUN 4 824.287.275 583.904.583 YEAR"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "liabilitas",
+   "pred": 93642357242238,
+   "label": 93642357242238,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Liabilitas 5.768.641.486 5.575.858.796 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "utang_bank",
+   "pred": 2161383773325,
+   "label": 2161383773325,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "ekuitas",
+   "pred": 33621745868298,
+   "label": 33621745868298,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 2.071.197.306 2.118.726.151 company"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Balance, June 30, 2025 121.798.946 (2.196.148) 476.343.859 (72.514.729) (35.840.676) (7.617.094) 6.400.562 3.200.140 37.729.025 10.435.835 1.533.457.586 2.071.197.306 233.475.996 2"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "laba_bersih",
+   "pred": 603676975881,
+   "label": 603676975881,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 37.188.257 200.996.060 the parent company"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Profit for the year \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 37.188.257 37.188.257 5.232.302 42.420.559"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "year \u2013 \u2013 \u2013 \u2013 (688.768) (19.426.203) \u2013 (3.096.091) \u2013 \u2013 37.188.257 13.977.195 3.150.578 17.127.773"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "pendapatan",
+   "pred": 18479485308291,
+   "label": 18479485308291,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH PENDAPATAN 1.138.390.027 1.165.368.521 TOTAL REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 6466421539977,
+   "label": 6466421539977,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "operasi 398.350.369 593.516.639 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2025",
+   "field": "total_share",
+   "pred": 24683001744,
+   "label": 24683001744,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 189,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Sub-jumlah/Sub-total 24.683.001.744 100,00 % 617.075.045 119.602.794"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "aset",
+   "pred": 161298726077952,
+   "label": 161298726077952,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 9.033.306.792 8.057.622.381 8.362.663.065 7.926.890.365 7.468.316.269 TOTAL ASSETS"
+    },
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "EKUITAS 9.033.306.792 8.057.622.381 8.362.663.065 7.926.890.365 7.468.316.269 EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "total_aset_lancar",
+   "pred": 43302741536448,
+   "label": 43302741536448,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 2.425.108.733 1.993.260.303 1.630.326.374 1.816.976.250 1.546.648.779 Total Current Assets"
+    },
+    {
+     "page": 26,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "pelanggan 1.336.135.641 1.088.907.934 2.424.341.104 2.427.934.308 2.096.725.198 Cash receipts from customers"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "kas",
+   "pred": 23686315460928,
+   "label": 23686315460928,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2,4 1.326.518.563 824.179.909 569.106.521 637.024.448 353.948.953 Cash and cash equivalents"
+    },
+    {
+     "page": 27,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "TAHUN 4 1.326.518.563 824.179.909 569.106.521 637.024.448 353.948.953 PERIOD/YEAR"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "liabilitas",
+   "pred": 116143737485760,
+   "label": 116143737485760,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Liabilitas 6.504.465.585 5.766.853.907 6.002.551.559 5.575.858.796 5.440.720.277 Total Liabilities"
+    },
+    {
+     "page": 21,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Balance, December 31 2022 121.798.946 (537.814) 491.004.564 (72.514.729) (50.945.459) 33.674.907 6.400.562 12.110.882 35.085.864 6.492.210 974.690.077 1.557.260.010 190.259.315 1.7"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "utang_bank",
+   "pred": 5314617664128,
+   "label": 5314617664128,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 21,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Other comprehensive income \u2013 \u2013 \u2013 \u2013 13.578.338 (16.142.041) \u2013 (584.143) 2.850.213 \u2013 \u2013 (297.633) 1.360.048 1.062.415"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "ekuitas",
+   "pred": 41387053826880,
+   "label": 41387053826880,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 2.317.823.355 2.057.203.531 2.153.386.982 2.118.726.151 1.828.543.298 company"
+    },
+    {
+     "page": 25,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Balance June 30, 2026 121.798.946 (1.983.263) 479.039.426 (48.946.547) (31.812.555) (27.524.808) 6.400.562 (14.572.346) 39.669.728 10.435.835 1.785.318.377 2.317.823.355 211.017.85"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "laba_bersih",
+   "pred": 4916061941184,
+   "label": 4916061941184,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 20,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "operasi yang dilanjutkan 275.263.114 30.884.453 100.815.458 368.862.409 373.093.710 continuing operations"
+    },
+    {
+     "page": 20,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "pemilik entitas induk 275.317.089 30.706.678 100.923.998 367.358.268 330.675.261 company"
+    },
+    {
+     "page": 25,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Profit for the period \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 275.317.089 275.317.089 12.235.220 287.552.309"
+    },
+    {
+     "page": 25,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Total comprehensive income (loss) for the period \u2013 \u2013 \u2013 \u2013 2.525.740 (54.650.704) \u2013 (13.856.653) (2.309.429) \u2013 275.317.089 207.026.043 6.273.328 213.299.371"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "pendapatan",
+   "pred": 25261691558976,
+   "label": 25261691558976,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 18,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH PENDAPATAN 1.414.745.271 1.146.915.832 2.395.035.969 2.399.190.555 2.249.337.578 TOTAL REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 9190863336384,
+   "label": 9190863336384,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 26,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "aktivitas operasi 514.721.289 351.160.018 906.288.170 1.219.541.609 723.225.943 operating activities"
+    },
+    {
+     "page": 27,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "lainnya 55 (202.488.297) (490.808.103) (670.798.294) (391.571.643) (515.456.262) Other long-term debt -"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_MEDC.pdf"
+  },
+  {
+   "period": "Q2 2026",
+   "field": "total_share",
+   "pred": 24726935674,
+   "label": 24726935674,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 285,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Sub-jumlah/Sub-total 24.726.935.674 100,00 % 618.173.393 119.815.683"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q2_2026_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "aset",
+   "pred": 104788097441773,
+   "label": 104788097441773,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 6.872.702.659 5.683.884.139 TOTAL ASSETS"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "DAN EKUITAS 6.872.702.659 5.683.884.139 EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "total_aset_lancar",
+   "pred": 24189475354635,
+   "label": 24189475354635,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 1.586.507.205 1.701.563.649 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "kas",
+   "pred": 8030593939439,
+   "label": 8030593939439,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setarakas 526.699.937 2,4 480.984.828 Cash and cash equivalents"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 526.699.937 4 482.261.841 END OF PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "liabilitas",
+   "pred": 79779663117020,
+   "label": 79779663117020,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Liabilitas 5.232.482.660 4.454.547.678 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "utang_bank",
+   "pred": 5072652809740,
+   "label": 5072652809740,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "ekuitas",
+   "pred": 22100190547602,
+   "label": 22100190547602,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 1.449.477.966 1.072.725.874 parent company"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo tanggal 30 September2022 121.259.900 490.314.179 6.492.210 844.736.441 (72.514.729) (32.585.137) 35.750.570 6.400.562 11.325.500 38.298.470 1.449.477.966 190.742.033 1.640.21"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "laba_bersih",
+   "pred": 6112965057633,
+   "label": 6112965057633,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "pemilik entitas induk 400.929.039 56.123.492 of the parent company"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Labaperiodeberjalan - - - 400.929.039 - - - - - - 400.929.039 16.955.431 417.884.470 Profitfor the period"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "periodeberjalan - - - 400.929.039 - (23.766.767) 33.758.546 - 23.243.194 19.659 434.183.671 35.880.938 470.064.609 for the period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "pendapatan",
+   "pred": 27563206961892,
+   "label": 27563206961892,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH PENDAPATAN 1.807.779.036 955.921.701 TOTAL REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 10585848153073,
+   "label": 10585848153073,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dari aktivitas operasi 694.290.559 306.469.727 operating activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2022",
+   "field": "total_share",
+   "pred": 25025058972,
+   "label": 25025058972,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 220,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Sub-jumlah/Sub-total 25.025.058.972 100,00% 625.626.476 121.259.900"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "aset",
+   "pred": 106094138104234,
+   "label": 106094138104234,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 6.833.320.759 6.931.905.826 TOTAL ASSETS"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "EKUITAS 6.833.320.759 6.931.905.826 EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "total_aset_lancar",
+   "pred": 25668564070576,
+   "label": 25668564070576,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 1.653.263.176 1.751.396.299 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "kas",
+   "pred": 8185978388980,
+   "label": 8185978388980,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2,4 527.243.230 599.998.594 Cash and cash equivalents"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE/TAHUN 4 527.243.230 526.699.937 PERIOD/YEAR"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "liabilitas",
+   "pred": 75112040534566,
+   "label": 75112040534566,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Liabilitas 4.837.823.041 5.184.386.501 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "utang_bank",
+   "pred": 4394167883434,
+   "label": 4394167883434,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "- Pinjaman bank 28 283.019.959 286.993.328 Bank loans -"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "ekuitas",
+   "pred": 27773998864934,
+   "label": 27773998864934,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 1.788.870.209 1.557.260.010 company"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo tanggal 30 September 2023 121.343.695 495.863.187 6.492.210 1.177.060.143 (72.514.729) (37.119.802) 40.694.781 6.400.562 15.329.346 35.320.816 1.788.870.209 206.627.509 1.995"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "laba_bersih",
+   "pred": 3763037644716,
+   "label": 3763037644716,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 242.370.066 400.929.039 company"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba periode berjalan \u2013 \u2013 \u2013 242.370.066 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 242.370.066 14.932.198 257.302.264 Profit for the period"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "berjalan \u2013 \u2013 \u2013 242.370.066 \u2013 13.825.657 7.019.874 \u2013 3.218.464 234.952 266.669.013 18.128.194 284.797.207 period"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "pendapatan",
+   "pred": 25925479034028,
+   "label": 25925479034028,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH PENDAPATAN 1.669.810.578 1.748.591.335 TOTAL REVENUES"
+    },
+    {
+     "page": 13,
+     "reading": "USD THOUSANDS",
+     "first_on_line": true,
+     "line": "pihak berelasi (1.668.761) (936.342) related parties"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 8545110916020,
+   "label": 8545110916020,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "operasi 550.374.270 698.395.180 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2023",
+   "field": "total_share",
+   "pred": 25028995784,
+   "label": 25028995784,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 190,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Sub-jumlah/Sub-total 25.028.995.784 100,00 % 625.724.896 121.343.695"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "aset",
+   "pred": 116292320319870,
+   "label": 116292320319870,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 7.682.145.615 7.468.316.269 TOTAL ASSETS"
+    },
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "EKUITAS 7.682.145.615 7.468.316.269 EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "total_aset_lancar",
+   "pred": 24757667338302,
+   "label": 24757667338302,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 1.635.464.879 1.546.648.779 Total Current Assets"
+    },
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "pelanggan 2,34 1.746.078.754 1.636.056.471 customers"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "kas",
+   "pred": 9180468635130,
+   "label": 9180468635130,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2,4 606.451.885 353.948.953 Cash and cash equivalents"
+    },
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 4 606.451.885 527.243.230 PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "liabilitas",
+   "pred": 82293884379000,
+   "label": 82293884379000,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Liabilitas 5.436.245.500 5.440.720.277 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "utang_bank",
+   "pred": 2562023846520,
+   "label": 2562023846520,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "ekuitas",
+   "pred": 30872245446954,
+   "label": 30872245446954,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 2.039.387.333 1.828.543.298 company"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Balance, September 30, 2024 121.798.946 (337.338) 497.543.299 (72.514.729) (36.385.722) (3.072.031) 6.400.562 12.135.984 37.936.077 10.435.835 1.465.446.450 2.039.387.333 206.512.7"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "laba_bersih",
+   "pred": 4136808763044,
+   "label": 4136808763044,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 11,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 273.273.138 242.370.066 company"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Profit for the period \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 273.273.138 273.273.138 9.582.889 282.856.027"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "period \u2013 \u2013 \u2013 \u2013 981.399 (20.604.897) \u2013 609.245 \u2013 \u2013 273.273.138 254.258.885 9.689.925 263.948.810"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "pendapatan",
+   "pred": 26991970651314,
+   "label": 26991970651314,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 9,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH PENDAPATAN 1.783.060.553 1.669.810.578 TOTAL REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 13492994533704,
+   "label": 13492994533704,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 15,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "operasi 891.332.708 550.361.212 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2024",
+   "field": "total_share",
+   "pred": 25066613014,
+   "label": 25066613014,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 194,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Sub-jumlah/Sub-total 25.066.613.014 100,00 % 626.665.325 121.461.608"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "aset",
+   "pred": 140498261645640,
+   "label": 140498261645640,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 8.423.157.173 7.926.890.365 TOTAL ASSETS"
+    },
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "EKUITAS 8.423.157.173 7.926.890.365 EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "total_aset_lancar",
+   "pred": 31028492017920,
+   "label": 31028492017920,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 1.860.221.344 1.816.976.250 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "kas",
+   "pred": 11619051494280,
+   "label": 11619051494280,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 5,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2,4 696.585.821 637.024.448 Cash and cash equivalents"
+    },
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR PERIODE 4 696.585.821 606.451.885 PERIOD"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "liabilitas",
+   "pred": 100721730407280,
+   "label": 100721730407280,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 6,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Liabilitas 6.038.473.046 5.575.858.796 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "utang_bank",
+   "pred": 3423725891280,
+   "label": 3423725891280,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 14,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "\u2013 Pinjaman jangka panjang 55 741.919.676 205.330.640 Other long-term debt -"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "ekuitas",
+   "pred": 36317495521800,
+   "label": 36317495521800,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 7,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 2.177.307.885 2.118.726.151 company"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Balance, September 30, 2025 121.798.946 (2.195.546) 476.732.120 (72.514.729) (34.879.615) 17.880.722 40.162.850 240.469 37.729.025 10.435.835 1.581.917.808 2.177.307.885 207.376.24"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "laba_bersih",
+   "pred": 1428616629720,
+   "label": 1428616629720,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 85.648.479 273.273.138 company"
+    },
+    {
+     "page": 10,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dilanjutkan 85.764.277 258.702.552 operations"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Profit for the year \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 85.648.479 85.648.479 8.088.515 93.736.994"
+    },
+    {
+     "page": 12,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Total comprehensive income (loss) for the period \u2013 \u2013 \u2013 \u2013 272.293 6.071.613 \u2013 (6.055.762) \u2013 \u2013 85.648.479 85.936.623 2.599.782 88.536.405"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "pendapatan",
+   "pred": 29307055536240,
+   "label": 29307055536240,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 8,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH PENDAPATAN 1.757.017.718 1.783.060.553 TOTAL REVENUES"
+    },
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Penerimaan kas dari pelanggan 1.759.063.821 1.793.577.003 Cash receipts from customers"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 11111101242240,
+   "label": 11111101242240,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 13,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "operasi 666.133.168 891.332.708 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q3 2025",
+   "field": "total_share",
+   "pred": 24683125994,
+   "label": 24683125994,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 191,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Sub-jumlah/Sub-total 24.683.125.994 100,00 % 617.078.151 119.603.400"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q3_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "aset",
+   "pred": 109045810548806,
+   "label": 109045810548806,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 6.931.905.826 5.683.884.139 TOTAL ASSETS"
+    },
+    {
+     "page": 19,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "DAN EKUITAS 6.931.905.826 5.683.884.139 EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "total_aset_lancar",
+   "pred": 27551215179569,
+   "label": 27551215179569,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 1.751.396.299 1.701.563.649 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "kas",
+   "pred": 9438577882214,
+   "label": 9438577882214,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2,4 599.998.594 480.984.828 Cash and cash equivalents"
+    },
+    {
+     "page": 27,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR TAHUN 4 599.998.594 480.984.828 END OF YEAR"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "liabilitas",
+   "pred": 81555584047231,
+   "label": 81555584047231,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Tidak Lancar 5.180.509.527 3.982.320.490 Total Non-current Assets"
+    },
+    {
+     "page": 18,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Liabilitas 5.184.386.501 4.454.547.678 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "utang_bank",
+   "pred": 5065277042768,
+   "label": 5065277042768,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "ekuitas",
+   "pred": 24497257217310,
+   "label": 24497257217310,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 19,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 1.557.260.010 1.072.725.874 parent company"
+    },
+    {
+     "page": 25,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Saldo tanggal 31 Desember 2022 121.261.132 491.004.564 6.492.210 974.690.077 (72.514.729) (50.945.459) 33.674.907 6.400.562 12.110.882 35.085.864 1.557.260.010 190.259.315 1.747.51"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "laba_bersih",
+   "pred": 8351315360425,
+   "label": 8351315360425,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 22,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "pemilik entitas induk 530.882.675 47.019.404 of the parent company"
+    },
+    {
+     "page": 25,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Laba tahun berjalan - - - 530.882.675 - - - - - - 530.882.675 20.527.663 551.410.338 Profit for the year"
+    },
+    {
+     "page": 25,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "tahun berjalan - - - 530.882.675 - (42,127,089 ) 31,682,883 - 24,028,576 (3,192,947 ) 541.274.098 47.272.343 588.546.441 for the year"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "pendapatan",
+   "pred": 36373652407062,
+   "label": 36373652407062,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 20,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH PENDAPATAN 2.312.227.602 1.252.106.573 TOTAL REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 17562683157648,
+   "label": 17562683157648,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 26,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "dari aktivitas operasi 1.116.437.808 439.675.296 operating activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2022",
+   "field": "total_share",
+   "pred": 25025282997,
+   "label": 25025282997,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 229,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Sub-jumlah/Sub-total 25.025.282.997 100,00% 625.632.076 121.261.132"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2022_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "aset",
+   "pred": 115131563602904,
+   "label": 115131563602904,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 18,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 7.468.316.269 6.931.905.826 TOTAL ASSETS"
+    },
+    {
+     "page": 20,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "EKUITAS 7.468.316.269 6.931.905.826 EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "total_aset_lancar",
+   "pred": 23843137577064,
+   "label": 23843137577064,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 18,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 1.546.648.779 1.751.396.299 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "kas",
+   "pred": 5456477059448,
+   "label": 5456477059448,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 18,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2,4 353.948.953 599.998.594 Cash and cash equivalents"
+    },
+    {
+     "page": 27,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR TAHUN 4 353.948.953 599.998.594 YEAR"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "liabilitas",
+   "pred": 83874143790232,
+   "label": 83874143790232,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 19,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Liabilitas 5.440.720.277 5.184.386.501 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "utang_bank",
+   "pred": 4689692418720,
+   "label": 4689692418720,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "ekuitas",
+   "pred": 28188823481968,
+   "label": 28188823481968,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 20,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 1.828.543.298 1.557.260.010 company"
+    },
+    {
+     "page": 25,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Balance, December 31, 2023 121.798.946 (517.173) 496.239.219 (72.514.729) (37.367.121) 17.532.866 6.400.562 11.526.739 37.936.077 10.435.835 1.237.072.077 1.828.543.298 199.052.694"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "laba_bersih",
+   "pred": 5097689823576,
+   "label": 5097689823576,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 23,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 330.675.261 530.882.675 company"
+    },
+    {
+     "page": 23,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "kepada pemilik entitas induk 330.377.628 541.274.098 holders of the parent company"
+    },
+    {
+     "page": 25,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Profit for the year \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 330.675.261 330.675.261 15.093.342 345.768.603"
+    },
+    {
+     "page": 25,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "year \u2013 \u2013 \u2013 \u2013 13.578.338 (16.142.041) \u2013 (584.143) 2.850.213 \u2013 330.675.261 330.377.628 16.453.390 346.831.018"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "pendapatan",
+   "pred": 34675788102448,
+   "label": 34675788102448,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 21,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH PENDAPATAN 2.249.337.578 2.312.227.602 TOTAL REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 11149251137288,
+   "label": 11149251137288,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 19,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Liabilitas pajak tangguhan 2,38 730.969.579 724.269.355 Deferred tax liabilities"
+    },
+    {
+     "page": 26,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "operasi 723.225.943 1.116.411.362 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2023",
+   "field": "total_share",
+   "pred": 25029499884,
+   "label": 25029499884,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 206,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Sub-jumlah/Sub-total 25.029.499.884 100,00 % 625.737.498 121.281.773"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2023_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "aset",
+   "pred": 128114402079130,
+   "label": 128114402079130,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 7.926.890.365 7.468.316.269 TOTAL ASSETS"
+    },
+    {
+     "page": 18,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "EKUITAS 7.926.890.365 7.468.316.269 EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "total_aset_lancar",
+   "pred": 29365970152500,
+   "label": 29365970152500,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 1.816.976.250 1.546.648.779 Total Current Assets"
+    },
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Investasi pada saham 2,14 1.819.827.099 1.652.985.632 Investment in shares"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "kas",
+   "pred": 10295589128576,
+   "label": 10295589128576,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 16,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2,4 637.024.448 353.948.953 Cash and cash equivalents"
+    },
+    {
+     "page": 25,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR TAHUN 4 637.024.448 353.948.953 YEAR"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "liabilitas",
+   "pred": 90117029860952,
+   "label": 90117029860952,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 17,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Liabilitas 5.575.858.796 5.440.720.277 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "utang_bank",
+   "pred": 3510285743064,
+   "label": 3510285743064,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 19,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "administrasi 2,36 (216.890.499) (241.369.713) expenses"
+    },
+    {
+     "page": 204,
+     "reading": "USD THOUSANDS",
+     "first_on_line": false,
+     "line": "Yani Yuhani Panigoro 8.703.146 0,03 % 217.579 42.172"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "ekuitas",
+   "pred": 34242852052462,
+   "label": 34242852052462,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 18,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 2.118.726.151 1.828.543.298 company"
+    },
+    {
+     "page": 23,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Balance, December 31, 2024 121.798.946 (346.230) 498.076.092 (72.514.729) (35.151.908) 11.809.109 6.400.562 6.296.231 37.729.025 10.435.835 1.534.193.218 2.118.726.151 232.305.418 "
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "laba_bersih",
+   "pred": 5937244327416,
+   "label": 5937244327416,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 20,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "BERJALAN 367.782.290 346.831.018 INCOME FOR THE YEAR"
+    },
+    {
+     "page": 21,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 367.358.268 330.675.261 company"
+    },
+    {
+     "page": 21,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "367.782.290 346.831.018"
+    },
+    {
+     "page": 23,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Profit for the year \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 367.358.268 367.358.268 12.848.247 380.206.515"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "pendapatan",
+   "pred": 38775717749910,
+   "label": 38775717749910,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 19,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH PENDAPATAN 2.399.190.555 2.249.337.578 TOTAL REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 19710231484658,
+   "label": 19710231484658,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 24,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "operasi 1.219.541.609 723.225.943 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2024",
+   "field": "total_share",
+   "pred": 25064778164,
+   "label": 25064778164,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 204,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Sub-jumlah/Sub-total 25.064.778.164 100,00 % 626.619.454 121.452.716"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2024_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "aset",
+   "pred": 140342211556830,
+   "label": 140342211556830,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 18,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH ASET 8.362.663.065 7.926.890.365 TOTAL ASSETS"
+    },
+    {
+     "page": 20,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "EKUITAS 8.362.663.065 7.926.890.365 EQUITY"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "total_aset_lancar",
+   "pred": 27360137208468,
+   "label": 27360137208468,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 18,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Aset Lancar 1.630.326.374 1.816.976.250 Total Current Assets"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "kas",
+   "pred": 9550745635422,
+   "label": 9550745635422,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 18,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Kas dan setara kas 2,4 569.106.521 637.024.448 Cash and cash equivalents"
+    },
+    {
+     "page": 27,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "aktivitas pendanaan (217.917.243) (569.204.360) activities"
+    },
+    {
+     "page": 27,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "AKHIR TAHUN 4 569.106.521 637.024.448 YEAR"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "liabilitas",
+   "pred": 100734820263138,
+   "label": 100734820263138,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 19,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Jumlah Liabilitas 6.002.551.559 5.575.858.796 Total Liabilities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "utang_bank",
+   "pred": 3345963274200,
+   "label": 3345963274200,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 24,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Balance, December 31, 2023 121.798.946 (517.173) 496.239.219 (72.514.729) (37.367.121) 17.532.866 6.400.562 11.526.739 37.936.077 10.435.835 1.237.072.077 1.828.543.298 199.052.694"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "ekuitas",
+   "pred": 36138140331924,
+   "label": 36138140331924,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 20,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 2.153.386.982 2.118.726.151 company"
+    },
+    {
+     "page": 25,
+     "reading": "USD FULL",
+     "first_on_line": false,
+     "line": "Balance, December 31, 2025 121.798.946 (2.207.682) 476.689.503 (48.782.535) (34.338.295) 27.125.896 6.400.562 (715.693) 41.979.157 10.435.835 1.555.001.288 2.153.386.982 206.724.52"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "laba_bersih",
+   "pred": 1693706534436,
+   "label": 1693706534436,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 19,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "keuangan non-bank 29 100.971.156 69.990.180 institutions ."
+    },
+    {
+     "page": 23,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "yang dilanjutkan 100.815.458 368.862.409 operations"
+    },
+    {
+     "page": 23,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "entitas induk 100.923.998 367.358.268 company"
+    },
+    {
+     "page": 25,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "Profit for the year \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 100.923.998 100.923.998 12.620.168 113.544.166"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "pendapatan",
+   "pred": 40193493631758,
+   "label": 40193493631758,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 21,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "JUMLAH PENDAPATAN 2.395.035.969 2.399.190.555 TOTAL REVENUES"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "kas_dari_aktivitas_operasi",
+   "pred": 15209328068940,
+   "label": 15209328068940,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 26,
+     "reading": "USD FULL",
+     "first_on_line": true,
+     "line": "operasi 906.288.170 1.219.541.609 activities"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_MEDC.pdf"
+  },
+  {
+   "period": "Q4 2025",
+   "field": "total_share",
+   "pred": 24680621344,
+   "label": 24680621344,
+   "status": "correct",
+   "hint": "",
+   "pred_printed": [
+    {
+     "page": 208,
+     "reading": "COUNT",
+     "first_on_line": true,
+     "line": "Sub-jumlah/Sub-total 24.680.621.344 100,00 % 617.015.534 119.591.264"
+    }
+   ],
+   "label_printed": [],
+   "abstained": false,
+   "file": "Q4_2025_MEDC.pdf"
+  }
+ ]
+}

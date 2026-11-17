@@ -1,0 +1,16 @@
+{
+ "key": "b5f8205f1e517abd",
+ "pdf": "unknown",
+ "fields": [
+  "aset",
+  "total_aset_lancar",
+  "kas",
+  "liabilitas",
+  "utang_bank",
+  "ekuitas"
+ ],
+ "images": 0,
+ "memory": true,
+ "memory_digest": "e031b0b1c650",
+ "created": "2026-11-17 21:37:17"
+}

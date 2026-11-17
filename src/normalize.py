@@ -21,11 +21,22 @@ That line reads "1,000 Rupiah = US$0.0697", so IDR per USD = 1000 / 0.0697.
 Using the filing's own rate keeps the conversion consistent with the numbers
 being converted, and makes it auditable: every result carries the quote it
 came from.
+
+Some dollar filers print no rate at all (ESSA, APEX). Their notes name
+the rate they apply -- Bank Indonesia's middle rate on the reporting date -- so
+`fx_for_filing` falls back to that published figure, recorded per quarter end in
+data/fx_rates_bi.csv by scripts/fetch_fx_rates.py, and labels it as such. It never
+replaces a rate the filing states, except to sharpen one quoted too coarsely to be
+exact (MEDC's "0,000060") when BI's rate lies inside that quote's rounding.
 """
 
+import csv
 import re
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Optional
+
+REFERENCE_RATES = Path(__file__).resolve().parent.parent / "data" / "fx_rates_bi.csv"
 
 # Monetary fields only. total_share is a COUNT of shares and must never
 # be scaled or converted; dates/currency/scope are not numbers.
@@ -54,12 +65,16 @@ SCALE_MULTIPLIER = {
 #   EMAS  ".61 0.62 Indonesian Rupiah 10,000"     10,000 as the unit, decimal dot,
 #                                                 numbers BEFORE the label, and the
 #                                                 leading zero lost to OCR
+#   MEDC  "Rupiah/AS$1 0,000060 0,000062"         ONE Rupiah as the unit, unwritten:
+#                                                 dollars per Rupiah, labelled
+#                                                 "Rupiah/AS$1" on all 18 filings
 #
 # So the row is read in pieces instead: find the Rupiah unit, then read the plausible
 # rate off the same line, and let the sanity band decide whether the result is a rate
 # at all. That accepts either separator convention and survives an OCR'd page.
 _RUPIAH_LINE = re.compile(r"rupiah", re.I)
 _RATE_UNIT = re.compile(r"\b(1|10|100|1000)[.,]000\b")
+_PER_ONE_RUPIAH = re.compile(r"(?:rupiah|\bRp|\bIDR)\s*/\s*(?:AS|US)\s?\$\s?1(?![\d.,])", re.I)
 # ".61", "0,0697", "16.393" -- a decimal with 2-6 places, not part of a longer number.
 _RATE_VALUE = re.compile(r"(?<![\d.,])(\d*[.,]\d{2,6})(?![\d])")
 
@@ -79,10 +94,25 @@ _PAIR = re.compile(r"Rp\s?([\d.]{9,})\s*\(?\s*US\$\s?([\d,]+)")
 # and the filing was reported as disclosing no rate at all -- while stating it on every
 # one of its eighteen reports. Anchored on "Rupiah per <dollar>" or "US$1 = Rp", so a
 # neighbouring "AS$ per Euro" row is never read as the Rupiah rate.
+#
+# ENRG, PGAS, JPFA, TAPG and TRIN put the dollar first, with a slash:
+#
+#     1 Dolar AS/Rp  16.588,00  16.162,00  US Dolar 1/Rp
+#     1 dolar AS/Rupiah (nilai penuh)  16.566  16.157  1 US dollar/Rupiah (full amount)
+#
+# and were read as disclosing nothing. Anchored on the leading "1 <dollar>/", so ENRG's
+# rights-issue price "Rp14.572 per USD 1" on an earlier page is not taken for the rate.
+# Spaces are optional: PGAS Q4 2023 extracts as "1dolarAS/Rupiah(nilaipenuh) 15.439".
 _DIRECT_QUOTE = re.compile(
     r"(?:rupiah|\bRp|\bIDR)\s+per\s+(?:AS\s?\$|US\s?\$|USD\b|Dolar\s+(?:AS|Amerika)|"
     r"United\s+States\s+Dollar)|(?:US|AS)\s?\$\s?1\s*(?:=|equivalent\s+to|setara)\s*"
-    r"(?:dengan\s+)?(?:Rp|Rupiah|IDR)", re.I)
+    r"(?:dengan\s+)?(?:Rp|Rupiah|IDR)|"
+    r"\b1\s*(?:dolar|dollar)\s*(?:AS|US|Amerika(?:\s*Serikat)?|United\s*States)\s*/\s*(?:Rp|Rupiah)|"
+    r"\b(?:US|AS)\s*(?:dolar|dollar)\s*1\s*/\s*(?:Rp|Rupiah)", re.I)
+# pdfplumber reads ENRG's "16.588,00" as "1 6.588,00": the kerning after the leading 1
+# comes out as a space. Rejoined on direct-quote lines only, where a lone "1" followed by
+# a four-digit grouped number cannot be anything but a split rate.
+_SPLIT_RATE = re.compile(r"(?<![\d.,/])1 (\d[.,]\d{3}(?:[.,]\d{1,4})?)(?![\d])")
 # A whole-Rupiah rate: 8.000-24.999 with a grouping separator, optionally decimals.
 _WHOLE_RATE = re.compile(r"(?<![\d.,])(\d{1,2}[.,]\d{3}(?:[.,]\d{1,4})?)(?![\d])")
 
@@ -143,10 +173,11 @@ def _rate_from_line(line: str):
     period is the first numeric column -- and the first one landing in the plausible
     band wins. Anything outside the band is not a rate, so nothing is guessed.
     """
-    unit_match = _RATE_UNIT.search(line)
+    unit_match = _RATE_UNIT.search(line) or _PER_ONE_RUPIAH.search(line)
     if not unit_match:
         return None
-    unit = float(unit_match.group(0).replace(".", "").replace(",", ""))
+    unit = 1.0 if unit_match.re is _PER_ONE_RUPIAH else \
+        float(unit_match.group(0).replace(".", "").replace(",", ""))
 
     remainder = line[:unit_match.start()] + " " + line[unit_match.end():]
     plausible = []
@@ -178,6 +209,7 @@ def _rate_from_direct_quote(line: str):
 
     if not _DIRECT_QUOTE.search(line):
         return None
+    line = _SPLIT_RATE.sub(r"1\1", line)
     rates = []
     for token in _WHOLE_RATE.findall(line):
         value = parse_grouped_number(token)
@@ -186,6 +218,72 @@ def _rate_from_direct_quote(line: str):
     if not rates:
         return None
     return rates[0], tuple(round(r, 2) for r in rates[1:])
+
+
+def reference_fx_rate(period_end: str, path: Path = REFERENCE_RATES) -> Optional[FxRate]:
+    """Bank Indonesia's middle rate for a quarter end ("2025-03-31"), or None when the
+    table is missing or does not carry that date."""
+    if not period_end or not path.exists():
+        return None
+    with path.open(newline="") as handle:
+        row = next((r for r in csv.DictReader(handle) if r["period_end"] == period_end), None)
+    if row is None:
+        return None
+    rate = float(row["idr_per_usd"])
+    return FxRate(idr_per_usd=rate, source="bi_middle_rate", page=0,
+                  evidence=f"Bank Indonesia kurs tengah {row['rate_date']} (beli "
+                           f"{float(row['buy']):,.2f}, jual {float(row['sell']):,.2f}) for "
+                           f"period end {period_end}",
+                  decimals=2, quoted_value=rate)
+
+
+def fx_for_filing(pdf_path: str, period_end: Optional[str],
+                  path: Path = REFERENCE_RATES) -> tuple:
+    """(rate, note) for a dollar filing: its own disclosed rate when it states one, else
+    Bank Indonesia's for the period end. None when neither exists. A rate merely derived
+    from a Rp/US$ pair is not "stated" and gives way to BI's when BI's is known.
+
+    A disclosed rate quoted too coarsely to be exact (MEDC: "0,000060" dollars per
+    Rupiah, two significant figures, about 0.8%) is replaced by BI's rate only when
+    BI's lies inside the quote's own rounding: then both say the same thing and BI's
+    says it precisely. Outside it, the filing's figure stands.
+    """
+    disclosed = extract_fx_rate(pdf_path)
+    reference = reference_fx_rate(period_end, path)
+    if disclosed is None:
+        if reference is None:
+            return None, None
+        return reference, ("the filing discloses no exchange rate; converted at Bank "
+                           f"Indonesia's middle rate {reference.idr_per_usd:,.2f} "
+                           f"({reference.evidence})")
+    # A Rp/US$ pair is not a stated rate; it can be any translated amount. ESSA's
+    # "Rp 245.520.000.000 (setara dengan US$ 25.389.223)" is a 2017 share transfer and
+    # gives 9.670 for a 2025 balance sheet. A published period-end rate outranks it.
+    if disclosed.source == "derived_from_pair" and reference is not None:
+        return reference, (f"the filing states no rate table; a Rp/US$ pair on "
+                           f"p{disclosed.page} ({disclosed.idr_per_usd:,.2f}: "
+                           f"{disclosed.evidence!r}) is not a period-end rate and was "
+                           f"ignored; converted at Bank Indonesia's middle rate "
+                           f"{reference.idr_per_usd:,.2f} ({reference.evidence})")
+    if (reference is not None and disclosed.source == "disclosed_rate_table"
+            and disclosed.rounding_error > 1e-3):
+        half = 0.5 * 10 ** -disclosed.decimals
+        unit = disclosed.idr_per_usd * disclosed.quoted_value
+        low = unit / (disclosed.quoted_value + half)
+        high = unit / (disclosed.quoted_value - half)
+        if low <= reference.idr_per_usd <= high:
+            sharpened = FxRate(idr_per_usd=reference.idr_per_usd,
+                               source="bi_middle_rate_within_filing_rounding",
+                               page=disclosed.page,
+                               evidence=f"{reference.evidence}; filing p{disclosed.page} "
+                                        f"quotes {disclosed.evidence!r} = "
+                                        f"{low:,.0f}-{high:,.0f}",
+                               decimals=2, quoted_value=reference.idr_per_usd)
+            return sharpened, (f"filing quotes its rate to {disclosed.decimals} decimals "
+                               f"({disclosed.idr_per_usd:,.2f}, range {low:,.0f}-"
+                               f"{high:,.0f}); Bank Indonesia's {reference.idr_per_usd:,.2f} "
+                               f"lies inside it and is used")
+    return disclosed, None
 
 
 def extract_fx_rate(pdf_path: str) -> Optional[FxRate]:
@@ -270,8 +368,15 @@ _SCALE_PATTERNS = [
 # two languages side by side and the parenthesis closes a line later, so the match
 # runs to the first ")" and may swallow the English half; that is harmless, both
 # halves say the same thing.
+#
+# AKR puts a subject in front of the verb -- "(Angka disajikan dalam ribuan Rupiah,
+# (Amounts are expressed in thousands of Rupiah, ...)" -- and a header list that wanted
+# the verb right after the parenthesis found none of its statement headers. What it found
+# instead was the par-value line "(dalam Rupiah penuh)" under Modal saham, so seven AKRA
+# filings were read as FULL and every figure was a thousand times too small.
 _HEADER_STATEMENT = re.compile(
-    r"\((?:disajikan|dinyatakan|expressed|dalam|in)\b[^)]{0,160}\)", re.I)
+    r"\((?:(?:angka|amounts?\s+are|all\s+amounts?\s+are)\s+)?"
+    r"(?:disajikan|dinyatakan|expressed|dalam|in)\b[^)]{0,160}\)", re.I)
 # Some issuers drop the verb: DSNG heads every statement "(Dalam jutaan Rupiah, kecuali
 # dinyatakan lain/In millions of Rupiah, ...)", so a header list requiring "Disajikan"
 # found none, and the model's scale stood unchecked. Admitting "(Dalam" and "(In" also
